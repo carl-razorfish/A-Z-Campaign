@@ -1,4 +1,38 @@
 article {
 	background:#fff;
-	height:700px;
+	border:3px solid #333;
+	-webkit-border-radius:5px;
+	-mox-border-radius:5px;
+	border-radius:5px;
+	padding:2%;
+	margin-bottom:2%;
+}
+
+article section {
+	padding:20px;
+	height:200px;	
+	border:1px solid #333;
+	-webkit-border-radius:5px;
+	-mox-border-radius:5px;
+	border-radius:5px;
+}
+
+.filter-out {
+	-webkit-transition:all 1s ease-in-out;
+	max-width:0%;
+	max-height:0%;
+	opacity:0;	
+	padding:0%;
+	margin-bottom:0%;
+	-webkit-transform: scale(0);
+}
+
+.filter-in {
+	-webkit-transition:all 1s ease-in-out;
+	max-width:100%;
+	max-height:100%;
+	opacity:1;
+	padding:2%;
+	margin-bottom:2%;
+	-webkit-transform: scale(1);
 }

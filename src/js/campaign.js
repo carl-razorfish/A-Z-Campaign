@@ -58,16 +58,14 @@ RIA.AZCampaign = {
 		target = tag = null;
 	},
 	filterByTag: function(category) {
-		Log.info("category: "+category);
 		var articleId;
 		if(this.options.categories[category]) {
 			for(var i=0,l=this.articles.length; i<l; i++) {
 				articleId = this.articles[i].getAttribute("id");
-				if(this.options.categories[category].indexOf(articleId) === -1) {
-					this.articles[i].style.display = "none";
-				} else {
-					this.articles[i].style.display = "block";
-				}
+				if(this.options.categories[category].indexOf(articleId) === -1)
+					this.articles[i].className = "filter-out";
+				else if(this.articles[i].className == "filter-out") 
+					this.articles[i].className = "filter-in";
 			}
 		}
 		i = l = articleId = null;
