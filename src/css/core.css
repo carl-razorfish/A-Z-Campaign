@@ -1,0 +1,49 @@
+body {
+	font-family:lucida, arial, verdana, helvetica;
+	position:relative;
+	font-size:0.8em;
+	color:#333;
+	text-align:center;
+	background-color:#fff;
+}
+
+a {
+	outline:none;
+	text-decoration:none;
+	color:#333;
+}
+a:hover,
+a:focus,
+a:active {
+	text-decoration:none;
+}
+
+article,
+section {
+	display:block;
+}
+
+h1 {
+	margin:0 0 30px 0;
+}
+h2 {
+	margin:0 0 20px 0;
+}
+h3 {
+	margin:0 0 10px 0;
+}
+
+#shell {
+	position:relative;
+	width:1024px;
+	margin:0 auto;
+	text-align:left;
+}
+
+ul,dl,ol {
+	list-style-type:none;
+}
+
+#content {
+	background:#737373;
+}

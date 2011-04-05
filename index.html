@@ -1,0 +1,92 @@
+<!DOCTYPE html>	
+<html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>A to Z</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="stylesheet" href="css/styles.css"/>
+    </head>
+    <body>	
+		<div id="shell">
+			<header>
+				<h1>A to Z</h1>
+			</header>
+			<div id="content">
+			
+				<article id="a" data-tags="food|food|people">
+					<a name="a"></a>
+					<header>
+						<h2>A is for...</h2>
+					</header>
+					<section id="a-apple" data-tags="food">
+						<header>
+							<h3>Apple</h3>
+						</header>
+					</section>
+					<section id="a-adam" data-tags="people">
+						<header>
+							<h3>Adam</h3>
+						</header>
+					</section>
+				</article>			
+			
+				<article id="b" data-tags="food|community">
+					<a name="b"></a>
+					<header>
+						<h2>B is for...</h2>
+					</header>
+					<section id="b-burger" data-tags="food">
+						<header>
+							<h3>Burger</h3>
+						</header>
+					</section>
+					<section id="b-blog" data-tags="community">
+						<header>
+							<h3>Blog</h3>
+						</header>
+					</section>
+				</article>
+			
+				<article id="c" data-tags="food|community">
+					<a name="c"></a>
+					<header>
+						<h2>C is for...</h2>
+					</header>
+					<section id="c-coca-cola" data-tags="food">
+						<header>
+							<h3>Coca Cola</h3>
+						</header>
+					</section>
+					<section id="c-community" data-tags="community">
+						<header>
+							<h3>Community</h3>
+						</header>
+					</section>
+				</article>
+			</div>
+			<nav id="navigation">
+				<ul id="categories">
+					<li><img src="img/nav-logo.png" width="88" height="90" /></li>
+					<li data-category="food"><a href="#food">Food</a></li>
+					<li data-category="people"><a href="#people">People</a></li>
+					<li data-category="community"><a href="#community">Community</a></li>
+					<li data-category="planet"><a href="#planet">Planet</a></li>
+					<li data-category="london2012"><a href="#london2012">London 2012</a></li>
+				</ul>
+				<ul id="alphabet">
+					<li><a href="#a">A</a></li>
+					<li><a href="#b">B</a></li>
+					<li><a href="#c">C</a></li>
+					<li><a href="#d">D</a></li>				
+				</ul>
+			</nav>
+		</div>
+		<script type="text/javascript" src="js/scripts.js?v=0.0.1"></script>
+		<script type="text/javascript">
+		//<![CDTA[
+			window.addEventListener("load", function() {
+				RIA.AZCampaign.init({categories:{food:[],people:[],community:[],planet:[],london2012:[]}, filter:"{{ hashTag }}"});
+			},false);
+		//]]>
+		</script>
+    </body>
+</html>

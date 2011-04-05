@@ -1,0 +1,13 @@
+<project name="Regexp" basedir="./" default="OPERATION.RegexpReplacer">
+	<!--//
+	REGEXP
+	//-->
+	<target name="OPERATION.RegexpReplacer" description="Running Regular Expression substitution">
+		<echo>REGEXP: Replacing token '${regexp.token}' with '${regexp.expression}' string</echo>
+		<replaceregexp byline="true">
+			<regexp pattern="${regexp.token}"/>
+			<substitution expression="${regexp.expression}"/>
+			<fileset dir="${regexp.dir}" includes="${regexp.includes}" excludes="${regexp.excludes}"/>
+		</replaceregexp>
+	</target>	
+</project>

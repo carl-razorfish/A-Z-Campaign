@@ -1,0 +1,44 @@
+<project name="css.build" basedir="./" default="OPERATION.CSS.Build">
+	
+	<target name="OPERATION.CSS.Trash" description="Trashing CSS build directories">
+		<echo>Trashing CSS build directories</echo>
+		<delete dir="${build.css.dir}" includeemptydirs="true">
+		    <include name="*.css"/>		    
+		</delete>
+	</target>
+	
+	<target name="OPERATION.CSS.Clean" description="Cleaning CSS build files">
+		<echo>Cleaning build operation CSS files</echo>
+		<delete dir="${build.css.dir}" includeemptydirs="true">
+		    <include name="*.concat.css"/>		    
+		</delete>
+	</target>
+	
+	<target name="OPERATION.CSS.Concat" description="Concatenating CSS">
+		<echo>Concatenating CSS</echo>
+		<concat destfile="${build.css.dir}/styles.concat.css" fixlastline="yes">
+			<fileset dir="${src.css.dir}">
+				<include name="*.css"/>
+			</fileset>
+		</concat>		
+	</target>
+
+	
+	<target name="OPERATION.CSS.Minify" description="Minifying CSS">
+		<echo>Minifying CSS</echo>
+		<apply executable="java" parallel="false" dest="${build.css.dir}" failonerror="true">
+			<fileset dir="${build.css.dir}/" includes="*.concat.css" />
+			<arg line="-jar"/>
+			<arg path="${yui.compressor}"/>
+			<srcfile/>
+			<arg line="-o"/>
+			<mapper type="glob" from="*.concat.css" to="*.css"/>
+			<targetfile/>
+		</apply>
+	</target>
+	
+	<target name="OPERATION.CSS.Build">
+		<ant target="OPERATION.CSS.Concat"/>
+	</target>
+
+</project>
