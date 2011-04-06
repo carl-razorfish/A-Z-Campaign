@@ -8,7 +8,7 @@ RIA.AZCampaign = {
 		this.navigation = document.getElementById("navigation");
 		this.collectArticleTags();
 		this.addEventListeners();
-		if(this.options.filter && this.options.filter != "") this.filterByCategory(this.options.filter)
+		if(this.options.filter && this.options.filter != "") this.filter(this.options.filter)
 	},
 	collectArticleTags: function() {
 		var articleTags = new Array(),articleId;
@@ -50,17 +50,25 @@ RIA.AZCampaign = {
 	},
 	selectEvent: function(e) {
 		e.preventDefault();
-		var target = e.target;
-		if(target.getAttribute("data-category")) {
-			this.filterByCategory(target.getAttribute("data-category"));
+		if(e.target.getAttribute("data-category")) {
+			this.filterByCategory(e.target.getAttribute("data-category"));
 		}
-		else if(target.getAttribute("href")) {
-			this.goToAlphabet(target.getAttribute("href"));
+		else if(e.target.getAttribute("href")) {
+			this.goToAlphabet(e.target.getAttribute("href"));
 		}
-		target = null;
+	},
+	filter: function(filter) {
+		if(this.options.categories[filter]) {
+			this.filterByCategory(filter);
+		} else {
+			this.goToAlphabet(filter);
+		}
 	},
 	filterByCategory: function(category) {
 		var articleId,children=new Array(),childTag;
+		
+		this.updateWindowLocation(category);
+		
 		/*
 		*	If the Category filtrer selected matches one we have...
 		*/
@@ -123,6 +131,7 @@ RIA.AZCampaign = {
 	},
 	goToAlphabet: function(alpha) {
 		var article = document.getElementById(alpha),posY;
+		this.updateWindowLocation(alpha);
 		if(article) {
 			this.filterInAll(article);
 			if(article.className == "filter-out") article.className = "filter-in";
@@ -130,5 +139,10 @@ RIA.AZCampaign = {
 			window.scrollTo(0,posY);
 		}
 		article = posY = null;
+		
+		
+	},
+	updateWindowLocation: function(urlPath) {
+		//window.location.pathname = "/";
 	}
 }
