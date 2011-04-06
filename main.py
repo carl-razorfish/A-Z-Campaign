@@ -14,21 +14,20 @@ from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 
 class HomeHandler(webapp.RequestHandler):
-  def get(self):
+  def get(self, urlPath):
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	logging.info(self.request.headers)
-	hashTag=""
-	args = dict(hashTag=hashTag)
+	logging.info(urlPath)
+	args = dict(urlPath=urlPath)
 	self.response.out.write(template.render(path,args))
-  def post(self):
+  def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')
-    hashTag=""
-    args = dict(hashTag=hashTag)
+    logging.info(urlPath)
+    args = dict(urlPath=urlPath)
     self.response.out.write(template.render(path,args))
 
 def main():
   util.run_wsgi_app(webapp.WSGIApplication([
-    ('/',HomeHandler)
+	(r'/(.*)',HomeHandler)
   ]))
 
 if __name__ == '__main__':

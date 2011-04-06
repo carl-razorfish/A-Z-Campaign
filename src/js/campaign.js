@@ -8,7 +8,7 @@ RIA.AZCampaign = {
 		this.navigation = document.getElementById("navigation");
 		this.collectArticleTags();
 		this.addEventListeners();
-		if(this.options.filter && this.options.filter != "") this.filterByTag(this.options.filter)
+		if(this.options.filter && this.options.filter != "") this.filterByCategory(this.options.filter)
 	},
 	collectArticleTags: function() {
 		var articleTags = new Array(),articleId;
@@ -44,30 +44,91 @@ RIA.AZCampaign = {
 		*	Clean up
 		*/
 		i = l = articleId = articleTags = null;
-		Log.info(this.options.categories);
 	},
 	addEventListeners: function() {
 		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);
 	},
 	selectEvent: function(e) {
-		var target = e.target,tag;
-		if(target.getAttribute("href")) {
-			tag = target.getAttribute("href").substring(1)
-			this.filterByTag(tag);
+		e.preventDefault();
+		var target = e.target;
+		if(target.getAttribute("data-category")) {
+			this.filterByCategory(target.getAttribute("data-category"));
 		}
-		target = tag = null;
+		else if(target.getAttribute("href")) {
+			this.goToAlphabet(target.getAttribute("href"));
+		}
+		target = null;
 	},
-	filterByTag: function(category) {
-		var articleId;
+	filterByCategory: function(category) {
+		var articleId,children=new Array(),childTag;
+		/*
+		*	If the Category filtrer selected matches one we have...
+		*/
 		if(this.options.categories[category]) {
+			/*
+			*	Reset any Window scroll position
+			*/
+			window.scrollTo(0,0);
+			/*
+			*	For each of the Articles...
+			*/
 			for(var i=0,l=this.articles.length; i<l; i++) {
+				/*
+				*	Get the Article ID
+				*/
 				articleId = this.articles[i].getAttribute("id");
-				if(this.options.categories[category].indexOf(articleId) === -1)
+				/*
+				*	If the Article ID is not included in our Category Array, filter it out
+				*/
+				if(this.options.categories[category].indexOf(articleId) === -1) {
 					this.articles[i].className = "filter-out";
-				else if(this.articles[i].className == "filter-out") 
-					this.articles[i].className = "filter-in";
+				}
+				/*
+				*	Else the Article ID is included in our Category Array, so filter it in
+				*/
+				else { 
+					this.filterInByCategory(this.articles[i], category);
+				}
 			}
 		}
-		i = l = articleId = null;
+		i = l = articleId = children = null;
+	},
+	filterInByCategory: function(article, category) {
+		var children,childTag;
+		
+		if(article.className === "filter-out") article.className = "filter-in";
+		/*
+		*	Get child Section elements
+		*/
+		children = article.getElementsByTagName("section");
+		/*
+		*	Iterate through the children to decide whether they should be displayed or not
+		*/
+		for(var i=0,l=children.length; i<l; i++) {
+			childTag = children[i].getAttribute("data-tags");
+			if(childTag === category) {
+				children[i].style.display = "";
+			} else {
+				children[i].style.display = "none";
+			}
+		}
+		i = l = children = childTag = article = category = null;
+	},
+	filterInAll: function(article) {
+		var children = article.getElementsByTagName("section");
+		for(var i=0,l=children.length; i<l; i++) {
+			children[i].style.display = "";
+		}
+		chilren = article = i = l = null;
+	},
+	goToAlphabet: function(alpha) {
+		var article = document.getElementById(alpha),posY;
+		if(article) {
+			this.filterInAll(article);
+			if(article.className == "filter-out") article.className = "filter-in";
+			posY = article.offsetTop;
+			window.scrollTo(0,posY);
+		}
+		article = posY = null;
 	}
 }

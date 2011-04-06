@@ -5,6 +5,9 @@ body {
 	color:#333;
 	text-align:center;
 	background-color:#fff;
+	/*
+	-webkit-transition:all 1s ease-in-out;
+	*/
 }
 
 a {
@@ -45,5 +48,6 @@ ul,dl,ol {
 }
 
 #content {
-	background:#e2e2e2;
+	width:900px;
+	margin:0 0 0 100px;
 }

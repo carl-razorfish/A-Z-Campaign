@@ -25,7 +25,8 @@
 				core.js,
 				namespace.js,
 				log.js,
-				campaign.js
+				campaign.js,
+				ui.js
 				"/>	
 		</concat>
 	</target>	
