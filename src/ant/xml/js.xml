@@ -3,7 +3,7 @@
 	<target name="OPERATION.JS.Trash" description="Trashing JS build directories">
 		<echo message="Trashing JS build directories"/>
 		<delete dir="${build.js.dir}" includeemptydirs="true">
-		    <include name="*.js"/>		    
+		    <include name="scripts.js"/>		    
 		</delete>		
 	</target>
 	

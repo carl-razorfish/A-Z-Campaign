@@ -4,7 +4,7 @@ RIA.AZCampaign = {
 	},
 	init: function(obj) {
 		if(obj) Object.merge(this.options, obj);
-		this.articles = document.querySelectorAll("article");
+		this.articles = document.getElementsByTagName("article");
 		this.navigation = document.getElementById("navigation");
 		this.collectArticleTags();
 		this.addEventListeners();
@@ -48,13 +48,10 @@ RIA.AZCampaign = {
 	addEventListeners: function() {
 		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);
 	},
-	selectEvent: function(e) {
-		e.preventDefault();
+	selectEvent: function(e) {		
 		if(e.target.getAttribute("data-category")) {
-			this.filterByCategory(e.target.getAttribute("data-category"));
-		}
-		else if(e.target.getAttribute("href")) {
-			this.goToAlphabet(e.target.getAttribute("href"));
+			e.preventDefault();
+			this.filter(e.target.getAttribute("data-category"));
 		}
 	},
 	filter: function(filter) {
@@ -66,8 +63,6 @@ RIA.AZCampaign = {
 	},
 	filterByCategory: function(category) {
 		var articleId,children=new Array(),childTag;
-		
-		this.updateWindowLocation(category);
 		
 		/*
 		*	If the Category filtrer selected matches one we have...
@@ -131,7 +126,7 @@ RIA.AZCampaign = {
 	},
 	goToAlphabet: function(alpha) {
 		var article = document.getElementById(alpha),posY;
-		this.updateWindowLocation(alpha);
+
 		if(article) {
 			this.filterInAll(article);
 			if(article.className == "filter-out") article.className = "filter-in";
@@ -141,8 +136,5 @@ RIA.AZCampaign = {
 		article = posY = null;
 		
 		
-	},
-	updateWindowLocation: function(urlPath) {
-		//window.location.pathname = "/";
 	}
 }

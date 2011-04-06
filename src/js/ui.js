@@ -1,6 +1,6 @@
 RIA.UI = {
 	init: function() {
-		this.shell = document.getElementById("shell");
+		this.shell = document.id("shell");
 		this.nav = document.getElementById("navigation");
 		this.navOffsetTop = this.nav.offsetTop;
 		this.addEventListeners();
@@ -10,6 +10,7 @@ RIA.UI = {
 		document.body.addEventListener("touchstart", this.bodyIOSTouchStart.bind(this),false);
 	},
 	windowScroll: function(e) {
+		Log.info(e)
 		this.nav.style.top = this.navOffsetTop+document.body.scrollTop+"px";
 	},
 	bodyIOSTouchStart: function(e) {

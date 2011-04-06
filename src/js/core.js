@@ -1,3 +1,4 @@
+/*
 (function(){
 
 // typeOf, instanceOf
@@ -347,7 +348,7 @@ return original;
 });
 
 }).call(this);
-
+*/
 Function.prototype.bind = function(scope) {
   var _function = this;
   
