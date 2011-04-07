@@ -25,13 +25,11 @@ class HomeHandler(webapp.RequestHandler):
 	categories = CategoryProperties()
 	categories = categories.load()
 	# Check that the urlPath matches one of our categories
+	filter = ""
 	for x in categories:
-		logging.info(x)
 		if urlPath == x:
-			urlPath = x
-		else:
-			urlPath = ""
-	args = dict(urlPath=urlPath,content=content,common=common,categories=categories)
+			filter = x
+	args = dict(filter=filter,content=content,common=common,categories=categories)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')

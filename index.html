@@ -72,7 +72,7 @@
 					categories:{ 
 						{% for object in categories.items %}{{object.0}}:[]{% if not forloop.last %},{% endif %}{% endfor %}
 					},
-					filter:"{{ urlPath }}"});
+					filter:"{{ filter }}"});
 				RIA.UI.init();
 			},false);
 		//]]>
