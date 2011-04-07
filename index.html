@@ -1,7 +1,7 @@
 <!DOCTYPE html>	
 <html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>{{ common.app.pageitle }}</title>
+        <title>{{ common.app.pagetitle }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<link rel="stylesheet" href="css/styles.css"/>
 		<link rel="icon" type="image/vnd.microsoft.icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
@@ -24,7 +24,7 @@
 							<h3>{{ object.1.section_header }}</h3>
 						</header>
 						{% comment %}
-							Only write out the Paragraph if we have copy available
+							Only write out the Paragraph if we have it available
 						{% endcomment %}
 						{% if object.1.section_copy %}
 						<p>
@@ -32,7 +32,7 @@
 						</p>
 						{% endif %}
 						{% comment %}
-							Only write out the Paragraph if we have copy available
+							Only write out the image if we have it available
 						{% endcomment %}
 						{% if object.1.section_img_src %}
 						<img src="{{ object.1.section_img_src }}" alt="{{ object.1.section_img_alt }}" />

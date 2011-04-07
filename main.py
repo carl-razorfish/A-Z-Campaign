@@ -33,17 +33,8 @@ class HomeHandler(webapp.RequestHandler):
     args = dict(urlPath=urlPath)
     self.response.out.write(template.render(path,args))
 
-class AdminHandler(webapp.RequestHandler):
-  def get(self):
-	path = os.path.join(os.path.dirname(__file__),'admin.html')
-	self.response.out.write(template.render(path,{}))
-  def post(self, urlPath):
-    path = os.path.join(os.path.dirname(__file__),'admin.html')
-    self.response.out.write(template.render(path,{}))
-
 def main():
   util.run_wsgi_app(webapp.WSGIApplication([
-	('/admin',AdminHandler),
 	(r'/(.*)',HomeHandler)
   ]))
 
