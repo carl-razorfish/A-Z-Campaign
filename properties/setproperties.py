@@ -9,6 +9,10 @@ commonCopyProperties = "properties/common.properties"
 common = ConfigParser()
 common.read(commonCopyProperties)
 
+categoryCopyProperties = "properties/category.properties"
+category = ConfigParser()
+category.read(categoryCopyProperties)
+
 class AToZProperties(object):
 	def load(self):
 		content = {}
@@ -17,7 +21,6 @@ class AToZProperties(object):
 			content[i] = {}
 			for j in atoz.items(i):
 				content[i][j[0]] = j[1]
-				logging.info(content[i])
 		return content
 
 class CommonProperties(object):
@@ -28,5 +31,12 @@ class CommonProperties(object):
 			content[i] = {}
 			for j in common.items(i):
 				content[i][j[0]] = j[1]
-				logging.info(content[i])
+		return content
+		
+class CategoryProperties(object):
+	def load(self):
+		content = {}
+		for i in category.items("Categories"):
+			logging.info(i[1])
+			content[i[0]] = i[1]
 		return content

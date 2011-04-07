@@ -11,8 +11,6 @@
 				<header>
 					<h1>{{ common.app.header }}</h1>
 				</header>
-				
-
 				{% for object in content.items %}
 				<article id="{{ object.0 }}" data-tags="{{ object.1.article_tags }}">
 					<a name="{{ object.0 }}"></a>
@@ -26,27 +24,19 @@
 					</section>
 				</article>		
 				{% endfor %}
-				
-				
 			</div>
 			<div id="navigation">
 				<nav>
 					<ul id="categories">
 						<li><img src="img/nav-logo.png" width="88" height="90" /></li>
-						<li><a data-category="food" href="food">Food</a></li>
-						<li><a data-category="people" href="people">People</a></li>
-						<li><a data-category="community" href="community">Community</a></li>
-						<li><a data-category="planet" href="planet">Planet</a></li>
-						<li><a data-category="london2012" href="london2012">London 2012</a></li>
+						{% for object in categories.items %}
+						<li><a data-category="{{object.0}}" href="{{object.0}}">{{object.1}}</a></li>							
+						{% endfor %}
 					</ul>
 					<ul id="alphabet">
-						<li><a data-category="a" href="a">A</a></li>
-						<li><a data-category="b" href="b">B</a></li>
-						<li><a data-category="c" href="c">C</a></li>
-						<li><a data-category="d" href="d">D</a></li>
-						<li><a data-category="e" href="e">E</a></li>
-						<li><a data-category="f" href="f">F</a></li>
-						<li><a data-category="g" href="g">G</a></li>
+						{% for object in content.items %}
+						<li><a data-category="{{ object.0 }}" href="{{ object.0 }}">{{ object.0.upper }}</a></li>
+						{% endfor %}
 					</ul>
 				</nav>
 			</div>
