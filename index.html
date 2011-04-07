@@ -35,7 +35,7 @@
 					</ul>
 					<ul id="alphabet">
 						{% for object in content.items %}
-						<li><a data-category="{{ object.0 }}" href="{{ object.0 }}">{{ object.0.upper }}</a></li>
+						<li><a data-category="{{ object.0 }}" href="{{ object.0 }}">{{ object.0|upper }}</a></li>
 						{% endfor %}
 					</ul>
 				</nav>
@@ -44,14 +44,18 @@
 			<footer>
 				{{ common.app.footer }}
 			</footer>
+
 		</div>
-		
 		<script type="text/javascript" src="js/mootools-core-1.3.1.js"></script>
 		<script type="text/javascript" src="js/scripts.js?v=0.0.1"></script>
 		<script type="text/javascript">
 		//<![CDTA[
 			window.addEventListener("load", function() {
-				RIA.AZCampaign.init({categories:{food:[],people:[],community:[],planet:[],london2012:[]}, filter:"{{ urlPath }}"});
+				RIA.AZCampaign.init({
+					categories:{ 
+						{% for object in categories.items %}{{object.0}}:[]{% if not forloop.last %},{% endif %}{% endfor %}
+					},
+					filter:"{{ urlPath }}"});
 				RIA.UI.init();
 			},false);
 		//]]>
