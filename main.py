@@ -6,8 +6,6 @@ import os.path
 import wsgiref.handlers
 import simplejson as json
 import time
-import urllib
-
 
 from google.appengine.ext import db
 from google.appengine.ext import webapp
