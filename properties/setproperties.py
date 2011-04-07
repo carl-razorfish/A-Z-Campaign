@@ -2,14 +2,6 @@ from ConfigParser import ConfigParser
 import logging
 from google.appengine.api import memcache
 
-
-
-commonCopyProperties = "properties/common.properties"
-commonCfg = ConfigParser()
-
-categoryCopyProperties = "properties/category.properties"
-categoryCfg = ConfigParser()
-
 class AToZProperties(object):
 	def load(self):
 		content = memcache.get("atozproperties")
@@ -38,6 +30,8 @@ class CommonProperties(object):
 			logging.info("Got commonproperties from memcache")
 			return content
 		else:
+			commonCopyProperties = "properties/common.properties"
+			commonCfg = ConfigParser()
 			commonCfg.read(commonCopyProperties)
 			content = {}
 			sections = sorted(commonCfg.sections())
@@ -55,6 +49,8 @@ class CategoryProperties(object):
 			logging.info("Got categoryproperties from memcache")
 			return content
 		else:
+			categoryCopyProperties = "properties/category.properties"
+			categoryCfg = ConfigParser()
 			categoryCfg.read(categoryCopyProperties)
 			content = {}
 			for i in categoryCfg.items("Categories"):
