@@ -128,12 +128,16 @@ RIA.AZCampaign = {
 		*	Get child Section elements
 		*/
 		children = article.getElementsByTagName("section");
+		
 		/*
 		*	Iterate through the children to decide whether they should be displayed or not
 		*/
 		for(var i=0,l=children.length; i<l; i++) {
 			childTag = children[i].getAttribute("data-tags");
-			if(childTag === category) {
+			/*
+			*	If the category matches any of the child tags, then display the section
+			*/
+			if(category.test(childTag)) {
 				children[i].style.display = "";
 			} else {
 				children[i].style.display = "none";
