@@ -10,6 +10,26 @@ RIA.AZCampaign = {
 		this.addEventListeners();
 		if(this.options.filter && this.options.filter != "") this.filter(this.options.filter)
 	},
+	fxFilterOut: function(articleId) {
+		var myEffect = new Fx.Morph(articleId, {
+   		 	duration: 'long',
+		    transition: Fx.Transitions.Sine.easeOut
+		});
+		myEffect.start({
+		    'height': 0,
+		    'opacity': 0
+		});
+	},
+	fxFilterIn: function(articleId) {
+		var myEffect = new Fx.Morph(articleId, {
+   		 	duration: 'long',
+		    transition: Fx.Transitions.Sine.easeOut
+		});
+		myEffect.start({
+		    'height': 525,
+		    'opacity': 1
+		});
+	},
 	collectArticleTags: function() {
 		var articleTags = new Array(),articleId;
 		
@@ -84,13 +104,15 @@ RIA.AZCampaign = {
 				*	If the Article ID is not included in our Category Array, filter it out
 				*/
 				if(this.options.categories[category].indexOf(articleId) === -1) {
-					this.articles[i].className = "filter-out";
+					//this.articles[i].className = "filter-out";
+					this.fxFilterOut(articleId)
 				}
 				/*
 				*	Else the Article ID is included in our Category Array, so filter it in
 				*/
 				else { 
 					this.filterInByCategory(this.articles[i], category);
+					
 				}
 			}
 		}
@@ -98,6 +120,8 @@ RIA.AZCampaign = {
 	},
 	filterInByCategory: function(article, category) {
 		var children,childTag;
+		
+		this.fxFilterIn(article)
 		
 		if(article.className === "filter-out") article.className = "filter-in";
 		/*
@@ -126,7 +150,7 @@ RIA.AZCampaign = {
 	},
 	goToAlphabet: function(alpha) {
 		var article = document.getElementById(alpha),posY;
-
+		this.fxFilterIn(article)
 		if(article) {
 			this.filterInAll(article);
 			if(article.className == "filter-out") article.className = "filter-in";
@@ -134,7 +158,5 @@ RIA.AZCampaign = {
 			window.scrollTo(0,posY);
 		}
 		article = posY = null;
-		
-		
 	}
 }

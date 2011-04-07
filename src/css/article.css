@@ -2,7 +2,7 @@ article {
 	background:#fff;
 	border:3px solid #333;
 	-webkit-border-radius:5px;
-	-mox-border-radius:5px;
+	-moz-border-radius:5px;
 	border-radius:5px;
 	margin-bottom:2%;
 }
@@ -12,12 +12,12 @@ article section {
 	height:200px;
 	border:1px solid #333;
 	-webkit-border-radius:5px;
-	-mox-border-radius:5px;
+	-moz-border-radius:5px;
 	border-radius:5px;
 }
 
 .filter-out {
-	-webkit-transition:all 2s ease-in-out;
+	-webkit-transition:all 1s ease-in-out;
 	height:0%;
 	opacity:0;
 }
@@ -26,9 +26,4 @@ article section {
 	-webkit-transition:all 1s ease-in-out;
 	height:100%;
 	opacity:1;
-}
-
-.goToD {
-	-webkit-transition:all 1s ease-in-out;
-	-webkit-transform: translateY(-1000px);
 }

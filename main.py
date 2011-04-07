@@ -13,14 +13,18 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
-from properties.setproperties import CopyProperties
+from properties.setproperties import AToZProperties
+from properties.setproperties import CommonProperties
 
 class HomeHandler(webapp.RequestHandler):
   def get(self, urlPath):
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	copy = CopyProperties()
-	load = copy.load()
-	args = dict(urlPath=urlPath,copy=load)
+	common = CommonProperties()
+	common = common.load()
+	content = AToZProperties()
+	content = content.load()
+	logging.info(common)
+	args = dict(urlPath=urlPath,content=content,common=common)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')
