@@ -1,34 +1,89 @@
 RIA.AZCampaign = {
 	options:{
-
+		keyCodes:{
+			"65":"a",
+			"66":"b",
+			"67":"c",
+			"68":"d",
+			"69":"e",
+			"70":"f",
+			"71":"g",
+			"72":"h",
+			"73":"i",
+			"74":"j",
+			"75":"k",
+			"76":"l",
+			"77":"m",
+			"78":"n",
+			"79":"o",
+			"80":"p",
+			"81":"q",
+			"82":"r",
+			"83":"s",
+			"84":"t",
+			"85":"u",
+			"86":"v",
+			"87":"w",
+			"88":"x",
+			"89":"y",
+			"90":"z"
+		}
 	},
 	init: function(obj) {
 		if(obj) Object.merge(this.options, obj);
-		this.articles = document.getElementsByTagName("article");
+		this.articles = document.getElements("article");
 		this.navigation = document.getElementById("navigation");
+		this.storeArticleData();
 		this.collectArticleTags();
 		this.addEventListeners();
-		if(this.options.filter && this.options.filter != "") this.filter(this.options.filter)
+		this.createNumericKeyCodes();
+		this.scrollFX = new Fx.Scroll(window, {
+			transition:"sine:out"
+		});
+		if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
 	},
-	fxFilterOut: function(articleId) {
-		var myEffect = new Fx.Morph(articleId, {
-   		 	duration: 'long',
-		    transition: Fx.Transitions.Sine.easeOut
-		});
-		myEffect.start({
-		    'height': 0,
-		    'opacity': 0
-		});
+	createNumericKeyCodes: function(){
+		var counter = 49; // start at keyCode 49 for number 1
+		Object.each(this.options.categories, function(value,key) {
+			this.options.keyCodes[""+counter] = key;
+			counter++;
+		},this);
+		counter = null;
+		Log.info(this.options.keyCodes);
 	},
-	fxFilterIn: function(articleId) {
-		var myEffect = new Fx.Morph(articleId, {
-   		 	duration: 'long',
-		    transition: Fx.Transitions.Sine.easeOut
-		});
-		myEffect.start({
-		    'height': 525,
-		    'opacity': 1
-		});
+	storeArticleData: function() {
+		for(var i=0,l=this.articles.length; i<l; i++) {
+			this.articles[i].ria = {
+				id:this.articles[i].getAttribute("id"),
+				w:parseFloat(this.articles[i].getStyle("width")),
+				h:parseFloat(this.articles[i].getStyle("height")),
+				offsetTop:this.articles[i].offsetTop,
+				marginBottom:this.articles[i].getStyle("marginBottom"),
+				filterFx: new Fx.Morph(this.articles[i], {
+   		 			duration: 'long',
+		    		transition: Fx.Transitions.Sine.easeOut
+				}),
+				scrollFX: new Fx.Scroll(this.articles[i])
+			}
+		}
+	},
+	filterFx: function(article, inOrOut, set) {
+		if(inOrOut && set) {
+			/*
+			*	Set the height immediately, so we can scroll to that element and it will be there
+			*/
+			article.ria.filterFx.set({
+		    	'height': article.ria.h,
+			    'opacity': 1,
+				'marginBottom':article.ria.marginBottom
+			});
+		} else {
+			article.ria.filterFx.start({
+			    'height': (inOrOut ? article.ria.h : 0),
+			    'opacity': (inOrOut ? 1 : 0),
+				'marginBottom':(inOrOut ? article.ria.marginBottom : 0)
+			});			
+		}
 	},
 	collectArticleTags: function() {
 		var articleTags = new Array(),articleId;
@@ -67,6 +122,11 @@ RIA.AZCampaign = {
 	},
 	addEventListeners: function() {
 		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);
+		
+		window.addEventListener("keydown", function(e) {
+			Log.info(e.keyCode)
+			this.filter(this.options.keyCodes[e.keyCode]);
+		}.bind(this),false);
 	},
 	selectEvent: function(e) {		
 		if(e.target.getAttribute("data-category")) {
@@ -82,16 +142,16 @@ RIA.AZCampaign = {
 		}
 	},
 	filterByCategory: function(category) {
-		var articleId,children=new Array(),childTag;
+		var articleId;
 		
 		/*
-		*	If the Category filtrer selected matches one we have...
+		*	If the selected Category filter matches one we have...
 		*/
 		if(this.options.categories[category]) {
 			/*
 			*	Reset any Window scroll position
 			*/
-			window.scrollTo(0,0);
+			this.scrollFX.toTop();
 			/*
 			*	For each of the Articles...
 			*/
@@ -99,68 +159,35 @@ RIA.AZCampaign = {
 				/*
 				*	Get the Article ID
 				*/
-				articleId = this.articles[i].getAttribute("id");
+				articleId = this.articles[i].ria.id;
 				/*
 				*	If the Article ID is not included in our Category Array, filter it out
 				*/
 				if(this.options.categories[category].indexOf(articleId) === -1) {
-					//this.articles[i].className = "filter-out";
-					this.fxFilterOut(articleId)
+					this.filterFx(this.articles[i],false)
 				}
 				/*
 				*	Else the Article ID is included in our Category Array, so filter it in
 				*/
 				else { 
-					this.filterInByCategory(this.articles[i], category);
-					
+					this.filterFx(this.articles[i], true)				
 				}
 			}
 		}
-		i = l = articleId = children = null;
+		i = l = articleId = null;
 	},
-	filterInByCategory: function(article, category) {
-		var children,childTag;
-		
-		this.fxFilterIn(article)
-		
-		if(article.className === "filter-out") article.className = "filter-in";
-		/*
-		*	Get child Section elements
-		*/
-		children = article.getElementsByTagName("section");
-		
-		/*
-		*	Iterate through the children to decide whether they should be displayed or not
-		*/
-		for(var i=0,l=children.length; i<l; i++) {
-			childTag = children[i].getAttribute("data-tags");
-			/*
-			*	If the category matches any of the child tags, then display the section
-			*/
-			if(category.test(childTag)) {
-				children[i].style.display = "";
-			} else {
-				children[i].style.display = "none";
-			}
+	filterInAll: function() {
+		for(var i=0,l=this.articles.length; i<l; i++) {
+			this.filterFx(this.articles[i], true, true);
 		}
-		i = l = children = childTag = article = category = null;
-	},
-	filterInAll: function(article) {
-		var children = article.getElementsByTagName("section");
-		for(var i=0,l=children.length; i<l; i++) {
-			children[i].style.display = "";
-		}
-		chilren = article = i = l = null;
+		article = i = l = null;
 	},
 	goToAlphabet: function(alpha) {
-		var article = document.getElementById(alpha),posY;
-		this.fxFilterIn(article)
+		var article = document.getElementById(alpha);		
 		if(article) {
-			this.filterInAll(article);
-			if(article.className == "filter-out") article.className = "filter-in";
-			posY = article.offsetTop;
-			window.scrollTo(0,posY);
+			this.filterInAll();
+			this.scrollFX.start(0,article.ria.offsetTop);
 		}
-		article = posY = null;
+		alpha = article = null;
 	}
 }

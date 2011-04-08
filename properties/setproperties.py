@@ -9,6 +9,7 @@ class AToZProperties(object):
 			logging.info("Got atozproperties from memcache")
 			return content
 		else:
+			logging.info("NOT Got atozproperties from memcache")
 			atozCopyProperties = "properties/atoz.properties"
 			atozCfg = ConfigParser()
 			atozCfg.read(atozCopyProperties)
@@ -23,6 +24,21 @@ class AToZProperties(object):
 			memcache.add("atozproperties", content)
 			return content
 			
+class AToZList(object):
+	def load(self):
+		sections = memcache.get("atozlist")
+		if sections is not None:
+			logging.info("Got atozlist from memcache")
+			return sections
+		else:
+			logging.info("NOT Got atozlist from memcache")
+			atozCopyProperties = "properties/atoz.properties"
+			atozCfg = ConfigParser()
+			atozCfg.read(atozCopyProperties)
+			sections = sorted(atozCfg.sections())
+			memcache.add("atozproperties", sections)
+			return sections
+						
 class CommonProperties(object):
 	def load(self):
 		content = memcache.get("commonproperties")

@@ -20,7 +20,7 @@
 					<header>
 						<h2>{{ object.header }}</h2>
 					</header>
-					<section id="{{ object.section_id }}" data-tags="{{ object.section_tags }}">
+					<section id="{{ object.section_id }}">
 						<header>
 							<h3>{{ object.section_header }}</h3>
 						</header>
@@ -52,7 +52,7 @@
 					</ul>
 					<ul id="alphabet">
 						{% for object in content %}
-						<li><a data-category="{{ object.id }}" href="{{ object.id }}">{{ object.menu }}</a></li>
+						<li><a data-category="{{ object.id }}" href="#{{ object.id }}">{{ object.menu }}</a></li>
 						{% endfor %}
 					</ul>
 				</nav>
@@ -63,7 +63,6 @@
 			</footer>
 
 		</div>
-		<script type="text/javascript" src="js/mootools-core-1.3.1.js"></script>
 		<script type="text/javascript" src="js/scripts.js?v=0.0.1"></script>
 		<script type="text/javascript">
 		//<![CDTA[

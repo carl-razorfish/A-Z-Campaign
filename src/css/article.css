@@ -1,29 +1,11 @@
 article {
-	background:#fff;
-	border:3px solid #333;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
-	margin-bottom:2%;
+	margin-bottom:50px;
 }
-
 article section {
 	padding:20px;
-	height:200px;
+	min-height:700px;
 	border:1px solid #333;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
-}
-
-.filter-out {
-	-webkit-transition:all 1s ease-in-out;
-	height:0%;
-	opacity:0;
-}
-
-.filter-in {
-	-webkit-transition:all 1s ease-in-out;
-	height:100%;
-	opacity:1;
 }

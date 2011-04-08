@@ -18,6 +18,15 @@
 	
 	<target name="OPERATION.JS.Concat" description="Concatenating JS">
 		<echo>Concatenating JS</echo>
+		
+		<concat destfile="${build.js.dir}/mootools.js" fixlastline="yes">
+			<filelist dir="${src.js.dir}" 
+				files="
+				mootools-core-1.3.1.js,
+				mootools-more-1.3.1.1.js
+				"/>	
+		</concat>
+		
 		<concat destfile="${build.js.dir}/build.concat.js" fixlastline="yes">
 			<filelist dir="${src.js.dir}" 
 				files="
@@ -49,6 +58,7 @@
 		<concat destfile="${build.js.dir}/scripts.js" fixlastline="yes">
 			<filelist dir="${build.js.dir}" 
 				files="
+				mootools.js,
 				build.min.js
 				"/>
 		</concat>		
