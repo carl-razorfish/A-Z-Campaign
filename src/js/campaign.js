@@ -134,7 +134,7 @@ RIA.AZCampaign = {
 		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);
 		
 		window.addEventListener("keydown", function(e) {
-			if(!e.ctrlKey && !e.shiftKey && !e.altKey) this.filter(this.options.keyCodes[e.keyCode]);
+			if(!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) this.filter(this.options.keyCodes[e.keyCode]);
 		}.bind(this),false);
 	},
 	selectEvent: function(e) {		
