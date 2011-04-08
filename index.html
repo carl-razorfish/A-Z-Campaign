@@ -21,22 +21,29 @@
 						<h2>{{ object.header }}</h2>
 					</header>
 					<section id="{{ object.section_id }}">
-						<header>
-							<h3>{{ object.section_header }}</h3>
-						</header>
 						{% comment %}
 							Only write out the Paragraph if we have it available
 						{% endcomment %}
-						{% if object.section_copy %}
+						{% if object.section_statement1 %}
 						<p>
-						{{ object.section_copy }}	
+						{{ object.section_statement1 }}	
+						</p>
+						{% endif %}
+						{% if object.section_statement2 %}
+						<p>
+						{{ object.section_statement2 }}	
+						</p>
+						{% endif %}
+						{% if object.section_statement3 %}
+						<p>
+						{{ object.section_statement3 }}	
 						</p>
 						{% endif %}
 						{% comment %}
 							Only write out the image if we have it available
 						{% endcomment %}
-						{% if object.section_img_src %}
-						<img src="{{ object.section_img_src }}" alt="{{ object.section_img_alt }}" />
+						{% if object.section_img %}
+						<img src="img/{{ object.id }}/main.jpg" alt="{{ object.section_img_alt }}" />
 						{% endif %}
 					</section>
 				</article>		

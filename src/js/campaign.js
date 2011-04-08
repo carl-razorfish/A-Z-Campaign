@@ -38,7 +38,9 @@ RIA.AZCampaign = {
 		this.addEventListeners();
 		this.createNumericKeyCodes();
 		this.scrollFX = new Fx.Scroll(window, {
-			transition:"sine:out"
+			duration:1000,
+			transition:"sine:out",
+			link:"chain"
 		});
 		if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
 	},
@@ -52,20 +54,21 @@ RIA.AZCampaign = {
 		Log.info(this.options.keyCodes);
 	},
 	storeArticleData: function() {
-		for(var i=0,l=this.articles.length; i<l; i++) {
-			this.articles[i].ria = {
-				id:this.articles[i].getAttribute("id"),
-				w:parseFloat(this.articles[i].getStyle("width")),
-				h:parseFloat(this.articles[i].getStyle("height")),
-				offsetTop:this.articles[i].offsetTop,
-				marginBottom:this.articles[i].getStyle("marginBottom"),
-				filterFx: new Fx.Morph(this.articles[i], {
+		this.articles.each(function(article){
+			article.ria = {
+				id:article.getAttribute("id"),
+				w:parseFloat(article.getStyle("width")),
+				h:parseFloat(article.getStyle("height")),
+				offsetTop:article.offsetTop,
+				marginBottom:article.getStyle("marginBottom"),
+				paddingTop:article.getStyle("paddingTop"),
+				paddingBottom:article.getStyle("paddingBottom"),
+				filterFx: new Fx.Morph(article, {
    		 			duration: 'long',
 		    		transition: Fx.Transitions.Sine.easeOut
-				}),
-				scrollFX: new Fx.Scroll(this.articles[i])
+				})
 			}
-		}
+		},this);
 	},
 	filterFx: function(article, inOrOut, set) {
 		if(inOrOut && set) {
@@ -75,13 +78,17 @@ RIA.AZCampaign = {
 			article.ria.filterFx.set({
 		    	'height': article.ria.h,
 			    'opacity': 1,
-				'marginBottom':article.ria.marginBottom
+				'marginBottom':article.ria.marginBottom,
+				'paddingTop':article.ria.paddingTop,
+				'paddingBottom':article.ria.paddingBottom
 			});
 		} else {
 			article.ria.filterFx.start({
 			    'height': (inOrOut ? article.ria.h : 0),
 			    'opacity': (inOrOut ? 1 : 0),
-				'marginBottom':(inOrOut ? article.ria.marginBottom : 0)
+				'marginBottom':(inOrOut ? article.ria.marginBottom : 0),
+				'paddingTop':(inOrOut ? article.ria.paddingTop : 0),
+				'paddingBottom':(inOrOut ? article.ria.paddingBottom : 0)
 			});			
 		}
 	},
@@ -91,16 +98,16 @@ RIA.AZCampaign = {
 		/*
 		*	For each of the Articles on the page...
 		*/
-		for(var i=0,l=this.articles.length; i<l; i++) {
+		this.articles.each(function(article){
 			/*
 			*	Get the Article ID
 			*/
-			articleId = this.articles[i].getAttribute("id");
+			articleId = article.getAttribute("id");
 			
 			/*
 			*	Get all of the data tags assigned to the Article, and split them by the pipe separator into an Array
 			*/
-			articleTags = this.articles[i].getAttribute("data-tags").split("|");
+			articleTags = article.getAttribute("data-tags").split("|");
 			
 			/*
 			*	For each tag, assign the Article ID to the corresponding Tags Array
@@ -114,7 +121,7 @@ RIA.AZCampaign = {
 					this.options.categories[currentTag].push(articleId)
 				}
 			}
-		}
+		},this);
 		/*
 		*	Clean up
 		*/
@@ -124,8 +131,7 @@ RIA.AZCampaign = {
 		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);
 		
 		window.addEventListener("keydown", function(e) {
-			Log.info(e.keyCode)
-			this.filter(this.options.keyCodes[e.keyCode]);
+			if(!e.ctrlKey && !e.shiftKey && !e.altKey) this.filter(this.options.keyCodes[e.keyCode]);
 		}.bind(this),false);
 	},
 	selectEvent: function(e) {		

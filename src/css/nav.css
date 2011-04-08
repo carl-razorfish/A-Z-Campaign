@@ -1,7 +1,7 @@
 #navigation {
 	width:90px;
 	position:absolute;
-	top:20px;
+	top:5px;
 	left:0px;
 }
 
@@ -26,6 +26,7 @@
 #navigation #alphabet a {
 	display:inline-block;
 	text-align:center;
+	min-width:50px;
 	padding:5px;
 }
 #navigation a {

@@ -2,6 +2,8 @@ from ConfigParser import ConfigParser
 import logging
 from google.appengine.api import memcache
 
+memcache.flush_all()
+
 class AToZProperties(object):
 	def load(self):
 		content = memcache.get("atozproperties")
@@ -36,7 +38,7 @@ class AToZList(object):
 			atozCfg = ConfigParser()
 			atozCfg.read(atozCopyProperties)
 			sections = sorted(atozCfg.sections())
-			memcache.add("atozproperties", sections)
+			memcache.add("atozlist", sections)
 			return sections
 						
 class CommonProperties(object):
