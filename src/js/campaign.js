@@ -185,10 +185,9 @@ RIA.AZCampaign = {
 		}
 	},
 	filterInAll: function() {
-		for(var i=0,l=this.articles.length; i<l; i++) {
-			this.filterFx(this.articles[i], true, true);
-		}
-		article = i = l = null;
+		this.articles.each(function(article) {
+			this.filterFx(article, true, true);
+		},this);
 	},
 	setCategoryNavState: function(filter) {
 		this.navCategories.each(function(category) {

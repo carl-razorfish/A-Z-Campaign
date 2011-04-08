@@ -1,5 +1,5 @@
 #navigation {
-	width:90px;
+	width:auto;
 	position:absolute;
 	top:5px;
 	left:0px;
@@ -12,6 +12,11 @@
 #navigation li {
 	display:block;
 	margin:0 0 5px -40px;
+}
+
+#navigation #categories,
+#navigation #alphabet {
+	float:left;
 }
 
 #navigation #categories a {
@@ -41,7 +46,9 @@
     background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cd1e24', EndColorStr='#b61816', GradientType=0);
-	
+	-webkit-border-radius:5px;
+	-mox-border-radius:5px;
+	border-radius:5px;
 	
 }
 #navigation a.inactive {
@@ -49,10 +56,7 @@
     /* Chrome, Safari:*/
     background: -webkit-gradient(linear, left top, left bottom, from(#cdcbcb), to(#a7a7a7));
     /* MSIE */
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cdcbcb', EndColorStr='#a7a7a7', GradientType=0);	
-	-webkit-border-radius:5px;
-	-mox-border-radius:5px;
-	border-radius:5px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cdcbcb', EndColorStr='#a7a7a7', GradientType=0);		
 }
 #navigation a.active {
 	background: -moz-linear-gradient(top, #cd1e24, #b61816);
