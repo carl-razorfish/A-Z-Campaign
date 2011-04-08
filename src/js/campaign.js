@@ -40,7 +40,7 @@ RIA.AZCampaign = {
 		this.scrollFX = new Fx.Scroll(window, {
 			duration:1000,
 			transition:"sine:out",
-			link:"chain"
+			link:"cancel"
 		});
 		if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
 	},
