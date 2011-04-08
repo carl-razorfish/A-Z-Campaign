@@ -11,7 +11,7 @@
 
 #navigation li {
 	display:block;
-	margin:0 0 5px -40px;
+	margin:0 0 2px -40px;
 }
 
 #navigation #categories,
@@ -33,9 +33,9 @@
 	font-size:1.2em;
 	display:inline-block;
 	text-align:center;
-	width:34px;
+	width:25px;
 	height:25px;
-	padding-top:8px;
+	padding-top:6px;
 }
 
 #navigation a {
