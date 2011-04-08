@@ -106,7 +106,7 @@ RIA.AZCampaign = {
 			/*
 			*	Get the Article ID
 			*/
-			articleId = article.getAttribute("id");
+			articleId = article.get("id");
 			
 			/*
 			*	Get all of the data tags assigned to the Article, and split them by the pipe separator into an Array
@@ -116,20 +116,19 @@ RIA.AZCampaign = {
 			/*
 			*	For each tag, assign the Article ID to the corresponding Tags Array
 			*/
-			for(var j=0,m=articleTags.length; j<m; j++) {
-				var currentTag = articleTags[j];
+			Array.each(articleTags, function(tag) {
 				/*
 				*	Don't push the Article ID to the Tags Array if it's already indexed (already exists)
 				*/
-				if(this.options.categories[currentTag] && this.options.categories[currentTag].indexOf(articleId) === -1) {
-					this.options.categories[currentTag].push(articleId)
+				if(this.options.categories[tag] && this.options.categories[tag].indexOf(articleId) === -1) {
+					this.options.categories[tag].push(articleId)
 				}
-			}
+			},this);
 		},this);
 		/*
 		*	Clean up
 		*/
-		i = l = articleId = articleTags = null;
+		articleId = articleTags = null;
 	},
 	addEventListeners: function() {
 		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);
@@ -152,7 +151,6 @@ RIA.AZCampaign = {
 		}
 	},
 	filterByCategory: function(category) {
-		var articleId;
 		
 		/*
 		*	If the selected Category filter matches one we have...
@@ -169,27 +167,22 @@ RIA.AZCampaign = {
 			/*
 			*	For each of the Articles...
 			*/
-			for(var i=0,l=this.articles.length; i<l; i++) {
-				/*
-				*	Get the Article ID
-				*/
-				articleId = this.articles[i].ria.id;
+			this.articles.each(function(article) {
 				/*
 				*	If the Article ID is not included in our Category Array, filter it out
 				*/
-				if(this.options.categories[category].indexOf(articleId) === -1) {
-					this.filterFx(this.articles[i],false)
+				if(this.options.categories[category].indexOf(article.get("id")) === -1) {
+					this.filterFx(article,false)
 				}
 				/*
 				*	Else the Article ID is included in our Category Array, so filter it in
 				*/
 				else { 
-					this.filterFx(this.articles[i], true);
-					document.id("nav-alpha-"+articleId).addClass("active");
+					this.filterFx(article, true);
+					document.id("nav-alpha-"+article.get("id")).addClass("active");
 				}
-			}
+			},this);
 		}
-		i = l = articleId = null;
 	},
 	filterInAll: function() {
 		for(var i=0,l=this.articles.length; i<l; i++) {

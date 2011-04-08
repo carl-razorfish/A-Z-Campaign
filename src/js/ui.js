@@ -13,7 +13,7 @@ RIA.UI = {
 		});
 	},
 	addEventListeners: function() {
-		window.addEventListener("scroll", this.windowScroll.bind(this),false);
+		window.addEventListener("scroll", this.windowScroll.bind(this), false);
 	},
 	windowScroll: function(e) {
 		if(!Browser.Platform.ios) {
