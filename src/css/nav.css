@@ -15,6 +15,7 @@
 }
 
 #navigation #categories a {
+	font-size:0.8em;
 	display:block;
 	text-align:left;
 	padding:5px;
@@ -24,28 +25,39 @@
 	text-align:center;
 }
 #navigation #alphabet a {
+	font-size:1.2em;
 	display:inline-block;
 	text-align:center;
-	min-width:50px;
-	padding:5px;
+	width:34px;
+	height:25px;
+	padding-top:8px;
 }
+
 #navigation a {
-	background: -moz-linear-gradient(top, #e2e2e2, #b4b4b4);
-    /* Chrome, Safari:*/
-    background: -webkit-gradient(linear, left top, left bottom, from(#e2e2e2), to(#b4b4b4));
-    /* MSIE */
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#e2e2e2', EndColorStr='#b4b4b4', GradientType=0);
+	color:#fff;	
 	
+	background: -moz-linear-gradient(top, #cd1e24, #b61816);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cd1e24', EndColorStr='#b61816', GradientType=0);
+	
+	
+}
+#navigation a.inactive {
+	background: -moz-linear-gradient(top, #cdcbcb, #a7a7a7);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear, left top, left bottom, from(#cdcbcb), to(#a7a7a7));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cdcbcb', EndColorStr='#a7a7a7', GradientType=0);	
 	-webkit-border-radius:5px;
 	-mox-border-radius:5px;
 	border-radius:5px;
 }
-
-#navigation a:hover {
-	color:#fff;
-	background: -moz-linear-gradient(top, #e2e2e2, #797979);
+#navigation a.active {
+	background: -moz-linear-gradient(top, #cd1e24, #b61816);
     /* Chrome, Safari:*/
-    background: -webkit-gradient(linear, left top, left bottom, from(#e2e2e2), to(#797979));
+    background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
     /* MSIE */
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#e2e2e2', EndColorStr='#797979', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cd1e24', EndColorStr='#b61816', GradientType=0);
 }

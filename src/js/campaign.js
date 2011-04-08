@@ -33,15 +33,19 @@ RIA.AZCampaign = {
 		if(obj) Object.merge(this.options, obj);
 		this.articles = document.getElements("article");
 		this.navigation = document.getElementById("navigation");
+		this.navAlpha = document.getElements("#navigation #alphabet a");
+		this.navCategories = document.getElements("#navigation #categories a");
 		this.storeArticleData();
 		this.collectArticleTags();
 		this.addEventListeners();
 		this.createNumericKeyCodes();
+
 		this.scrollFX = new Fx.Scroll(window, {
 			duration:1000,
 			transition:"sine:out",
 			link:"cancel"
 		});
+		
 		if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
 	},
 	createNumericKeyCodes: function(){
@@ -51,7 +55,6 @@ RIA.AZCampaign = {
 			counter++;
 		},this);
 		counter = null;
-		Log.info(this.options.keyCodes);
 	},
 	storeArticleData: function() {
 		this.articles.each(function(article){
@@ -65,6 +68,7 @@ RIA.AZCampaign = {
 				paddingBottom:article.getStyle("paddingBottom"),
 				filterFx: new Fx.Morph(article, {
    		 			duration: 'long',
+					link:"cancel",
 		    		transition: Fx.Transitions.Sine.easeOut
 				})
 			}
@@ -153,11 +157,15 @@ RIA.AZCampaign = {
 		/*
 		*	If the selected Category filter matches one we have...
 		*/
+		this.setAlphaNavState();
 		if(this.options.categories[category]) {
+			this.setCategoryNavState(category);
 			/*
 			*	Reset any Window scroll position
 			*/
 			this.scrollFX.toTop();
+			RIA.UI.windowScroll();
+
 			/*
 			*	For each of the Articles...
 			*/
@@ -176,7 +184,8 @@ RIA.AZCampaign = {
 				*	Else the Article ID is included in our Category Array, so filter it in
 				*/
 				else { 
-					this.filterFx(this.articles[i], true)				
+					this.filterFx(this.articles[i], true);
+					document.id("nav-alpha-"+articleId).addClass("active");
 				}
 			}
 		}
@@ -188,11 +197,35 @@ RIA.AZCampaign = {
 		}
 		article = i = l = null;
 	},
+	setCategoryNavState: function(filter) {
+		this.navCategories.each(function(category) {
+			category.removeClass("active");
+			if(category.id == "nav-category-"+filter) category.addClass("active");
+		},this);
+	},
+	setAlphaNavState: function(filter) {
+		this.navAlpha.each(function(alpha) {
+			alpha.removeClass("active");
+			alpha.addClass("inactive");
+			if(alpha.id == "nav-alpha-"+filter) {
+				alpha.addClass("active");
+			} 
+			else if(filter == "all") {
+				alpha.addClass("active");
+			}
+		},this);
+	},
 	goToAlphabet: function(alpha) {
-		var article = document.getElementById(alpha);		
-		if(article) {
+		var article = document.id(alpha), nav = document.id("nav-alpha-"+alpha);
+		if(article) {			
 			this.filterInAll();
+			this.setCategoryNavState();
+			this.setAlphaNavState("all");
 			this.scrollFX.start(0,article.ria.offsetTop);
+			(function() {
+				RIA.UI.windowScroll();
+			}).delay(1000)
+			
 		}
 		alpha = article = null;
 	}

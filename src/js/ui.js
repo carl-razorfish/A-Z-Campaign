@@ -1,16 +1,26 @@
 RIA.UI = {
 	init: function() {
 		this.shell = document.id("shell");
-		this.nav = document.getElementById("navigation");
+		this.nav = document.id("navigation");
 		this.navOffsetTop = this.nav.offsetTop;
 		this.addEventListeners();
+		
+		this.navFX = new Fx.Tween(this.nav, {
+			fps:100,
+			duration:700,
+			transition:"sine:out",
+			link:"chain"
+		});
 	},
 	addEventListeners: function() {
 		window.addEventListener("scroll", this.windowScroll.bind(this),false);
-		document.body.addEventListener("touchstart", this.bodyIOSTouchStart.bind(this),false);
 	},
 	windowScroll: function(e) {
-		this.nav.style.top = this.navOffsetTop+document.body.scrollTop+"px";
+		if(!Browser.Platform.ios) {
+			this.nav.style.top = this.navOffsetTop+document.body.scrollTop+"px";
+		} else {
+			this.navFX.start("top",(this.navOffsetTop+document.body.scrollTop));
+		}
 	},
 	bodyIOSTouchStart: function(e) {
 		this.originalPos = {x:e.targetTouches[0].clientX, y:e.targetTouches[0].clientY};

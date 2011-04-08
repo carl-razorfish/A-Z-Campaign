@@ -3,9 +3,12 @@
     <head>
         <title>{{ common.pagetitle }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/styles.css"/>
 		<link rel="icon" type="image/vnd.microsoft.icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
-    	<link rel="shorcut icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />		
+    	<link rel="shorcut icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:portrait)" href="css/portrait.css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:landscape)" href="css/landscape.css" />
     </head>
     <body>	
 		<div id="shell">
@@ -52,14 +55,14 @@
 			<div id="navigation">
 				<nav>
 					<ul id="categories">
-						<li><img src="img/nav-logo.png" width="88" height="90" /></li>
+						<li><img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" /></li>
 						{% for object in categories.items %}
-						<li><a data-category="{{object.0}}" href="{{object.0}}">{{object.1}}</a></li>							
+						<li><a class="inactive" id="nav-category-{{object.0}}" data-category="{{object.0}}" href="{{object.0}}">{{object.1|upper}}</a></li>							
 						{% endfor %}
 					</ul>
 					<ul id="alphabet">
 						{% for object in content %}
-						<li><a data-category="{{ object.id }}" href="#{{ object.id }}">{{ object.menu }}</a></li>
+						<li><a class="active" id="nav-alpha-{{ object.id }}" data-category="{{ object.id }}" href="#{{ object.id }}">{{ object.menu }}</a></li>
 						{% endfor %}
 					</ul>
 				</nav>
