@@ -31,7 +31,6 @@
 			<filelist dir="${src.js.dir}" 
 				files="
 				html5.js,
-				core.js,
 				namespace.js,
 				log.js,
 				campaign.js,
