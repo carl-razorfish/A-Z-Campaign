@@ -21,8 +21,9 @@
 				<article id="{{ alpha.id }}" data-tags="{{ alpha.article_tags }}" class="{% if category %}{% ifequal alpha.article_tags category %}active{% else %}inactive{% endifequal %}{% else %}active{% endif %}">
 					<a name="{{ alpha.section }}"></a>
 					<header>
-						<h2>{{ alpha.header }}</h2>
+						<h2>{{ alpha.header }}</h2>						
 					</header>
+					
 					<section id="{{ alpha.section_id }}">
 						{% comment %}
 							Only write out the Paragraph if we have it available
@@ -48,14 +49,15 @@
 						{% if alpha.section_img %}
 						<img src="img/{{ alpha.id }}/main.jpg" alt="{{ alpha.section_img_alt }}" />
 						{% endif %}
-					</section>
+						
+					</section>		
 					<nav>
 						{% for cat in categories.items %}
 							{% ifequal cat.0 alpha.article_tags %}
-							<li><a class="active {{cat.0}}" id="content-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
+							<a class="active {{cat.0}}" id="content-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a>
 							{% endifequal %}							
 						{% endfor %}
-					</nav>
+					</nav>			
 				</article>		
 				{% endfor %}
 			</div>

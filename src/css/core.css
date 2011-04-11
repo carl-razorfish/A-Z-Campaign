@@ -22,7 +22,10 @@ a:active {
 }
 
 article,
-section {
+header,
+section,
+nav,
+footer {
 	display:block;
 }
 

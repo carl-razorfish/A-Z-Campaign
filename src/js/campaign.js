@@ -75,9 +75,11 @@ RIA.AZCampaign = {
 	},
 	storeArticleData: function() {
 		this.articles.each(function(article){
+			Log.info(Math.floor(parseFloat(article.getElement("header").getStyle("height"))));
+			Log.info(Math.floor(parseFloat(article.getElement("nav").getStyle("height"))));
 			article.ria = {
 				w:Math.floor(parseFloat(article.getStyle("width"))),
-				h:Math.floor(parseFloat(article.getStyle("height"))),
+				h:(Math.floor(parseFloat(article.getStyle("height")))+50),
 				marginBottom:article.getStyle("marginBottom"),
 				paddingTop:article.getStyle("paddingTop"),
 				paddingBottom:article.getStyle("paddingBottom"),
@@ -86,6 +88,11 @@ RIA.AZCampaign = {
 					link:"cancel",
 		    		transition: Fx.Transitions.Sine.easeOut
 				})
+			}
+			
+			if(article.hasClass("inactive")) {
+				Log.info("inactive, setting height to zero");
+				article.setStyle("height",0);
 			}
 		},this);
 	},

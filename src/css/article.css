@@ -14,6 +14,9 @@ article.inactive {
 	top:-10000em;
 }
 
+article a {
+	display:block;
+}
 /*
 *	Section Category Nav
 */
