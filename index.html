@@ -17,38 +17,45 @@
 					<h1>{{ common.header }}</h1>
 				</header>
 				
-				{% for object in content %}
-				<article id="{{ object.id }}" data-tags="{{ object.article_tags }}">
-					<a name="{{ object.section }}"></a>
+				{% for alpha in content %}
+				<article id="{{ alpha.id }}" data-tags="{{ alpha.article_tags }}" class="{% if category %}{% ifequal alpha.article_tags category %}active{% else %}inactive{% endifequal %}{% else %}active{% endif %}">
+					<a name="{{ alpha.section }}"></a>
 					<header>
-						<h2>{{ object.header }}</h2>
+						<h2>{{ alpha.header }}</h2>
 					</header>
-					<section id="{{ object.section_id }}">
+					<section id="{{ alpha.section_id }}">
 						{% comment %}
 							Only write out the Paragraph if we have it available
 						{% endcomment %}
-						{% if object.section_statement1 %}
+						{% if alpha.section_statement1 %}
 						<p>
-						{{ object.section_statement1 }}	
+						{{ alpha.section_statement1 }}	
 						</p>
 						{% endif %}
-						{% if object.section_statement2 %}
+						{% if alpha.section_statement2 %}
 						<p>
-						{{ object.section_statement2 }}	
+						{{ alpha.section_statement2 }}	
 						</p>
 						{% endif %}
-						{% if object.section_statement3 %}
+						{% if alpha.section_statement3 %}
 						<p>
-						{{ object.section_statement3 }}	
+						{{ alpha.section_statement3 }}	
 						</p>
 						{% endif %}
 						{% comment %}
 							Only write out the image if we have it available
 						{% endcomment %}
-						{% if object.section_img %}
-						<img src="img/{{ object.id }}/main.jpg" alt="{{ object.section_img_alt }}" />
+						{% if alpha.section_img %}
+						<img src="img/{{ alpha.id }}/main.jpg" alt="{{ alpha.section_img_alt }}" />
 						{% endif %}
 					</section>
+					<nav>
+						{% for cat in categories.items %}
+							{% ifequal cat.0 alpha.article_tags %}
+							<li><a class="active {{cat.0}}" id="content-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
+							{% endifequal %}							
+						{% endfor %}
+					</nav>
 				</article>		
 				{% endfor %}
 			</div>
@@ -57,12 +64,12 @@
 					<ul id="categories">
 						<li><img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" /></li>
 						{% for object in categories.items %}
-							<li><a class="{% ifequal object.0 filter %}active{% else %}inactive{% endifequal %}" id="nav-category-{{object.0}}" data-category="{{object.0}}" href="{{object.0}}">{{object.1|upper}}</a></li>							
+							<li><a class="{% ifequal object.0 category %}active{% else %}inactive{% endifequal %}" id="nav-category-{{object.0}}" data-category="{{object.0}}" href="{{object.0}}">{{object.1|upper}}</a></li>							
 						{% endfor %}
 					</ul>
 					<ul id="alphabet">
-						{% for object in content %}
-						<li><a class="active" id="nav-alpha-{{ object.id }}" data-category="{{ object.id }}" href="#{{ object.id }}">{{ object.menu }}</a></li>
+						{% for alpha in content %}
+							<li><a class="{% if category %}{% ifequal alpha.article_tags category %}active{% else %}inactive{% endifequal %}{% else %}active{% endif %}" id="nav-alpha-{{ alpha.id }}" data-category="{{ alpha.id }}" href="/#{{ alpha.id }}">{{ alpha.menu }}</a></li>
 						{% endfor %}
 					</ul>
 				</nav>
@@ -82,7 +89,8 @@
 					categories:{ 
 						{% for object in categories.items %}{{object.0}}:[]{% if not forloop.last %},{% endif %}{% endfor %}
 					},
-					filter:"{{ filter }}"});
+					filter:"{{ category }}",
+					alpha:"{{ alpha }}"});
 				
 			},false);
 		//]]>

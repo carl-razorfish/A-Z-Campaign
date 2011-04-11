@@ -30,11 +30,15 @@ regexpURLAll = r"/(.*)"
 
 class HomeHandler(webapp.RequestHandler):
   def get(self, urlPath):
-	filter = ""
+	alpha = None
+	category = None
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	if urlPath is not None: 
-		filter = urlPath
-	args = dict(filter=filter,content=content,common=common,categories=categories)
+	if urlPath is not None:
+		if len(urlPath) < 2:
+			alpha = urlPath
+		else:
+			category = urlPath
+	args = dict(alpha=alpha,category=category,content=content,common=common,categories=categories)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')

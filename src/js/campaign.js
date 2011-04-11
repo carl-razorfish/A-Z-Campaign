@@ -1,6 +1,7 @@
 RIA.AZCampaign = {
 	options:{
 		filter:null,
+		scrollMultiplier:100, // milliseconds
 		keyCodes:{
 			"65":"a",
 			"66":"b",
@@ -34,7 +35,6 @@ RIA.AZCampaign = {
 		try {
 			if(obj) Object.merge(this.options, obj);
 			this.articles = document.getElements("article");
-			
 			this.navigation = document.id("navigation");
 			this.navAlpha = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
@@ -45,12 +45,14 @@ RIA.AZCampaign = {
 			this.createNumericKeyCodes();
 			
 			this.scrollFX = new Fx.Scroll(window, {
-				duration:2600,
+				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel"
 			});
 			
-			if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
+			/*
+			*	if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
+			*/
 			
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
@@ -74,8 +76,8 @@ RIA.AZCampaign = {
 	storeArticleData: function() {
 		this.articles.each(function(article){
 			article.ria = {
-				w:parseFloat(article.getStyle("width")),
-				h:parseFloat(article.getStyle("height")),
+				w:Math.floor(parseFloat(article.getStyle("width"))),
+				h:Math.floor(parseFloat(article.getStyle("height"))),
 				marginBottom:article.getStyle("marginBottom"),
 				paddingTop:article.getStyle("paddingTop"),
 				paddingBottom:article.getStyle("paddingBottom"),
@@ -88,17 +90,19 @@ RIA.AZCampaign = {
 		},this);
 	},
 	filterFx: function(article, inOrOut, set) {
+		
 		if(inOrOut && set) {
 			/*
 			*	Set the height immediately, so we can scroll to that element and it will be there
 			*/
 			article.ria.filterFx.set({
-		    	'height': article.ria.h,
+				'height': article.ria.h,
 			    'opacity': 1,
 				'marginBottom':article.ria.marginBottom,
 				'paddingTop':article.ria.paddingTop,
 				'paddingBottom':article.ria.paddingBottom
 			});
+
 		} else {
 			article.ria.filterFx.start({
 			    'height': (inOrOut ? article.ria.h : 0),
@@ -106,7 +110,7 @@ RIA.AZCampaign = {
 				'marginBottom':(inOrOut ? article.ria.marginBottom : 0),
 				'paddingTop':(inOrOut ? article.ria.paddingTop : 0),
 				'paddingBottom':(inOrOut ? article.ria.paddingBottom : 0)
-			});			
+			});				
 		}
 	},
 	collectArticleTags: function() {
@@ -138,6 +142,7 @@ RIA.AZCampaign = {
 				}
 			},this);
 		},this);
+		
 		/*
 		*	Clean up
 		*/
@@ -158,7 +163,7 @@ RIA.AZCampaign = {
 	},
 	filter: function(filter) {
 		if(this.options.categories[filter]) {
-			this.filterByCategory(filter);
+			this.filterByCategory(filter);			
 		} else {
 			this.goToAlphabet(filter);
 		}
@@ -170,41 +175,47 @@ RIA.AZCampaign = {
 		*/
 		this.setAlphaNavState();
 		if(this.options.categories[category]) {
+			this.scrollFX.toTop();
 			this.setCategoryNavState(category);
 			/*
 			*	Reset any Window scroll position
 			*/
-			this.scrollFX.toTop();
-			RIA.UI.windowScroll();
-
+			
+			
 			/*
 			*	For each of the Articles...
 			*/
-			this.articles.each(function(article) {
+			this.articles.each(function(article, index) {
+				article.removeClass("active").removeClass("inactive");
 				/*
 				*	If the Article ID is not included in our Category Array, filter it out
 				*/
 				if(this.options.categories[category].indexOf(article.get("id")) === -1) {
-					this.filterFx(article,false)
+					this.filterFx(article, false, false);
 				}
 				/*
 				*	Else the Article ID is included in our Category Array, so filter it in
 				*/
 				else { 
-					this.filterFx(article, true);
+					this.filterFx(article, true, false);
 					document.id("nav-alpha-"+article.get("id")).addClass("active");
 				}
+				
 			},this);
 		}
+		
+		
 	},
 	filterInAll: function() {
 		this.articles.each(function(article) {
+			article.removeClass("active").removeClass("inactive");
 			this.filterFx(article, true, true);
 		},this);
 	},
 	setCategoryNavState: function(filter) {
 		this.navCategories.each(function(category) {
 			category.removeClass("active");
+			category.removeClass("inactive");
 			if(category.id == "nav-category-"+filter) category.addClass("active");
 		},this);
 	},
@@ -225,8 +236,6 @@ RIA.AZCampaign = {
 		},this);
 	},
 	goToAlphabet: function(alpha) {
-		
-		//Log.info(this.scrollFX.duration);
 		this.filterInAll();
 		this.setCategoryNavState();
 		this.setAlphaNavState("all");

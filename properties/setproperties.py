@@ -2,7 +2,7 @@ from ConfigParser import ConfigParser
 import logging
 from google.appengine.api import memcache
 
-#memcache.flush_all()
+memcache.flush_all()
 
 class AToZProperties(object):
 	def load(self):

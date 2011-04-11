@@ -1,4 +1,5 @@
 article {
+	overflow:hidden;
 	padding:20px;
 	border:1px solid #333;
 	-webkit-border-radius:5px;
@@ -6,6 +7,32 @@ article {
 	border-radius:5px;
 	margin-bottom:50px;
 }
-article section {	
-	min-height:700px;	
+
+article.inactive {
+	position:absolute;
+	left:-10000em;
+	top:-10000em;
+}
+
+/*
+*	Section Category Nav
+*/
+article section .food {
+	
+}
+
+article section .people {
+	
+}
+
+article section .community {
+	
+}
+
+article section .planet {
+	
+}
+
+article section .london2012 {
+	
 }

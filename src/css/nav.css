@@ -14,6 +14,13 @@
 	margin:0 0 2px -40px;
 }
 
+#navigation a {
+	color:#fff;	
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;	
+}
+
 #navigation #categories,
 #navigation #alphabet {
 	float:left;
@@ -24,11 +31,33 @@
 	display:block;
 	text-align:left;
 	padding:5px;
+	
+	background: -moz-linear-gradient(top, #cdcbcb, #a7a7a7);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear, left top, left bottom, from(#cdcbcb), to(#a7a7a7));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cdcbcb', EndColorStr='#a7a7a7', GradientType=0);		
+}
+
+#navigation #categories a.inactive {
+	background: -moz-linear-gradient(top, #cdcbcb, #a7a7a7);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear, left top, left bottom, from(#cdcbcb), to(#a7a7a7));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cdcbcb', EndColorStr='#a7a7a7', GradientType=0);		
+}
+#navigation #categories a.active {
+	background: -moz-linear-gradient(top, #cd1e24, #b61816);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cd1e24', EndColorStr='#b61816', GradientType=0);
 }
 
 #navigation #alphabet li {
 	text-align:center;
 }
+
 #navigation #alphabet a {
 	font-size:1.2em;
 	display:inline-block;
@@ -36,29 +65,21 @@
 	width:25px;
 	height:25px;
 	padding-top:6px;
-}
-
-#navigation a {
-	color:#fff;	
-	
 	background: -moz-linear-gradient(top, #cd1e24, #b61816);
     /* Chrome, Safari:*/
     background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cd1e24', EndColorStr='#b61816', GradientType=0);
-	-webkit-border-radius:5px;
-	-mox-border-radius:5px;
-	border-radius:5px;
 	
 }
-#navigation a.inactive {
+#navigation #alphabet a.inactive {
 	background: -moz-linear-gradient(top, #cdcbcb, #a7a7a7);
     /* Chrome, Safari:*/
     background: -webkit-gradient(linear, left top, left bottom, from(#cdcbcb), to(#a7a7a7));
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cdcbcb', EndColorStr='#a7a7a7', GradientType=0);		
 }
-#navigation a.active {
+#navigation #alphabet a.active {
 	background: -moz-linear-gradient(top, #cd1e24, #b61816);
     /* Chrome, Safari:*/
     background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
