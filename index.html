@@ -57,7 +57,7 @@
 					<ul id="categories">
 						<li><img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" /></li>
 						{% for object in categories.items %}
-						<li><a class="inactive" id="nav-category-{{object.0}}" data-category="{{object.0}}" href="{{object.0}}">{{object.1|upper}}</a></li>							
+							<li><a class="{% ifequal object.0 filter %}active{% else %}inactive{% endifequal %}" id="nav-category-{{object.0}}" data-category="{{object.0}}" href="{{object.0}}">{{object.1|upper}}</a></li>							
 						{% endfor %}
 					</ul>
 					<ul id="alphabet">

@@ -57,6 +57,13 @@ RIA.AZCampaign = {
 		}
 	},
 	createNumericKeyCodes: function(){
+		/*
+		*	@description:
+		*		Categories will be assigned a numeric value from a 1-based index.
+		*		Because we can never be certain how many categories will exist, or the order of Category items
+		*		we must programatically create the keyCode references.
+		*		This assumes the JS this.options.categories Array is provided in the correct sort order by the Python web application
+		*/
 		var counter = 49; // start at keyCode 49 for number 1
 		Object.each(this.options.categories, function(value,key) {
 			this.options.keyCodes[""+counter] = key;
@@ -67,7 +74,6 @@ RIA.AZCampaign = {
 	storeArticleData: function() {
 		this.articles.each(function(article){
 			article.ria = {
-				id:article.get("id"),
 				w:parseFloat(article.getStyle("width")),
 				h:parseFloat(article.getStyle("height")),
 				marginBottom:article.getStyle("marginBottom"),
@@ -204,13 +210,17 @@ RIA.AZCampaign = {
 	},
 	setAlphaNavState: function(filter) {
 		this.navAlpha.each(function(alpha) {
-			alpha.removeClass("active");
-			alpha.addClass("inactive");
-			if(alpha.id == "nav-alpha-"+filter) {
+			if(filter == "all") {
+				alpha.removeClass("inactive");
+				alpha.addClass("active");
+			}
+			else if(alpha.id == "nav-alpha-"+filter){
+				alpha.removeClass("inactive");
 				alpha.addClass("active");
 			} 
-			else if(filter == "all") {
-				alpha.addClass("active");
+			else {
+				alpha.removeClass("active")
+				alpha.addClass("inactive");
 			}
 		},this);
 	},

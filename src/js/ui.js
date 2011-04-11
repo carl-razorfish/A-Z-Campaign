@@ -1,15 +1,19 @@
 RIA.UI = {
 	init: function() {
-		this.nav = document.id("navigation");
-		this.navOffsetTop = this.nav.offsetTop;
-		this.addEventListeners();
+		try {
+			this.nav = document.id("navigation");
+			this.navOffsetTop = this.nav.offsetTop;
+			this.addEventListeners();
 		
-		this.navFX = new Fx.Tween(this.nav, {
-			fps:100,
-			duration:700,
-			transition:"sine:out",
-			link:"chain"
-		});
+			this.navFX = new Fx.Tween(this.nav, {
+				fps:100,
+				duration:700,
+				transition:"sine:out",
+				link:"chain"
+			});
+		} catch(e) {
+			Log.info("RIA.UI : init() : Error : "+e.message)
+		}
 	},
 	addEventListeners: function() {
 		window.addEventListener("scroll", this.windowScroll.bind(this), false);
