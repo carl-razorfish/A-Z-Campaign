@@ -4,7 +4,7 @@
         <title>{{ common.pagetitle }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="css/styles.css"/>
+		<link rel="stylesheet" href="css/styles.css?v={{timestamp}}"/>
 		<link rel="icon" type="image/vnd.microsoft.icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
     	<link rel="shorcut icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:portrait)" href="css/portrait.css" />
@@ -47,7 +47,7 @@
 							Only write out the image if we have it available
 						{% endcomment %}
 						{% if alpha.section_img %}
-						<img src="img/{{ alpha.id }}/main.jpg" alt="{{ alpha.section_img_alt }}" />
+						<img width="344" height="237" src="img/{{ alpha.id }}/main.jpg" alt="{{ alpha.section_img_alt }}" />
 						{% endif %}
 						
 					</section>		
@@ -65,8 +65,8 @@
 				<nav>
 					<ul id="categories">
 						<li><img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" /></li>
-						{% for object in categories.items %}
-							<li><a class="{% ifequal object.0 category %}active{% else %}inactive{% endifequal %}" id="nav-category-{{object.0}}" data-category="{{object.0}}" href="{{object.0}}">{{object.1|upper}}</a></li>							
+						{% for cat in categories.items %}
+							<li><a class="{% ifequal cat.0 category %}active{% else %}inactive{% endifequal %}" id="nav-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>							
 						{% endfor %}
 					</ul>
 					<ul id="alphabet">
@@ -82,19 +82,20 @@
 			</footer>
 
 		</div>
-		<script type="text/javascript" src="js/scripts.js?v=0.0.1"></script>
+		<script type="text/javascript" src="js/scripts.js?v={{timestamp}}"></script>
 		<script type="text/javascript">
 		//<![CDTA[
-			window.addEventListener("load", function() {
+			window.addEvent("domready", function() {
 				RIA.UI.init();
-				RIA.AZCampaign.init({
+				new RIA.AZCampaign({
 					categories:{ 
 						{% for object in categories.items %}{{object.0}}:[]{% if not forloop.last %},{% endif %}{% endfor %}
 					},
-					filter:"{{ category }}",
-					alpha:"{{ alpha }}"});
+					category:"{{ category }}",
+					alpha:"{{ alpha }}"
+				});
 				
-			},false);
+			});
 		//]]>
 		</script>
     </body>

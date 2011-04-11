@@ -1,4 +1,5 @@
-RIA.AZCampaign = {
+RIA.AZCampaign = new Class({
+	Implements:[Options],
 	options:{
 		filter:null,
 		scrollMultiplier:100, // milliseconds
@@ -31,17 +32,17 @@ RIA.AZCampaign = {
 			"90":"z"
 		}
 	},
-	init: function(obj) {
+	initialize: function(options) {
 		try {
-			if(obj) Object.merge(this.options, obj);
+			this.setOptions(options);
 			this.articles = document.getElements("article");
 			this.navigation = document.id("navigation");
 			this.navAlpha = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
+			
 			this.storeArticleData();
 			this.collectArticleTags();			
 			this.addEventListeners();
-			
 			this.createNumericKeyCodes();
 			
 			this.scrollFX = new Fx.Scroll(window, {
@@ -50,9 +51,7 @@ RIA.AZCampaign = {
 				link:"cancel"
 			});
 			
-			/*
-			*	if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
-			*/
+			Log.info("current category : "+this.options.category);
 			
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
@@ -194,6 +193,7 @@ RIA.AZCampaign = {
 		*/
 		this.setAlphaNavState();
 		if(this.options.categories[category]) {
+			this.options.category = category;
 			/*
 			*	Reset any Window scroll position
 			*/
@@ -224,9 +224,7 @@ RIA.AZCampaign = {
 				}
 				
 			},this);
-		}
-		
-		
+		}		
 	},
 	filterInAll: function() {
 		this.articles.each(function(article) {
@@ -258,11 +256,22 @@ RIA.AZCampaign = {
 		},this);
 	},
 	goToAlphabet: function(alpha) {
+		/*
+		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
+		*/
 		if(document.id(alpha)) {
-			this.filterInAll();
-			this.setCategoryNavState();
-			this.setAlphaNavState("all");
+			/*
+			*	If the selecte Alpha is not a member of the currently selected category, then reset the menus 
+			*/
+			if(this.options.categories[this.options.category].indexOf(alpha) == -1) {
+				this.filterInAll();
+				this.setCategoryNavState();
+				this.setAlphaNavState("all");
+			} 
+			/*
+			*	Scroll to the selected Alpha
+			*/
 			this.scrollFX.toElement(alpha, 'y');			
 		}
 	}
-}
+});

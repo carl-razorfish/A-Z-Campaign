@@ -30,6 +30,7 @@ regexpURLAll = r"/(.*)"
 
 class HomeHandler(webapp.RequestHandler):
   def get(self, urlPath):
+	timestamp = time.time()
 	alpha = None
 	category = None
 	path = os.path.join(os.path.dirname(__file__),'index.html')
@@ -38,7 +39,7 @@ class HomeHandler(webapp.RequestHandler):
 			alpha = urlPath
 		else:
 			category = urlPath
-	args = dict(alpha=alpha,category=category,content=content,common=common,categories=categories)
+	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')
