@@ -75,11 +75,9 @@ RIA.AZCampaign = {
 	},
 	storeArticleData: function() {
 		this.articles.each(function(article){
-			Log.info(Math.floor(parseFloat(article.getElement("header").getStyle("height"))));
-			Log.info(Math.floor(parseFloat(article.getElement("nav").getStyle("height"))));
 			article.ria = {
 				w:Math.floor(parseFloat(article.getStyle("width"))),
-				h:(Math.floor(parseFloat(article.getStyle("height")))+50),
+				h:Math.floor(parseFloat(article.getStyle("height"))),
 				marginBottom:article.getStyle("marginBottom"),
 				paddingTop:article.getStyle("paddingTop"),
 				paddingBottom:article.getStyle("paddingBottom"),
@@ -91,7 +89,15 @@ RIA.AZCampaign = {
 			}
 			
 			if(article.hasClass("inactive")) {
-				Log.info("inactive, setting height to zero");
+				/*
+				*	[ST]TODO: Inactive Article elements do not appear to have the full, correct height set, apparently as the getStyle() method is not including HEADER and NAV elements in the calculation.
+				*	So reset the Article height by including the HEADER and NAV elements
+				*	Not only is this ugly and unlegant, it's also a maintenance overhead - find a fix
+				*/
+				article.ria.h = (article.ria.h+Math.floor(parseFloat(article.getElement("header").getStyle("height")))+Math.floor(parseFloat(article.getElement("nav").getStyle("height"))));
+				/*
+				*	And then set it to zero ready for the first animation
+				*/
 				article.setStyle("height",0);
 			}
 		},this);
@@ -156,11 +162,17 @@ RIA.AZCampaign = {
 		articleId = articleTags = null;
 	},
 	addEventListeners: function() {
-		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);
-		
-		window.addEventListener("keydown", function(e) {
-			if(!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) this.filter(this.options.keyCodes[e.keyCode]);
-		}.bind(this),false);
+		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);		
+		window.addEventListener("keyup", this.keyboardEvent.bind(this),false);
+	},
+	keyboardEvent: function(e) {
+		if(!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
+			/*
+			*	DO NOT PREVENT DEFAULT KEYBOARD OPERATION
+			*	Although we have filtered out the command keys, there may be specific User config
+			*/
+			this.filter(this.options.keyCodes[e.keyCode]);
+		}
 	},
 	selectEvent: function(e) {		
 		if(e.target.getAttribute("data-category")) {
@@ -182,12 +194,15 @@ RIA.AZCampaign = {
 		*/
 		this.setAlphaNavState();
 		if(this.options.categories[category]) {
-			this.scrollFX.toTop();
-			this.setCategoryNavState(category);
 			/*
 			*	Reset any Window scroll position
 			*/
+			this.scrollFX.toTop();
 			
+			/*
+			*	Set the Catrgory navigation
+			*/
+			this.setCategoryNavState(category);
 			
 			/*
 			*	For each of the Articles...
@@ -243,9 +258,11 @@ RIA.AZCampaign = {
 		},this);
 	},
 	goToAlphabet: function(alpha) {
-		this.filterInAll();
-		this.setCategoryNavState();
-		this.setAlphaNavState("all");
-		this.scrollFX.toElement(alpha, 'y');
+		if(document.id(alpha)) {
+			this.filterInAll();
+			this.setCategoryNavState();
+			this.setAlphaNavState("all");
+			this.scrollFX.toElement(alpha, 'y');			
+		}
 	}
 }
