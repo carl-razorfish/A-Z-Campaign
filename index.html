@@ -77,12 +77,13 @@
 		<script type="text/javascript">
 		//<![CDTA[
 			window.addEventListener("load", function() {
+				RIA.UI.init();
 				RIA.AZCampaign.init({
 					categories:{ 
 						{% for object in categories.items %}{{object.0}}:[]{% if not forloop.last %},{% endif %}{% endfor %}
 					},
 					filter:"{{ filter }}"});
-				RIA.UI.init();
+				
 			},false);
 		//]]>
 		</script>

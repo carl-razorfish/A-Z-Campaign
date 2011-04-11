@@ -25,17 +25,15 @@ categories = categories.load()
 AToZList = AToZList()
 AToZList = AToZList.load()
 
+regexpURLAtoZ = r"/(\bfood\b|\bpeople\b|\bplanet\b|\bcommunity\b|\blondon2012\b|[a-zA-Z]{1})*"
+regexpURLAll = r"/(.*)"
+
 class HomeHandler(webapp.RequestHandler):
   def get(self, urlPath):
-	path = os.path.join(os.path.dirname(__file__),'index.html')
-	# Check that the urlPath matches one of our categories
 	filter = ""
-	for x in categories:
-		if urlPath == x:
-			filter = x
-	for y in AToZList:
-		if urlPath == y:
-			filter = y
+	path = os.path.join(os.path.dirname(__file__),'index.html')
+	if urlPath is not None: 
+		filter = urlPath
 	args = dict(filter=filter,content=content,common=common,categories=categories)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
@@ -45,7 +43,7 @@ class HomeHandler(webapp.RequestHandler):
 
 def main():
   util.run_wsgi_app(webapp.WSGIApplication([
-	(r'/(.*)',HomeHandler)
+	(regexpURLAtoZ,HomeHandler)
   ]))
 
 if __name__ == '__main__':

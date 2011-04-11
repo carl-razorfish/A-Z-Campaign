@@ -1,6 +1,5 @@
 RIA.UI = {
 	init: function() {
-		this.shell = document.id("shell");
 		this.nav = document.id("navigation");
 		this.navOffsetTop = this.nav.offsetTop;
 		this.addEventListeners();

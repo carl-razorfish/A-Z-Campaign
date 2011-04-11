@@ -1,5 +1,6 @@
 RIA.AZCampaign = {
 	options:{
+		filter:null,
 		keyCodes:{
 			"65":"a",
 			"66":"b",
@@ -30,23 +31,30 @@ RIA.AZCampaign = {
 		}
 	},
 	init: function(obj) {
-		if(obj) Object.merge(this.options, obj);
-		this.articles = document.getElements("article");
-		this.navigation = document.getElementById("navigation");
-		this.navAlpha = document.getElements("#navigation #alphabet a");
-		this.navCategories = document.getElements("#navigation #categories a");
-		this.storeArticleData();
-		this.collectArticleTags();
-		this.addEventListeners();
-		this.createNumericKeyCodes();
-
-		this.scrollFX = new Fx.Scroll(window, {
-			duration:1000,
-			transition:"sine:out",
-			link:"cancel"
-		});
-		
-		if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
+		try {
+			if(obj) Object.merge(this.options, obj);
+			this.articles = document.getElements("article");
+			
+			this.navigation = document.id("navigation");
+			this.navAlpha = document.getElements("#navigation #alphabet a");
+			this.navCategories = document.getElements("#navigation #categories a");
+			this.storeArticleData();
+			this.collectArticleTags();			
+			this.addEventListeners();
+			
+			this.createNumericKeyCodes();
+			
+			this.scrollFX = new Fx.Scroll(window, {
+				duration:2600,
+				transition:"sine:in:out",
+				link:"cancel"
+			});
+			
+			if(this.options.filter && this.options.filter != "") this.filter(this.options.filter);
+			
+		} catch(e) {
+			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
+		}
 	},
 	createNumericKeyCodes: function(){
 		var counter = 49; // start at keyCode 49 for number 1
@@ -59,10 +67,9 @@ RIA.AZCampaign = {
 	storeArticleData: function() {
 		this.articles.each(function(article){
 			article.ria = {
-				id:article.getAttribute("id"),
+				id:article.get("id"),
 				w:parseFloat(article.getStyle("width")),
 				h:parseFloat(article.getStyle("height")),
-				offsetTop:article.offsetTop,
 				marginBottom:article.getStyle("marginBottom"),
 				paddingTop:article.getStyle("paddingTop"),
 				paddingBottom:article.getStyle("paddingBottom"),
@@ -120,8 +127,8 @@ RIA.AZCampaign = {
 				/*
 				*	Don't push the Article ID to the Tags Array if it's already indexed (already exists)
 				*/
-				if(this.options.categories[tag] && this.options.categories[tag].indexOf(articleId) === -1) {
-					this.options.categories[tag].push(articleId)
+				if(this.options.categories[tag]) {
+					this.options.categories[tag].include(articleId);
 				}
 			},this);
 		},this);
@@ -208,17 +215,11 @@ RIA.AZCampaign = {
 		},this);
 	},
 	goToAlphabet: function(alpha) {
-		var article = document.id(alpha), nav = document.id("nav-alpha-"+alpha);
-		if(article) {			
-			this.filterInAll();
-			this.setCategoryNavState();
-			this.setAlphaNavState("all");
-			this.scrollFX.start(0,article.ria.offsetTop);
-			(function() {
-				RIA.UI.windowScroll();
-			}).delay(1000)
-			
-		}
-		alpha = article = null;
+		
+		//Log.info(this.scrollFX.duration);
+		this.filterInAll();
+		this.setCategoryNavState();
+		this.setAlphaNavState("all");
+		this.scrollFX.toElement(alpha, 'y');
 	}
 }
