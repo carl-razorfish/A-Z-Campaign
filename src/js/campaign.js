@@ -263,7 +263,7 @@ RIA.AZCampaign = new Class({
 			/*
 			*	If the selecte Alpha is not a member of the currently selected category, then reset the menus 
 			*/
-			if(this.options.categories[this.options.category].indexOf(alpha) == -1) {
+			if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(alpha) === -1) {
 				this.filterInAll();
 				this.setCategoryNavState();
 				this.setAlphaNavState("all");
