@@ -37,8 +37,8 @@ RIA.AZCampaign = new Class({
 			this.setOptions(options);
 			this.articles = document.getElements("article");			
 			this.navigation = document.id("navigation");
+			// we must set a local variable for the original nav offsetTop. Later on we'll need to add this to current position of the nav
 			this.navOffsetTop = this.navigation.offsetTop;
-			Log.info(this.navOffsetTop);
 			this.navAlpha = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
 			this.storeArticleData();
@@ -52,7 +52,6 @@ RIA.AZCampaign = new Class({
 				transition:"sine:in:out",
 				link:"cancel",
 				onStart: function(e) {
-					Log.info("scrollFx onStart");
 					this.removeScrollGetContentListener();
 				}.bind(this),
 				onComplete: function(e) {
@@ -60,7 +59,6 @@ RIA.AZCampaign = new Class({
 					*	Reset the duration, in case is has changed velocity
 					*/
 					this.scrollFx.options.duration=1000;
-					Log.info("Scroll complete")
 					this.getContentWithinViewport();
 					this.addScrollGetContentListener();
 				}.bind(this)
@@ -73,7 +71,6 @@ RIA.AZCampaign = new Class({
 				link:"chain"
 			});
 			
-			Log.info("current category : "+this.options.category);
 			this.getContentWithinViewport();
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
@@ -395,6 +392,7 @@ RIA.AZCampaign = new Class({
 		viewport = articlePos = null;
 	},
 	setNavPosition: function() {
+		Log.info("setNavPosition()");
 		if(!Browser.Platform.ios) {
 			if(this.navigation && this.navOffsetTop) this.navigation.style.top = this.navOffsetTop+document.body.scrollTop+"px";
 		} else if(this.navFX && this.navOffsetTop) {
