@@ -47,7 +47,6 @@ RIA.AZCampaign = new Class({
 			this.createNumericKeyCodes();
 			
 			this.scrollFx = new Fx.Scroll(window, {
-				fps:100,
 				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel",
@@ -55,9 +54,6 @@ RIA.AZCampaign = new Class({
 					this.removeScrollGetContentListener();
 				}.bind(this),
 				onComplete: function(e) {
-					/*
-					*	Reset the duration, in case is has changed velocity
-					*/
 					this.scrollFx.options.duration=1000;
 					this.getContentWithinViewport();
 					this.addScrollGetContentListener();
@@ -65,13 +61,13 @@ RIA.AZCampaign = new Class({
 			});
 			
 			this.navFX = new Fx.Tween(this.navigation, {
-				fps:100,
 				duration:700,
 				transition:"sine:out",
 				link:"chain"
 			});
 			
 			this.getContentWithinViewport();
+
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
 		}
@@ -82,10 +78,10 @@ RIA.AZCampaign = new Class({
 		*		Load the content, e.g. image, for a specific Article
 		*/
 		var contentImage = article.getElement(".content-image img"), displayState, visibilityState;
-		//displayState = (showHide ? "block" : "none");
-		//contentImage.setStyle("display",displayState);	
-		visibilityState = (showHide ? "visible" : "hidden");
-		contentImage.setStyle("visibility",visibilityState);		
+		displayState = (showHide ? "block" : "none");
+		contentImage.setStyle("display",displayState);	
+		//visibilityState = (showHide ? "visible" : "hidden");
+		//contentImage.setStyle("visibility",visibilityState);		
 		contentImage = displayState = visibilityState = null;
 	},
 	createNumericKeyCodes: function(){
@@ -168,11 +164,25 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	addEventListeners: function() {
-		this.navigation.addEventListener("click", this.selectEvent.bind(this));		
+		this.navigation.addEvent("click", this.selectEvent.bind(this));
 		// keep the onKeyUp event listener native, as we don't like Moo's extended features
 		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
 		window.addEvent("resize", this.getContentWithinViewport.bind(this));	
 		window.addEvent("scroll", this.setNavPosition.bind(this));	
+
+		document.id("content").addEvents({
+			"click": function(e) {
+				if(e.target.hasClass("q")) {
+					var parent = e.target.getParent("article"), section;
+					section = parent.getElement("section");
+					e.preventDefault();
+					parent.addClass("questions");
+					section.addClass("questions");
+					
+				}
+			}.bind(this)
+		});
+
 	},
 	addScrollGetContentListener: function() {
 		this.getContentBind = this.getContentWithinViewport.bind(this);

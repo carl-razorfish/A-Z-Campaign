@@ -5,7 +5,16 @@ article {
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
-	margin-bottom:50px;
+	margin-bottom:50px;	
+}
+
+
+article.questions {
+	/*
+	-webkit-perspective: 800;
+	-webkit-perspective-origin: 50% 300px;
+	-webkit-transform-style: preserve-3d;
+	*/
 }
 
 article.inactive {
@@ -17,6 +26,16 @@ article.inactive {
 article a {
 	display:block;
 }
+
+article div.content {
+	position:relative;
+}
+
+article section.questions {
+	-webkit-transition: -webkit-transform .8s;
+	-webkit-transform: translateX(300px) rotateY(0deg);
+}
+
 /*
 *	Section Category Nav
 */
