@@ -225,7 +225,6 @@ RIA.AZCampaign = new Class({
 		window.removeEvent("scroll", this.getContentBind);
 	},
 	keyboardEvent: function(e) {
-		Log.info(e);
 		if(!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
 			/*
 			*	DO NOT PREVENT DEFAULT KEYBOARD OPERATION
@@ -370,7 +369,7 @@ RIA.AZCampaign = new Class({
 	},
 	getContentWithinViewport: function(event) {
 		var viewport = RIA.Util.getViewport(),articlePos;
-		Log.info("getContentWithinViewport()");
+		//Log.info("getContentWithinViewport()");
 		this.articles.each(function(article) {
 			articlePos = article.getPosition();
 			/*
@@ -392,7 +391,7 @@ RIA.AZCampaign = new Class({
 		viewport = articlePos = null;
 	},
 	setNavPosition: function() {
-		Log.info("setNavPosition()");
+		//Log.info("setNavPosition()");
 		if(!Browser.Platform.ios) {
 			if(this.navigation && this.navOffsetTop) this.navigation.style.top = this.navOffsetTop+document.body.scrollTop+"px";
 		} else if(this.navFX && this.navOffsetTop) {
