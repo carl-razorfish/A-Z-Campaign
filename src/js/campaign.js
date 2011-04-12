@@ -42,12 +42,12 @@ RIA.AZCampaign = new Class({
 			this.navAlpha = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
 			this.storeArticleData();
-			this.setInitialImageState();
 			this.addEventListeners();
 			this.addScrollGetContentListener();
 			this.createNumericKeyCodes();
 			
 			this.scrollFx = new Fx.Scroll(window, {
+				fps:100,
 				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel",
@@ -76,57 +76,15 @@ RIA.AZCampaign = new Class({
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
 		}
 	},
-	setInitialImageState: function() {
-		/*
-		*	@description:
-		*		With JS enabled, we only want images currently within the visible viewport to be loaded
-		*		Set all images to the loading state initially
-		*/
-		var contentImage;
-		this.articles.each(function(article) {
-			//Log.info(article.getPosition());
-			contentImage = article.getElement(".content-image img");
-			contentImage.set({
-				"src":contentImage.get("data-loading-src"),
-				"width":contentImage.get("data-loading-width"),
-				"height":contentImage.get("data-loading-height"),
-				"class":contentImage.get("data-loading-class")
-			});
-		},this);
-		contentImage = null;
-	},
-	showContent: function(article) {
+	handleContent: function(article, showHide) {
 		/*
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
-		article.ria.state = "loaded";
-		//Log.info("Loaded Article "+article.get("id"));
-		var contentImage = article.getElement(".content-image img");
-		contentImage.set({
-			"src":contentImage.ria.original.src,
-			"width":contentImage.ria.original.w,
-			"height":contentImage.ria.original.h
-		}); 
-		contentImage.removeClass("loading");
-		
-		contentImage = null;
-	},
-	hideContent: function(article){
-		/*
-		*	@description:
-		*		Unload the content, e.g. image, for a specific Article
-		*/
-		article.ria.state = "unloaded";
-		//Log.info("Unloaded Article "+article.get("id"));
-		var contentImage = article.getElement(".content-image img");
-		contentImage.set({
-			"src":contentImage.get("data-loading-src"),
-			"width":contentImage.get("data-loading-width"),
-			"height":contentImage.get("data-loading-height")
-		}); 
-		contentImage.addClass("loading");	
-		
+		Log.info(showHide);
+		var contentImage = article.getElement(".content-image img"),state;
+		state = (showHide ? "block" : "none");
+		contentImage.setStyle("display",state);		
 		contentImage = null;
 	},
 	createNumericKeyCodes: function(){
@@ -149,8 +107,6 @@ RIA.AZCampaign = new Class({
 		this.articles.each(function(article){
 			contentImage = article.getElement("img");
 			article.ria = {
-				state:"unloaded",
-				required:true,
 				w:Math.floor(parseFloat(article.getStyle("width"))),
 				h:Math.floor(parseFloat(article.getStyle("height"))),
 				marginBottom:article.getStyle("marginBottom"),
@@ -200,7 +156,7 @@ RIA.AZCampaign = new Class({
 				'paddingBottom':article.ria.paddingBottom
 			});
 		} else {
-			this.hideContent(article);
+			this.handleContent(article, false);
 			article.ria.filterFx.start({
 			    'height': (inOrOut ? article.ria.h : 0),
 			    'opacity': (inOrOut ? 1 : 0),
@@ -274,17 +230,12 @@ RIA.AZCampaign = new Class({
 				*	If the Article ID is not included in our Category Array, filter it out
 				*/				
 				if(this.options.categories[category].indexOf(article.get("id")) === -1) {
-					article.ria.required = false;
 					this.filterFx(article, false, false);
 				}
 				/*
 				*	Else the Article ID is included in our Category Array, so filter it in
 				*/
 				else { 
-					article.ria.required = true;
-					
-					Log.info(article.get("id") + " : state : " + article.ria.state + " : required : " + article.ria.required);
-					
 					this.filterFx(article, true, false);
 					document.id("nav-alpha-"+article.get("id")).addClass("active");
 				}
@@ -369,7 +320,6 @@ RIA.AZCampaign = new Class({
 	},
 	getContentWithinViewport: function(event) {
 		var viewport = RIA.Util.getViewport(),articlePos;
-		//Log.info("getContentWithinViewport()");
 		this.articles.each(function(article) {
 			articlePos = article.getPosition();
 			/*
@@ -378,20 +328,15 @@ RIA.AZCampaign = new Class({
 			*	[ST]TODO: Ensure that we are loading/unloading when necessary, e.g. filtered out content should be uncloaded even though it's coordinates are within the viewport range
 			*/
 			if((articlePos.y >= viewport.scrollTop && articlePos.y <= (viewport.scrollTop+viewport.h)) || (((articlePos.y+article.ria.h) >= viewport.scrollTop) && (articlePos.y+article.ria.h) <= (viewport.scrollTop+viewport.h))) {
-				
-				//Log.info(article.get("id") + " : state : " + article.ria.state + " : required : " + article.ria.required);
-
-				if(article.ria.state != "loaded") this.showContent(article);				
+				this.handleContent(article, true);
 			} else {
-
-				this.hideContent(article);
+				this.handleContent(article, false);
 			}
 		},this);
 		
 		viewport = articlePos = null;
 	},
 	setNavPosition: function() {
-		//Log.info("setNavPosition()");
 		if(!Browser.Platform.ios) {
 			if(this.navigation && this.navOffsetTop) this.navigation.style.top = this.navOffsetTop+document.body.scrollTop+"px";
 		} else if(this.navFX && this.navOffsetTop) {

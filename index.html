@@ -9,6 +9,9 @@
     	<link rel="shorcut icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:portrait)" href="css/portrait.css" />
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:landscape)" href="css/landscape.css" />
+		<script type="text/javascript">
+			document.write('<style type=\"text/css\">#content .content-image img {display:none;}</style>');
+		</script>
     </head>
     <body>	
 		<div id="shell">
@@ -32,8 +35,8 @@
 						{% endif %}
 						
 						{% if article.section_img %}
-						<div class="content-image" style="width:344px; height:237px;">
-							<img class="" data-loading-class="loading" data-loading-src="img/spinner.gif" data-loading-width="14" data-loading-height="14" width="344" height="237" src="img/{{ article.id }}/main.jpg" src="img/spinner.gif" alt="{{ article.section_img_alt }}" />
+						<div class="content-image">
+							<img width="344" height="237" src="img/{{ article.id }}/main.jpg" alt="{{ article.header }}" />
 						</div>
 						{% endif %}
 						
