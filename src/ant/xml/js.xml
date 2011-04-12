@@ -34,8 +34,7 @@
 				namespace.js,
 				util.js,
 				log.js,
-				campaign.js,
-				ui.js
+				campaign.js
 				"/>	
 		</concat>
 	</target>	

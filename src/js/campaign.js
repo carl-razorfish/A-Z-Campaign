@@ -37,25 +37,40 @@ RIA.AZCampaign = new Class({
 			this.setOptions(options);
 			this.articles = document.getElements("article");			
 			this.navigation = document.id("navigation");
+			this.navOffsetTop = this.navigation.offsetTop;
+			Log.info(this.navOffsetTop);
 			this.navAlpha = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
 			this.storeArticleData();
 			this.setInitialImageState();
 			this.addEventListeners();
+			this.addScrollGetContentListener();
 			this.createNumericKeyCodes();
 			
 			this.scrollFx = new Fx.Scroll(window, {
 				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel",
+				onStart: function(e) {
+					Log.info("scrollFx onStart");
+					this.removeScrollGetContentListener();
+				}.bind(this),
 				onComplete: function(e) {
 					/*
 					*	Reset the duration, in case is has changed velocity
 					*/
 					this.scrollFx.options.duration=1000;
 					Log.info("Scroll complete")
-					RIA.Campaign.getContentWithinViewport();
+					this.getContentWithinViewport();
+					this.addScrollGetContentListener();
 				}.bind(this)
+			});
+			
+			this.navFX = new Fx.Tween(this.navigation, {
+				fps:100,
+				duration:700,
+				transition:"sine:out",
+				link:"chain"
 			});
 			
 			Log.info("current category : "+this.options.category);
@@ -199,11 +214,21 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	addEventListeners: function() {
-		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);		
-		window.addEventListener("keyup", this.keyboardEvent.bind(this),false);
-		window.addEventListener("resize", this.getContentWithinViewport.bind(this),false);
+		this.navigation.addEventListener("click", this.selectEvent.bind(this));		
+		// keep the onKeyUp event listener native, as we don't like Moo's extended features
+		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
+		window.addEvent("resize", this.getContentWithinViewport.bind(this));	
+		window.addEvent("scroll", this.setNavPosition.bind(this));	
+	},
+	addScrollGetContentListener: function() {
+		this.getContentBind = this.getContentWithinViewport.bind(this);
+		window.addEvent("scroll", this.getContentBind);
+	},
+	removeScrollGetContentListener: function() {
+		window.removeEvent("scroll", this.getContentBind);
 	},
 	keyboardEvent: function(e) {
+		Log.info(e);
 		if(!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
 			/*
 			*	DO NOT PREVENT DEFAULT KEYBOARD OPERATION
@@ -332,16 +357,16 @@ RIA.AZCampaign = new Class({
 				this.setAlphaNavState("all");
 			} 
 			/*
-			*	Scroll to the selected Alpha
+			*	Create a velocity curve, based on distance to the required Alpha content
 			*/
 			if(article.getPosition().y < viewport.scrollTop) {
-				this.scrollFx.options.duration += 1*(Math.floor(Math.PI*((viewport.scrollTop - article.getPosition().y)/10)));
+				this.scrollFx.options.duration += Math.floor(Math.PI*((viewport.scrollTop - article.getPosition().y)/10));
 			} else {
-				this.scrollFx.options.duration += 1*(Math.floor(Math.PI*((article.getPosition().y - viewport.scrollTop)/10)));
+				this.scrollFx.options.duration += Math.floor(Math.PI*((article.getPosition().y - viewport.scrollTop)/10));
 			}
-			
-			
-			Log.info(this.scrollFx.options.duration);
+			/*
+			*	Scroll to the selected Alpha
+			*/
 			this.scrollFx.toElement(alpha, 'y');			
 		}
 		viewport = article = null;
@@ -368,5 +393,12 @@ RIA.AZCampaign = new Class({
 		},this);
 		
 		viewport = articlePos = null;
+	},
+	setNavPosition: function() {
+		if(!Browser.Platform.ios) {
+			if(this.navigation && this.navOffsetTop) this.navigation.style.top = this.navOffsetTop+document.body.scrollTop+"px";
+		} else if(this.navFX && this.navOffsetTop) {
+			this.navFX.start("top",(this.navOffsetTop+document.body.scrollTop));
+		}
 	}
 });
