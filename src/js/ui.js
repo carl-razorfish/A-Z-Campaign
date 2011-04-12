@@ -20,9 +20,10 @@ RIA.UI = {
 	},
 	windowScroll: function(e) {
 		if(!Browser.Platform.ios) {
-			this.nav.style.top = this.navOffsetTop+document.body.scrollTop+"px";
+			if(this.nav && this.navOffsetTop) this.nav.style.top = this.navOffsetTop+document.body.scrollTop+"px";
 		} else {
-			this.navFX.start("top",(this.navOffsetTop+document.body.scrollTop));
+			if(this.navFX && this.navOffsetTop) this.navFX.start("top",(this.navOffsetTop+document.body.scrollTop));
 		}
+		
 	}
 }

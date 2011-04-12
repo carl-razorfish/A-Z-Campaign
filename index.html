@@ -17,46 +17,44 @@
 					<h1>{{ common.header }}</h1>
 				</header>
 				
-				{% for alpha in content %}
-				<article id="{{ alpha.id }}" data-tags="{{ alpha.article_tags }}" class="{% if category %}{% ifequal alpha.article_tags category %}active{% else %}inactive{% endifequal %}{% else %}active{% endif %}">
-					<a name="{{ alpha.section }}"></a>
+				{% for article in content %}
+				<article id="{{ article.id }}" data-tags="{{ article.article_tags }}" class="{% if category %}{% ifequal article.article_tags category %}active{% else %}inactive{% endifequal %}{% else %}active{% endif %}">
+					<a name="{{ article.id }}"></a>
 					<header>
-						<h2>{{ alpha.header }}</h2>						
+						<h2>{{ article.header }}</h2>						
 					</header>
 					
-					<section id="{{ alpha.section_id }}">
-						{% comment %}
-							Only write out the Paragraph if we have it available
-						{% endcomment %}
-						{% if alpha.section_statement1 %}
+					<section id="{{ article.section_id }}" class="{{ article.section_layout }}">
+						{% if article.section_statement1 %}
 						<p>
-						{{ alpha.section_statement1 }}	
+						{{ article.section_statement1 }}	
 						</p>
-						{% endif %}
-						{% if alpha.section_statement2 %}
-						<p>
-						{{ alpha.section_statement2 }}	
-						</p>
-						{% endif %}
-						{% if alpha.section_statement3 %}
-						<p>
-						{{ alpha.section_statement3 }}	
-						</p>
-						{% endif %}
-						{% comment %}
-							Only write out the image if we have it available
-						{% endcomment %}
-						{% if alpha.section_img %}
-						<img width="344" height="237" src="img/{{ alpha.id }}/main.jpg" alt="{{ alpha.section_img_alt }}" />
 						{% endif %}
 						
+						{% if article.section_img %}
+						<div class="content-image" style="width:344px; height:237px;">
+							<img class="" data-loading-class="loading" data-loading-src="img/spinner.gif" data-loading-width="14" data-loading-height="14" width="344" height="237" src="img/{{ article.id }}/main.jpg" src="img/spinner.gif" alt="{{ article.section_img_alt }}" />
+						</div>
+						{% endif %}
+						
+						{% if article.section_statement2 %}
+						<p>
+						{{ article.section_statement2 }}	
+						</p>
+						{% endif %}
+						{% if article.section_statement3 %}
+						<p>
+						{{ article.section_statement3 }}	
+						</p>
+						{% endif %}							
 					</section>		
 					<nav>
 						{% for cat in categories.items %}
-							{% ifequal cat.0 alpha.article_tags %}
+							{% ifequal cat.0 article.article_tags %}
 							<a class="active {{cat.0}}" id="content-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a>
 							{% endifequal %}							
 						{% endfor %}
+						<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fa-z-campaign.appspot.com/{{ article.id }}&amp;title={{ article.header }}layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80&amp;ref=a-to-z-mcdonalds-{{ article.id }}" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>
 					</nav>			
 				</article>		
 				{% endfor %}
@@ -87,12 +85,11 @@
 		//<![CDTA[
 			window.addEvent("domready", function() {
 				RIA.UI.init();
-				new RIA.AZCampaign({
-					categories: {{aToZList}},
+				RIA.Campaign = new RIA.AZCampaign({
+					categories:{{aToZList}},
 					category:"{{ category }}",
 					alpha:"{{ alpha }}"
-				});
-				
+				});				
 			});
 		//]]>
 		</script>

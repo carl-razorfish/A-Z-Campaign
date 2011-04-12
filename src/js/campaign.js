@@ -35,25 +35,83 @@ RIA.AZCampaign = new Class({
 	initialize: function(options) {
 		try {
 			this.setOptions(options);
-			this.articles = document.getElements("article");
+			this.articles = document.getElements("article");			
 			this.navigation = document.id("navigation");
 			this.navAlpha = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
 			this.storeArticleData();
+			this.setInitialImageState();
 			this.addEventListeners();
 			this.createNumericKeyCodes();
 			
 			this.scrollFX = new Fx.Scroll(window, {
 				duration:1000,
 				transition:"sine:in:out",
-				link:"cancel"
+				link:"cancel",
+				onComplete: function(e) {
+					Log.info("Scroll complete")
+					RIA.Campaign.getContentWithinViewport();
+				}.bind(this)
 			});
 			
 			Log.info("current category : "+this.options.category);
-			
+			this.getContentWithinViewport();
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
 		}
+	},
+	setInitialImageState: function() {
+		/*
+		*	@description:
+		*		With JS enabled, we only want images currently within the visible viewport to be loaded
+		*		Set all images to the loading state initially
+		*/
+		var contentImage;
+		this.articles.each(function(article) {
+			//Log.info(article.getPosition());
+			contentImage = article.getElement(".content-image img");
+			contentImage.set({
+				"src":contentImage.get("data-loading-src"),
+				"width":contentImage.get("data-loading-width"),
+				"height":contentImage.get("data-loading-height"),
+				"class":contentImage.get("data-loading-class")
+			});
+		},this);
+		contentImage = null;
+	},
+	showContent: function(article) {
+		/*
+		*	@description:
+		*		Load the content, e.g. image, for a specific Article
+		*/
+		article.ria.state = "loaded";
+		Log.info("Loaded Article "+article.get("id"));
+		var contentImage = article.getElement(".content-image img");
+		contentImage.set({
+			"src":contentImage.ria.original.src,
+			"width":contentImage.ria.original.w,
+			"height":contentImage.ria.original.h
+		}); 
+		contentImage.removeClass("loading");
+		
+		contentImage = null;
+	},
+	hideContent: function(article){
+		/*
+		*	@description:
+		*		Unload the content, e.g. image, for a specific Article
+		*/
+		article.ria.state = "unloaded";
+		Log.info("Unloaded Article "+article.get("id"));
+		var contentImage = article.getElement(".content-image img");
+		contentImage.set({
+			"src":contentImage.get("data-loading-src"),
+			"width":contentImage.get("data-loading-width"),
+			"height":contentImage.get("data-loading-height")
+		}); 
+		contentImage.addClass("loading");	
+		
+		contentImage = null;
 	},
 	createNumericKeyCodes: function(){
 		/*
@@ -71,8 +129,12 @@ RIA.AZCampaign = new Class({
 		counter = null;
 	},
 	storeArticleData: function() {
+		var contentImage;
 		this.articles.each(function(article){
+			contentImage = article.getElement("img");
 			article.ria = {
+				state:"unloaded",
+				required:true,
 				w:Math.floor(parseFloat(article.getStyle("width"))),
 				h:Math.floor(parseFloat(article.getStyle("height"))),
 				marginBottom:article.getStyle("marginBottom"),
@@ -83,6 +145,13 @@ RIA.AZCampaign = new Class({
 					link:"cancel",
 		    		transition: Fx.Transitions.Sine.easeOut
 				})
+			}
+			contentImage.ria = {
+				original:{
+					src:contentImage.get("src"),
+					w:contentImage.get("width"),
+					h:contentImage.get("height")					
+				}
 			}
 			
 			if(article.hasClass("inactive")) {
@@ -98,10 +167,13 @@ RIA.AZCampaign = new Class({
 				article.setStyle("height",0);
 			}
 		},this);
+		
+		contentImage = null;
 	},
 	filterFx: function(article, inOrOut, set) {
 		
 		if(inOrOut && set) {
+			article.ria.required = true;
 			/*
 			*	Set the height immediately, so we can scroll to that element and it will be there
 			*/
@@ -114,6 +186,8 @@ RIA.AZCampaign = new Class({
 			});
 
 		} else {
+			if(!inOrOut) article.ria.required = false;
+			
 			article.ria.filterFx.start({
 			    'height': (inOrOut ? article.ria.h : 0),
 			    'opacity': (inOrOut ? 1 : 0),
@@ -126,6 +200,7 @@ RIA.AZCampaign = new Class({
 	addEventListeners: function() {
 		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);		
 		window.addEventListener("keyup", this.keyboardEvent.bind(this),false);
+		window.addEventListener("resize", this.getContentWithinViewport.bind(this),false);
 	},
 	keyboardEvent: function(e) {
 		if(!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
@@ -252,5 +327,28 @@ RIA.AZCampaign = new Class({
 			*/
 			this.scrollFX.toElement(alpha, 'y');			
 		}
+	},
+	getContentWithinViewport: function(event) {
+		var viewport = RIA.Util.getViewport(),articlePos;
+	
+		this.articles.each(function(article) {
+			articlePos = article.getPosition();
+			/*
+			*	This will check that the very top of the Article is inside the viewport.
+			*	It will check that a large proportion of the Article is in the viewport, not just the top y position of the Article
+			*	[ST]TODO: Ensure that we are loading/unloading when necessary, e.g. filtered out content should be uncloaded even though it's coordinates are within the viewport range
+			*/
+			if((articlePos.y >= viewport.scrollTop && articlePos.y <= (viewport.scrollTop+viewport.h)) || (((articlePos.y+article.ria.h) >= viewport.scrollTop) && (articlePos.y+article.ria.h) <= (viewport.scrollTop+viewport.h))) {
+				//Log.info("article "+ article.get('id') +" with y top position of "+ articlePos.y +" is within viewport, with h : "+viewport.h);
+				//Log.info(article.get("id") + ", state : " +article.ria.state + ", required : " + article.ria.required)
+				if(article.ria.state != "loaded" && article.ria.required == true) this.showContent(article);
+				
+			} else {
+				//Log.info(article.get("id") + ", state : " +article.ria.state + ", required : " + article.ria.required)
+				this.hideContent(article);
+			}
+		},this);
+		
+		viewport = articlePos = null;
 	}
 });
