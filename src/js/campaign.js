@@ -80,8 +80,8 @@ RIA.AZCampaign = new Class({
 		var contentImage = article.getElement(".content-image img"), displayState, visibilityState;
 		displayState = (showHide ? "block" : "none");
 		contentImage.setStyle("display",displayState);	
-		//visibilityState = (showHide ? "visible" : "hidden");
-		//contentImage.setStyle("visibility",visibilityState);		
+		visibilityState = (showHide ? "visible" : "hidden");
+		contentImage.setStyle("visibility",visibilityState);		
 		contentImage = displayState = visibilityState = null;
 	},
 	createNumericKeyCodes: function(){
@@ -173,12 +173,12 @@ RIA.AZCampaign = new Class({
 		document.id("content").addEvents({
 			"click": function(e) {
 				if(e.target.hasClass("q")) {
-					var parent = e.target.getParent("article"), section;
-					section = parent.getElement("section");
 					e.preventDefault();
+					if(document.getElement(".questions")) {
+						document.getElement(".questions").removeClass("questions");
+					}
+					var parent = e.target.getParent("article");					
 					parent.addClass("questions");
-					section.addClass("questions");
-					
 				}
 			}.bind(this)
 		});

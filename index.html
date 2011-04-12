@@ -27,30 +27,43 @@
 						<h2>{{ article.header }}</h2>						
 					</header>
 					
-					<section id="{{ article.section_id }}" class="{{ article.section_layout }}">
-						{% if article.section_statement1 %}
-						<p>
-						{{ article.section_statement1 }}	
-						</p>
-						{% endif %}
+					<div class="container">
+						<section id="{{ article.section_id }}" class="{{ article.section_layout }}">
+							{% if article.section_statement1 %}
+							<p>
+							{{ article.section_statement1 }}	
+							</p>
+							{% endif %}
 					
-						{% if article.section_img %}
-						<div class="content-image">
-							<img width="344" height="237" src="img/{{ article.id }}/main.jpg" alt="{{ article.header }}" />
-						</div>
-						{% endif %}
+							{% if article.section_img %}
+							<div class="content-image">
+								<img width="344" height="237" src="img/{{ article.id }}/main.jpg" alt="{{ article.header }}" />
+							</div>
+							{% endif %}
 					
-						{% if article.section_statement2 %}
-						<p>
-						{{ article.section_statement2 }}	
-						</p>
-						{% endif %}
-						{% if article.section_statement3 %}
-						<p>
-						{{ article.section_statement3 }}	
-						</p>
-						{% endif %}							
-					</section>
+							{% if article.section_statement2 %}
+							<p>
+							{{ article.section_statement2 }}	
+							</p>
+							{% endif %}
+							{% if article.section_statement3 %}
+							<p>
+							{{ article.section_statement3 }}	
+							</p>
+							{% endif %}							
+						</section>
+						<section class="qanda">
+							<header>
+								<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mauris odio, mollis ut viverra eget, semper interdum tortor. Ut arcu nisi, euismod nec tempus eleifend, convallis in sem. In justo libero, semper eget sagittis sit amet, pellentesque quis est. Fusce arcu est, feugiat vel dictum et, consectetur non eros. Donec suscipit adipiscing felis fringilla cursus. Mauris id vehicula justo. Proin vel nibh sapien. Cras et ultricies nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam eget leo tempor eros pellentesque luctus a non velit. Sed nisl diam, consequat in suscipit adipiscing, fermentum nec augue. Nulla quis orci justo, blandit sollicitudin eros. Nulla tincidunt dapibus massa. Ut et scelerisque lorem. Suspendisse augue odio, pellentesque eget porta eget, luctus at enim. Suspendisse potenti. Nulla sollicitudin velit sed nunc vestibulum vehicula. Praesent rhoncus varius ultricies.</h3>
+							</header>
+							<p>
+								Duis vestibulum placerat mi non semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi venenatis pharetra dui, nec faucibus augue ultrices non. Cras id tristique nisi. Vestibulum elementum porta porta. Nunc nisi dolor, dignissim in mattis vitae, blandit eu massa. Vivamus libero velit, scelerisque sed porta nec, tempor ac tellus. Nulla varius venenatis gravida. Morbi sed lobortis massa. Maecenas rhoncus imperdiet ligula non varius. Ut nec tortor in orci faucibus aliquet et ac sem. Nulla sollicitudin, mauris in viverra vestibulum, elit tortor tincidunt leo, id ultricies odio ligula nec velit. Nunc pretium odio a lectus iaculis a tristique nunc aliquam. Etiam adipiscing libero at enim rutrum mattis. Phasellus vehicula augue id neque molestie nec luctus dolor vulputate. Suspendisse vitae nunc risus, sit amet mattis dolor. Nunc in egestas mi. Quisque porta viverra est nec feugiat. Cras non consectetur purus. Maecenas vestibulum consectetur massa in aliquet.
+							</p>
+							<p>
+								Duis vestibulum placerat mi non semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi venenatis pharetra dui, nec faucibus augue ultrices non. Cras id tristique nisi. Vestibulum elementum porta porta. Nunc nisi dolor, dignissim in mattis vitae, blandit eu massa. Vivamus libero velit, scelerisque sed porta nec, tempor ac tellus. Nulla varius venenatis gravida. Morbi sed lobortis massa. Maecenas rhoncus imperdiet ligula non varius. Ut nec tortor in orci faucibus aliquet et ac sem. Nulla sollicitudin, mauris in viverra vestibulum, elit tortor tincidunt leo, id ultricies odio ligula nec velit. Nunc pretium odio a lectus iaculis a tristique nunc aliquam. Etiam adipiscing libero at enim rutrum mattis. Phasellus vehicula augue id neque molestie nec luctus dolor vulputate. Suspendisse vitae nunc risus, sit amet mattis dolor. Nunc in egestas mi. Quisque porta viverra est nec feugiat. Cras non consectetur purus. Maecenas vestibulum consectetur massa in aliquet.
+							</p>					
+						</section>
+					</div>
 					<nav>
 						{% for cat in categories.items %}
 							{% ifequal cat.0 article.article_tags %}
