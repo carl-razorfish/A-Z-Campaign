@@ -88,9 +88,7 @@
 			window.addEvent("domready", function() {
 				RIA.UI.init();
 				new RIA.AZCampaign({
-					categories:{ 
-						{% for object in categories.items %}{{object.0}}:[]{% if not forloop.last %},{% endif %}{% endfor %}
-					},
+					categories:{{aToZList}},
 					category:"{{ category }}",
 					alpha:"{{ alpha }}"
 				});

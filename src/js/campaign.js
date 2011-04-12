@@ -39,9 +39,7 @@ RIA.AZCampaign = new Class({
 			this.navigation = document.id("navigation");
 			this.navAlpha = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
-			
 			this.storeArticleData();
-			this.collectArticleTags();			
 			this.addEventListeners();
 			this.createNumericKeyCodes();
 			
@@ -125,41 +123,6 @@ RIA.AZCampaign = new Class({
 			});				
 		}
 	},
-	collectArticleTags: function() {
-		var articleTags = new Array(),articleId;
-		
-		/*
-		*	For each of the Articles on the page...
-		*/
-		this.articles.each(function(article){
-			/*
-			*	Get the Article ID
-			*/
-			articleId = article.get("id");
-			
-			/*
-			*	Get all of the data tags assigned to the Article, and split them by the pipe separator into an Array
-			*/
-			articleTags = article.getAttribute("data-tags").split("|");
-			
-			/*
-			*	For each tag, assign the Article ID to the corresponding Tags Array
-			*/
-			Array.each(articleTags, function(tag) {
-				/*
-				*	Don't push the Article ID to the Tags Array if it's already indexed (already exists)
-				*/
-				if(this.options.categories[tag]) {
-					this.options.categories[tag].include(articleId);
-				}
-			},this);
-		},this);
-		
-		/*
-		*	Clean up
-		*/
-		articleId = articleTags = null;
-	},
 	addEventListeners: function() {
 		this.navigation.addEventListener("click", this.selectEvent.bind(this), false);		
 		window.addEventListener("keyup", this.keyboardEvent.bind(this),false);
@@ -187,6 +150,10 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	filterByCategory: function(category) {
+		/*
+		*	@description:
+		*		Filter content by Category
+		*/
 		
 		/*
 		*	If the selected Category filter matches one we have...
@@ -227,12 +194,20 @@ RIA.AZCampaign = new Class({
 		}		
 	},
 	filterInAll: function() {
+		/*
+		*	@description:
+		*		Shows all Alpha content immediately
+		*/
 		this.articles.each(function(article) {
 			article.removeClass("active").removeClass("inactive");
 			this.filterFx(article, true, true);
 		},this);
 	},
 	setCategoryNavState: function(filter) {
+		/*
+		*	@description:
+		*		Handles the Category menu nav state
+		*/
 		this.navCategories.each(function(category) {
 			category.removeClass("active");
 			category.removeClass("inactive");
@@ -240,6 +215,10 @@ RIA.AZCampaign = new Class({
 		},this);
 	},
 	setAlphaNavState: function(filter) {
+		/*
+		*	@description:
+		*		Handles the Alpha menu nav state
+		*/
 		this.navAlpha.each(function(alpha) {
 			if(filter == "all") {
 				alpha.removeClass("inactive");
@@ -261,7 +240,7 @@ RIA.AZCampaign = new Class({
 		*/
 		if(document.id(alpha)) {
 			/*
-			*	If the selecte Alpha is not a member of the currently selected category, then reset the menus 
+			*	If the selected Alpha is not a member of the currently selected category, then reset the menus 
 			*/
 			if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(alpha) === -1) {
 				this.filterInAll();

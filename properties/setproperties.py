@@ -27,20 +27,40 @@ class AToZProperties(object):
 			return content
 			
 class AToZList(object):
+	"""
+	Create an Object with keys as Category items, and values as an Array of A to Z items within that Category
+	"""
 	def load(self):
-		sections = memcache.get("atozlist")
-		if sections is not None:
-			logging.info("Got atozlist from memcache")
-			return sections
+		content = memcache.get("atozlistproperties")
+		if content is not None:
+			logging.info("Got atozlistproperties from memcache")
+			return content
 		else:
-			logging.info("NOT Got atozlist from memcache")
+			logging.info("NOT Got atozlistproperties from memcache")
+			# Get Categories
+			categoryCopyProperties = "properties/category.properties"
+			categoryCfg = ConfigParser()
+			categoryCfg.read(categoryCopyProperties)
+			
+			# Get A to Z list
 			atozCopyProperties = "properties/atoz.properties"
 			atozCfg = ConfigParser()
 			atozCfg.read(atozCopyProperties)
-			sections = sorted(atozCfg.sections())
-			memcache.add("atozlist", sections)
-			return sections
-						
+			atozsections = sorted(atozCfg.sections())
+			
+			content = {}
+			for i in categoryCfg.items("Categories"):
+				section = list()
+				content[i[0]] = section
+				
+				for j in atozsections:
+					for k in atozCfg.items(j):
+						if "article_tags" in k[0]:
+							if k[1] == i[0]:
+								section.append(j)
+			memcache.add("atozlistproperties", content)
+			return content
+								
 class CommonProperties(object):
 	def load(self):
 		content = memcache.get("commonproperties")
