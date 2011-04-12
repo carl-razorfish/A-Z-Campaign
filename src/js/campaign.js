@@ -44,11 +44,15 @@ RIA.AZCampaign = new Class({
 			this.addEventListeners();
 			this.createNumericKeyCodes();
 			
-			this.scrollFX = new Fx.Scroll(window, {
+			this.scrollFx = new Fx.Scroll(window, {
 				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel",
 				onComplete: function(e) {
+					/*
+					*	Reset the duration, in case is has changed velocity
+					*/
+					this.scrollFx.options.duration=1000;
 					Log.info("Scroll complete")
 					RIA.Campaign.getContentWithinViewport();
 				}.bind(this)
@@ -85,7 +89,7 @@ RIA.AZCampaign = new Class({
 		*		Load the content, e.g. image, for a specific Article
 		*/
 		article.ria.state = "loaded";
-		Log.info("Loaded Article "+article.get("id"));
+		//Log.info("Loaded Article "+article.get("id"));
 		var contentImage = article.getElement(".content-image img");
 		contentImage.set({
 			"src":contentImage.ria.original.src,
@@ -102,7 +106,7 @@ RIA.AZCampaign = new Class({
 		*		Unload the content, e.g. image, for a specific Article
 		*/
 		article.ria.state = "unloaded";
-		Log.info("Unloaded Article "+article.get("id"));
+		//Log.info("Unloaded Article "+article.get("id"));
 		var contentImage = article.getElement(".content-image img");
 		contentImage.set({
 			"src":contentImage.get("data-loading-src"),
@@ -143,7 +147,7 @@ RIA.AZCampaign = new Class({
 				filterFx: new Fx.Morph(article, {
    		 			duration: 'long',
 					link:"cancel",
-		    		transition: Fx.Transitions.Sine.easeOut
+		    		transition: "sine:in:out"
 				})
 			}
 			contentImage.ria = {
@@ -173,7 +177,6 @@ RIA.AZCampaign = new Class({
 	filterFx: function(article, inOrOut, set) {
 		
 		if(inOrOut && set) {
-			article.ria.required = true;
 			/*
 			*	Set the height immediately, so we can scroll to that element and it will be there
 			*/
@@ -184,10 +187,8 @@ RIA.AZCampaign = new Class({
 				'paddingTop':article.ria.paddingTop,
 				'paddingBottom':article.ria.paddingBottom
 			});
-
 		} else {
-			if(!inOrOut) article.ria.required = false;
-			
+			this.hideContent(article);
 			article.ria.filterFx.start({
 			    'height': (inOrOut ? article.ria.h : 0),
 			    'opacity': (inOrOut ? 1 : 0),
@@ -236,10 +237,7 @@ RIA.AZCampaign = new Class({
 		this.setAlphaNavState();
 		if(this.options.categories[category]) {
 			this.options.category = category;
-			/*
-			*	Reset any Window scroll position
-			*/
-			this.scrollFX.toTop();
+			
 			
 			/*
 			*	Set the Catrgory navigation
@@ -253,19 +251,29 @@ RIA.AZCampaign = new Class({
 				article.removeClass("active").removeClass("inactive");
 				/*
 				*	If the Article ID is not included in our Category Array, filter it out
-				*/
+				*/				
 				if(this.options.categories[category].indexOf(article.get("id")) === -1) {
+					article.ria.required = false;
 					this.filterFx(article, false, false);
 				}
 				/*
 				*	Else the Article ID is included in our Category Array, so filter it in
 				*/
 				else { 
+					article.ria.required = true;
+					
+					Log.info(article.get("id") + " : state : " + article.ria.state + " : required : " + article.ria.required);
+					
 					this.filterFx(article, true, false);
 					document.id("nav-alpha-"+article.get("id")).addClass("active");
 				}
 				
 			},this);
+			
+			/*
+			*	Reset any Window scroll position
+			*/
+			this.scrollFx.toTop();
 		}		
 	},
 	filterInAll: function() {
@@ -313,7 +321,8 @@ RIA.AZCampaign = new Class({
 		/*
 		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
 		*/
-		if(document.id(alpha)) {
+		var viewport = RIA.Util.getViewport(), article = document.id(alpha);
+		if(article) {
 			/*
 			*	If the selected Alpha is not a member of the currently selected category, then reset the menus 
 			*/
@@ -325,12 +334,21 @@ RIA.AZCampaign = new Class({
 			/*
 			*	Scroll to the selected Alpha
 			*/
-			this.scrollFX.toElement(alpha, 'y');			
+			if(article.getPosition().y < viewport.scrollTop) {
+				this.scrollFx.options.duration += 1*(Math.floor(Math.PI*((viewport.scrollTop - article.getPosition().y)/10)));
+			} else {
+				this.scrollFx.options.duration += 1*(Math.floor(Math.PI*((article.getPosition().y - viewport.scrollTop)/10)));
+			}
+			
+			
+			Log.info(this.scrollFx.options.duration);
+			this.scrollFx.toElement(alpha, 'y');			
 		}
+		viewport = article = null;
 	},
 	getContentWithinViewport: function(event) {
 		var viewport = RIA.Util.getViewport(),articlePos;
-	
+		Log.info("getContentWithinViewport()");
 		this.articles.each(function(article) {
 			articlePos = article.getPosition();
 			/*
@@ -339,12 +357,12 @@ RIA.AZCampaign = new Class({
 			*	[ST]TODO: Ensure that we are loading/unloading when necessary, e.g. filtered out content should be uncloaded even though it's coordinates are within the viewport range
 			*/
 			if((articlePos.y >= viewport.scrollTop && articlePos.y <= (viewport.scrollTop+viewport.h)) || (((articlePos.y+article.ria.h) >= viewport.scrollTop) && (articlePos.y+article.ria.h) <= (viewport.scrollTop+viewport.h))) {
-				//Log.info("article "+ article.get('id') +" with y top position of "+ articlePos.y +" is within viewport, with h : "+viewport.h);
-				//Log.info(article.get("id") + ", state : " +article.ria.state + ", required : " + article.ria.required)
-				if(article.ria.state != "loaded" && article.ria.required == true) this.showContent(article);
 				
+				//Log.info(article.get("id") + " : state : " + article.ria.state + " : required : " + article.ria.required);
+
+				if(article.ria.state != "loaded") this.showContent(article);				
 			} else {
-				//Log.info(article.get("id") + ", state : " +article.ria.state + ", required : " + article.ria.required)
+
 				this.hideContent(article);
 			}
 		},this);

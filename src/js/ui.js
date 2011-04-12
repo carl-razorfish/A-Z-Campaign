@@ -24,6 +24,6 @@ RIA.UI = {
 		} else {
 			if(this.navFX && this.navOffsetTop) this.navFX.start("top",(this.navOffsetTop+document.body.scrollTop));
 		}
-		
+		RIA.Campaign.getContentWithinViewport();
 	}
 }
