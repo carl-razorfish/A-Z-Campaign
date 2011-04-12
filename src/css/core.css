@@ -9,7 +9,9 @@ body {
 	-webkit-transition:all 1s ease-in-out;
 	*/
 }
-
+img {
+	border:none;
+}
 a {
 	outline:none;
 	text-decoration:none;

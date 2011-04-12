@@ -81,11 +81,12 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
-		Log.info(showHide);
-		var contentImage = article.getElement(".content-image img"),state;
-		state = (showHide ? "block" : "none");
-		contentImage.setStyle("display",state);		
-		contentImage = null;
+		var contentImage = article.getElement(".content-image img"), displayState, visibilityState;
+		//displayState = (showHide ? "block" : "none");
+		//contentImage.setStyle("display",displayState);	
+		visibilityState = (showHide ? "visible" : "hidden");
+		contentImage.setStyle("visibility",visibilityState);		
+		contentImage = displayState = visibilityState = null;
 	},
 	createNumericKeyCodes: function(){
 		/*
