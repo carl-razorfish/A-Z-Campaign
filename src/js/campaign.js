@@ -5,7 +5,8 @@ RIA.AZCampaign = new Class({
 		category:null,
 		filter:null,
 		keyCodes:{
-			"65":"a","66":"b","67":"c","68":"d","69":"e","70":"f","71":"g","72":"h","73":"i","74":"j","75":"k","76":"l","77":"m","78":"n","79":"o","80":"p","81":"q","82":"r","83":"s","84":"t","85":"u","86":"v","87":"w","88":"x","89":"y","90":"z"
+			"65":"a","66":"b","67":"c","68":"d","69":"e","70":"f","71":"g","72":"h","73":"i","74":"j","75":"k","76":"l","77":"m","78":"n","79":"o","80":"p","81":"q",
+			"82":"r","83":"s","84":"t","85":"u","86":"v","87":"w","88":"x","89":"y","90":"z"
 		}
 	},
 	initialize: function(options) {
@@ -34,16 +35,16 @@ RIA.AZCampaign = new Class({
 					this.scrollFx.options.duration = 1000;
 					this.getContentWithinViewport();
 					this.addScrollGetContentListener();
-					//this.setNavPosition();
 				}.bind(this)
 			});
 			
 			this.navFX = new Fx.Tween(this.navigation, {
-				duration:700,
-				transition:"sine:out",
-				link:"chain"
+				fps:50,
+				duration:1000,
+				transition:"sine:in:out",
+				link:"cancel"
 			});
-			
+
 			this.getContentWithinViewport();
 
 		} catch(e) {
@@ -58,6 +59,9 @@ RIA.AZCampaign = new Class({
 		var container = article.getElement(".container"), nav = article.getElement("nav");
 		
 		if(showHide === true) {
+			if(!article.getElement("iframe")) {
+				this.createFacebookLikeButton(article);
+			}
 			nav.setStyle('visibility','visible');	
 			if(!Browser.Platform.ios) {
 				container.tween('opacity',1);
@@ -334,8 +338,8 @@ RIA.AZCampaign = new Class({
 		*	Scroll to the selected Alpha
 		*/
 		
+		
 		this.scrollFx.toElement(articleId, 'y');			
-
 		articleElement = viewport = articleId = articlePos = null;
 	},
 	getScrollVelocity: function(a, b) {
@@ -367,7 +371,20 @@ RIA.AZCampaign = new Class({
 		if(!Browser.Platform.ios) {
 			this.navigation.setStyle('top',(this.navOffsetTop+document.body.scrollTop)+"px");
 		} else {
-			this.navFX.start("top",(this.navOffsetTop+document.body.scrollTop));
+			//this.navFX.start("top",""+(this.navOffsetTop+document.body.scrollTop));
+			this.navFX.set("top",(this.navOffsetTop+document.body.scrollTop));
+		}
+	},
+	createFacebookLikeButton: function(article) {
+		if(!article.getElement("iframe")) {
+			var iframe = new Element("iframe", {
+				"src":"http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fa-z-campaign.appspot.com/"+article.get("id")+"&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80&amp;ref=a-to-z-mcdonalds-"+article.get("id"),
+				"scrolling":"no",
+				"frameborder":0,
+				"alloowTransparency":"true",
+				"style":"border:none; overflow:hidden; width:450px; height:80px;"
+			}).inject(article.getElement("nav"),"bottom");
+
 		}
 	}
 });
