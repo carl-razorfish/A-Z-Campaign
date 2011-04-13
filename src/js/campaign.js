@@ -146,12 +146,19 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	addEventListeners: function() {
+		
+		
 		this.navigation.addEvent("click", this.selectEvent.bind(this));
 		// keep the onKeyUp event listener native, as we don't like Moo's extended features
 		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
 		window.addEvent("resize", this.getContentWithinViewport.bind(this));	
 		window.addEvent("scroll", this.setNavPosition.bind(this));	
-
+		document.getElements("input, textarea").addEvents({
+			"focus": function(e) {
+				Log.info(e.type);
+				this.removeEventListeners();
+			}.bind(this)
+		});
 		document.id("content").addEvents({
 			"click": function(e) {
 				if(e.target.hasClass("info")) {
@@ -165,7 +172,10 @@ RIA.AZCampaign = new Class({
 				}
 			}.bind(this)
 		});
-
+	},
+	removeEventListeners: function() {
+		this.navigation.removeEvents();
+		window.removeEvents();
 	},
 	addScrollGetContentListener: function() {
 		this.getContentBind = this.getContentWithinViewport.bind(this);
@@ -352,10 +362,9 @@ RIA.AZCampaign = new Class({
 		viewport = articlePos = null;
 	},
 	setNavPosition: function() {
-		Log.info("setNavPosition()");
 		if(!Browser.Platform.ios) {
-			if(this.navigation && this.navOffsetTop) this.navigation.setStyle('top',(this.navOffsetTop+document.body.scrollTop+"px"));
-		} else if(this.navFX && this.navOffsetTop) {
+			this.navigation.setStyle('top',(this.navOffsetTop+document.body.scrollTop)+"px");
+		} else {
 			this.navFX.start("top",(this.navOffsetTop+document.body.scrollTop));
 		}
 	}

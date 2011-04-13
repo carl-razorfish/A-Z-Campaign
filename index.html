@@ -109,10 +109,15 @@
 				</article>		
 				{% endfor %}
 			</div>
+			
+			<footer>
+				{{ common.footer }}
+			</footer>
+			
 			<div id="navigation">
 				<nav>
 					<ul id="categories">
-						<li><img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" /></li>
+						<li><a href="#" id="logo"><img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" /></a></li>
 						{% for cat in categories.items %}
 							<li><a class="{% ifequal cat.0 category %}active{% else %}inactive{% endifequal %}" id="nav-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>							
 						{% endfor %}
@@ -124,11 +129,6 @@
 					</ul>
 				</nav>
 			</div>
-			
-			<footer>
-				{{ common.footer }}
-			</footer>
-
 		</div>
 		<script type="text/javascript" src="js/scripts.js?v={{timestamp}}"></script>
 		<script type="text/javascript">
