@@ -4,11 +4,11 @@ article {
 	*/
 	padding:20px;
 	border:1px solid #333;
-	/*
+	
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
-	*/
+	
 	margin-bottom:50px;	
 	/*
 	-webkit-perspective: 2000;
@@ -40,6 +40,7 @@ article a {
 
 article div.container {
 	position:relative;
+	min-height:300px;
 }
 
 article section {	
@@ -58,6 +59,7 @@ article section.qanda {
 	position:absolute;
 	top:0px;
 	left:0px;
+	display:none;
 	/*
 	-webkit-transition: -webkit-transform 1s;
 	-webkit-transform: rotateY(-180deg);
@@ -67,13 +69,13 @@ article section.qanda {
 
 article section.qanda .qanda-container {
 	border:1px solid #333;
-	/*
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
-	*/
+	
 }
-article.questions section {
+article.questions section.content {
+	display:none;
 	/*
 	-webkit-transition: -webkit-transform 1s;
 	-webkit-transform: rotateY(180deg);
@@ -81,6 +83,7 @@ article.questions section {
 }
 
 article.questions section.qanda {
+	display:block;
 	/*
 	-webkit-transition: -webkit-transform 1s;
 	-webkit-transform: rotateY(0deg);
