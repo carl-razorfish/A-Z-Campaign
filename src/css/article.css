@@ -1,18 +1,25 @@
 article {
+	/*
 	overflow:hidden;
+	*/
 	padding:20px;
 	border:1px solid #333;
+	/*
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
+	*/
 	margin-bottom:50px;	
+	/*
+	-webkit-perspective: 2000;
+	-webkit-perspective-origin: 50% 50%;
+	-webkit-transform-style: preserve-3d;
+	*/
 }
 
 
 article.questions {
-	-webkit-perspective: 2000;
-	-webkit-perspective-origin: 50% 50%;
-	-webkit-transform-style: preserve-3d;	
+
 }
 
 article.inactive {
@@ -21,40 +28,78 @@ article.inactive {
 	top:-10000em;
 }
 
+article a.info {
+	background:url(http://www.mcdonalds.co.uk/static/img/icons/i.png) no-repeat top left;
+	width:57px;
+	height:57px;
+	text-indent:-10000em;
+}
 article a {
 	display:block;
-}
-
-article div.content {
-	position:relative;
 }
 
 article div.container {
 	position:relative;
 }
-article section {
-	
-	-webkit-transition: -webkit-transform 1s;
+
+article section {	
+	/*
+	-webkit-transition: all 1s;
 	-webkit-transform: rotateY(0deg);
 	-webkit-backface-visibility:hidden;
+	*/
 }
 
+/*
+*	Questions & Answers Section
+*/
 article section.qanda {
+	background:#fff;
 	position:absolute;
 	top:0px;
 	left:0px;
-	min-height:500px;
+	/*
 	-webkit-transition: -webkit-transform 1s;
 	-webkit-transform: rotateY(-180deg);
 	-webkit-backface-visibility:hidden;
+	*/
+}
+
+article section.qanda .qanda-container {
+	border:1px solid #333;
+	/*
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	*/
 }
 article.questions section {
+	/*
 	-webkit-transition: -webkit-transform 1s;
 	-webkit-transform: rotateY(180deg);
+	*/
 }
+
 article.questions section.qanda {
+	/*
 	-webkit-transition: -webkit-transform 1s;
 	-webkit-transform: rotateY(0deg);
+*/
+}
+
+article section.qanda header {
+	padding:5px 20px 0 20px;
+	cursor:pointer;
+	border-top:1px solid #333;
+}
+article section.qanda header:first-child {
+	border-top:none;
+}
+
+article section.qanda .answer p {
+	height:auto;
+	padding:5px 20px 20px 20px;
+
 }
 
 /*
@@ -93,8 +138,9 @@ section.layout-two-column .content-image {
 	float:left;
 	margin:0 20px 20px 0;
 	background:#999 url(../img/spinner.gif) no-repeat 48% 48%;
-	
+	/*
 	-moz-box-shadow: inset 0 0 20px #000;
 	-webkit-box-shadow: inset 0 0 40px #000;
 	box-shadow: inset 0 0 40px #000;
+	*/
 }

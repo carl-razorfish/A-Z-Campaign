@@ -1,35 +1,11 @@
 RIA.AZCampaign = new Class({
 	Implements:[Options],
 	options:{
+		categories:null,
+		category:null,
 		filter:null,
-		scrollMultiplier:100, // milliseconds
 		keyCodes:{
-			"65":"a",
-			"66":"b",
-			"67":"c",
-			"68":"d",
-			"69":"e",
-			"70":"f",
-			"71":"g",
-			"72":"h",
-			"73":"i",
-			"74":"j",
-			"75":"k",
-			"76":"l",
-			"77":"m",
-			"78":"n",
-			"79":"o",
-			"80":"p",
-			"81":"q",
-			"82":"r",
-			"83":"s",
-			"84":"t",
-			"85":"u",
-			"86":"v",
-			"87":"w",
-			"88":"x",
-			"89":"y",
-			"90":"z"
+			"65":"a","66":"b","67":"c","68":"d","69":"e","70":"f","71":"g","72":"h","73":"i","74":"j","75":"k","76":"l","77":"m","78":"n","79":"o","80":"p","81":"q","82":"r","83":"s","84":"t","85":"u","86":"v","87":"w","88":"x","89":"y","90":"z"
 		}
 	},
 	initialize: function(options) {
@@ -39,7 +15,7 @@ RIA.AZCampaign = new Class({
 			this.navigation = document.id("navigation");
 			// we must set a local variable for the original nav offsetTop. Later on we'll need to add this to current position of the nav
 			this.navOffsetTop = this.navigation.offsetTop;
-			this.navAlpha = document.getElements("#navigation #alphabet a");
+			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
 			this.storeArticleData();
 			this.addEventListeners();
@@ -54,9 +30,10 @@ RIA.AZCampaign = new Class({
 					this.removeScrollGetContentListener();
 				}.bind(this),
 				onComplete: function(e) {
-					this.scrollFx.options.duration=1000;
+					this.scrollFx.options.duration = 1000;
 					this.getContentWithinViewport();
 					this.addScrollGetContentListener();
+					//this.setNavPosition();
 				}.bind(this)
 			});
 			
@@ -77,12 +54,24 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
-		var contentImage = article.getElement(".content-image img"), displayState, visibilityState;
-		displayState = (showHide ? "block" : "none");
-		contentImage.setStyle("display",displayState);	
-		visibilityState = (showHide ? "visible" : "hidden");
-		contentImage.setStyle("visibility",visibilityState);		
-		contentImage = displayState = visibilityState = null;
+		var container = article.getElement(".container"), nav = article.getElement("nav");
+		
+		if(showHide === true) {
+			nav.setStyle('visibility','visible');	
+			if(!Browser.Platform.ios) {
+				container.tween('opacity',1);
+			} else {
+				container.setStyle('opacity',1);				
+			}	
+			
+		}
+		else {
+			container.setStyle('opacity',0);
+			nav.setStyle('visibility','hidden');
+		}
+		
+		container = nav = null;
+		
 	},
 	createNumericKeyCodes: function(){
 		/*
@@ -100,9 +89,7 @@ RIA.AZCampaign = new Class({
 		counter = null;
 	},
 	storeArticleData: function() {
-		var contentImage;
 		this.articles.each(function(article){
-			contentImage = article.getElement("img");
 			article.ria = {
 				w:Math.floor(parseFloat(article.getStyle("width"))),
 				h:Math.floor(parseFloat(article.getStyle("height"))),
@@ -110,19 +97,17 @@ RIA.AZCampaign = new Class({
 				paddingTop:article.getStyle("paddingTop"),
 				paddingBottom:article.getStyle("paddingBottom"),
 				filterFx: new Fx.Morph(article, {
-   		 			duration: 'long',
+   		 			duration: 1000,
 					link:"cancel",
 		    		transition: "sine:in:out"
+				}),
+				accordionFx: new Fx.Accordion($$('.question'), $$('.answer'), {
+    				display: -1,
+    				alwaysHide: true,
+					opacity: false,
+					duration:500
 				})
 			}
-			contentImage.ria = {
-				original:{
-					src:contentImage.get("src"),
-					w:contentImage.get("width"),
-					h:contentImage.get("height")					
-				}
-			}
-			
 			if(article.hasClass("inactive")) {
 				/*
 				*	[ST]TODO: Inactive Article elements do not appear to have the full, correct height set, apparently as the getStyle() method is not including HEADER and NAV elements in the calculation.
@@ -136,8 +121,6 @@ RIA.AZCampaign = new Class({
 				article.setStyle("height",0);
 			}
 		},this);
-		
-		contentImage = null;
 	},
 	filterFx: function(article, inOrOut, set) {
 		
@@ -153,7 +136,6 @@ RIA.AZCampaign = new Class({
 				'paddingBottom':article.ria.paddingBottom
 			});
 		} else {
-			this.handleContent(article, false);
 			article.ria.filterFx.start({
 			    'height': (inOrOut ? article.ria.h : 0),
 			    'opacity': (inOrOut ? 1 : 0),
@@ -172,13 +154,14 @@ RIA.AZCampaign = new Class({
 
 		document.id("content").addEvents({
 			"click": function(e) {
-				if(e.target.hasClass("q")) {
+				if(e.target.hasClass("info")) {
 					e.preventDefault();
-					if(document.getElement(".questions")) {
-						document.getElement(".questions").removeClass("questions");
+					var parent = e.target.getParent("article");		
+					if(parent.hasClass("questions")) {
+						parent.removeClass("questions");
+					} else {
+						parent.addClass("questions");
 					}
-					var parent = e.target.getParent("article");					
-					parent.addClass("questions");
 				}
 			}.bind(this)
 		});
@@ -190,6 +173,7 @@ RIA.AZCampaign = new Class({
 	},
 	removeScrollGetContentListener: function() {
 		window.removeEvent("scroll", this.getContentBind);
+		this.getContentBind = null;
 	},
 	keyboardEvent: function(e) {
 		if(!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
@@ -201,16 +185,19 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	selectEvent: function(e) {		
-		if(e.target.getAttribute("data-category")) {
-			e.preventDefault();
-			this.filter(e.target.getAttribute("data-category"));
+		e.preventDefault();
+		var targetCategory = e.targetTouches ? e.targetTouches[0].target.getAttribute("data-category") : e.target.getAttribute("data-category");
+		if(targetCategory) {			
+			this.filter(targetCategory);
 		}
+		targetCategory = null;
 	},
 	filter: function(filter) {
 		if(this.options.categories[filter]) {
 			this.filterByCategory(filter);			
-		} else {
-			this.goToAlphabet(filter);
+		} 
+		else if(document.id(filter)) {
+			this.goToArticle(document.id(filter));
 		}
 	},
 	filterByCategory: function(category) {
@@ -223,41 +210,44 @@ RIA.AZCampaign = new Class({
 		*	If the selected Category filter matches one we have...
 		*/
 		this.setAlphaNavState();
-		if(this.options.categories[category]) {
-			this.options.category = category;
-			
-			
+
+		this.options.category = category;
+		
+		
+		/*
+		*	Set the Catrgory navigation
+		*/
+		this.setCategoryNavState(category);
+		
+		/*
+		*	For each of the Articles...
+		*/
+		this.articles.each(function(article, index) {
+			article.removeClass("active").removeClass("inactive");
 			/*
-			*	Set the Catrgory navigation
-			*/
-			this.setCategoryNavState(category);
-			
+			*	If the Article ID is not included in our Category Array, filter it out
+			*/				
+			if(this.options.categories[category].indexOf(article.get("id")) === -1) {
+				document.id("nav-alpha-"+article.get("id")).addClass("inactive");
+				this.handleContent(article, false);
+				this.filterFx(article, false, false);
+			}
 			/*
-			*	For each of the Articles...
+			*	Else the Article ID is included in our Category Array, so filter it in
 			*/
-			this.articles.each(function(article, index) {
-				article.removeClass("active").removeClass("inactive");
-				/*
-				*	If the Article ID is not included in our Category Array, filter it out
-				*/				
-				if(this.options.categories[category].indexOf(article.get("id")) === -1) {
-					this.filterFx(article, false, false);
-				}
-				/*
-				*	Else the Article ID is included in our Category Array, so filter it in
-				*/
-				else { 
-					this.filterFx(article, true, false);
-					document.id("nav-alpha-"+article.get("id")).addClass("active");
-				}
-				
-			},this);
+			else { 
+				this.filterFx(article, true, false);
+				this.handleContent(article, false);
+				document.id("nav-alpha-"+article.get("id")).removeClass("inactive");
+			}
 			
-			/*
-			*	Reset any Window scroll position
-			*/
-			this.scrollFx.toTop();
-		}		
+		},this);
+		
+		/*
+		*	Reset any Window scroll position
+		*/
+		this.scrollFx.toTop();
+	
 	},
 	filterInAll: function() {
 		/*
@@ -275,8 +265,7 @@ RIA.AZCampaign = new Class({
 		*		Handles the Category menu nav state
 		*/
 		this.navCategories.each(function(category) {
-			category.removeClass("active");
-			category.removeClass("inactive");
+			category.removeClass("active").removeClass("inactive");
 			if(category.id == "nav-category-"+filter) category.addClass("active");
 		},this);
 	},
@@ -285,7 +274,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Handles the Alpha menu nav state
 		*/
-		this.navAlpha.each(function(alpha) {
+		this.navArticles.each(function(alpha) {
 			if(filter == "all") {
 				alpha.removeClass("inactive");
 				alpha.addClass("active");
@@ -300,34 +289,49 @@ RIA.AZCampaign = new Class({
 			}
 		},this);
 	},
-	goToAlphabet: function(alpha) {
+	goToArticle: function(articleElement) {
 		/*
 		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
 		*/
-		var viewport = RIA.Util.getViewport(), article = document.id(alpha);
-		if(article) {
-			/*
-			*	If the selected Alpha is not a member of the currently selected category, then reset the menus 
-			*/
-			if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(alpha) === -1) {
-				this.filterInAll();
-				this.setCategoryNavState();
-				this.setAlphaNavState("all");
-			} 
-			/*
-			*	Create a velocity curve, based on distance to the required Alpha content
-			*/
-			if(article.getPosition().y < viewport.scrollTop) {
-				this.scrollFx.options.duration += Math.floor(Math.PI*((viewport.scrollTop - article.getPosition().y)/10));
-			} else {
-				this.scrollFx.options.duration += Math.floor(Math.PI*((article.getPosition().y - viewport.scrollTop)/10));
-			}
-			/*
-			*	Scroll to the selected Alpha
-			*/
-			this.scrollFx.toElement(alpha, 'y');			
+		var viewport = RIA.Util.getViewport(), articleId = articleElement.get("id"), articlePos = articleElement.getPosition();
+	
+		this.articles.each(function(art) {
+			this.handleContent(art, false);
+		},this);
+		
+		/*
+		*	If the selected Alpha is not a member of the currently selected category, then reset the menus 
+		*/
+		if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(articleId) === -1) {
+			this.filterInAll();
+			this.setCategoryNavState();
+			this.setAlphaNavState("all");
+		} 
+		/*
+		*	Create a velocity curve, based on distance to the required Alpha content
+		*/
+		/*
+		*	Reset the Fx.Transition duration in case the chain has been cancelled and we are starting a new scroll
+		*/
+		this.scrollFx.options.duration = 1000;
+		if(articlePos.y < viewport.scrollTop) {
+			this.scrollFx.options.duration += this.getScrollVelocity(viewport.scrollTop, articlePos.y);
+		} else {
+			this.scrollFx.options.duration += this.getScrollVelocity(articlePos.y, viewport.scrollTop);
 		}
-		viewport = article = null;
+		/*
+		*	Scroll to the selected Alpha
+		*/
+		this.scrollFx.toElement(articleId, 'y');			
+
+		articleElement = viewport = articleId = articlePos = null;
+	},
+	getScrollVelocity: function(a, b) {
+		/*
+		*	Calculate the pixel distance between the 2 y coordinates provided, and apply return a time curve for sine:in:out Fx.Transition
+		*/
+		return Math.floor(Math.PI*((a - b)/10));
+		a = b = null;
 	},
 	getContentWithinViewport: function(event) {
 		var viewport = RIA.Util.getViewport(),articlePos;
@@ -348,8 +352,9 @@ RIA.AZCampaign = new Class({
 		viewport = articlePos = null;
 	},
 	setNavPosition: function() {
+		Log.info("setNavPosition()");
 		if(!Browser.Platform.ios) {
-			if(this.navigation && this.navOffsetTop) this.navigation.style.top = this.navOffsetTop+document.body.scrollTop+"px";
+			if(this.navigation && this.navOffsetTop) this.navigation.setStyle('top',(this.navOffsetTop+document.body.scrollTop+"px"));
 		} else if(this.navFX && this.navOffsetTop) {
 			this.navFX.start("top",(this.navOffsetTop+document.body.scrollTop));
 		}

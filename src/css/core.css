@@ -51,7 +51,7 @@ ul,dl,ol {
 
 #content {
 	width:900px;
-	height:768px;
+	min-height:768px;
 	margin:0 0 0 130px;
 	
 }

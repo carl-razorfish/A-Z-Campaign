@@ -5,12 +5,14 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/styles.css?v={{timestamp}}"/>
-		<link rel="icon" type="image/vnd.microsoft.icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
-    	<link rel="shorcut icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
+		<!--//
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:portrait)" href="css/portrait.css" />
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:landscape)" href="css/landscape.css" />
+		//-->
+		<link rel="icon" type="image/vnd.microsoft.icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
+    	<link rel="shorcut icon" href="http://www.mcdonalds.co.uk/static/icon/yellow-logo.ico" />
 		<script type="text/javascript">
-			document.write('<style type=\"text/css\">#content .content-image img {visibility:hidden;}</style>');
+			document.write('<style type=\"text/css\">.container {opacity:0;}</style>');
 		</script>
     </head>
     <body>	
@@ -53,15 +55,40 @@
 							{% endif %}							
 						</section>
 						<section class="qanda">
-							<header>
-								<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mauris odio, mollis ut viverra eget, semper interdum tortor. Ut arcu nisi, euismod nec tempus eleifend, convallis in sem. In justo libero, semper eget sagittis sit amet, pellentesque quis est. Fusce arcu est, feugiat vel dictum et, consectetur non eros. Donec suscipit adipiscing felis fringilla cursus. Mauris id vehicula justo. Proin vel nibh sapien. Cras et ultricies nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam eget leo tempor eros pellentesque luctus a non velit. Sed nisl diam, consequat in suscipit adipiscing, fermentum nec augue. Nulla quis orci justo, blandit sollicitudin eros. Nulla tincidunt dapibus massa. Ut et scelerisque lorem. Suspendisse augue odio, pellentesque eget porta eget, luctus at enim. Suspendisse potenti. Nulla sollicitudin velit sed nunc vestibulum vehicula. Praesent rhoncus varius ultricies.</h3>
-							</header>
-							<p>
-								Duis vestibulum placerat mi non semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi venenatis pharetra dui, nec faucibus augue ultrices non. Cras id tristique nisi. Vestibulum elementum porta porta. Nunc nisi dolor, dignissim in mattis vitae, blandit eu massa. Vivamus libero velit, scelerisque sed porta nec, tempor ac tellus. Nulla varius venenatis gravida. Morbi sed lobortis massa. Maecenas rhoncus imperdiet ligula non varius. Ut nec tortor in orci faucibus aliquet et ac sem. Nulla sollicitudin, mauris in viverra vestibulum, elit tortor tincidunt leo, id ultricies odio ligula nec velit. Nunc pretium odio a lectus iaculis a tristique nunc aliquam. Etiam adipiscing libero at enim rutrum mattis. Phasellus vehicula augue id neque molestie nec luctus dolor vulputate. Suspendisse vitae nunc risus, sit amet mattis dolor. Nunc in egestas mi. Quisque porta viverra est nec feugiat. Cras non consectetur purus. Maecenas vestibulum consectetur massa in aliquet.
-							</p>
-							<p>
-								Duis vestibulum placerat mi non semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi venenatis pharetra dui, nec faucibus augue ultrices non. Cras id tristique nisi. Vestibulum elementum porta porta. Nunc nisi dolor, dignissim in mattis vitae, blandit eu massa. Vivamus libero velit, scelerisque sed porta nec, tempor ac tellus. Nulla varius venenatis gravida. Morbi sed lobortis massa. Maecenas rhoncus imperdiet ligula non varius. Ut nec tortor in orci faucibus aliquet et ac sem. Nulla sollicitudin, mauris in viverra vestibulum, elit tortor tincidunt leo, id ultricies odio ligula nec velit. Nunc pretium odio a lectus iaculis a tristique nunc aliquam. Etiam adipiscing libero at enim rutrum mattis. Phasellus vehicula augue id neque molestie nec luctus dolor vulputate. Suspendisse vitae nunc risus, sit amet mattis dolor. Nunc in egestas mi. Quisque porta viverra est nec feugiat. Cras non consectetur purus. Maecenas vestibulum consectetur massa in aliquet.
-							</p>					
+							{% if article.question_1 and article.answer_1 %}
+							<div class="qanda-container">
+								{% if article.question_1 and article.answer_1 %}
+								<header class="question">
+									<h3>{{ article.question_1 }}</h3>
+								</header>							
+								{% endif %}	
+								{% if article.answer_1 %}
+								<div class="answer">
+									<p>{{ article.answer_1 }}</p>
+								</div>							
+								{% endif %}		
+								{% if article.question_2 and article.answer_2 %}
+								<header class="question">
+									<h3>{{ article.question_2 }}</h3>
+								</header>							
+								{% endif %}	
+								{% if article.answer_2 %}
+								<div class="answer">
+									<p>{{ article.answer_2 }}</p>
+								</div>							
+								{% endif %}
+								{% if article.question_3 and article.answer_3 %}
+								<header class="question">
+									<h3>{{ article.question_3 }}</h3>
+								</header>							
+								{% endif %}	
+								{% if article.answer_3 %}
+								<div class="answer">
+									<p>{{ article.answer_3 }}</p>
+								</div>							
+								{% endif %}
+							</div>	
+							{% endif %}
 						</section>
 					</div>
 					<nav>
@@ -76,7 +103,7 @@
 							//-->
 						</p>
 						<p>
-							<a class="q" href="#" title="">Questions &amp; Answers</a>
+							<a class="info" href="#" title="">Questions &amp; Answers</a>
 						</p>
 					</nav>			
 				</article>		

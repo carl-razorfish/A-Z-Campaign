@@ -58,7 +58,6 @@ class AToZList(object):
 					for k in atozCfg.items(j):
 						if "article_tags" in k[0]:
 							m = re.search(i[0], k[1])
-							logging.info(m)
 							if m is not None:
 								section.append(j)
 			memcache.add("atozlistproperties", content)
