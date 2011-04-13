@@ -23,6 +23,7 @@ RIA.AZCampaign = new Class({
 			this.createNumericKeyCodes();
 			
 			this.scrollFx = new Fx.Scroll(window, {
+				offset: {x: 0, y: -100},
 				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel",
@@ -332,6 +333,7 @@ RIA.AZCampaign = new Class({
 		/*
 		*	Scroll to the selected Alpha
 		*/
+		
 		this.scrollFx.toElement(articleId, 'y');			
 
 		articleElement = viewport = articleId = articlePos = null;

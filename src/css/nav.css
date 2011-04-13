@@ -105,8 +105,9 @@
 *	Alphabet
 */
 #navigation #alphabet {
-	float:left;
-	display:block;
+	position:absolute;
+	left:20px;
+	top:50px;
 }
 #navigation #alphabet li {
 	text-align:center;
