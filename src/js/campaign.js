@@ -52,6 +52,19 @@ RIA.AZCampaign = new Class({
 			*	If we have received an alpha filter, then we are just showing that Article
 			*	So, do not enable the event listeners	
 			*/
+			document.id("content").addEvents({
+				"click": function(e) {
+					if(e.target.hasClass("info")) {
+						e.preventDefault();
+						var parent = e.target.getParent("article");		
+						if(parent.hasClass("questions")) {
+							parent.removeClass("questions");
+						} else {
+							parent.addClass("questions");
+						}
+					}
+				}.bind(this)
+			});
 			if(!this.options.alpha || this.options.alpha == "") {
 				this.addEventListeners();
 				this.addScrollGetContentListener();
@@ -167,19 +180,7 @@ RIA.AZCampaign = new Class({
 		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
 		window.addEvent("resize", this.getContentWithinViewport.bind(this));	
 		window.addEvent("scroll", this.setNavPosition.bind(this));	
-		document.id("content").addEvents({
-			"click": function(e) {
-				if(e.target.hasClass("info")) {
-					e.preventDefault();
-					var parent = e.target.getParent("article");		
-					if(parent.hasClass("questions")) {
-						parent.removeClass("questions");
-					} else {
-						parent.addClass("questions");
-					}
-				}
-			}.bind(this)
-		});
+		
 	},
 	removeEventListeners: function() {
 		this.navigation.removeEvents();
