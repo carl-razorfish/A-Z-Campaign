@@ -390,7 +390,7 @@ RIA.AZCampaign = new Class({
 				"src":"http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fa-z-campaign.appspot.com/"+articleId+"&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80&amp;ref=a-to-z-mcdonalds-"+articleId,
 				"scrolling":"no",
 				"frameborder":0,
-				"alloowTransparency":"true",
+				"allowTransparency":"true",
 				"style":"border:none; overflow:hidden; width:450px; height:80px;"
 			}).inject(article.getElement("nav"),"bottom");
 

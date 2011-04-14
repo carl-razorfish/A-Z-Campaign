@@ -35,7 +35,6 @@ regexpURLAll = r"/(.*)"
 
 class HomeHandler(webapp.RequestHandler):
   def get(self, urlPath):
-	logging.info(urlPath)
 	timestamp = time.time()
 	alpha = ""
 	category = ""

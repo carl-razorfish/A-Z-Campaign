@@ -15,17 +15,16 @@ article {
 	*/
 }
 
-
-article.questions {
-
-}
-
 article p {
 	padding:10px;
 }
 
 article img.letter {
-	display:none;
+	/*
+	position:absolute;
+	left:10000em;
+	top:10000em;
+	*/
 }
 article.inactive {
 	position:absolute;
