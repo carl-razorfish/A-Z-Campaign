@@ -1,7 +1,7 @@
 <!DOCTYPE html xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">	
 <html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>{{ common.pagetitle }}</title>
+        <title>{% if alpha %}{% for article in content %}{% if article.id in alpha %}{{ article.header }} - {% endif %}{% endfor %}{% endif %}{% if category %}{% for cat in categories.items %}{% if category in cat.0 %}{{cat.1}} - {% endif %}{% endfor %}{% endif %}{{ common.pagetitle }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/styles.css?v={{timestamp}}"/>
@@ -18,6 +18,7 @@
     <body>	
 		<div id="shell">
 			<div id="content">
+				<a name="top"></a>
 				<header>
 					<h1>{{ common.header }}</h1>
 				</header>
@@ -107,7 +108,10 @@
 					</article>	
 						{% endif %}
 					{% else %}
-					<article id="{{ article.id }}" data-tags="{{ article.article_tags }}" class="{% if category %}{% if category in article.article_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}">
+					<article id="{{ article.id }}" data-tags="{{ article.article_tags }}" class="
+					{% if category %}
+						{% ifequal category 'all' %}active{% else %}{% if category in article.article_tags %}active{% else %}inactive{% endif %}{% endifequal %}												
+					{% endif %}">
 						<a name="{{ article.id }}"></a>
 						<header>
 							<h2>{{ article.header }}</h2>						
@@ -186,9 +190,10 @@
 							<p>
 								<a class="info" href="#" title="">Questions &amp; Answers</a>
 							</p>
-						</nav>			
-					</article>		
-					{% endif %}
+						</nav>	
+						<a href="#top" class="js-hide">Back to top</a>		
+					</article>							
+					{% endif %}					
 				{% endfor %}
 			</div>
 			
@@ -207,10 +212,11 @@
 					{% comment %}
 						1. For pre-filtered category display, e.g. with JS disabled, we want to reload the page and go to the Alpha article if the Article is not in the list
 						2. With no category filter, all articles should be on the page so use a hash instead
+						3. For pages loaded with an alpha filter, we want to reload the page with all alpha articles and jump to the required alpha
 					{% endcomment %}
 					<ul id="alphabet">
 						{% for article in content %}
-							<li><a class="{% if category %}{% if category in article.article_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" id="nav-alpha-{{ article.id }}" data-category="{{ article.id }}" href="/{% if category %}{% if category in article.article_tags %}{{category}}#{% endif %}{% endif %}{% if alpha %}{{ alpha }}#{% endif %}{{ article.id }}">{{ article.menu }}</a></li>
+							<li><a class="{% if category %}{% if category in article.article_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" id="nav-alpha-{{ article.id }}" data-category="{{ article.id }}" href="/{% if not category and not alpha %}#{{ article.id }}{% endif %}{% if category %}{% if category in article.article_tags %}{{category}}#{{article.id}}{% else %}#{{article.id}}{% endif %}{% endif %}{% if alpha %}#{{article.id}}{% endif %}">{{ article.menu }}</a></li>
 						{% endfor %}
 					</ul>
 				</nav>

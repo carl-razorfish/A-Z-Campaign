@@ -13,6 +13,8 @@ RIA.AZCampaign = new Class({
 	initialize: function(options) {
 		try {
 			this.setOptions(options);
+			document.getElements(".js-hide").setStyle("display","none");
+			
 			this.articles = document.getElements("article");			
 			this.navigation = document.id("navigation");
 			// we must set a local variable for the original nav offsetTop. Later on we'll need to add this to current position of the nav
@@ -165,12 +167,6 @@ RIA.AZCampaign = new Class({
 		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
 		window.addEvent("resize", this.getContentWithinViewport.bind(this));	
 		window.addEvent("scroll", this.setNavPosition.bind(this));	
-		document.getElements("input, textarea").addEvents({
-			"focus": function(e) {
-				Log.info(e.type);
-				this.removeEventListeners();
-			}.bind(this)
-		});
 		document.id("content").addEvents({
 			"click": function(e) {
 				if(e.target.hasClass("info")) {
@@ -350,9 +346,6 @@ RIA.AZCampaign = new Class({
 		*	Scroll to the selected Alpha
 		*/
 		
-		Log.info(this.scrollFx.options.duration)
-		Log.info(viewport.scrollTop)
-		Log.info(articlePos.y);
 		this.scrollFx.toElement(articleId, 'y');			
 		articleElement = viewport = articleId = articlePos = null;
 	},
