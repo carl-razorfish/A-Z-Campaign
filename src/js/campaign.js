@@ -1,6 +1,7 @@
 RIA.AZCampaign = new Class({
 	Implements:[Options],
 	options:{
+		alpha:null,
 		categories:null,
 		category:null,
 		filter:null,
@@ -19,8 +20,6 @@ RIA.AZCampaign = new Class({
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a");
 			this.storeArticleData();
-			this.addEventListeners();
-			this.addScrollGetContentListener();
 			this.createNumericKeyCodes();
 			
 			this.scrollFx = new Fx.Scroll(window, {
@@ -47,6 +46,14 @@ RIA.AZCampaign = new Class({
 
 			this.getContentWithinViewport();
 
+			/*
+			*	If we have received an alpha filter, then we are just showing that Article
+			*	So, do not enable the event listeners	
+			*/
+			if(!this.options.alpha || this.options.alpha == "") {
+				this.addEventListeners();
+				this.addScrollGetContentListener();
+			}
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
 		}
@@ -308,10 +315,10 @@ RIA.AZCampaign = new Class({
 		/*
 		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
 		*/
-		var viewport = RIA.Util.getViewport(), articleId = articleElement.get("id"), articlePos = articleElement.getPosition();
-	
+		var viewport = RIA.Util.getViewport(), articleId = articleElement.get("id"), articlePos;
+
 		this.articles.each(function(art) {
-			this.handleContent(art, false);
+			this.handleContent(art, false);	
 		},this);
 		
 		/*
@@ -322,6 +329,11 @@ RIA.AZCampaign = new Class({
 			this.setCategoryNavState();
 			this.setAlphaNavState("all");
 		} 
+		/*
+		*	Now get the Element Position, in case we have removed any CSS classes for filtered out content in filterInAll()
+		*/
+		articlePos = articleElement.getPosition();
+		
 		/*
 		*	Create a velocity curve, based on distance to the required Alpha content
 		*/
@@ -338,7 +350,9 @@ RIA.AZCampaign = new Class({
 		*	Scroll to the selected Alpha
 		*/
 		
-		
+		Log.info(this.scrollFx.options.duration)
+		Log.info(viewport.scrollTop)
+		Log.info(articlePos.y);
 		this.scrollFx.toElement(articleId, 'y');			
 		articleElement = viewport = articleId = articlePos = null;
 	},
@@ -377,8 +391,9 @@ RIA.AZCampaign = new Class({
 	},
 	createFacebookLikeButton: function(article) {
 		if(!article.getElement("iframe")) {
+			var articleId = article.get("id");
 			var iframe = new Element("iframe", {
-				"src":"http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fa-z-campaign.appspot.com/"+article.get("id")+"&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80&amp;ref=a-to-z-mcdonalds-"+article.get("id"),
+				"src":"http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fa-z-campaign.appspot.com/"+articleId+"&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80&amp;ref=a-to-z-mcdonalds-"+articleId,
 				"scrolling":"no",
 				"frameborder":0,
 				"alloowTransparency":"true",

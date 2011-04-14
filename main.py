@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+from google.appengine.dist import use_library
+use_library('django', '1.2')
 
 import cgi
 import logging
@@ -33,15 +37,16 @@ class HomeHandler(webapp.RequestHandler):
   def get(self, urlPath):
 	
 	timestamp = time.time()
-	alpha = None
-	category = None
+	alpha = ""
+	category = ""
 	path = os.path.join(os.path.dirname(__file__),'index.html')
 	if urlPath is not None:
 		if len(urlPath) < 2:
 			alpha = urlPath
 		else:
 			category = urlPath
-	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=AToZList)
+
+	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList))
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')

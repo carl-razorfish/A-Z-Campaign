@@ -49,7 +49,7 @@ class AToZList(object):
 			atozCfg.read(atozCopyProperties)
 			atozsections = sorted(atozCfg.sections())
 			
-			content = {}
+			content = dict()
 			for i in categoryCfg.items("Categories"):
 				section = list()
 				content[i[0]] = section
@@ -59,7 +59,7 @@ class AToZList(object):
 						if "article_tags" in k[0]:
 							m = re.search(i[0], k[1])
 							if m is not None:
-								section.append(j)
+								section.append(""+j)
 			memcache.add("atozlistproperties", content)
 			return content
 								
