@@ -20,7 +20,7 @@ RIA.AZCampaign = new Class({
 			// we must set a local variable for the original nav offsetTop. Later on we'll need to add this to current position of the nav
 			this.navOffsetTop = this.navigation.offsetTop;
 			this.navArticles = document.getElements("#navigation #alphabet a");
-			this.navCategories = document.getElements("#navigation #categories a");
+			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
 			this.storeArticleData();
 			this.createNumericKeyCodes();
 			
@@ -283,8 +283,9 @@ RIA.AZCampaign = new Class({
 		*		Handles the Category menu nav state
 		*/
 		this.navCategories.each(function(category) {
+			Log.info(category)
 			category.removeClass("active").removeClass("inactive");
-			if(category.id == "nav-category-"+filter) category.addClass("active");
+			if(category.id.test(filter)) category.addClass("active");
 		},this);
 	},
 	setAlphaNavState: function(filter) {

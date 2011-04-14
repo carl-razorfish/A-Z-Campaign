@@ -1,7 +1,5 @@
 article {
-	/*
 	overflow:hidden;
-	*/
 	padding:20px;
 	border:1px solid #333;
 	
@@ -26,6 +24,9 @@ article p {
 	padding:10px;
 }
 
+article img.letter {
+	display:none;
+}
 article.inactive {
 	position:absolute;
 	left:-10000em;
@@ -110,28 +111,6 @@ article section.qanda .answer p {
 
 }
 
-/*
-*	Section Category Nav
-*/
-article section .food {
-	
-}
-
-article section .people {
-	
-}
-
-article section .community {
-	
-}
-
-article section .planet {
-	
-}
-
-article section .london2012 {
-	
-}
 
 /*
 *	Section content layout

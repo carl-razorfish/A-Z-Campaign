@@ -28,7 +28,8 @@
 						<article id="{{ article.id }}" data-tags="{{ article.article_tags }}" class="{% if category %}{% if category in article.article_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}">
 						<a name="{{ article.id }}"></a>
 						<header>
-							<h2>{{ article.header }}</h2>						
+							<h2>{{ article.header }}</h2>
+							<img class="letter" src="img/{{article.id}}/letter.jpg" width="90" height="90" alt="{{article.menu}}"/>
 						</header>
 					
 						<div class="container">
@@ -206,7 +207,7 @@
 					<ul id="categories">
 						<li><a href="#" id="logo"><img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" /></a></li>
 						{% for cat in categories.items %}
-							<li><a class="{% ifequal cat.0 category %}active{% else %}inactive{% endifequal %}" id="nav-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>							
+							<li><a class="{% ifequal cat.0 category %}active {{category}}{% else %}inactive {{category}}{% endifequal %}" id="nav-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>							
 						{% endfor %}
 					</ul>
 					{% comment %}
