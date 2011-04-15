@@ -45,19 +45,16 @@ class HomeHandler(BaseHandler):
 	alpha = ""
 	category = ""
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-
 	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList))
 	self.response.out.write(template.render(path,args))
-  def post(self, urlPath):
+  def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.html')
-    args = dict(urlPath=urlPath)
-    self.response.out.write(template.render(path,args))
+
+    self.response.out.write(template.render(path,{}))
 
 		
 class ViewHandler(BaseHandler):
   def get(self, urlPath):
-	#logging.info("self._urlPath")
-	logging.info(self.request.path)
 	timestamp = time.time()
 	alpha = ""
 	category = ""
@@ -77,8 +74,6 @@ class ViewHandler(BaseHandler):
 
 class Error404Handler(webapp.RequestHandler):
   def get(self, urlPath):
-	logging.info(urlPath)
-	
 	self.error(404)
 	timestamp = time.time()
 	args = dict(timestamp=timestamp,content=content,common=common,categories=categories)
