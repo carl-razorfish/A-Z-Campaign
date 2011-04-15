@@ -386,8 +386,8 @@ RIA.AZCampaign = new Class({
 	},
 	createFacebookLikeButton: function(article) {
 		if(!article.getElement("iframe")) {
-			var articleId = article.get("id");
-			var iframe = new Element("iframe", {
+			var articleId = article.get("id"),iframe;
+			iframe = new Element("iframe", {
 				"src":"http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fa-z-campaign.appspot.com/"+articleId+"&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80&amp;ref=a-to-z-mcdonalds-"+articleId,
 				"scrolling":"no",
 				"frameborder":0,
