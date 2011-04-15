@@ -16,9 +16,9 @@ RIA.AZCampaign = new Class({
 			document.getElements(".js-hide").setStyle("display","none");
 			
 			this.articles = document.getElements("article");			
-			this.navigation = document.id("navigation");
-			// we must set a local variable for the original nav offsetTop. Later on we'll need to add this to current position of the nav
-			this.navOffsetTop = this.navigation.offsetTop;
+			this.navigation = document.getElements("#navigation, ul.categories");
+			// we must set a local variable for the original navigation Element offsetTop. Later on we'll need to add this to current position of the nav
+			this.navOffsetTop = document.id("navigation").offsetTop;
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
 			this.storeArticleData();
@@ -66,6 +66,7 @@ RIA.AZCampaign = new Class({
 				}.bind(this)
 			});
 			if(!this.options.alpha || this.options.alpha == "") {
+				Log.info("adding event listeners");
 				this.addEventListeners();
 				this.addScrollGetContentListener();
 			}
@@ -352,7 +353,7 @@ RIA.AZCampaign = new Class({
 	},
 	getScrollVelocity: function(a, b) {
 		/*
-		*	Calculate the pixel distance between the 2 y coordinates provided, and apply return a time curve for sine:in:out Fx.Transition
+		*	Calculate the pixel distance between the two y coordinates provided, and apply return a time curve for sine:in:out Fx.Transition
 		*/
 		return Math.floor(Math.PI*((a - b)/10));
 		a = b = null;

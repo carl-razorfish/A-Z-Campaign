@@ -116,7 +116,10 @@
 						{% ifequal category 'all' %}active{% else %}{% if category in article.article_tags %}active{% else %}inactive{% endif %}{% endifequal %}												
 					{% endif %}">
 						<a name="{{ article.id }}"></a>
+						{% comment %}
+						<!--// Only load the letter image on single Alphabet page view, as it's used by Facebook Likes //-->
 						<img class="letter" src="img/{{article.id}}/letter.jpg" width="90" height="90" alt="{{article.menu}}"/>
+						{% endcomment %}
 						<header>
 							<h2>{{ article.header }}</h2>		
 											
@@ -205,7 +208,7 @@
 			</div>
 			
 			<footer>
-				{{ common.footer }}
+				{{ common.footer|safe }}
 			</footer>
 			
 			<div id="navigation">
