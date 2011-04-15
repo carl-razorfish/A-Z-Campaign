@@ -19,6 +19,7 @@
 
 #navigation #categories a,
 #navigation #categories a.inactive,
+article nav ul.categories a,
 article nav ul.categories a.inactive {
 	color:#fff;
 	font-size:0.9em;
@@ -41,7 +42,7 @@ article nav ul.categories a.inactive {
 }
 
 #navigation #categories a.active,
-article nav ul.categories a {
+article nav ul.categories a.active {
 	background: -moz-linear-gradient(top, #cd1e24, #b61816);
     background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cd1e24', EndColorStr='#b61816', GradientType=0);

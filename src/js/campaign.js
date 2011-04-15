@@ -284,7 +284,6 @@ RIA.AZCampaign = new Class({
 		*		Handles the Category menu nav state
 		*/
 		this.navCategories.each(function(category) {
-			Log.info(category)
 			category.removeClass("active").removeClass("inactive");
 			if(category.id.test(filter)) category.addClass("active");
 		},this);
