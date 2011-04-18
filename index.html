@@ -16,7 +16,7 @@
     <body>	
 		<div id="shell">
 			<div id="content">
-				{% include "header.html" %}			
+				{% include "includes/header.html" %}			
 				{% for article in content %}
 					{% if alpha %}{% if article.id in alpha %}{% include "includes/article.html" %}{% endif %}{% else %}{% include "includes/article.html" %}{% endif %}
 				{% endfor %}
