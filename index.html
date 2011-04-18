@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/styles.css?v={{timestamp}}"/>
-		{% include "og.meta.html" %}			
+		{% include "includes/og.meta.html" %}			
 		<!--//
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:portrait)" href="css/portrait.css" />
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:landscape)" href="css/landscape.css" />
@@ -20,15 +20,15 @@
 				{% for article in content %}
 					{% if alpha %}
 						{% if article.id in alpha %}
-						{% include "article.html" %}
+						{% include "includes/article.html" %}
 						{% endif %}
 					{% else %}
-					{% include "article.html" %}							
+					{% include "includes/article.html" %}							
 					{% endif %}					
 				{% endfor %}
 			</div>
-			{% include "footer.html" %}			
-			{% include "navigation.html" %}			
+			{% include "includes/footer.html" %}			
+			{% include "includes/navigation.html" %}			
 		</div>
 		<script type="text/javascript" src="js/scripts.js?v={{timestamp}}"></script>
 		<script type="text/javascript">
