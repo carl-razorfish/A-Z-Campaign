@@ -7,8 +7,10 @@
 		<section id="{{ article.section_id }}" class="content {{ article.section_layout }}">
 			{% if article.section_statement1 %}<p>{{ article.section_statement1 }}</p>{% endif %}
 			{% if article.section_img %}
-			<div class="content-image">
-				<img width="344" height="237" data-loading-width="14" data-loading-height="14" data-main-width="344" data-main-height="237" data-loading-src="img/spinner.gif" data-main-src="img/{{ article.id }}/main.jpg" src="img/{{ article.id }}/main.jpg" alt="{{ article.header }}" />					
+			<div class="content-image" data-loading-width="14" data-loading-height="14" data-main-width="344" data-main-height="237" data-loading-src="img/spinner.gif" data-main-src="img/{{ article.id }}/main.jpg" data-alt="{{ article.header }}">
+				<noscript>
+					<img width="344" height="237" src="img/{{ article.id }}/main.jpg" alt="{{ article.header }}" />					
+				</noscript>
 			</div>
 			{% endif %}
 			{% if article.section_statement2 %}<p>{{ article.section_statement2 }}</p>{% endif %}

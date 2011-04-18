@@ -8,7 +8,8 @@ RIA.AZCampaign = new Class({
 		keyCodes:{
 			"65":"a","66":"b","67":"c","68":"d","69":"e","70":"f","71":"g","72":"h","73":"i","74":"j","75":"k","76":"l","77":"m","78":"n","79":"o","80":"p","81":"q",
 			"82":"r","83":"s","84":"t","85":"u","86":"v","87":"w","88":"x","89":"y","90":"z"
-		}
+		},
+		alphabet:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 	},
 	initialize: function(options) {
 		try {
@@ -75,6 +76,7 @@ RIA.AZCampaign = new Class({
 			} else {
 				window.addEvent("resize", this.windowResizeEvent.bind(this));
 			}
+
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign : initialize() : Error : ", error:e});
 		}
@@ -91,31 +93,44 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
-		var container = article.getElement(".container"), nav = article.getElement("nav"), mainImage = article.getElement(".content-image img");
-		
+		var container = article.getElement(".container"), nav = article.getElement("nav"), mainImageContainer = article.getElement(".content-image"), mainImage;
+		mainImage = mainImageContainer.getElement("img");
+
 		if(showHide === true) {
-			if(!article.getElement("iframe")) {
-				this.createFacebookLikeButton(article);
+			if(!mainImage) {
+				mainImageContainer.adopt(
+					mainImage = new Element("img", {
+						"src":mainImageContainer.get("data-main-src"),
+						"width":mainImageContainer.get("data-main-width"),
+						"height":mainImageContainer.get("data-main-height"),
+						"alt":mainImageContainer.get("data-alt")
+					})
+				);
 			}
+			
 			nav.setStyle('visibility','visible');
-			mainImage.set("src",mainImage.get("data-main-src"));
-			mainImage.set("width",mainImage.get("data-main-width"));
-			mainImage.set("height",mainImage.get("data-main-height"));
+			mainImage.set("src",mainImageContainer.get("data-main-src"));
+			mainImage.set("width",mainImageContainer.get("data-main-width"));
+			mainImage.set("height",mainImageContainer.get("data-main-height"));
 			if(!Browser.Platform.ios) {
 				container.tween('opacity',1);
 			} else {
 				container.setStyle('opacity',1);				
-			}				
+			}	
+			
+			if(!article.getElement("iframe")) {
+				this.createFacebookLikeButton(article);
+			}			
 		}
 		else {
 			container.setStyle('opacity',0);
 			nav.setStyle('visibility','hidden');
-			mainImage.set("src",mainImage.get("data-loading-src"));
-			mainImage.set("width",mainImage.get("data-loading-width"));
-			mainImage.set("height",mainImage.get("data-loading-height"));
+			if(mainImage) {
+				mainImage.set("src","data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
+			}
 		}
 		
-		container = nav = mainImage = null;
+		container = nav = mainImage = mainImageContainer = null;
 		
 	},
 	storeArticleData: function() {
@@ -184,8 +199,10 @@ RIA.AZCampaign = new Class({
 		this.navigation.addEvent("click", this.selectEvent.bind(this));
 		// keep the onKeyUp event listener native, as we don't like Moo's extended features
 		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
-		window.addEvent("resize", this.windowResizeEvent.bind(this));	
-		window.addEvent("scroll", this.setNavPosition.bind(this));			
+		window.addEvent("resize", this.windowResizeEvent.bind(this));
+		if(Browser.Platform.ios) {	
+			window.addEvent("scroll", this.setNavPosition.bind(this));			
+		}
 	},
 	removeEventListeners: function() {
 		this.navigation.removeEvents();
@@ -211,10 +228,12 @@ RIA.AZCampaign = new Class({
 	selectEvent: function(e) {		
 		e.preventDefault();
 		var targetCategory = e.targetTouches ? e.targetTouches[0].target.getAttribute("data-category") : e.target.getAttribute("data-category");
+
 		if(targetCategory) {			
 			this.filter(targetCategory);
 		}
 		targetCategory = null;
+
 	},
 	filter: function(filter) {
 		if(this.options.categories[filter]) {
@@ -229,6 +248,11 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Filter content by Category
 		*/
+		
+		/*
+		*	If the User selects a category we are already on, do not apply transitions
+		*/
+		if(this.options.category === category) return;
 		
 		/*
 		*	If the selected Category filter matches one we have...
@@ -377,9 +401,10 @@ RIA.AZCampaign = new Class({
 		viewport = articlePos = null;
 	},
 	setNavPosition: function() {
-		if(Browser.Platform.ios) {
-			this.navFX.set("top",(this.navOffsetTop+document.body.scrollTop));
-		}
+		Log.info("this.navOffsetTop: "+this.navOffsetTop);
+		Log.info("document.body.scrollTop: "+document.body.scrollTop);
+		Log.info(this.navFX)
+		this.navFX.set("top",(this.navOffsetTop+document.body.scrollTop));
 	},
 	createFacebookLikeButton: function(article) {
 		if(!article.getElement("iframe")) {
@@ -391,7 +416,6 @@ RIA.AZCampaign = new Class({
 				"allowTransparency":"true",
 				"style":"border:none; overflow:hidden; width:450px; height:80px;"
 			}).inject(article.getElement("nav"),"bottom");
-
 		}
 	},
 	windowResizeEvent: function() {
