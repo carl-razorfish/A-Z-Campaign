@@ -1,5 +1,5 @@
-{% for article in content %}
-	{% if alpha %}
+{% if alpha %}
+	{% for article in content %}
 		{% if article.id in alpha %}
 		<meta property="og:title" content="{{ article.header }}" />
 		<meta property="og:type" content="website" />
@@ -8,8 +8,14 @@
 		<meta property="og:description" content="{{ article.section_statement1 }}" />
 		<meta property="fb:admins" content="" />
 		<meta property="keywords" content="{{ article.category_tags }}" />
-		{% endif %}
-	{% else %}
-						
-	{% endif %}					
-{% endfor %}
+		{% endif %}				
+	{% endfor %}
+{% else %}	
+		<meta property="og:title" content="{{ common.pagetitle|safe }}" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://a-z-campaign.appspot.com/" />
+		<meta property="og:image" content="http://a-z-campaign.appspot.com/img/nav-logo.png" />
+		<meta property="og:description" content="{{ common.description|safe }}" />
+		<meta property="fb:admins" content="" />
+		<meta property="keywords" content="" />
+{% endif %}	

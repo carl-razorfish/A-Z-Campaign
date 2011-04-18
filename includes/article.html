@@ -1,84 +1,61 @@
 <article id="{{ article.id }}" data-tags="{{ article.category_tags }}" class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}">
-	<div>
-		<a name="{{ article.id }}"></a>
-		<header>
-			<h2>{{ article.header }}</h2>							
-		</header>
-
-		<div class="container">
-			<section id="{{ article.section_id }}" class="content {{ article.section_layout }}">
-				{% if article.section_statement1 %}
-				<p>
-				{{ article.section_statement1 }}	
-				</p>
-				{% endif %}
-
-				{% if article.section_img %}
-				<div class="content-image">
-					<img width="344" height="237" src="img/{{ article.id }}/main.jpg" alt="{{ article.header }}" />					
-				</div>
-				{% endif %}
-
-				{% if article.section_statement2 %}
-				<p>
-				{{ article.section_statement2 }}	
-				</p>
-				{% endif %}
-				{% if article.section_statement3 %}
-				<p>
-				{{ article.section_statement3 }}	
-				</p>
-				{% endif %}							
-			</section>
-			<section class="qanda">
+	<a name="{{ article.id }}"></a>
+	<header>
+		<h2>{{ article.header }}</h2>							
+	</header>
+	<div class="container">
+		<section id="{{ article.section_id }}" class="content {{ article.section_layout }}">
+			{% if article.section_statement1 %}<p>{{ article.section_statement1 }}</p>{% endif %}
+			{% if article.section_img %}
+			<div class="content-image">
+				<img width="344" height="237" data-loading-src="img/spinner.gif" data-main-src="img/{{ article.id }}/main.jpg" src="img/{{ article.id }}/main.jpg" alt="{{ article.header }}" />					
+			</div>
+			{% endif %}
+			{% if article.section_statement2 %}<p>{{ article.section_statement2 }}</p>{% endif %}
+			{% if article.section_statement3 %}<p>{{ article.section_statement3 }}</p>{% endif %}
+		</section>
+		{% if article.question_1 and article.answer_1 %}
+		<section class="qanda">
+			<div class="qanda-container">
 				{% if article.question_1 and article.answer_1 %}
-				<div class="qanda-container">
-					{% if article.question_1 and article.answer_1 %}
-					<header class="question">
-						<h3>{{ article.question_1 }}</h3>
-					</header>							
-					{% endif %}	
-					{% if article.answer_1 %}
-					<div class="answer">
-						<p>{{ article.answer_1 }}</p>
-					</div>							
-					{% endif %}		
-					{% if article.question_2 and article.answer_2 %}
-					<header class="question">
-						<h3>{{ article.question_2 }}</h3>
-					</header>							
-					{% endif %}	
-					{% if article.answer_2 %}
-					<div class="answer">
-						<p>{{ article.answer_2 }}</p>
-					</div>							
-					{% endif %}
-					{% if article.question_3 and article.answer_3 %}
-					<header class="question">
-						<h3>{{ article.question_3 }}</h3>
-					</header>							
-					{% endif %}	
-					{% if article.answer_3 %}
-					<div class="answer">
-						<p>{{ article.answer_3 }}</p>
-					</div>							
-					{% endif %}
-				</div>	
+				<header class="question">
+					<h3>{{ article.question_1 }}</h3>
+				</header>							
+				<div class="answer">
+					<p>{{ article.answer_1 }}</p>
+				</div>							
+				{% endif %}		
+				{% if article.question_2 and article.answer_2 %}
+				<header class="question">
+					<h3>{{ article.question_2 }}</h3>
+				</header>							
+				<div class="answer">
+					<p>{{ article.answer_2 }}</p>
+				</div>							
 				{% endif %}
-			</section>
-		</div>
-		<nav>
-			<ul class="categories">
-			{% for cat in categories.items %}
-				{% if cat.0 in article.category_tags %}
-				<li><a class="{% if category %}{% ifequal category cat.0 %}active{% else %}inactive{% endifequal %}{% else %}inactive{% endif %}" id="content-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
+				{% if article.question_3 and article.answer_3 %}
+				<header class="question">
+					<h3>{{ article.question_3 }}</h3>
+				</header>							
+				<div class="answer">
+					<p>{{ article.answer_3 }}</p>
+				</div>							
 				{% endif %}
-			{% endfor %}
-			</ul>
-			<p>
-				<a class="info" href="#" title="">Questions &amp; Answers</a>
-			</p>
-			<a class="js-hide" href="#top">Back to top</a>
-		</nav>	
-	</div>		
+			</div>				
+		</section>
+		{% endif %}
+	</div>
+	<nav>
+		<ul class="categories">
+		{% for cat in categories.items %}
+			{% if cat.0 in article.category_tags %}
+			<li><a class="{% if category %}{% ifequal category cat.0 %}active{% else %}inactive{% endifequal %}{% else %}inactive{% endif %}" id="content-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
+			{% endif %}
+		{% endfor %}
+		</ul>
+		<p>
+			<a class="info" href="#" title="">Questions &amp; Answers</a>
+		</p>
+		<a class="js-hide" href="#top">Back to top</a>
+	</nav>	
 </article>	

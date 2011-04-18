@@ -73,6 +73,8 @@ RIA.AZCampaign = new Class({
 			if(!this.options.alpha || this.options.alpha == "") {
 				this.addEventListeners();
 				this.addScrollGetContentListener();
+			} else {
+				window.addEvent("resize", this.windowResize.bind(this));
 			}
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
@@ -90,13 +92,14 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
-		var container = article.getElement(".container"), nav = article.getElement("nav");
+		var container = article.getElement(".container"), nav = article.getElement("nav"), mainImage = article.getElement(".content-image img");
 		
 		if(showHide === true) {
 			if(!article.getElement("iframe")) {
 				this.createFacebookLikeButton(article);
 			}
-			nav.setStyle('visibility','visible');	
+			nav.setStyle('visibility','visible');
+			mainImage.set("src",mainImage.get("data-main-src"));
 			if(!Browser.Platform.ios) {
 				container.tween('opacity',1);
 			} else {
@@ -107,6 +110,7 @@ RIA.AZCampaign = new Class({
 		else {
 			container.setStyle('opacity',0);
 			nav.setStyle('visibility','hidden');
+			mainImage.set("src",mainImage.get("data-loading-src"));
 		}
 		
 		container = nav = null;
