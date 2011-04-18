@@ -33,7 +33,7 @@ article.inactive {
 }
 
 article a.info {
-	background:url(http://www.mcdonalds.co.uk/static/img/icons/i.png) no-repeat top left;
+	background:url(../img/i.png) no-repeat top left;
 	width:57px;
 	height:57px;
 	text-indent:-10000em;
