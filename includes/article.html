@@ -51,7 +51,7 @@
 		<ul class="categories">
 		{% for cat in categories.items %}
 			{% if cat.0 in article.category_tags %}
-			<li><a class="{% if category %}{% ifequal category cat.0 %}active{% else %}inactive{% endifequal %}{% else %}inactive{% endif %}" id="content-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
+			<li><a class="{% if category %}{% ifequal category cat.0 %}active{% else %}inactive{% endifequal %}{% else %}inactive{% endif %}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
 			{% endif %}
 		{% endfor %}
 		</ul>
