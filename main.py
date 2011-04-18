@@ -21,6 +21,7 @@ from properties.setproperties import AToZList
 from properties.setproperties import CommonProperties
 from properties.setproperties import CategoryProperties
 from google.appengine.api import images
+from google.appengine.api import mail
 
 common = CommonProperties()
 content = AToZProperties()
@@ -68,6 +69,8 @@ class HomeHandler(BaseHandler):
 	contentMC = content.load()
 	commonMC = common.load()
 	
+	#mail.send_mail(sender="Razorfish RIA Team London (automated) <razorfish.ria.london@gmail.com>", to="Stuart Thorne <stuart.thorne@razorfish.com>", subject="Test email from GAE", body="""This is a test email from Google App Engine.""")
+
 	keyCodes = getKeyCodes(self)
 	path = os.path.join(os.path.dirname(__file__),'index.html')
 	args = dict(timestamp=timestamp,content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
