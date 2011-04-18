@@ -30,7 +30,7 @@ RIA.AZCampaign = new Class({
 			this.createNumericKeyCodes();
 			
 			this.scrollFx = new Fx.Scroll(window, {
-				offset: {x: 0, y: -100},
+				offset: {x: 0, y: -100}, // the y offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
 				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel",
@@ -71,7 +71,6 @@ RIA.AZCampaign = new Class({
 				}.bind(this)
 			});
 			if(!this.options.alpha || this.options.alpha == "") {
-				Log.info("adding event listeners");
 				this.addEventListeners();
 				this.addScrollGetContentListener();
 			}
@@ -191,7 +190,7 @@ RIA.AZCampaign = new Class({
 		this.navigation.addEvent("click", this.selectEvent.bind(this));
 		// keep the onKeyUp event listener native, as we don't like Moo's extended features
 		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
-		window.addEvent("resize", this.getContentWithinViewport.bind(this));	
+		window.addEvent("resize", this.windowResize.bind(this));	
 		window.addEvent("scroll", this.setNavPosition.bind(this));	
 		
 	},
