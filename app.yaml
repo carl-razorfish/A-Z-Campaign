@@ -15,6 +15,10 @@ handlers:
 - url: /img
   static_dir: img
 
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
 - url: /.*
   script: main.py
   
