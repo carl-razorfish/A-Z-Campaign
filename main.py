@@ -35,6 +35,10 @@ regexpURLAtoZ = r"/(food|people|planet|community|london2012|[a-z]{1})"
 regexpURLError = r"/(.*)"
 
 def getKeyCodes(self):
+	"""
+	Generate JavaScript numeric keyCodes for Categories
+	Note that the categories must be return from the ConfigParser pre-sorted, or the keyCode reference will be out of sync
+	"""
 	counter = 49
 	self._keyCodes = dict()
 	for cat in categories:
