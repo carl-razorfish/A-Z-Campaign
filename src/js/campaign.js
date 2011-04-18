@@ -27,7 +27,6 @@ RIA.AZCampaign = new Class({
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
 			this.storeArticleData();
-			this.createNumericKeyCodes();
 			
 			this.scrollFx = new Fx.Scroll(window, {
 				offset: {x: 0, y: -100}, // the y offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
@@ -74,7 +73,7 @@ RIA.AZCampaign = new Class({
 				this.addEventListeners();
 				this.addScrollGetContentListener();
 			} else {
-				window.addEvent("resize", this.windowResize.bind(this));
+				window.addEvent("resize", this.windowResizeEvent.bind(this));
 			}
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
@@ -115,21 +114,6 @@ RIA.AZCampaign = new Class({
 		
 		container = nav = null;
 		
-	},
-	createNumericKeyCodes: function(){
-		/*
-		*	@description:
-		*		Categories will be assigned a numeric value from a 1-based index.
-		*		Because we can never be certain how many categories will exist, or the order of Category items
-		*		we must programatically create the keyCode references.
-		*		This assumes the JS this.options.categories Array is provided in the correct sort order by the Python web application
-		*/
-		var counter = 49; // start at keyCode 49 for number 1
-		Object.each(this.options.categories, function(value,key) {
-			this.options.keyCodes[""+counter] = key;
-			counter++;
-		},this);
-		counter = null;
 	},
 	storeArticleData: function() {
 		this.articles.each(function(article){
@@ -189,18 +173,20 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	addEventListeners: function() {
-		
+		/*
+		*	@description:
+		*		Add event listeners
+		*/
 		
 		this.navigation.addEvent("click", this.selectEvent.bind(this));
 		// keep the onKeyUp event listener native, as we don't like Moo's extended features
 		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
-		window.addEvent("resize", this.windowResize.bind(this));	
-		window.addEvent("scroll", this.setNavPosition.bind(this));	
-		
+		window.addEvent("resize", this.windowResizeEvent.bind(this));	
+		window.addEvent("scroll", this.setNavPosition.bind(this));			
 	},
 	removeEventListeners: function() {
 		this.navigation.removeEvents();
-		window.removeEvents();
+		this.removeScrollGetContentListener();
 	},
 	addScrollGetContentListener: function() {
 		this.getContentBind = this.getContentWithinViewport.bind(this);
@@ -263,7 +249,7 @@ RIA.AZCampaign = new Class({
 			*	If the Article ID is not included in our Category Array, filter it out
 			*/				
 			if(this.options.categories[category].indexOf(article.get("id")) === -1) {
-				document.id("nav-alpha-"+article.get("id")).addClass("inactive");
+				this.navArticles[index].addClass("inactive");
 				this.handleContent(article, false);
 				this.filterFx(article, false, false);
 			}
@@ -273,16 +259,14 @@ RIA.AZCampaign = new Class({
 			else { 
 				this.filterFx(article, true, false);
 				this.handleContent(article, false);
-				document.id("nav-alpha-"+article.get("id")).removeClass("inactive");
-			}
-			
+				this.navArticles[index].removeClass("inactive");
+			}			
 		},this);
 		
 		/*
 		*	Reset any Window scroll position
 		*/
-		this.scrollFx.toTop();
-	
+		this.scrollFx.toTop();	
 	},
 	filterInAll: function() {
 		/*
@@ -311,16 +295,13 @@ RIA.AZCampaign = new Class({
 		*/
 		this.navArticles.each(function(alpha) {
 			if(filter == "all") {
-				alpha.removeClass("inactive");
-				alpha.addClass("active");
+				alpha.removeClass("inactive").addClass("active");
 			}
 			else if(alpha.id == "nav-alpha-"+filter){
-				alpha.removeClass("inactive");
-				alpha.addClass("active");
+				alpha.removeClass("inactive").addClass("active");
 			} 
 			else {
-				alpha.removeClass("active")
-				alpha.addClass("inactive");
+				alpha.removeClass("active").addClass("inactive");
 			}
 		},this);
 	},
@@ -410,7 +391,7 @@ RIA.AZCampaign = new Class({
 
 		}
 	},
-	windowResize: function() {
+	windowResizeEvent: function() {
 		this.setNavigationPanelPosition();
 		this.getContentWithinViewport();
 	}

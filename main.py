@@ -15,6 +15,7 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
+from google.appengine.api import memcache
 from properties.setproperties import AToZProperties
 from properties.setproperties import AToZList
 from properties.setproperties import CommonProperties
@@ -33,6 +34,22 @@ AToZList = AToZList.load()
 regexpURLAtoZ = r"/(food|people|planet|community|london2012|[a-z]{1})"
 regexpURLError = r"/(.*)"
 
+def getKeyCodes(self):
+	counter = 49
+	self._keyCodes = dict()
+	for cat in categories:
+		self._keyCodes[counter] = cat
+		counter = counter + 1
+		
+	mcKeyCodes = memcache.get("categorykeycodes")
+	if mcKeyCodes is not None:
+		logging.info("Got categorykeycodes from memcache")
+		return mcKeyCodes
+	else:
+		logging.info("NOT Got categorykeycodes from memcache")
+		memcache.add("categorykeycodes", self._keyCodes)
+		return self._keyCodes
+	
 class BaseHandler(webapp.RequestHandler):
   def get(self):
 	if not hasattr(self, "_current_user"):
@@ -44,12 +61,12 @@ class HomeHandler(BaseHandler):
 	timestamp = time.time()
 	alpha = ""
 	category = ""
+	keyCodes = getKeyCodes(self)
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList))
+	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList),keyCodes=keyCodes)
 	self.response.out.write(template.render(path,args))
   def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.html')
-
     self.response.out.write(template.render(path,{}))
 
 		
@@ -64,8 +81,8 @@ class ViewHandler(BaseHandler):
 			alpha = urlPath
 		else:
 			category = urlPath
-
-	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList))
+	keyCodes = getKeyCodes(self)
+	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList),keyCodes=keyCodes)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')
