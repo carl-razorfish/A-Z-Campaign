@@ -13,12 +13,17 @@ RIA.AZCampaign = new Class({
 	initialize: function(options) {
 		try {
 			this.setOptions(options);
-			document.getElements(".js-hide").setStyle("display","none");
+			document.getElement("body").addClass("js");
 			
 			this.articles = document.getElements("article");			
 			this.navigation = document.getElements("#navigation, ul.categories");
+			
+			this.navigationPanel = document.id("navigation");
+			this.shell = document.id("shell");
+			this.setNavigationPanelPosition();
+			
 			// we must set a local variable for the original navigation Element offsetTop. Later on we'll need to add this to current position of the nav
-			this.navOffsetTop = document.id("navigation").offsetTop;
+			this.navOffsetTop = this.navigationPanel.offsetTop;
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
 			this.storeArticleData();
@@ -73,6 +78,13 @@ RIA.AZCampaign = new Class({
 		} catch(e) {
 			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
 		}
+	},
+	setNavigationPanelPosition: function() {
+		var viewportWidth = RIA.Util.getViewport().w, shellWidth = this.shell.getWidth();
+		if(viewportWidth > shellWidth) {
+			this.navigationPanelOffsetLeft = ((viewportWidth - shellWidth) / 2);
+			this.navigationPanel.setStyle("left",this.navigationPanelOffsetLeft+"px");
+		}		
 	},
 	handleContent: function(article, showHide) {
 		/*
@@ -360,6 +372,7 @@ RIA.AZCampaign = new Class({
 	},
 	getContentWithinViewport: function(event) {
 		var viewport = RIA.Util.getViewport(),articlePos;
+		
 		this.articles.each(function(article) {
 			articlePos = article.getPosition();
 			/*
@@ -377,10 +390,7 @@ RIA.AZCampaign = new Class({
 		viewport = articlePos = null;
 	},
 	setNavPosition: function() {
-		if(!Browser.Platform.ios) {
-			this.navigation.setStyle('top',(this.navOffsetTop+document.body.scrollTop)+"px");
-		} else {
-			//this.navFX.start("top",""+(this.navOffsetTop+document.body.scrollTop));
+		if(Browser.Platform.ios) {
 			this.navFX.set("top",(this.navOffsetTop+document.body.scrollTop));
 		}
 	},
@@ -396,5 +406,9 @@ RIA.AZCampaign = new Class({
 			}).inject(article.getElement("nav"),"bottom");
 
 		}
+	},
+	windowResize: function() {
+		this.setNavigationPanelPosition();
+		this.getContentWithinViewport();
 	}
 });

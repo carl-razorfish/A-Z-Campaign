@@ -47,6 +47,9 @@ article div.container {
 	min-height:300px;
 }
 
+.js article div.container {
+	opacity:0;
+}
 article section {	
 	/*
 	-webkit-transition: all 1s;

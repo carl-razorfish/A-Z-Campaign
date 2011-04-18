@@ -4,6 +4,10 @@
 	left:0px;
 }
 
+.js #navigation {
+	position:fixed;
+}
+
 #navigation #categories {
 	width:1024px;		
 	overflow:hidden;

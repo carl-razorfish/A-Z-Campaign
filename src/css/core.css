@@ -55,3 +55,7 @@ ul,dl,ol {
 	min-height:768px;
 	padding:100px 0 0 120px;
 }
+
+.js .js-hide {
+	display:none;
+}
