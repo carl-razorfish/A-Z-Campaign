@@ -1,10 +1,11 @@
-<!DOCTYPE html xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">	
-<html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>	
+<html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://developers.facebook.com/schema/">
     <head>
         <title>{% if alpha %}{% for article in content %}{% if article.id in alpha %}{{ article.header }} - {% endif %}{% endfor %}{% endif %}{% if category %}{% for cat in categories.items %}{% if category in cat.0 %}{{cat.1}} - {% endif %}{% endfor %}{% endif %}{{ common.pagetitle }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/styles.css?v={{timestamp}}"/>
+		{% include "og.meta.html" %}			
 		<!--//
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:portrait)" href="css/portrait.css" />
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px) and (orientation:landscape)" href="css/landscape.css" />

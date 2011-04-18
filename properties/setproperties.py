@@ -3,6 +3,7 @@ import logging
 import re
 from google.appengine.api import memcache
 
+# TODO: remove the memcache flush
 memcache.flush_all()
 
 class AToZProperties(object):
@@ -56,7 +57,7 @@ class AToZList(object):
 				
 				for j in atozsections:
 					for k in atozCfg.items(j):
-						if "article_tags" in k[0]:
+						if "category_tags" in k[0]:
 							m = re.search(i[0], k[1])
 							if m is not None:
 								section.append(""+j)
