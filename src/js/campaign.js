@@ -41,6 +41,11 @@ RIA.AZCampaign = new Class({
 					this.scrollFx.options.duration = 1000;
 					this.getContentWithinViewport();
 					this.addScrollGetContentListener();
+				}.bind(this),
+				onCancel: function(e) {
+					this.scrollFx.options.duration = 1000;
+					this.getContentWithinViewport();
+					this.addScrollGetContentListener();
 				}.bind(this)
 			});
 			
