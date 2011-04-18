@@ -37,7 +37,7 @@ regexpURLError = r"/(.*)"
 def getKeyCodes(self):
 	"""
 	Generate JavaScript numeric keyCodes for Categories
-	Note that the categories must be return from the ConfigParser pre-sorted, or the keyCode reference will be out of sync
+	Note that the categories must be returned from the ConfigParser pre-sorted into the correct order, or the keyCode reference and keyboared number will be out of sync
 	"""
 	counter = 49
 	self._keyCodes = dict()
@@ -63,11 +63,9 @@ class BaseHandler(webapp.RequestHandler):
 class HomeHandler(BaseHandler):
   def get(self):
 	timestamp = time.time()
-	alpha = ""
-	category = ""
 	keyCodes = getKeyCodes(self)
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList),keyCodes=keyCodes)
+	args = dict(timestamp=timestamp,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList),keyCodes=keyCodes)
 	self.response.out.write(template.render(path,args))
   def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.html')

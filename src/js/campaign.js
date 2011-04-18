@@ -76,7 +76,7 @@ RIA.AZCampaign = new Class({
 				window.addEvent("resize", this.windowResizeEvent.bind(this));
 			}
 		} catch(e) {
-			Log.info("RIA.AZCampaign : init() : Error : "+e.message)
+			Log.error({method:"RIA.AZCampaign : initialize() : Error : ", error:e});
 		}
 	},
 	setNavigationPanelPosition: function() {
@@ -103,8 +103,7 @@ RIA.AZCampaign = new Class({
 				container.tween('opacity',1);
 			} else {
 				container.setStyle('opacity',1);				
-			}	
-			
+			}				
 		}
 		else {
 			container.setStyle('opacity',0);
@@ -112,7 +111,7 @@ RIA.AZCampaign = new Class({
 			mainImage.set("src",mainImage.get("data-loading-src"));
 		}
 		
-		container = nav = null;
+		container = nav = mainImage = null;
 		
 	},
 	storeArticleData: function() {
