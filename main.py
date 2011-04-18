@@ -23,16 +23,15 @@ from properties.setproperties import CategoryProperties
 from google.appengine.api import images
 
 common = CommonProperties()
-common = common.load()
 content = AToZProperties()
-content = content.load()
 categories = CategoryProperties()
-categories = categories.load()
 AToZList = AToZList()
-AToZList = AToZList.load()
+
+
 
 regexpURLAtoZ = r"/(food|people|planet|community|london2012|[a-z]{1})"
 regexpURLError = r"/(.*)"
+
 
 def getKeyCodes(self):
 	"""
@@ -41,7 +40,8 @@ def getKeyCodes(self):
 	"""
 	counter = 49
 	self._keyCodes = dict()
-	for cat in categories:
+	categoriesMC = categories.load()
+	for cat in categoriesMC:
 		self._keyCodes[counter] = cat
 		counter = counter + 1
 		
@@ -63,9 +63,14 @@ class BaseHandler(webapp.RequestHandler):
 class HomeHandler(BaseHandler):
   def get(self):
 	timestamp = time.time()
+	atozlistMC = AToZList.load()
+	categoriesMC = categories.load()
+	contentMC = content.load()
+	commonMC = common.load()
+	
 	keyCodes = getKeyCodes(self)
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	args = dict(timestamp=timestamp,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList),keyCodes=keyCodes)
+	args = dict(timestamp=timestamp,content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
 	self.response.out.write(template.render(path,args))
   def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.html')
@@ -74,6 +79,10 @@ class HomeHandler(BaseHandler):
 		
 class ViewHandler(BaseHandler):
   def get(self, urlPath):
+	atozlistMC = AToZList.load()
+	categoriesMC = categories.load()
+	contentMC = content.load()
+	commonMC = common.load()
 	timestamp = time.time()
 	alpha = ""
 	category = ""
@@ -84,7 +93,7 @@ class ViewHandler(BaseHandler):
 		else:
 			category = urlPath
 	keyCodes = getKeyCodes(self)
-	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=content,common=common,categories=categories,aToZList=json.dumps(AToZList),keyCodes=keyCodes)
+	args = dict(timestamp=timestamp,alpha=alpha,category=category,content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')
@@ -94,8 +103,11 @@ class ViewHandler(BaseHandler):
 class Error404Handler(webapp.RequestHandler):
   def get(self, urlPath):
 	self.error(404)
+	categoriesMC = categories.load()
+	contentMC = content.load()
+	commonMC = common.load()
 	timestamp = time.time()
-	args = dict(timestamp=timestamp,content=content,common=common,categories=categories)
+	args = dict(timestamp=timestamp,content=contentMC,common=commonMC,categories=categoriesMC)
 	path = os.path.join(os.path.dirname(__file__),'error.html')
 	self.response.out.write(template.render(path,args))
 	
