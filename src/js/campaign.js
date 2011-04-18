@@ -99,6 +99,8 @@ RIA.AZCampaign = new Class({
 			}
 			nav.setStyle('visibility','visible');
 			mainImage.set("src",mainImage.get("data-main-src"));
+			mainImage.set("width",mainImage.get("data-main-width"));
+			mainImage.set("height",mainImage.get("data-main-height"));
 			if(!Browser.Platform.ios) {
 				container.tween('opacity',1);
 			} else {
@@ -109,6 +111,8 @@ RIA.AZCampaign = new Class({
 			container.setStyle('opacity',0);
 			nav.setStyle('visibility','hidden');
 			mainImage.set("src",mainImage.get("data-loading-src"));
+			mainImage.set("width",mainImage.get("data-loading-width"));
+			mainImage.set("height",mainImage.get("data-loading-height"));
 		}
 		
 		container = nav = mainImage = null;
