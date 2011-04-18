@@ -1,0 +1,22 @@
+<div id="navigation">
+	<nav>
+		<ul id="categories">
+			{% comment %}
+			<li><a href="#" id="logo"><img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" /></a></li>
+			{% endcomment %}
+			{% for cat in categories.items %}
+				<li><a class="{% ifequal cat.0 category %}active {{category}}{% else %}inactive {{category}}{% endifequal %}" id="nav-category-{{cat.0}}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>							
+			{% endfor %}
+		</ul>
+		{% comment %}
+			1. For pre-filtered category display, e.g. with JS disabled, we want to reload the page and go to the Alpha article if the Article is not in the list
+			2. With no category filter, all articles should be on the page so use a hash instead
+			3. For pages loaded with an alpha filter, we want to reload the page with all alpha articles and jump to the required alpha
+		{% endcomment %}
+		<ul id="alphabet">
+			{% for article in content %}
+				<li><a class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" id="nav-alpha-{{ article.id }}" data-category="{{ article.id }}" href="/{% if not category and not alpha %}#{{ article.id }}{% endif %}{% if category %}{% if category in article.category_tags %}{{category}}#{{article.id}}{% else %}#{{article.id}}{% endif %}{% endif %}{% if alpha %}#{{article.id}}{% endif %}">{{ article.menu }}</a></li>
+			{% endfor %}
+		</ul>
+	</nav>
+</div>

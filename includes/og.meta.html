@@ -1,0 +1,15 @@
+{% for article in content %}
+	{% if alpha %}
+		{% if article.id in alpha %}
+		<meta property="og:title" content="{{ article.header }}" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://a-z-campaign.appspot.com/{{ article.id }}" />
+		<meta property="og:image" content="http://a-z-campaign.appspot.com/img/{{ article.id }}/letter.jpg" />
+		<meta property="og:description" content="{{ article.section_statement1 }}" />
+		<meta property="fb:admins" content="" />
+		<meta property="keywords" content="{{ article.category_tags }}" />
+		{% endif %}
+	{% else %}
+						
+	{% endif %}					
+{% endfor %}
