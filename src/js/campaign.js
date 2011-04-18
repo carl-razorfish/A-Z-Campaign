@@ -316,7 +316,7 @@ RIA.AZCampaign = new Class({
 		*/
 		this.navCategories.each(function(category) {
 			category.removeClass("active").removeClass("inactive");
-			if(category.id.test(filter)) category.addClass("active");
+			if(category.get("data-category").test(filter)) category.addClass("active");
 		},this);
 	},
 	setAlphaNavState: function(filter) {
@@ -328,7 +328,7 @@ RIA.AZCampaign = new Class({
 			if(filter == "all") {
 				alpha.removeClass("inactive").addClass("active");
 			}
-			else if(alpha.id == "nav-alpha-"+filter){
+			else if(alpha.get("data-category").test(filter)){
 				alpha.removeClass("inactive").addClass("active");
 			} 
 			else {
