@@ -55,9 +55,7 @@ def getKeyCodes(self):
 class HomeHandler(webapp.RequestHandler):
   def get(self):
 	atozlistMC = AToZList.load()
-	logging.info(atozlistMC)
 	categoriesMC = categories.load()
-	logging.info(categoriesMC)
 	contentMC = content.load()
 	commonMC = common.load()
 	keyCodes = getKeyCodes(self)

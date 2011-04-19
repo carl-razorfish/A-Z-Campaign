@@ -30,7 +30,6 @@
 		<concat destfile="${build.js.dir}/build.concat.js" fixlastline="yes">
 			<filelist dir="${src.js.dir}" 
 				files="
-				html5.js,
 				namespace.js,
 				util.js,
 				log.js,

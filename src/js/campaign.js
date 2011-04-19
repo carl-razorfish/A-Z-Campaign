@@ -12,7 +12,6 @@ RIA.AZCampaign = new Class({
 	},
 	initialize: function(options) {
 		try {
-			Log.info("Build 13:50");
 			this.setOptions(options);
 			document.getElement("body").addClass("js");
 			
@@ -54,10 +53,8 @@ RIA.AZCampaign = new Class({
 
 			this.getContentWithinViewport();
 
-			/*
-			*	If we have received an alpha filter, then we are just showing that Article
-			*	So, do not enable the event listeners	
-			*/
+			//	If we have received an alpha filter, then we are just showing that Article
+			//	So, do not enable the event listeners	
 			document.id("content").addEvents({
 				"click": function(e) {
 					if(e.target.hasClass("info")) {
@@ -76,6 +73,15 @@ RIA.AZCampaign = new Class({
 				this.addScrollGetContentListener();
 			} else {
 				window.addEvent("resize", this.windowResizeEvent.bind(this));
+			}
+			
+			/*
+			*	If we've linked from an Article only page, we will have a hash.
+			*	The hash will hide the top of the content behind the nav, however, so scroll to it.
+			*	This problem won't occur with JavaScript enabled, as the page will jump to the appropriate content using the hash anchor
+			*/
+			if(window.location.hash) {
+				this.goToArticle(document.id(window.location.hash.substring(1)));
 			}
 
 		} catch(e) {
@@ -401,15 +407,12 @@ RIA.AZCampaign = new Class({
 		viewport = articlePos = null;
 	},
 	setNavPositionForiOs: function() {
-		try {
-			var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navigationPanel.style.webkitTransform.substring(11);
-			translateYCurrent = translateYCurrent.replace("px)","");
-			if(translateYCurrent == "") translateYCurrent = 0;
-			this.navigationPanel.style.webkitTransition = "-webkit-transform .7s";
-			this.navigationPanel.style.webkitTransform = "translateY("+(yPos)+"px)";
-		} catch(e) {
-			Log.error({method:"RIA.AZCampaign : setNavPositionForiOs()", error:e});
-		}
+		if(!Browser.Platform.ios) return;
+		var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navigationPanel.style.webkitTransform.substring(11);
+		translateYCurrent = translateYCurrent.replace("px)","");
+		if(translateYCurrent == "") translateYCurrent = 0;
+		this.navigationPanel.style.webkitTransition = "-webkit-transform .7s";
+		this.navigationPanel.style.webkitTransform = "translateY("+(yPos)+"px)";
 	},
 	createFacebookLikeButton: function(article) {
 		if(!article.getElement("p.facebook-like")) {
