@@ -12,6 +12,7 @@ RIA.AZCampaign = new Class({
 	},
 	initialize: function(options) {
 		try {
+			Log.info("Build 13:50");
 			this.setOptions(options);
 			document.getElement("body").addClass("js");
 			
@@ -40,20 +41,16 @@ RIA.AZCampaign = new Class({
 					this.scrollFx.options.duration = 1000;
 					this.getContentWithinViewport();
 					this.addScrollGetContentListener();
+					this.setNavPositionForiOs();
 				}.bind(this),
 				onCancel: function(e) {
 					this.scrollFx.options.duration = 1000;
 					this.getContentWithinViewport();
 					this.addScrollGetContentListener();
+					this.setNavPositionForiOs();
 				}.bind(this)
 			});
 			
-			this.navFX = new Fx.Tween(this.navigation, {
-				fps:50,
-				duration:1000,
-				transition:"sine:in:out",
-				link:"cancel"
-			});
 
 			this.getContentWithinViewport();
 
@@ -117,14 +114,13 @@ RIA.AZCampaign = new Class({
 			mainImage.set("width",mainImageContainer.get("data-main-width"));
 			mainImage.set("height",mainImageContainer.get("data-main-height"));
 			if(!Browser.Platform.ios) {
-				container.tween('opacity',1);
+				container.morph({'opacity':1});
 			} else {
-				container.setStyle('opacity',1);				
+				container.setStyle('opacity',1);
 			}	
-			
-			if(!article.getElement("iframe")) {
-				this.createFacebookLikeButton(article);
-			}			
+
+			this.createFacebookLikeButton(article);
+			//this.createTwitterTweetButton(article);
 		}
 		else {
 			container.setStyle('opacity',0);
@@ -205,7 +201,7 @@ RIA.AZCampaign = new Class({
 		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
 		window.addEvent("resize", this.windowResizeEvent.bind(this));
 		if(Browser.Platform.ios) {	
-			window.addEvent("scroll", this.setNavPosition.bind(this));			
+			window.addEvent("scroll", this.setNavPositionForiOs.bind(this));			
 		}
 	},
 	removeEventListeners: function() {
@@ -404,22 +400,59 @@ RIA.AZCampaign = new Class({
 		
 		viewport = articlePos = null;
 	},
-	setNavPosition: function() {
-		Log.info("this.navOffsetTop: "+this.navOffsetTop);
-		Log.info("document.body.scrollTop: "+document.body.scrollTop);
-		Log.info(this.navFX)
-		this.navFX.set("top",(this.navOffsetTop+document.body.scrollTop));
+	setNavPositionForiOs: function() {
+		try {
+			var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navigationPanel.style.webkitTransform.substring(11);
+			translateYCurrent = translateYCurrent.replace("px)","");
+			if(translateYCurrent == "") translateYCurrent = 0;
+			this.navigationPanel.style.webkitTransition = "-webkit-transform .7s";
+			this.navigationPanel.style.webkitTransform = "translateY("+(yPos)+"px)";
+		} catch(e) {
+			Log.error({method:"RIA.AZCampaign : setNavPositionForiOs()", error:e});
+		}
 	},
 	createFacebookLikeButton: function(article) {
-		if(!article.getElement("iframe")) {
-			var articleId = article.get("id"),iframe;
-			iframe = new Element("iframe", {
+		if(!article.getElement("p.facebook-like")) {
+			
+			var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
+			fb = new Element("iframe", {
 				"src":"http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fa-z-campaign.appspot.com/"+articleId+"&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80&amp;ref=a-to-z-mcdonalds-"+articleId,
 				"scrolling":"no",
 				"frameborder":0,
 				"allowTransparency":"true",
 				"style":"border:none; overflow:hidden; width:450px; height:80px;"
-			}).inject(article.getElement("nav"),"bottom");
+			}).inject(fbContainer);
+			fbContainer.inject(article.getElement("nav"),"bottom");
+			
+			articleId = fb = fbContainer = null;
+		}
+	},
+	createTwitterTweetButton: function(article) {
+		if(!article.getElement("p.twitter-tweet")) {
+			var articleId = article.get("id"), header = article.getElement("h2").innerHTML, tw, twContainer = new Element("p", {"class":"twitter-tweet"});
+			/*
+			tw = new Element("a", {
+				"href":"http://twitter.com/share",
+				"class":"twitter-share-button",
+				"data-url":"http://a-z-campaign.appspot.com/"+articleId,
+				"data-count":"none",
+				"data-text":header,
+				"html":"Tweet"
+			}).inject(twContainer);
+			*/
+			tw = new Element("iframe", {
+				"src":"http://platform0.twitter.com/widgets/tweet_button.html?_=1303211911979&amp;count=none&amp;lang=en&amp;text="+header+"&amp;url=http://a-z-campaign.appspot.com/"+articleId,
+				"class":"twitter-share-button twitter-count-none",
+				"scrolling":"no",
+				"frameborder":0,
+				"allowTransparency":"true",
+				"style":"width: 55px; height: 20px;",
+				"title":"Twitter For Websites: Tweet Button"
+			}).inject(twContainer);
+			
+			twContainer.inject(article.getElement("nav"),"bottom");
+			articleId = tw = twContainer = null;
+			
 		}
 	},
 	windowResizeEvent: function() {

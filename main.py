@@ -28,11 +28,8 @@ content = AToZProperties()
 categories = CategoryProperties()
 AToZList = AToZList()
 
-
-
 regexpURLAtoZ = r"/(food|people|planet|community|london2012|[a-z]{1})"
 regexpURLError = r"/(.*)"
-
 
 def getKeyCodes(self):
 	"""
@@ -58,7 +55,9 @@ def getKeyCodes(self):
 class HomeHandler(webapp.RequestHandler):
   def get(self):
 	atozlistMC = AToZList.load()
+	logging.info(atozlistMC)
 	categoriesMC = categories.load()
+	logging.info(categoriesMC)
 	contentMC = content.load()
 	commonMC = common.load()
 	keyCodes = getKeyCodes(self)
