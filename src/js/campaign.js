@@ -172,9 +172,9 @@ RIA.AZCampaign = new Class({
 			}
 		},this);
 	},
-	filterFx: function(article, inOrOut, set) {
+	filterFx: function(article, show, set) {
 		
-		if(inOrOut && set) {
+		if(show && set) {
 			/*
 			*	Set the height immediately, so we can scroll to that element and it will be there
 			*/
@@ -187,11 +187,11 @@ RIA.AZCampaign = new Class({
 			});
 		} else {
 			article.ria.filterFx.start({
-			    'height': (inOrOut ? article.ria.h : 0),
-			    'opacity': (inOrOut ? 1 : 0),
-				'marginBottom':(inOrOut ? article.ria.marginBottom : 0),
-				'paddingTop':(inOrOut ? article.ria.paddingTop : 0),
-				'paddingBottom':(inOrOut ? article.ria.paddingBottom : 0)
+			    'height': (show ? article.ria.h : 0),
+			    'opacity': (show ? 1 : 0),
+				'marginBottom':(show ? article.ria.marginBottom : 0),
+				'paddingTop':(show ? article.ria.paddingTop : 0),
+				'paddingBottom':(show ? article.ria.paddingBottom : 0)
 			});				
 		}
 	},
