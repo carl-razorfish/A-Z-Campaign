@@ -27,3 +27,6 @@ error_handlers:
 
   - error_code: over_quota
     file: /over_quota.html
+
+  - error_code: timeout
+    file: /timeout.html

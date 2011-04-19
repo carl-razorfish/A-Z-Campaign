@@ -4,16 +4,16 @@ import re
 from google.appengine.api import memcache
 
 # TODO: remove the memcache flush
-memcache.flush_all()
+#memcache.flush_all()
 
 class AToZProperties(object):
 	def load(self):
 		content = memcache.get("atozproperties")
 		if content is not None:
-			logging.info("Got atozproperties from memcache")
+			#logging.info("Got atozproperties from memcache")
 			return content
 		else:
-			logging.info("NOT Got atozproperties from memcache")
+			#logging.info("NOT Got atozproperties from memcache")
 			atozCopyProperties = "properties/atoz.properties"
 			atozCfg = ConfigParser()
 			atozCfg.read(atozCopyProperties)
@@ -35,10 +35,10 @@ class AToZList(object):
 	def load(self):
 		content = memcache.get("atozlistproperties")
 		if content is not None:
-			logging.info("Got atozlistproperties from memcache")
+			#logging.info("Got atozlistproperties from memcache")
 			return content
 		else:
-			logging.info("NOT Got atozlistproperties from memcache")
+			#logging.info("NOT Got atozlistproperties from memcache")
 			# Get Categories
 			categoryCopyProperties = "properties/category.properties"
 			categoryCfg = ConfigParser()
@@ -68,9 +68,10 @@ class CommonProperties(object):
 	def load(self):
 		content = memcache.get("commonproperties")
 		if content is not None:
-			logging.info("Got commonproperties from memcache")
+			#logging.info("Got commonproperties from memcache")
 			return content
 		else:
+			#logging.info("NOT Got commonproperties from memcache")
 			commonCopyProperties = "properties/common.properties"
 			commonCfg = ConfigParser()
 			commonCfg.read(commonCopyProperties)
@@ -87,9 +88,10 @@ class CategoryProperties(object):
 	def load(self):
 		content = memcache.get("categoryproperties")
 		if content is not None:
-			logging.info("Got categoryproperties from memcache")
+			#logging.info("Got categoryproperties from memcache")
 			return content
 		else:
+			#logging.info("NOT Got categoryproperties from memcache")
 			categoryCopyProperties = "properties/category.properties"
 			categoryCfg = ConfigParser()
 			categoryCfg.read(categoryCopyProperties)

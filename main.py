@@ -48,27 +48,23 @@ def getKeyCodes(self):
 		
 	mcKeyCodes = memcache.get("categorykeycodes")
 	if mcKeyCodes is not None:
-		logging.info("Got categorykeycodes from memcache")
+		#logging.info("Got categorykeycodes from memcache")
 		return mcKeyCodes
 	else:
-		logging.info("NOT Got categorykeycodes from memcache")
+		#logging.info("NOT Got categorykeycodes from memcache")
 		memcache.add("categorykeycodes", self._keyCodes)
 		return self._keyCodes
 
 class HomeHandler(webapp.RequestHandler):
   def get(self):
-	try:
-		atozlistMC = AToZList.load()
-		categoriesMC = categories.load()
-		contentMC = content.load()
-		commonMC = common.load()
-		keyCodes = getKeyCodes(self)
-		path = os.path.join(os.path.dirname(__file__),'index.html')
-		args = dict(content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
-		self.response.out.write(template.render(path,args))
-	except apiproxy_errors.OverQuotaError, message:
-		logging.error(message)
-		mail.send_mail(sender="Razorfish RIA Team London (automated) <razorfish.ria.london@gmail.com>", to="Stuart Thorne <stuart.thorne@razorfish.com>", subject="URGENT : OverQuotaError(HomeHandler) : http://a-z-campaign.appspot.com", body="""The Google App engine web application at http://a-z-campaign.appspot.com has exceeded it's daily Request Quota. Check the Error logs for more details.""")
+	atozlistMC = AToZList.load()
+	categoriesMC = categories.load()
+	contentMC = content.load()
+	commonMC = common.load()
+	keyCodes = getKeyCodes(self)
+	path = os.path.join(os.path.dirname(__file__),'index.html')
+	args = dict(content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
+	self.response.out.write(template.render(path,args))
   def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.html')
     self.response.out.write(template.render(path,{}))
@@ -76,25 +72,21 @@ class HomeHandler(webapp.RequestHandler):
 		
 class ViewHandler(webapp.RequestHandler):
   def get(self, urlPath):
-	try:
-		atozlistMC = AToZList.load()
-		categoriesMC = categories.load()
-		contentMC = content.load()
-		commonMC = common.load()
-		alpha = ""
-		category = ""
-		path = os.path.join(os.path.dirname(__file__),'index.html')
-		if urlPath is not None:
-			if len(urlPath) < 2:
-				alpha = urlPath
-			else:
-				category = urlPath
-		keyCodes = getKeyCodes(self)
-		args = dict(alpha=alpha,category=category,content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
-		self.response.out.write(template.render(path,args))
-	except apiproxy_errors.OverQuotaError, message:
-		logging.error(message)
-		mail.send_mail(sender="Razorfish RIA Team London (automated) <razorfish.ria.london@gmail.com>", to="Stuart Thorne <stuart.thorne@razorfish.com>", subject="URGENT : OverQuotaError(ViewHandler) : http://a-z-campaign.appspot.com", body="""The Google App engine web application at http://a-z-campaign.appspot.com has exceeded it's daily Request Quota. Check the Error logs for more details.""")
+	atozlistMC = AToZList.load()
+	categoriesMC = categories.load()
+	contentMC = content.load()
+	commonMC = common.load()
+	alpha = ""
+	category = ""
+	path = os.path.join(os.path.dirname(__file__),'index.html')
+	if urlPath is not None:
+		if len(urlPath) < 2:
+			alpha = urlPath
+		else:
+			category = urlPath
+	keyCodes = getKeyCodes(self)
+	args = dict(alpha=alpha,category=category,content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
+	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')
     args = dict(urlPath=urlPath)
@@ -102,19 +94,15 @@ class ViewHandler(webapp.RequestHandler):
 
 class Error404Handler(webapp.RequestHandler):
   def get(self, urlPath):
-	try:
-		self.error(404)
-		categoriesMC = categories.load()
-		contentMC = content.load()
-		commonMC = common.load()
-		timestamp = time.time()
-		args = dict(timestamp=timestamp,content=contentMC,common=commonMC,categories=categoriesMC)
-		path = os.path.join(os.path.dirname(__file__),'error.html')
-		self.response.out.write(template.render(path,args))
-	except apiproxy_errors.OverQuotaError, message:
-		logging.error(message)
-		mail.send_mail(sender="Razorfish RIA Team London (automated) <razorfish.ria.london@gmail.com>", to="Stuart Thorne <stuart.thorne@razorfish.com>", subject="URGENT : OverQuotaError(Error404Handler) : http://a-z-campaign.appspot.com", body="""The Google App engine web application at http://a-z-campaign.appspot.com has exceeded it's daily Request Quota. Check the Error logs for more details.""")
-	
+	self.error(404)
+	categoriesMC = categories.load()
+	contentMC = content.load()
+	commonMC = common.load()
+	timestamp = time.time()
+	args = dict(timestamp=timestamp,content=contentMC,common=commonMC,categories=categoriesMC)
+	path = os.path.join(os.path.dirname(__file__),'error.html')
+	self.response.out.write(template.render(path,args))
+		
 def real_main():
   util.run_wsgi_app(webapp.WSGIApplication([
 	('/',HomeHandler),
