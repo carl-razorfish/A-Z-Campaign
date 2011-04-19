@@ -50,7 +50,6 @@ RIA.AZCampaign = new Class({
 				}.bind(this)
 			});
 			
-
 			this.getContentWithinViewport();
 
 			//	If we have received an alpha filter, then we are just showing that Article
@@ -204,7 +203,11 @@ RIA.AZCampaign = new Class({
 		
 		this.navigation.addEvent("click", this.selectEvent.bind(this));
 		// keep the onKeyUp event listener native, as we don't like Moo's extended features
-		window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
+		if(window.addEventListener) {
+			window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
+		} else {
+			window.attachEvent("keyup", this.keyboardEvent.bind(this), false);
+		}
 		window.addEvent("resize", this.windowResizeEvent.bind(this));
 		if(Browser.Platform.ios) {	
 			window.addEvent("scroll", this.setNavPositionForiOs.bind(this));			
