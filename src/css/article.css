@@ -3,6 +3,7 @@ article {
 	padding:20px;
 	border:1px solid #333;
 	
+	-o-border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
@@ -19,13 +20,6 @@ article p {
 	padding:10px;
 }
 
-article img.letter {
-	/*
-	position:absolute;
-	left:10000em;
-	top:10000em;
-	*/
-}
 article.inactive {
 	position:absolute;
 	left:-10000em;
@@ -50,13 +44,7 @@ article div.container {
 .js article div.container {
 	opacity:0;
 }
-article section {	
-	/*
-	-webkit-transition: all 1s;
-	-webkit-transform: rotateY(0deg);
-	-webkit-backface-visibility:hidden;
-	*/
-}
+
 
 /*
 *	Questions & Answers Section
@@ -67,15 +55,12 @@ article section.qanda {
 	top:0px;
 	left:0px;
 	display:none;
-	/*
-	-webkit-transition: -webkit-transform 1s;
-	-webkit-transform: rotateY(-180deg);
-	-webkit-backface-visibility:hidden;
-	*/
+
 }
 
 article section.qanda .qanda-container {
 	border:1px solid #333;
+	-o-border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
@@ -83,18 +68,12 @@ article section.qanda .qanda-container {
 }
 article.questions section.content {
 	display:none;
-	/*
-	-webkit-transition: -webkit-transform 1s;
-	-webkit-transform: rotateY(180deg);
-	*/
+
 }
 
 article.questions section.qanda {
 	display:block;
-	/*
-	-webkit-transition: -webkit-transform 1s;
-	-webkit-transform: rotateY(0deg);
-*/
+
 }
 
 article section.qanda header {
