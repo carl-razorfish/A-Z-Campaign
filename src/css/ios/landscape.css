@@ -1,3 +1,12 @@
+#content {
+	padding:100px 60px 0 60px;
+}
 #navigation {
-	-webkit-transition: -webkit-transform .7s;
+	-webkit-transition: -webkit-transform ease-in 0.7s;
+}
+
+#navigation #alphabet ul.set2 {
+	position:absolute;
+	top:0px;
+	left:950px;
 }
