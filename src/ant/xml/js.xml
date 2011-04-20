@@ -30,6 +30,7 @@
 		<concat destfile="${build.js.dir}/build.concat.js" fixlastline="yes">
 			<filelist dir="${src.js.dir}" 
 				files="
+				twitter.widgets.js,
 				namespace.js,
 				util.js,
 				log.js,

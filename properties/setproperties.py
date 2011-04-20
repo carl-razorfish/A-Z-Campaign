@@ -4,7 +4,7 @@ import re
 from google.appengine.api import memcache
 
 # TODO: remove the memcache flush
-#memcache.flush_all()
+memcache.flush_all()
 
 class AToZProperties(object):
 	def load(self):

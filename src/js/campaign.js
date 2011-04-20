@@ -71,7 +71,7 @@ RIA.AZCampaign = new Class({
 				this.addEventListeners();
 				this.addScrollGetContentListener();
 			} else {
-				window.addEvent("resize", this.windowResizeEvent.bind(this));
+				document.addEvent("resize", this.windowResizeEvent.bind(this));
 			}
 			
 			/*
@@ -125,7 +125,7 @@ RIA.AZCampaign = new Class({
 			}	
 
 			this.createFacebookLikeButton(article);
-			//this.createTwitterTweetButton(article);
+			this.createTwitterTweetButton(article);
 		}
 		else {
 			container.setStyle('opacity',0);
@@ -203,14 +203,14 @@ RIA.AZCampaign = new Class({
 		
 		this.navigation.addEvent("click", this.selectEvent.bind(this));
 		// keep the onKeyUp event listener native, as we don't like Moo's extended features
-		if(window.addEventListener) {
-			window.addEventListener("keyup", this.keyboardEvent.bind(this), false);
+		if(document.addEventListener) {
+			document.addEventListener("keyup", this.keyboardEvent.bind(this), false);
 		} else {
-			window.attachEvent("keyup", this.keyboardEvent.bind(this), false);
+			document.attachEvent("keyup", this.keyboardEvent.bind(this), false);
 		}
-		window.addEvent("resize", this.windowResizeEvent.bind(this));
+		document.addEvent("resize", this.windowResizeEvent.bind(this));
 		if(Browser.Platform.ios) {	
-			window.addEvent("scroll", this.setNavPositionForiOs.bind(this));			
+			document.addEvent("scroll", this.setNavPositionForiOs.bind(this));			
 		}
 	},
 	removeEventListeners: function() {
@@ -219,10 +219,10 @@ RIA.AZCampaign = new Class({
 	},
 	addScrollGetContentListener: function() {
 		this.getContentBind = this.getContentWithinViewport.bind(this);
-		window.addEvent("scroll", this.getContentBind);
+		document.addEvent("scroll", this.getContentBind);
 	},
 	removeScrollGetContentListener: function() {
-		window.removeEvent("scroll", this.getContentBind);
+		document.removeEvent("scroll", this.getContentBind);
 		this.getContentBind = null;
 	},
 	keyboardEvent: function(e) {
@@ -435,29 +435,24 @@ RIA.AZCampaign = new Class({
 	},
 	createTwitterTweetButton: function(article) {
 		if(!article.getElement("p.twitter-tweet")) {
-			var articleId = article.get("id"), header = article.getElement("h2").innerHTML, tw, twContainer = new Element("p", {"class":"twitter-tweet"});
-			/*
+			var articleId = article.get("id"), header = article.getElement("h2").innerHTML, tw, twContainer = new Element("p", {"class":"twitter-tweet"}), tweetHash = article.get("data-tweet-hash");
+			
 			tw = new Element("a", {
 				"href":"http://twitter.com/share",
 				"class":"twitter-share-button",
+				"data-lang":"en",
 				"data-url":"http://a-z-campaign.appspot.com/"+articleId,
 				"data-count":"none",
-				"data-text":header,
+				"data-text":header+" "+tweetHash,
 				"html":"Tweet"
 			}).inject(twContainer);
-			*/
-			tw = new Element("iframe", {
-				"src":"http://platform0.twitter.com/widgets/tweet_button.html?_=1303211911979&amp;count=none&amp;lang=en&amp;text="+header+"&amp;url=http://a-z-campaign.appspot.com/"+articleId,
-				"class":"twitter-share-button twitter-count-none",
-				"scrolling":"no",
-				"frameborder":0,
-				"allowTransparency":"true",
-				"style":"width: 55px; height: 20px;",
-				"title":"Twitter For Websites: Tweet Button"
-			}).inject(twContainer);
-			
+
 			twContainer.inject(article.getElement("nav"),"bottom");
-			articleId = tw = twContainer = null;
+			
+			var tweet_button = new twttr.TweetButton(tw);
+			tweet_button.render();
+			
+			tweet_button = articleId = tw = twContainer = null;
 			
 		}
 	},
