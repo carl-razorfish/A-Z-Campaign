@@ -73,7 +73,7 @@ article section.qanda header {
 	cursor:pointer;
 	border-top:1px solid #333;
 }
-article section.qanda header a {
+article section.qanda header span {
 	margin:5px 0 0 0;
 	display:block;
 	float:right;
@@ -81,7 +81,7 @@ article section.qanda header a {
 	width:8px;
 	height:7px;
 }
-article section.qanda header.open a {
+article section.qanda header.open span {
 	background:url(../img/arrow-sprite.gif) no-repeat -9px 0;
 	width:7px;
 	height:8px;

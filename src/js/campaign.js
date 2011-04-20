@@ -17,7 +17,6 @@ RIA.AZCampaign = new Class({
 			
 			this.articles = document.getElements("article");			
 			this.navigation = document.getElements("#navigation, ul.categories");
-			
 			this.navigationPanel = document.id("navigation");
 			this.shell = document.id("shell");
 			this.setNavigationPanelPosition();
@@ -441,7 +440,7 @@ RIA.AZCampaign = new Class({
 	},
 	createTwitterTweetButton: function(article) {
 		if(!article.getElement("p.twitter-tweet")) {
-			var articleId = article.get("id"), header = article.getElement("h2").innerHTML, tw, twContainer = new Element("p", {"class":"twitter-tweet"}), tweetHash = article.get("data-tweet-hash");
+			var articleId = article.get("id"), header = article.getElement("h2").get("text"), tw, twContainer = new Element("p", {"class":"twitter-tweet"}), tweetHash = article.get("data-tweet-hash");
 			
 			tw = new Element("a", {
 				"href":"http://twitter.com/share",

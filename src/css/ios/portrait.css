@@ -1,19 +1,4 @@
 #navigation {
-	position:absolute;
-	top:5px;
-	left:0px;
-}
 
-#navigation ul {
-	text-align:left;
-	overflow:hidden;
-}
-
-#navigation #categories li {
-	display:block;
-}
-#navigation #categories {
-	position:absolute;
-	top:0px;
-	left:0px;
+	-webkit-transition: -webkit-transform .7s;
 }
