@@ -2,18 +2,11 @@ article {
 	overflow:hidden;
 	padding:20px;
 	border:1px solid #333;
-	
 	-o-border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
-	
 	margin-bottom:50px;	
-	/*
-	-webkit-perspective: 2000;
-	-webkit-perspective-origin: 50% 50%;
-	-webkit-transform-style: preserve-3d;
-	*/
 }
 
 article p {
@@ -27,7 +20,7 @@ article.inactive {
 }
 
 article a.info {
-	background:url(../img/i.png) no-repeat top left;
+	background:url(../img/i.png) no-repeat top left; /* move production image to a sprite */
 	width:57px;
 	height:57px;
 	text-indent:-10000em;
@@ -55,7 +48,7 @@ article section.qanda {
 	top:0px;
 	left:0px;
 	display:none;
-
+	width:600px;
 }
 
 article section.qanda .qanda-container {
@@ -63,17 +56,15 @@ article section.qanda .qanda-container {
 	-o-border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
-	border-radius:5px;
-	
+	border-radius:5px;	
 }
+
 article.questions section.content {
 	display:none;
-
 }
 
 article.questions section.qanda {
 	display:block;
-
 }
 
 article section.qanda header {
@@ -82,6 +73,20 @@ article section.qanda header {
 	cursor:pointer;
 	border-top:1px solid #333;
 }
+article section.qanda header a {
+	margin:5px 0 0 0;
+	display:block;
+	float:right;
+	background:url(../img/arrow-sprite.gif) no-repeat 0 0;
+	width:8px;
+	height:7px;
+}
+article section.qanda header.open a {
+	background:url(../img/arrow-sprite.gif) no-repeat -9px 0;
+	width:7px;
+	height:8px;
+}
+
 article section.qanda header:first-child {
 	border-top:none;
 }
@@ -106,11 +111,6 @@ section.layout-two-column .content-image {
 	float:left;
 	margin:20px 20px 20px 0;
 	background:#999 url(../img/spinner.gif) no-repeat 48% 48%;
-	/*
-	-moz-box-shadow: inset 0 0 20px #000;
-	-webkit-box-shadow: inset 0 0 40px #000;
-	box-shadow: inset 0 0 40px #000;
-	*/
 }
 
 article nav {

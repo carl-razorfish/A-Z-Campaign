@@ -1,7 +1,7 @@
 <article id="{{ article.id }}" data-tags="{{ article.category_tags }}" class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-tweet-hash="{{ common.tweet_hash }}">
 	<a name="{{ article.id }}"></a>
 	<header>
-		<h2>{{ article.header }}</h2>							
+		<h2><img src="img/{{ article.id }}/letter.jpg" width="90" height="90"/>{{ article.header }}</h2>							
 	</header>
 	<div class="container">
 		<section id="{{ article.section_id }}" class="content {{ article.section_layout }}">
@@ -21,7 +21,7 @@
 			<div class="qanda-container">
 				{% if article.question_1 and article.answer_1 %}
 				<header class="question">
-					<h3>{{ article.question_1 }}</h3>
+					<h3>{{ article.question_1 }}<a href="#" class="arrow"></a></h3>
 				</header>							
 				<div class="answer">
 					<p>{{ article.answer_1 }}</p>
@@ -29,7 +29,7 @@
 				{% endif %}		
 				{% if article.question_2 and article.answer_2 %}
 				<header class="question">
-					<h3>{{ article.question_2 }}</h3>
+					<h3>{{ article.question_2 }}<a href="#" class="arrow"></a></h3>
 				</header>							
 				<div class="answer">
 					<p>{{ article.answer_2 }}</p>
@@ -37,7 +37,7 @@
 				{% endif %}
 				{% if article.question_3 and article.answer_3 %}
 				<header class="question">
-					<h3>{{ article.question_3 }}</h3>
+					<h3>{{ article.question_3 }}<a href="#" class="arrow"></a></h3>
 				</header>							
 				<div class="answer">
 					<p>{{ article.answer_3 }}</p>

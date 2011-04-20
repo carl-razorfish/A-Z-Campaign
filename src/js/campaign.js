@@ -151,11 +151,17 @@ RIA.AZCampaign = new Class({
 					link:"cancel",
 		    		transition: "sine:in:out"
 				}),
-				accordionFx: new Fx.Accordion($$('.question'), $$('.answer'), {
+				accordionFx: new Fx.Accordion(article.getElements('.question'), article.getElements('.answer'), {
     				display: -1,
     				alwaysHide: true,
 					opacity: false,
-					duration:500
+					duration:500,
+					onActive: function(toggler, handler) {
+						toggler.addClass("open");
+					},
+					onBackground: function(toggler, handler) {
+						toggler.removeClass("open");
+					}
 				})
 			}
 			if(article.hasClass("inactive")) {
