@@ -267,17 +267,15 @@ RIA.AZCampaign = new Class({
 		*	If the User selects a category we are already on, do not apply transitions
 		*/
 		if(this.options.category === category) return;
-		
-		/*
-		*	If the selected Category filter matches one we have...
-		*/
+
 		this.setAlphaNavState();
 
 		this.options.category = category;
 		
+		this.GA_trackEvent('CategoryNavigation', 'Select', this.options.category, null);
 		
 		/*
-		*	Set the Catrgory navigation
+		*	Set the Category navigation
 		*/
 		this.setCategoryNavState(category);
 		
@@ -385,7 +383,10 @@ RIA.AZCampaign = new Class({
 		*	Scroll to the selected Alpha
 		*/
 		
-		this.scrollFx.toElement(articleId, 'y');			
+		this.scrollFx.toElement(articleId, 'y');	
+		
+		this.GA_trackEvent('AlphabetNavigation', 'Select', articleId.toUpperCase(), null);
+				
 		articleElement = viewport = articleId = articlePos = null;
 	},
 	getScrollVelocity: function(a, b) {
@@ -407,6 +408,7 @@ RIA.AZCampaign = new Class({
 			*/
 			if((articlePos.y >= viewport.scrollTop && articlePos.y <= (viewport.scrollTop+viewport.h)) || (((articlePos.y+article.ria.h) >= viewport.scrollTop) && (articlePos.y+article.ria.h) <= (viewport.scrollTop+viewport.h))) {
 				this.handleContent(article, true);
+				this.GA_trackEvent('UI', 'Scroll', article.id.toUpperCase(), null);
 			} else {
 				this.handleContent(article, false);
 			}
@@ -481,7 +483,10 @@ RIA.AZCampaign = new Class({
 		/*
 		*	@description:
 		*		Method hook from Facebook Like action (edge.create). We need to track this with Google Analytics
-		*/	
-		Log.info(href);
+		*/
+		this.GA_trackEvent('Facebook', 'Like', href, null);
+	},
+	GA_trackEvent: function(category, action, label, value) {
+		_gaq.push(['_trackEvent', category, action, label, value]);
 	}
 });
