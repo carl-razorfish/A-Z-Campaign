@@ -28,7 +28,7 @@ RIA.AZCampaign = new Class({
 			this.storeArticleData();
 			
 			this.scrollFx = new Fx.Scroll(window, {
-				offset: {x: 0, y: -100}, // the y offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
+				offset: {x: 0, y: -50}, // the y offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
 				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel",
@@ -125,12 +125,18 @@ RIA.AZCampaign = new Class({
 
 			this.createFacebookLikeButton(article);
 			//this.createTwitterTweetButton(article);
-		}
-		else {
-			container.setStyle('opacity',0);
-			nav.setStyle('visibility','hidden');
+
+		} else {
+			if(container.getStyle("opacity") != 0) {
+				container.setStyle('opacity',0);
+			}
+			if(nav.getStyle('visibility') != "hidden") {
+				nav.setStyle('visibility','hidden');
+			}
 			if(mainImage) {
-				mainImage.set("src",this.options.binaryGIF);
+				if(mainImage.get("src") != this.options.binaryGIF) {
+					mainImage.set("src",this.options.binaryGIF);
+				}				
 			}
 		}
 		
@@ -140,6 +146,7 @@ RIA.AZCampaign = new Class({
 	storeArticleData: function() {
 		this.articles.each(function(article){
 			article.ria = {
+				inView:false,
 				w:Math.floor(parseFloat(article.getStyle("width"))),
 				h:Math.floor(parseFloat(article.getStyle("height"))),
 				marginBottom:article.getStyle("marginBottom"),
@@ -401,18 +408,39 @@ RIA.AZCampaign = new Class({
 		
 		this.articles.each(function(article) {
 			articlePos = article.getPosition();
+			var articleTop = articlePos.y, articleBottom = (articlePos.y+article.ria.h);
 			/*
-			*	This will check that the very top of the Article is inside the viewport.
-			*	It will check that a large proportion of the Article is in the viewport, not just the top y position of the Article
-			*	[ST]TODO: Ensure that we are loading/unloading when necessary, e.g. filtered out content should be uncloaded even though it's coordinates are within the viewport range
+			*	This will check that any of the Article is in the viewport.
 			*/
-			if((articlePos.y >= viewport.scrollTop && articlePos.y <= (viewport.scrollTop+viewport.h)) || (((articlePos.y+article.ria.h) >= viewport.scrollTop) && (articlePos.y+article.ria.h) <= (viewport.scrollTop+viewport.h))) {
-				this.handleContent(article, true);
-				this.GA_trackEvent('UI', 'Scroll', article.get("id").toUpperCase(), null);
-				this.GA_trackPageview("/"+article.get("id"), "scrolled");
+
+			if(
+				// if the top of the article is in view
+				(articleTop >= viewport.scrollTop && articleTop <= (viewport.scrollTop+viewport.h)) 
+				||
+				// if the bottom of the article is in view
+				(articleBottom >= viewport.scrollTop && articleBottom <= (viewport.scrollTop+viewport.h))
+			) {
+				/*
+				*	We may have scrolled via a Category selection, so although the article may be in view it may be hidden
+				*	Check the height of the Article to see if it's greater than 50 px (TODO: find a robust way to handle this)
+				*/
+				if(parseFloat(article.getStyle("height")) > 50) {
+					this.handleContent(article, true);
+					if(!article.ria.inView) {
+						this.GA_trackEvent('UI', 'Scroll', article.get("id").toUpperCase(), null);
+						this.GA_trackPageview("/"+article.get("id"), "scrolled");
+					}
+					article.ria.inView = true;
+				} else {
+					this.handleContent(article, false);
+				}
+				
 			} else {
+				article.ria.inView = false;
 				this.handleContent(article, false);
 			}
+			
+			articleTop = articleBottom = null;
 		},this);
 		
 		viewport = articlePos = null;
@@ -441,7 +469,7 @@ RIA.AZCampaign = new Class({
 			fbContainer.inject(article.getElement("nav"),"bottom");
 			
 			FB.XFBML.parse(fbContainer, function(){
-				Log.info("parsed fb:like button");
+				//Log.info("parsed fb:like button");
 			}.bind(this));
 
 			articleId = fb = fbContainer = null;
@@ -476,7 +504,7 @@ RIA.AZCampaign = new Class({
 		/*
 		*	Hook from fbAsyncInit
 		*/
-		Log.info("Adding FB.Event.subscribe event listeners");
+		//Log.info("Adding FB.Event.subscribe event listeners");
 		FB.Event.subscribe('edge.create', this.FBEvent_EdgeCreate.bind(this));
 		FB.Event.subscribe('edge.remove', this.FBEvent_EdgeRemove.bind(this));
 	},
@@ -496,11 +524,12 @@ RIA.AZCampaign = new Class({
 	},
 	GA_trackEvent: function(category, action, label, value) {
 		_gaq.push(['_trackEvent', category, action, label, value]);
+		Log.info("GA_trackEvent() : "+category+" : "+action+" : "+label);
 	},
 	GA_trackPageview: function(url, action) {
 		var path = url;
 		if(action) path += ("/" + action);
-		Log.info(path);
 		_gaq.push(['_trackPageview', path]);
+		Log.info("GA_trackPageview() : "+path);
 	}
 });
