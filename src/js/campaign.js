@@ -506,7 +506,6 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	windowResizeEvent: function() {
-		Log.info("windowResizeEvent")
 		this.setNavigationPanelPosition();
 		this.getContentWithinViewport();
 	},
