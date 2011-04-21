@@ -5,7 +5,6 @@ RIA.AZCampaign = new Class({
 		alpha:null,
 		categories:null,
 		category:null,
-		filter:null,
 		keyCodes:{
 			"65":"a","66":"b","67":"c","68":"d","69":"e","70":"f","71":"g","72":"h","73":"i","74":"j","75":"k","76":"l","77":"m","78":"n","79":"o","80":"p","81":"q",
 			"82":"r","83":"s","84":"t","85":"u","86":"v","87":"w","88":"x","89":"y","90":"z"
@@ -98,7 +97,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
-		Log.info("handleContent()");
+		Log.info("handleContent("+article.get("id")+")");
 		var container = article.getElement(".container"), nav = article.getElement("nav"), mainImageContainer = article.getElement(".content-image"), mainImage;
 		mainImage = mainImageContainer.getElement("img");
 
@@ -125,7 +124,7 @@ RIA.AZCampaign = new Class({
 			}	
 
 			this.createFacebookLikeButton(article);
-			//this.createTwitterTweetButton(article);
+			this.createTwitterTweetButton(article);
 
 		} else {
 			if(container.getStyle("opacity") != 0) {
@@ -514,7 +513,6 @@ RIA.AZCampaign = new Class({
 		/*
 		*	Hook from fbAsyncInit
 		*/
-		//Log.info("Adding FB.Event.subscribe event listeners");
 		FB.Event.subscribe('edge.create', this.FBEvent_EdgeCreate.bind(this));
 		FB.Event.subscribe('edge.remove', this.FBEvent_EdgeRemove.bind(this));
 	},
