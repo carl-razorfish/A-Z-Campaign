@@ -1,5 +1,7 @@
 article {
+	/*
 	overflow:hidden;
+	*/
 	padding:20px;
 	border:1px solid #333;
 	-o-border-radius:5px;
@@ -103,7 +105,9 @@ article section.qanda .answer p {
 */
 
 section.layout-two-column {
+	
 	overflow:hidden;
+	
 }
 section.layout-two-column .content-image {
 	display:block;
@@ -114,10 +118,15 @@ section.layout-two-column .content-image {
 }
 
 article nav {
+	/*
 	overflow:hidden;
+	*/
+	clear:right;
 }
 article nav p {
+	/*
 	float:right;
+	*/
 	display:inline-block;
 	margin:0 0 0 50px;
 	padding:0;

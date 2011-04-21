@@ -200,6 +200,7 @@ RIA.AZCampaign = new Class({
 			});
 		} else {
 			article.ria.filterFx.start({
+				'overflow': (show ? "" : "hidden"),
 			    'height': (show ? article.ria.h : 0),
 			    'opacity': (show ? 1 : 0),
 				'marginBottom':(show ? article.ria.marginBottom : 0),
@@ -297,16 +298,14 @@ RIA.AZCampaign = new Class({
 			*/				
 			if(this.options.categories[category].indexOf(article.get("id")) === -1) {
 				this.navArticles[index].addClass("inactive");
-				this.handleContent(article, false);
 				this.filterFx(article, false, false);
 			}
 			/*
 			*	Else the Article ID is included in our Category Array, so filter it in
 			*/
 			else { 
-				this.filterFx(article, true, false);
-				this.handleContent(article, false);
 				this.navArticles[index].removeClass("inactive");
+				this.filterFx(article, true, false);
 			}			
 		},this);
 		
@@ -405,6 +404,7 @@ RIA.AZCampaign = new Class({
 		a = b = null;
 	},
 	getContentWithinViewport: function(event) {
+		Log.info("getContentWithinViewport()");
 		var viewport = RIA.Util.getViewport(),articlePos;
 		
 		this.articles.each(function(article) {
