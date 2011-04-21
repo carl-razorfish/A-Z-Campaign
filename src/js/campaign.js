@@ -408,7 +408,8 @@ RIA.AZCampaign = new Class({
 			*/
 			if((articlePos.y >= viewport.scrollTop && articlePos.y <= (viewport.scrollTop+viewport.h)) || (((articlePos.y+article.ria.h) >= viewport.scrollTop) && (articlePos.y+article.ria.h) <= (viewport.scrollTop+viewport.h))) {
 				this.handleContent(article, true);
-				this.GA_trackEvent('UI', 'Scroll', article.id.toUpperCase(), null);
+				this.GA_trackEvent('UI', 'Scroll', article.get("id").toUpperCase(), null);
+				this.GA_trackPageview("/"+article.get("id"), "scrolled");
 			} else {
 				this.handleContent(article, false);
 			}
@@ -496,5 +497,11 @@ RIA.AZCampaign = new Class({
 	},
 	GA_trackEvent: function(category, action, label, value) {
 		_gaq.push(['_trackEvent', category, action, label, value]);
+	},
+	GA_trackPageview: function(url, action) {
+		var path = url;
+		if(action) path += ("/" + action);
+		Log.info(path);
+		_gaq.push(['_trackPageview', path]);
 	}
 });
