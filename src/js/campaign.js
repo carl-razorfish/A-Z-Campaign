@@ -422,7 +422,6 @@ RIA.AZCampaign = new Class({
 		var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navigationPanel.style.webkitTransform.substring(11);
 		translateYCurrent = translateYCurrent.replace("px)","");
 		if(translateYCurrent == "") translateYCurrent = 0;
-		// [ST]TODO: I've moved this CSS statement into the portrait & landscape CSS files : this.navigationPanel.style.webkitTransition = "-webkit-transform .7s";
 		this.navigationPanel.style.webkitTransform = "translateY("+yPos+"px)";
 	},
 	createFacebookLikeButton: function(article) {
