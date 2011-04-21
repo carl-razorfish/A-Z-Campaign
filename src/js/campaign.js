@@ -478,13 +478,21 @@ RIA.AZCampaign = new Class({
 		*/
 		Log.info("Adding FB.Event.subscribe event listeners");
 		FB.Event.subscribe('edge.create', this.FBEvent_EdgeCreate.bind(this));
+		FB.Event.subscribe('edge.remove', this.FBEvent_EdgeRemove.bind(this));
 	},
 	FBEvent_EdgeCreate: function(href, widget) {
 		/*
 		*	@description:
-		*		Method hook from Facebook Like action (edge.create). We need to track this with Google Analytics
+		*		Method hook from Facebook Like action (edge.create).
 		*/
 		this.GA_trackEvent('Facebook', 'Like', href, null);
+	},
+	FBEvent_EdgeRemove: function(href, widget) {
+		/*
+		*	@description:
+		*		Method hook from Facebook Unlike action (edge.remove).
+		*/
+		this.GA_trackEvent('Facebook', 'Unlike', href, null);
 	},
 	GA_trackEvent: function(category, action, label, value) {
 		_gaq.push(['_trackEvent', category, action, label, value]);
