@@ -98,6 +98,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
+		Log.info("handleContent()");
 		var container = article.getElement(".container"), nav = article.getElement("nav"), mainImageContainer = article.getElement(".content-image"), mainImage;
 		mainImage = mainImageContainer.getElement("img");
 
@@ -135,6 +136,7 @@ RIA.AZCampaign = new Class({
 			}
 			if(mainImage) {
 				if(mainImage.get("src") != this.options.binaryGIF) {
+					Log.info("Unloading content image for article "+article.get("id"));
 					mainImage.set("src",this.options.binaryGIF);
 				}				
 			}
@@ -408,42 +410,50 @@ RIA.AZCampaign = new Class({
 		
 		this.articles.each(function(article) {
 			articlePos = article.getPosition();
-			var articleTop = articlePos.y, articleBottom = (articlePos.y+article.ria.h);
+			var articleTop = articlePos.y, articleBottom = (articlePos.y+article.ria.h), required = false;
 			/*
 			*	This will check that any of the Article is in the viewport.
 			*/
-
-			if(
-				// if the top of the article is in view
-				(articleTop >= viewport.scrollTop && articleTop <= (viewport.scrollTop+viewport.h)) 
-				||
-				// if the bottom of the article is in view
-				(articleBottom >= viewport.scrollTop && articleBottom <= (viewport.scrollTop+viewport.h))
-			) {
-				/*
-				*	We may have scrolled via a Category selection, so although the article may be in view it may be hidden
-				*	Check the height of the Article to see if it's greater than 50 px (TODO: find a robust way to handle this)
-				*/
-				if(parseFloat(article.getStyle("height")) > 50) {
-					this.handleContent(article, true);
-					if(!article.ria.inView) {
-						this.GA_trackEvent('UI', 'Scroll', article.get("id").toUpperCase(), null);
-						this.GA_trackPageview("/"+article.get("id"), "scrolled");
-					}
-					article.ria.inView = true;
-				} else {
-					this.handleContent(article, false);
+			while (articleTop < articleBottom) {
+				articleTop+=10;
+				if(articleTop >= viewport.scrollTop && articleTop <= (viewport.scrollTop+viewport.h)) {
+					required = true;					
+					break;
 				}
-				
-			} else {
-				article.ria.inView = false;
-				this.handleContent(article, false);
 			}
 			
+			if(required) {
+				this.articleIsInView(article);
+			} else {				
+				this.articleIsNotInView(article);
+			}
+				
 			articleTop = articleBottom = null;
 		},this);
 		
 		viewport = articlePos = null;
+	},
+	articleIsInView: function(article) {
+		/*
+		*	We may have scrolled via a Category selection, so although the article may be in view it may be hidden
+		*	Check the height of the Article to see if it's greater than 50 px (TODO: find a robust way to handle this), if it is we show and track the content
+		*/
+		if(!article.ria.inView) {
+			var floatHeight = parseFloat(article.getStyle("height")), articleId = article.get("id");
+			if(floatHeight > 50) {
+				this.handleContent(article, true);
+				this.GA_trackEvent('UI', 'Scroll', articleId.toUpperCase(), null);
+				this.GA_trackPageview("/"+articleId, "scrolled");
+			}
+			floatHeight = articleId = null;
+			article.ria.inView = true;
+		}
+	},
+	articleIsNotInView: function(article) {
+		if(article.ria.inView) {
+			this.handleContent(article, false);	
+			article.ria.inView = false;	
+		}
 	},
 	setNavPositionForiOs: function() {
 		if(!Browser.Platform.ios) return;
