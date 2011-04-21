@@ -61,7 +61,7 @@
 				document.getElementById('fb-root').appendChild(e);
 			}());
 			
-			{% comment %} Include Facebook SDK, for tracking (only) {% endcomment %}
+			{% comment %} Include Facebook SDK, for tracking and XFBML Like Button dynamic creation {% endcomment %}
 			window.fbAsyncInit = function() {
 				FB.init({
 					appId:'{{ common.facebook_app_id }}',
