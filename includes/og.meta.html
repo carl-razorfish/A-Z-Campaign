@@ -1,21 +1,19 @@
+<meta property="fb:app_id" content="{{ common.facebook_app_id }}" />
+<meta property="og:type" content="website" />
 {% if alpha %}
 	{% for article in content %}
 		{% if article.id in alpha %}
-		<meta property="og:title" content="{{ article.header }}" />
-		<meta property="og:type" content="website" />
+		<meta property="og:title" content="{{ article.header|safe }}" />
 		<meta property="og:url" content="http://a-z-campaign.appspot.com/{{ article.id }}" />
 		<meta property="og:image" content="http://a-z-campaign.appspot.com/img/{{ article.id }}/letter.jpg" />
-		<meta property="og:description" content="{{ article.section_statement1 }}" />
-		<meta property="fb:admins" content="" />
-		<meta property="keywords" content="{{ article.category_tags }}" />
+		<meta property="og:description" content="{{ article.section_statement1|safe }}" />
+		<meta property="keywords" content="{{ article.category_tags|safe }}" />
 		{% endif %}				
 	{% endfor %}
 {% else %}	
-		<meta property="og:title" content="{{ common.pagetitle|safe }}" />
-		<meta property="og:type" content="website" />
+		<meta property="og:title" content="{{ common.pagetitle|safe }}" />	
 		<meta property="og:url" content="http://a-z-campaign.appspot.com/" />
 		<meta property="og:image" content="http://a-z-campaign.appspot.com/img/nav-logo.png" />
 		<meta property="og:description" content="{{ common.description|safe }}" />
-		<meta property="fb:admins" content="" />
 		<meta property="keywords" content="" />
 {% endif %}	

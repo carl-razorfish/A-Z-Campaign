@@ -1,6 +1,7 @@
 RIA.AZCampaign = new Class({
 	Implements:[Options],
 	options:{
+		binaryGIF:"data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
 		alpha:null,
 		categories:null,
 		category:null,
@@ -14,7 +15,6 @@ RIA.AZCampaign = new Class({
 		try {
 			this.setOptions(options);
 			document.getElement("body").addClass("js");
-			
 			this.articles = document.getElements("article");			
 			this.navigation = document.getElements("#navigation, ul.categories");
 			this.navigationPanel = document.id("navigation");
@@ -124,13 +124,13 @@ RIA.AZCampaign = new Class({
 			}	
 
 			this.createFacebookLikeButton(article);
-			this.createTwitterTweetButton(article);
+			//this.createTwitterTweetButton(article);
 		}
 		else {
 			container.setStyle('opacity',0);
 			nav.setStyle('visibility','hidden');
 			if(mainImage) {
-				mainImage.set("src","data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
+				mainImage.set("src",this.options.binaryGIF);
 			}
 		}
 		
@@ -419,22 +419,29 @@ RIA.AZCampaign = new Class({
 		var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navigationPanel.style.webkitTransform.substring(11);
 		translateYCurrent = translateYCurrent.replace("px)","");
 		if(translateYCurrent == "") translateYCurrent = 0;
-		this.navigationPanel.style.webkitTransition = "-webkit-transform .7s";
-		this.navigationPanel.style.webkitTransform = "translateY("+(yPos)+"px)";
+		// [ST]TODO: I've moved this CSS statement into the portrait & landscape CSS files : this.navigationPanel.style.webkitTransition = "-webkit-transform .7s";
+		this.navigationPanel.style.webkitTransform = "translateY("+yPos+"px)";
 	},
 	createFacebookLikeButton: function(article) {
 		if(!article.getElement("p.facebook-like")) {
 			
 			var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
-			fb = new Element("iframe", {
-				"src":"http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fa-z-campaign.appspot.com/"+articleId+"&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80&amp;ref=a-to-z-mcdonalds-"+articleId,
-				"scrolling":"no",
-				"frameborder":0,
-				"allowTransparency":"true",
-				"style":"border:none; overflow:hidden; width:450px; height:80px;"
-			}).inject(fbContainer);
+
+			fb = document.createElement("fb:like");
+			fb.setAttribute("href","http://a-z-campaign.appspot.com/"+articleId);
+			fb.setAttribute("show_faces",false);
+			fb.setAttribute("width",450);
+			fb.setAttribute("height",80);
+			fb.setAttribute("font","arial");
+			fb.setAttribute("ref","a-to-z-mcdonalds-"+articleId);
+			
+			fbContainer.appendChild(fb);
 			fbContainer.inject(article.getElement("nav"),"bottom");
 			
+			FB.XFBML.parse(fbContainer, function(){
+				Log.info("parsed fb:like button");
+			}.bind(this));
+
 			articleId = fb = fbContainer = null;
 		}
 	},
@@ -456,13 +463,25 @@ RIA.AZCampaign = new Class({
 			
 			var tweet_button = new twttr.TweetButton(tw);
 			tweet_button.render();
-			
-			tweet_button = articleId = tw = twContainer = null;
-			
+			tweet_button = articleId = tw = twContainer = null;			
 		}
 	},
 	windowResizeEvent: function() {
 		this.setNavigationPanelPosition();
 		this.getContentWithinViewport();
+	},
+	initFacebook: function() {
+		/*
+		*	Hook from fbAsyncInit
+		*/
+		Log.info("Adding FB.Event.subscribe event listeners");
+		FB.Event.subscribe('edge.create', this.FBEvent_EdgeCreate.bind(this));
+	},
+	FBEvent_EdgeCreate: function(href, widget) {
+		/*
+		*	@description:
+		*		Method hook from Facebook Like action (edge.create). We need to track this with Google Analytics
+		*/	
+		Log.info(href);
 	}
 });

@@ -60,3 +60,10 @@ ul,dl,ol {
 .js .js-hide {
 	display:none;
 }
+
+/*
+*	Hide content inside fb root
+*/
+#fb-root {
+	display:none;
+}
