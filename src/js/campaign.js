@@ -191,6 +191,7 @@ RIA.AZCampaign = new Class({
 			/*
 			*	Set the height immediately, so we can scroll to that element and it will be there
 			*/
+			article.setStyle("overflow","");
 			article.ria.filterFx.set({
 				'height': article.ria.h,
 			    'opacity': 1,
@@ -199,9 +200,16 @@ RIA.AZCampaign = new Class({
 				'paddingBottom':article.ria.paddingBottom
 			});
 		} else {
+			if(!show) {
+				(function() {
+					article.setStyle("overflow","");
+				}).delay(1000);				
+			} else {
+				article.setStyle("overflow","hidden");
+			}
+			
 			article.ria.filterFx.start({
-				'overflow': (show ? "" : "hidden"),
-			    'height': (show ? article.ria.h : 0),
+				'height': (show ? article.ria.h : 0),
 			    'opacity': (show ? 1 : 0),
 				'marginBottom':(show ? article.ria.marginBottom : 0),
 				'paddingTop':(show ? article.ria.paddingTop : 0),
