@@ -106,6 +106,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
+		Log.info("handleContent : "+article.id);
 		var container = article.getElement(".container"), nav = article.getElement("nav"), mainImageContainer = article.getElement(".content-image"), mainImage;
 		mainImage = mainImageContainer.getElement("img");
 
@@ -135,6 +136,7 @@ RIA.AZCampaign = new Class({
 			this.generateTweetButton(article);
 
 		} else {
+			Log.info("hiding "+article.id);
 			if(container.getStyle("opacity") != 0) {
 				container.setStyle('opacity',0);
 			}
@@ -275,12 +277,19 @@ RIA.AZCampaign = new Class({
 
 	},
 	filter: function(filter, eventType) {
+		/*
+		*	@description:
+		*		Check to see if we have a category that matches the requred filter
+		*		Else check to see if we have an article that matches the required filter
+		*/
+		var article = document.id(filter);
 		if(this.options.categories[filter]) {
 			this.filterByCategory(filter, eventType);			
 		} 
-		else if(document.id(filter)) {
-			this.goToArticle(document.id(filter), eventType);
+		else if(article) {
+			this.goToArticle(article, eventType);
 		}
+		article = null;
 	},
 	filterByCategory: function(category, eventType) {
 		/*
@@ -313,7 +322,10 @@ RIA.AZCampaign = new Class({
 			if(this.options.categories[category].indexOf(article.get("id")) === -1) {
 				this.navArticles[index].addClass("inactive");
 				this.filterFx(article, false, false);
-				//this.handleContent(article, false);
+				/*
+				*	[ST]TODO: problem here with unloading category filtered content
+				*/
+				this.handleContent(article, false);
 			}
 			/*
 			*	Else the Article ID is included in our Category Array, so filter it in
@@ -321,7 +333,10 @@ RIA.AZCampaign = new Class({
 			else { 
 				this.navArticles[index].removeClass("inactive");
 				this.filterFx(article, true, false);
-				//this.handleContent(article, true);
+				/*
+				*	[ST]TODO: problem here with loading category filtered content
+				*/
+				this.handleContent(article, true);
 			}			
 		},this);
 		
@@ -334,6 +349,8 @@ RIA.AZCampaign = new Class({
 		*	Track the Category Navigation usage with GA
 		*/
 		this.GA_trackEvent('CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null);
+		
+		category = eventType = null;
 	},
 	filterInAll: function() {
 		/*
@@ -429,8 +446,11 @@ RIA.AZCampaign = new Class({
 		var viewport = RIA.Util.getViewport(),articlePos;
 		
 		this.articles.each(function(article) {
+			
 			articlePos = article.getPosition();
+			
 			var articleTop = articlePos.y, articleBottom = (articlePos.y+article.ria.h), required = false;
+		
 			/*
 			*	This will check that any of the Article is in the viewport.
 			*/
@@ -441,14 +461,14 @@ RIA.AZCampaign = new Class({
 					break;
 				}
 			}
-			
+		
 			if(required) {
 				this.articleIsInView(article);
 			} else {				
 				this.articleIsNotInView(article);
 			}
-				
-			articleTop = articleBottom = null;
+
+			articleTop = articleBottom = required = null;
 		},this);
 		
 		viewport = articlePos = null;

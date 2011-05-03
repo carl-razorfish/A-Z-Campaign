@@ -31,17 +31,17 @@ RIA.Facebook = new Class({
 		/*
 		*	Hook from Facebook's fbAsyncInit function. Fired once the FB library has loaded
 		*/
-		FB.Event.subscribe('edge.create', this.FBEvent_EdgeCreate.bind(this));
-		FB.Event.subscribe('edge.remove', this.FBEvent_EdgeRemove.bind(this));
+		FB.Event.subscribe('edge.create', this.eventEdgeCreate.bind(this));
+		FB.Event.subscribe('edge.remove', this.eventEdgeRemove.bind(this));
 	},
-	FBEvent_EdgeCreate: function(href, widget) {
+	eventEdgeCreate: function(href, widget) {
 		/*
 		*	@description:
 		*		Method hook from Facebook Like action (edge.create).
 		*/
 		this.GA_trackEvent('Facebook', 'Like', href, null);
 	},
-	FBEvent_EdgeRemove: function(href, widget) {
+	eventEdgeRemove: function(href, widget) {
 		/*
 		*	@description:
 		*		Method hook from Facebook Unlike action (edge.remove).

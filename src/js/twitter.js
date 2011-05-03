@@ -21,7 +21,7 @@ RIA.Twitter = new Class({
 			
 			var tweet_button = new twttr.TweetButton(tw);
 			tweet_button.render();
-			tweet_button = articleId = tw = twContainer = null;			
+			tweet_button = articleId = header = tweetHash = tw = twContainer = null;			
 		}
 	}
 });
