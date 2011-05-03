@@ -307,6 +307,7 @@ RIA.AZCampaign = new Class({
 			if(this.options.categories[category].indexOf(article.get("id")) === -1) {
 				this.navArticles[index].addClass("inactive");
 				this.filterFx(article, false, false);
+				//this.handleContent(article, false);
 			}
 			/*
 			*	Else the Article ID is included in our Category Array, so filter it in
@@ -314,6 +315,7 @@ RIA.AZCampaign = new Class({
 			else { 
 				this.navArticles[index].removeClass("inactive");
 				this.filterFx(article, true, false);
+				//this.handleContent(article, true);
 			}			
 		},this);
 		
@@ -366,7 +368,7 @@ RIA.AZCampaign = new Class({
 		var viewport = RIA.Util.getViewport(), articleId = articleElement.get("id"), articlePos;
 
 		this.articles.each(function(art) {
-			this.handleContent(art, false);	
+			this.handleContent(art, false);
 		},this);
 		
 		/*
@@ -457,6 +459,7 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	articleIsNotInView: function(article) {
+		Log.info("articleIsNotInView("+article.get("id")+")")
 		if(article.ria.inView) {
 			this.handleContent(article, false);	
 			article.ria.inView = false;	
