@@ -1,5 +1,9 @@
 RIA.AZCampaign = new Class({
-	Implements:[Options],
+	Implements:[
+		Options,
+		RIA.Facebook,
+		RIA.Twitter
+	],
 	options:{
 		binaryGIF:"data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
 		alpha:null,
@@ -8,6 +12,11 @@ RIA.AZCampaign = new Class({
 		keyCodes:{
 			"65":"a","66":"b","67":"c","68":"d","69":"e","70":"f","71":"g","72":"h","73":"i","74":"j","75":"k","76":"l","77":"m","78":"n","79":"o","80":"p","81":"q",
 			"82":"r","83":"s","84":"t","85":"u","86":"v","87":"w","88":"x","89":"y","90":"z"
+		},
+		eventTypes:{
+			"touchstart":"Touch",
+			"click":"Mouse",
+			"keyup":"Keyboard"
 		}
 	},
 	initialize: function(options) {
@@ -92,16 +101,15 @@ RIA.AZCampaign = new Class({
 			this.navigationPanel.setStyle("left",this.navigationPanelOffsetLeft+"px");
 		}		
 	},
-	handleContent: function(article, showHide) {
+	handleContent: function(article, show) {
 		/*
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
-		Log.info("handleContent("+article.get("id")+")");
 		var container = article.getElement(".container"), nav = article.getElement("nav"), mainImageContainer = article.getElement(".content-image"), mainImage;
 		mainImage = mainImageContainer.getElement("img");
 
-		if(showHide === true) {
+		if(show === true) {
 			if(!mainImage) {
 				mainImageContainer.adopt(
 					mainImage = new Element("img", {
@@ -123,8 +131,8 @@ RIA.AZCampaign = new Class({
 				container.setStyle('opacity',1);
 			}	
 
-			this.createFacebookLikeButton(article);
-			this.createTwitterTweetButton(article);
+			this.generateLikeButton(article);
+			this.generateTweetButton(article);
 
 		} else {
 			if(container.getStyle("opacity") != 0) {
@@ -253,7 +261,7 @@ RIA.AZCampaign = new Class({
 			*	DO NOT PREVENT DEFAULT KEYBOARD OPERATION
 			*	Although we have filtered out the command keys, there may be specific User config
 			*/
-			this.filter(this.options.keyCodes[e.keyCode]);
+			this.filter(this.options.keyCodes[e.keyCode], e.type);
 		}
 	},
 	selectEvent: function(e) {		
@@ -261,20 +269,20 @@ RIA.AZCampaign = new Class({
 		var targetCategory = e.targetTouches ? e.targetTouches[0].target.getAttribute("data-category") : e.target.getAttribute("data-category");
 
 		if(targetCategory) {			
-			this.filter(targetCategory);
+			this.filter(targetCategory, e.type);
 		}
 		targetCategory = null;
 
 	},
-	filter: function(filter) {
+	filter: function(filter, eventType) {
 		if(this.options.categories[filter]) {
-			this.filterByCategory(filter);			
+			this.filterByCategory(filter, eventType);			
 		} 
 		else if(document.id(filter)) {
-			this.goToArticle(document.id(filter));
+			this.goToArticle(document.id(filter), eventType);
 		}
 	},
-	filterByCategory: function(category) {
+	filterByCategory: function(category, eventType) {
 		/*
 		*	@description:
 		*		Filter content by Category
@@ -285,11 +293,9 @@ RIA.AZCampaign = new Class({
 		*/
 		if(this.options.category === category) return;
 
-		this.setAlphaNavState();
-
 		this.options.category = category;
 		
-		this.GA_trackEvent('CategoryNavigation', 'Select', this.options.category, null);
+		this.setAlphaNavState();
 		
 		/*
 		*	Set the Category navigation
@@ -323,6 +329,11 @@ RIA.AZCampaign = new Class({
 		*	Reset any Window scroll position
 		*/
 		this.scrollFx.toTop();	
+		
+		/*
+		*	Track the Category Navigation usage with GA
+		*/
+		this.GA_trackEvent('CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null);
 	},
 	filterInAll: function() {
 		/*
@@ -361,7 +372,7 @@ RIA.AZCampaign = new Class({
 			}
 		},this);
 	},
-	goToArticle: function(articleElement) {
+	goToArticle: function(articleElement, eventType) {
 		/*
 		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
 		*/
@@ -402,7 +413,7 @@ RIA.AZCampaign = new Class({
 		
 		this.scrollFx.toElement(articleId, 'y');	
 		
-		this.GA_trackEvent('AlphabetNavigation', 'Select', articleId.toUpperCase(), null);
+		this.GA_trackEvent('AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null);
 				
 		articleElement = viewport = articleId = articlePos = null;
 	},
@@ -459,7 +470,6 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	articleIsNotInView: function(article) {
-		Log.info("articleIsNotInView("+article.get("id")+")")
 		if(article.ria.inView) {
 			this.handleContent(article, false);	
 			article.ria.inView = false;	
@@ -472,80 +482,28 @@ RIA.AZCampaign = new Class({
 		if(translateYCurrent == "") translateYCurrent = 0;
 		this.navigationPanel.style.webkitTransform = "translateY("+yPos+"px)";
 	},
-	createFacebookLikeButton: function(article) {
-		if(!article.getElement("p.facebook-like")) {
-			
-			var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
-
-			fb = document.createElement("fb:like");
-			fb.setAttribute("href","http://a-z-campaign.appspot.com/"+articleId);
-			fb.setAttribute("show_faces",false);
-			fb.setAttribute("width",450);
-			fb.setAttribute("height",80);
-			fb.setAttribute("font","arial");
-			fb.setAttribute("ref","a-to-z-mcdonalds-"+articleId);
-			
-			fbContainer.appendChild(fb);
-			fbContainer.inject(article.getElement("nav"),"bottom");
-			
-			FB.XFBML.parse(fbContainer, function(){
-				//Log.info("parsed fb:like button");
-			}.bind(this));
-
-			articleId = fb = fbContainer = null;
-		}
-	},
-	createTwitterTweetButton: function(article) {
-		if(!article.getElement("p.twitter-tweet")) {
-			var articleId = article.get("id"), header = article.getElement("h2").get("text"), tw, twContainer = new Element("p", {"class":"twitter-tweet"}), tweetHash = article.get("data-tweet-hash");
-			
-			tw = new Element("a", {
-				"href":"http://twitter.com/share",
-				"class":"twitter-share-button",
-				"data-lang":"en",
-				"data-url":"http://a-z-campaign.appspot.com/"+articleId,
-				"data-count":"none",
-				"data-text":header+" "+tweetHash,
-				"html":"Tweet"
-			}).inject(twContainer);
-
-			twContainer.inject(article.getElement("nav"),"bottom");
-			
-			var tweet_button = new twttr.TweetButton(tw);
-			tweet_button.render();
-			tweet_button = articleId = tw = twContainer = null;			
-		}
-	},
 	windowResizeEvent: function() {
+		/*
+		*	@description:
+		*		onResize event handler
+		*/
 		this.setNavigationPanelPosition();
 		this.getContentWithinViewport();
 	},
-	initFacebook: function() {
-		/*
-		*	Hook from fbAsyncInit
-		*/
-		FB.Event.subscribe('edge.create', this.FBEvent_EdgeCreate.bind(this));
-		FB.Event.subscribe('edge.remove', this.FBEvent_EdgeRemove.bind(this));
-	},
-	FBEvent_EdgeCreate: function(href, widget) {
-		/*
-		*	@description:
-		*		Method hook from Facebook Like action (edge.create).
-		*/
-		this.GA_trackEvent('Facebook', 'Like', href, null);
-	},
-	FBEvent_EdgeRemove: function(href, widget) {
-		/*
-		*	@description:
-		*		Method hook from Facebook Unlike action (edge.remove).
-		*/
-		this.GA_trackEvent('Facebook', 'Unlike', href, null);
-	},
 	GA_trackEvent: function(category, action, label, value) {
+		/*
+		*	@description:
+		*		Manually track a custom event with GA
+		*/
 		_gaq.push(['_trackEvent', category, action, label, value]);
 		Log.info("GA_trackEvent() : "+category+" : "+action+" : "+label);
 	},
 	GA_trackPageview: function(url, action) {
+		/*
+		*	@description:
+		*		Manually track a Page View with GA
+		*		This is principally used for when a User scrolls to an Alphabet content, which is considered a page, whilst within the 'All' view
+		*/
 		var path = url;
 		if(action) path += ("/" + action);
 		_gaq.push(['_trackPageview', path]);
