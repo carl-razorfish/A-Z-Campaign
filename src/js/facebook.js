@@ -23,7 +23,7 @@ RIA.Facebook = new Class({
 				/*
 				*	Generate the FB Like button
 				*/
-				FB.XFBML.parse(fbContainer);
+				if(FB) FB.XFBML.parse(fbContainer);
 
 				articleId = fb = fbContainer = null;
 			}
