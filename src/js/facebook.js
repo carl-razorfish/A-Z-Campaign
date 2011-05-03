@@ -4,27 +4,31 @@ RIA.Facebook = new Class({
 		*	@description:
 		*		Generate a Facebook Like Button (once only) for an Article	
 		*/
-		if(!article.getElement("p.facebook-like")) {
+		try {
+			if(!article.getElement("p.facebook-like")) {
 			
-			var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
+				var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
 
-			fb = document.createElement("fb:like");
-			fb.setAttribute("href","http://a-z-campaign.appspot.com/"+articleId);
-			fb.setAttribute("show_faces",false);
-			fb.setAttribute("width",450);
-			fb.setAttribute("height",80);
-			fb.setAttribute("font","arial");
-			fb.setAttribute("ref","a-to-z-mcdonalds-"+articleId);
+				fb = document.createElement("fb:like");
+				fb.setAttribute("href","http://a-z-campaign.appspot.com/"+articleId);
+				fb.setAttribute("show_faces",false);
+				fb.setAttribute("width",450);
+				fb.setAttribute("height",80);
+				fb.setAttribute("font","arial");
+				fb.setAttribute("ref","a-to-z-mcdonalds-"+articleId);
 			
-			fbContainer.appendChild(fb);
-			fbContainer.inject(article.getElement("nav"),"bottom");
+				fbContainer.appendChild(fb);
+				fbContainer.inject(article.getElement("nav"),"bottom");
 			
-			/*
-			*	Generate the FB Like button
-			*/
-			FB.XFBML.parse(fbContainer);
+				/*
+				*	Generate the FB Like button
+				*/
+				FB.XFBML.parse(fbContainer);
 
-			articleId = fb = fbContainer = null;
+				articleId = fb = fbContainer = null;
+			}
+		} catch(e) {
+			Log.error({method:"generateLikeButton()", error:e});
 		}
 	},
 	initFacebook: function() {
