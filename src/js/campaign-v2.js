@@ -39,7 +39,7 @@ RIA.AZCampaign = new Class({
 			
 			this.getContentInViewport();
 			
-			this.addEventListeners();
+			
 			
 			this.scrollFx = new Fx.Scroll(window, {
 				offset: {y: -this.navCategoryHeight}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
@@ -53,15 +53,33 @@ RIA.AZCampaign = new Class({
 					this.scrollFx.options.duration = 1000;
 					this.getContentInViewport();
 					this.addScrollEventListener();
-					//this.setNavPositionForiOs();
+					this.setNavPositionForiOs();
 				}.bind(this),
 				onCancel: function(e) {
 					this.scrollFx.options.duration = 1000;
 					this.getContentInViewport();
 					this.addScrollEventListener();
-					//this.setNavPositionForiOs();
+					this.setNavPositionForiOs();
 				}.bind(this)
 			});
+			
+			/*
+			*	Don't add any event listeners if the Alpha Article & URL is present
+			*/
+			if(!this.options.alpha || this.options.alpha == "") {
+				this.addEventListeners();
+			} else {
+				window.addEvent("resize", this.onWindowResize.bind(this));
+			}
+			
+			/*
+			*	If we've linked from an Article only page, we will have a hash.
+			*	The hash will hide the top of the content behind the nav, however, so scroll to it.
+			*	This problem won't occur with JavaScript enabled, as the page will jump to the appropriate content using the hash anchor
+			*/
+			if(window.location.hash) {
+				this.scrollToArticle(document.id(window.location.hash.substring(1)));
+			}
 			
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign : initialize() : Error : ", error:e});
@@ -268,7 +286,6 @@ RIA.AZCampaign = new Class({
 		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
 		*/
 		try {
-			Log.info("scrollToArticle");
 			var viewport = this.getViewport(), articleId = articleElement.get("id"), articlePos;
 
 			/*
@@ -531,6 +548,17 @@ RIA.AZCampaign = new Class({
 			container = nav = mainImage = mainImageContainer = null;
 		} catch(e) {
 			Log.error({method:"handleContent()", error:e});
+		}
+	},
+	setNavPositionForiOs: function() {
+		try {
+			if(!Browser.Platform.ios) return;
+			var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navPanel.style.webkitTransform.substring(11);
+			translateYCurrent = translateYCurrent.replace("px)","");
+			if(translateYCurrent == "") translateYCurrent = 0;
+			this.navigationPanel.style.webkitTransform = "translateY("+yPos+"px)";
+		} catch(e) {
+			Log.error({method:"setNavPositionForiOs()", error:e});
 		}
 	}
 });
