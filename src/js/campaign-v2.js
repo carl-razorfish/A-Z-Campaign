@@ -187,6 +187,7 @@ RIA.AZCampaign = new Class({
 					if(!article.retrieve("inviewport")) {
 						this.loadArticle(article);
 						this.GA_trackPageview("/"+article.get("id"), "scrolled");
+						// [ST]TODO: The UI Scroll event tracking is being fired regardless of whether this was a Category select, Alphabet select or Scroll - fix this
 						this.GA_trackEvent('UI', 'Scroll', article.get("id").toUpperCase(), null);				
 					}
 					article.store("inviewport",true);
