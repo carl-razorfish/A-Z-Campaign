@@ -62,9 +62,11 @@
 			{% endif %}
 		{% endfor %}
 		</ul>
+		{% if article.question_1 and article.answer_1 %}
 		<p>
 			<a class="info" href="#" title="">Questions &amp; Answers</a>
 		</p>
+		{% endif %}
 		<a class="js-hide" href="#top">Back to top</a>
 	</nav>	
 </article>	
