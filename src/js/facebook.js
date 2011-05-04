@@ -38,6 +38,8 @@ RIA.Facebook = new Class({
 		*/
 		FB.Event.subscribe('edge.create', this.eventEdgeCreate.bind(this));
 		FB.Event.subscribe('edge.remove', this.eventEdgeRemove.bind(this));
+		FB.Event.subscribe('comment.create', this.eventCommentCreate.bind(this));
+		FB.Event.subscribe('comment.remove', this.eventCommentRemove.bind(this));
 	},
 	eventEdgeCreate: function(href, widget) {
 		/*
@@ -52,5 +54,19 @@ RIA.Facebook = new Class({
 		*		Method hook from Facebook Unlike action (edge.remove).
 		*/
 		this.GA_trackEvent('Facebook', 'Unlike', href, null);
+	},
+	eventCommentCreate: function(href, widget) {
+		/*
+		*	@description:
+		*		Method hook from Facebook Comment action (comment.create).
+		*/
+		this.GA_trackEvent('Facebook', 'Comment', href, null);
+	},
+	eventCommentRemove: function(href, widget) {
+		/*
+		*	@description:
+		*		Method hook from Facebook Uncomment action (comment.remove).
+		*/
+		this.GA_trackEvent('Facebook', 'Uncomment', href, null);
 	}
 });
