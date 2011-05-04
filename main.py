@@ -59,9 +59,8 @@ class HomeHandler(webapp.RequestHandler):
 	contentMC = content.load()
 	commonMC = common.load()
 	keyCodes = getKeyCodes(self)
-	page=1
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	args = dict(page=page,content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
+	args = dict(content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes)
 	self.response.out.write(template.render(path,args))
   def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.html')
