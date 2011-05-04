@@ -99,8 +99,26 @@ RIA.AZCampaign = new Class({
 		// Add keyboard navigation event listener
 		document.addEvent("keyup", this.keyboardNavigationEvent.bind(this));
 		
+		// Add Question & Answer select event listener
+		document.id("content").addEvent("click",this.qandaEventListener.bind(this));
+		
 		// Add document scroll event listener
 		this.addScrollEventListener();
+	},
+	qandaEventListener: function(e) {
+		/*
+		*	@description:
+		*		Add event listener for the Question & Answer section 'reveal'
+		*/
+		if(e.target.hasClass("info")) {
+			e.preventDefault();
+			var parent = e.target.getParent("article");		
+			if(parent.hasClass("questions")) {
+				parent.removeClass("questions");
+			} else {
+				parent.addClass("questions");
+			}
+		}
 	},
 	keyboardNavigationEvent: function(e) {
 		/*
@@ -193,7 +211,7 @@ RIA.AZCampaign = new Class({
 
 			viewport = articlePosY = null;
 		} catch(e) {
-			Log.error({method:"getContentInViewport()", error:e});
+			Log.error({method:"RIA.AZCampaign : getContentInViewport()", error:e});
 		}
 	},
 	loadArticle: function(article) {
@@ -255,8 +273,11 @@ RIA.AZCampaign = new Class({
 		*/
 		try {
 			if(this.options.keyCodes[filter]) {
-				this.filterByCategory(this.options.keyCodes[filter], eventType);			
-			} 
+				this.filterByCategory(this.options.keyCodes[filter], eventType);
+			}
+			else if(this.options.categories[filter]) {
+				this.filterByCategory(filter, eventType);
+			}
 			else if(document.id(filter)) {
 				this.scrollToArticle(document.id(filter), eventType);
 			}
@@ -275,12 +296,12 @@ RIA.AZCampaign = new Class({
 			var target = e.targetTouches ? e.targetTouches[0].target : e.target;
 			var targetCategory = target.getAttribute("data-category");
 
-			if(targetCategory) {			
+			if(targetCategory) {
 				this.filter(targetCategory, e.type);
 			}
 			target = targetCategory = null;
 		} catch(e) {
-			Log.error({method:"clickOrTouchNavigationEvent()", error:e});
+			Log.error({method:"RIA.AZCampaign : mouseAndTouchNavigationEvent()", error:e});
 		}
 	},
 	scrollToArticle: function(articleElement, eventType) {
@@ -329,7 +350,7 @@ RIA.AZCampaign = new Class({
 				
 			articleElement = viewport = articleId = articlePos = null;
 		} catch(e) {
-			Log.error({method:"goToArticle()", error:e});
+			Log.error({method:"RIA.AZCampaign : goToArticle()", error:e});
 		}
 	},
 	filterByCategory: function(category, eventType) {
@@ -337,7 +358,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Filter content by Category
 		*/
-		
+
 		/*
 		*	If the User selects a category we are already on, do not apply transitions
 		*/
@@ -393,7 +414,7 @@ RIA.AZCampaign = new Class({
 			this.GA_trackEvent('CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null);
 			category = eventType = null;
 		} catch(e) {
-			Log.error({method:"filterByCategory()", error:e});
+			Log.error({method:"RIA.AZCampaign : filterByCategory()", error:e});
 		}
 	},
 	filterFx: function(article, show, set) {
@@ -433,7 +454,7 @@ RIA.AZCampaign = new Class({
 			}
 
 		} catch(e) {
-			Log.error({method:"filterFx()", error:e});
+			Log.error({method:"RIA.AZCampaign : filterFx()", error:e});
 		}
 	},
 	storeArticleData: function() {
@@ -472,7 +493,7 @@ RIA.AZCampaign = new Class({
 				}
 			},this);
 		} catch(e) {
-			Log.error({method:"storeArticleData()", error:e});
+			Log.error({method:"RIA.AZCampaign : storeArticleData()", error:e});
 		}
 	},
 	filterInAll: function() {
@@ -486,7 +507,7 @@ RIA.AZCampaign = new Class({
 				this.filterFx(article, true, true);
 			},this);
 		} catch(e) {
-			Log.error({method:"filterInAll()", error:e});
+			Log.error({method:"RIA.AZCampaign : filterInAll()", error:e});
 		}
 	},
 	handleContent: function(article, show) {
@@ -494,33 +515,34 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load the content, e.g. image, for a specific Article
 		*/
-		
-		Log.info("handleContent");
 		try {
 			var container = article.getElement(".container"), nav = article.getElement("nav"), mainImageContainer = article.getElement(".content-image"), mainImage;
-			mainImage = mainImageContainer.getElement("img");
-
+			
 			/*
 			*	[ST]TODO: Depending on how large all of the content images are, we may not need to do UNloading
 			*	[ST]TODO: If we do need unloading and lazy loading, add a load event for the image so that it is adopted once it's loaded
 			*/
 
 			if(show === true) {
-				if(!mainImage) {
-					mainImageContainer.adopt(
-						mainImage = new Element("img", {
-							"src":mainImageContainer.get("data-main-src"),
-							"width":mainImageContainer.get("data-main-width"),
-							"height":mainImageContainer.get("data-main-height"),
-							"alt":mainImageContainer.get("data-alt")
-						})
-					);
-				} else {
-					mainImage.set("src",mainImageContainer.get("data-main-src"));
-					mainImage.set("width",mainImageContainer.get("data-main-width"));
-					mainImage.set("height",mainImageContainer.get("data-main-height"));
+				if(mainImageContainer) {
+					
+					mainImage = mainImageContainer.getElement("img");
+					
+					if(!mainImage) {
+						mainImageContainer.adopt(
+							mainImage = new Element("img", {
+								"src":mainImageContainer.get("data-main-src"),
+								"width":mainImageContainer.get("data-main-width"),
+								"height":mainImageContainer.get("data-main-height"),
+								"alt":mainImageContainer.get("data-alt")
+							})
+						);
+					} else {
+						mainImage.set("src",mainImageContainer.get("data-main-src"));
+						mainImage.set("width",mainImageContainer.get("data-main-width"));
+						mainImage.set("height",mainImageContainer.get("data-main-height"));
+					}
 				}
-			
 				nav.setStyle('visibility','visible');
 				
 				if(!Browser.Platform.ios) {
@@ -549,7 +571,7 @@ RIA.AZCampaign = new Class({
 		
 			container = nav = mainImage = mainImageContainer = null;
 		} catch(e) {
-			Log.error({method:"handleContent()", error:e});
+			Log.error({method:"RIA.AZCampaign : handleContent()", error:e});
 		}
 	},
 	setNavPositionForiOs: function() {
@@ -560,7 +582,7 @@ RIA.AZCampaign = new Class({
 			if(translateYCurrent == "") translateYCurrent = 0;
 			this.navigationPanel.style.webkitTransform = "translateY("+yPos+"px)";
 		} catch(e) {
-			Log.error({method:"setNavPositionForiOs()", error:e});
+			Log.error({method:"RIA.AZCampaign : setNavPositionForiOs()", error:e});
 		}
 	}
 });
