@@ -1,7 +1,7 @@
 <!DOCTYPE html>	
 <html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://developers.facebook.com/schema/">
     <head>
-        <title>{% if alpha %}{% for article in content %}{% if article.id in alpha %}{{ article.header }} - {% endif %}{% endfor %}{% endif %}{% if category %}{% for cat in categories.items %}{% if category in cat.0 %}{{cat.1}} - {% endif %}{% endfor %}{% endif %}{{ common.pagetitle|safe }}</title>
+        <title>{% if alpha %}{% for article in content %}{% if article.id in alpha %}{{ article.title }} - {% endif %}{% endfor %}{% endif %}{% if category %}{% for cat in categories.items %}{% if category in cat.0 %}{{cat.1}} - {% endif %}{% endfor %}{% endif %}{{ common.pagetitle|safe }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width; initial-scale=1.0;">
 		<link rel="stylesheet" href="css/styles.css"/>
