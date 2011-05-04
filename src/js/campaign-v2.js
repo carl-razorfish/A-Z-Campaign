@@ -13,9 +13,9 @@ RIA.AZCampaign = new Class({
 		categories:null,
 		category:null,
 		eventTypes:{
-			"touchstart":"Touch",
-			"click":"Mouse",
-			"keyup":"Keyboard"
+			"touchstart":"Touch Navigation",
+			"click":"Mouse Navigation",
+			"keyup":"Keyboard Navigation"
 		}
 	},
 	initialize: function(options) {
@@ -186,7 +186,8 @@ RIA.AZCampaign = new Class({
 					*/
 					if(!article.retrieve("inviewport")) {
 						this.loadArticle(article);
-						this.GA_trackPageview("/"+article.get("id"), "scrolled");						
+						this.GA_trackPageview("/"+article.get("id"), "scrolled");
+						this.GA_trackEvent('UI', 'Scroll', article.get("id").toUpperCase(), null);				
 					}
 					article.store("inviewport",true);
 					
