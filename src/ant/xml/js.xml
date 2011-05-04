@@ -36,7 +36,9 @@
 				log.js,
 				facebook.js,
 				twitter.js,
-				campaign.js
+				google.analytics.methods.js,
+				navigation.panels.js,
+				campaign-v2.js
 				"/>	
 		</concat>
 	</target>	

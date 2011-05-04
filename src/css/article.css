@@ -11,6 +11,10 @@ article {
 	margin-bottom:50px;	
 }
 
+article h2 {
+	height:90px;
+}
+
 article p {
 	padding:10px;
 }
@@ -22,7 +26,7 @@ article.inactive {
 }
 
 article a.info {
-	background:url(../img/i.png) no-repeat top left; /* move production image to a sprite */
+	background:url(../img/i.png) no-repeat top left; /* TODO : move production image to a sprite */
 	width:57px;
 	height:57px;
 	text-indent:-10000em;

@@ -1,6 +1,6 @@
 Log = {
 	info: function(msg) {
-		if(window.console && console.log) console.log(msg);
+		if(window.console && console.log && msg) console.log(msg);
 	},
 	error: function(errorObject) {
 		/* 

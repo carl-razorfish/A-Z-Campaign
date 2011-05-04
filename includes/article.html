@@ -1,7 +1,12 @@
 <article id="{{ article.id }}" data-tags="{{ article.category_tags }}" class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-tweet-hash="{{ common.tweet_hash }}">
 	<a name="{{ article.id }}"></a>
 	<header>
-		<h2><img src="img/{{ article.id }}/letter.jpg" width="90" height="90"/>{{ article.header }}</h2>							
+		<h2 data-src="img/{{ article.id }}/letter.jpg" data-width="90" data-height="90" data-alt="{{ article.header }}">
+			<noscript>
+				<img src="img/{{ article.id }}/letter.jpg" width="90" height="90" alt="{{ article.header }}"/>
+			</noscript>
+			<span>{{ article.header }}</span>
+		</h2>
 	</header>
 	<div class="container">
 		<section id="{{ article.section_id }}" class="content {{ article.section_layout }}">

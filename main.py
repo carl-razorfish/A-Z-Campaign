@@ -36,7 +36,7 @@ def getKeyCodes(self):
 	Generate JavaScript numeric keyCodes for Categories
 	Note that the categories must be returned from the ConfigParser pre-sorted into the correct order, or the keyCode reference and keyboared number will be out of sync
 	"""
-	counter = 49
+	counter = 1
 	self._keyCodes = dict()
 	categoriesMC = categories.load()
 	for cat in categoriesMC:

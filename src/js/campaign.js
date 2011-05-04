@@ -2,7 +2,10 @@ RIA.AZCampaign = new Class({
 	Implements:[
 		Options,
 		RIA.Facebook,
-		RIA.Twitter
+		RIA.Twitter,
+		RIA.GA,
+		RIA.Util,
+		RIA.NavigationPanels
 	],
 	options:{
 		binaryGIF:"data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
@@ -97,7 +100,7 @@ RIA.AZCampaign = new Class({
 	},
 	setNavigationPanelPosition: function() {
 		try {
-			var viewportWidth = RIA.Util.getViewport().w, shellWidth = this.shell.getWidth();
+			var viewportWidth = this.getViewport().w, shellWidth = this.shell.getWidth();
 			if(viewportWidth > shellWidth) {
 				this.navigationPanelOffsetLeft = ((viewportWidth - shellWidth) / 2);
 				this.navigationPanel.setStyle("left",this.navigationPanelOffsetLeft+"px");
@@ -460,7 +463,7 @@ RIA.AZCampaign = new Class({
 		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
 		*/
 		try {
-			var viewport = RIA.Util.getViewport(), articleId = articleElement.get("id"), articlePos;
+			var viewport = this.getViewport(), articleId = articleElement.get("id"), articlePos;
 
 			/*
 			*	Hide all Article content whilst we scroll. We switch back on the relevant contnt later...
@@ -487,9 +490,9 @@ RIA.AZCampaign = new Class({
 			*/
 			this.scrollFx.options.duration = 1000;
 			if(articlePos.y < viewport.scrollTop) {
-				this.scrollFx.options.duration += this.getScrollVelocity(viewport.scrollTop, articlePos.y);
+				this.scrollFx.options.duration += this.velocityCurve(viewport.scrollTop, articlePos.y);
 			} else {
-				this.scrollFx.options.duration += this.getScrollVelocity(articlePos.y, viewport.scrollTop);
+				this.scrollFx.options.duration += this.velocityCurve(articlePos.y, viewport.scrollTop);
 			}
 			/*
 			*	Scroll to the selected Alpha
@@ -520,7 +523,7 @@ RIA.AZCampaign = new Class({
 	},
 	getContentWithinViewport: function() {
 		try {
-			var viewport = RIA.Util.getViewport(),articlePos;
+			var viewport = this.getViewport(),articlePos;
 		
 			this.articles.each(function(article) {
 			

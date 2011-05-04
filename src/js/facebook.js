@@ -9,15 +9,16 @@ RIA.Facebook = new Class({
 			
 				var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
 
-				fb = document.createElement("fb:like");
-				fb.setAttribute("href","http://a-z-campaign.appspot.com/"+articleId);
-				fb.setAttribute("show_faces",false);
-				fb.setAttribute("width",450);
-				fb.setAttribute("height",80);
-				fb.setAttribute("font","arial");
-				fb.setAttribute("ref","a-to-z-mcdonalds-"+articleId);
-			
-				fbContainer.appendChild(fb);
+				fb = document.id(document.createElement("fb:like")); // Call document.id on the variable we have just created to use Moo's Element extendables
+				fb.set({
+					"href":"http://a-z-campaign.appspot.com/"+articleId,
+					"show_faces":false,
+					"width":450,
+					"height":80,
+					"font":"arial",
+					"ref":"a-to-z-mcdonalds-"+articleId
+				}).inject(fbContainer);
+
 				fbContainer.inject(article.getElement("nav"),"bottom");
 			
 				/*
