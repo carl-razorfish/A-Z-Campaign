@@ -204,27 +204,29 @@ RIA.AZCampaign = new Class({
 		var container = article.getElement(".container"),
 		header = article.getElement("h2"),
 		letterImage = header.getElement("img"),
-		mainImageContainer = article.getElement(".content-image"), 
-		mainImage = mainImageContainer.getElement("img"),
-		mainImageSrc = mainImageContainer.get("data-main-src"),
-		mainImageWidth = mainImageContainer.get("data-main-width"),
-		mainImageHeight = mainImageContainer.get("data-main-height"),
-		mainImageAlt = mainImageContainer.get("data-alt");
+		mainImageContainer = article.getElement(".content-image");
 		
-		/*
-		*	If we do not yet have a main content image then create one
-		*/
-		if(!mainImage) {
-			mainImageContainer.adopt(
-				mainImage = new Element("img", {
-					"src":mainImageSrc,
-					"width":mainImageWidth,
-					"height":mainImageHeight,
-					"alt":mainImageAlt
-				})
-			);
+		if(mainImageContainer) { 
+			var mainImage = mainImageContainer.getElement("img"),
+			mainImageSrc = mainImageContainer.get("data-main-src"),
+			mainImageWidth = mainImageContainer.get("data-main-width"),
+			mainImageHeight = mainImageContainer.get("data-main-height"),
+			mainImageAlt = mainImageContainer.get("data-alt");
+		
+			/*
+			*	If we do not yet have a main content image then create one
+			*/
+			if(!mainImage) {
+				mainImageContainer.adopt(
+					mainImage = new Element("img", {
+						"src":mainImageSrc,
+						"width":mainImageWidth,
+						"height":mainImageHeight,
+						"alt":mainImageAlt
+					})
+				);
+			}
 		}
-		
 		/*
 		*	If we do not yet have a letter image then create one
 		*/
