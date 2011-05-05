@@ -15,8 +15,12 @@ article h2 {
 	height:90px;
 }
 
+article header {
+	overflow:hidden;
+}
+
 article p {
-	padding:10px;
+	padding:10px 0;
 }
 
 /*
