@@ -175,31 +175,38 @@ RIA.AZCampaign = new Class({
 			var viewport = this.getViewport(), articlePosY;
 		
 			this.articles.each(function(article) {
+				
 				articlePosY = article.getPosition().y;
 				// If the Article is not in the viewport...
 				if((articlePosY > viewport.h+viewport.scrollTop) || ((articlePosY+article.getSize().y) < viewport.scrollTop)) {
 					
 					// hide and unload content
 					if(article.retrieve("inviewport")) {
-						this.handleContent(article, false);
+						if(article.retrieve("filteredin") != false) {
+							this.handleContent(article, false);
+						}
 					}
 					
 					article.store("inviewport",false);
-					
-					
 					
 				} 
 				else {
 					/*
 					*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
 					*/
-					if(!article.retrieve("inviewport")) {
+					if(!article.retrieve("inviewport") && article.retrieve("filteredin") != false) {
 						this.loadArticle(article);
+						/*
+						*	[ST]TODO: we're essentially repeating ourselves here, do we need handleContent...? The NAV is not switching back on by just using loadArticle()
+						*/
+						this.handleContent(article, true);
 						this.GA_trackPageview("/"+article.get("id"), "scrolled");
 						// [ST]TODO: The UI Scroll event tracking is being fired regardless of whether this was a Category select, Alphabet select or Scroll - fix this
 						this.GA_trackEvent('UI', 'Scroll', article.get("id").toUpperCase(), null);				
 					}
 					article.store("inviewport",true);
+					
+					
 					
 					/*
 					*	If the Article does not yet have a Facebook Like Button, generate one (once)
@@ -326,7 +333,7 @@ RIA.AZCampaign = new Class({
 			*	Hide all Article content whilst we scroll. We switch back on the relevant content later...
 			*/
 			this.articles.each(function(art) {
-				//art.addClass("inactive");
+				//this.handleContent(art, false);
 			},this);
 		
 			/*
@@ -400,6 +407,9 @@ RIA.AZCampaign = new Class({
 					*	[ST]TODO: problem here with unloading category filtered content
 					*/
 					this.handleContent(article, false);
+					
+					article.store("filteredin",false);
+					
 				}
 				/*
 				*	Else the Article ID is included in our Category Array, so filter it in
@@ -411,6 +421,8 @@ RIA.AZCampaign = new Class({
 					*	[ST]TODO: problem here with loading category filtered content
 					*/
 					this.handleContent(article, true);
+					
+					article.store("filteredin",true);
 				}			
 			},this);
 		
@@ -433,8 +445,10 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Apply a filter Fx against an Article
 		*/
+		
 		try {
 			if(show && set) {
+				if(article.get("id") == "a") Log.info("filterFx a");
 				/*
 				*	Set the height immediately, so we can scroll to that element and it will be there
 				*/
@@ -510,12 +524,14 @@ RIA.AZCampaign = new Class({
 	filterInAll: function() {
 		/*
 		*	@description:
-		*		Shows all Alpha content immediately
+		*		Shows all Alpha content containers immediately, so the we can scroll to the desired height for example
 		*/
 		try {
 			this.articles.each(function(article) {
+				article.store("filteredin",true);
 				article.removeClass("active").removeClass("inactive");
 				this.filterFx(article, true, true);
+				this.handleContent(article,true);
 			},this);
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign : filterInAll()", error:e});
@@ -535,6 +551,7 @@ RIA.AZCampaign = new Class({
 			*/
 
 			if(show === true) {
+				Log.info("handleContent() : loading "+article.get("id"));
 				if(mainImageContainer) {
 					
 					mainImage = mainImageContainer.getElement("img");
@@ -566,7 +583,7 @@ RIA.AZCampaign = new Class({
 				this.generateTweetButton(article);
 
 			} else {
-				Log.info("unloading "+article.get("id"));
+				Log.info("handleContent() : unloading "+article.get("id"));
 				
 				if(container.getStyle("opacity") != 0) {
 					container.setStyle('opacity',0);

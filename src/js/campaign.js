@@ -116,7 +116,7 @@ RIA.AZCampaign = new Class({
 		*/
 		try {
 			var container = article.getElement(".container"), nav = article.getElement("nav"), mainImageContainer = article.getElement(".content-image"), mainImage;
-			mainImage = mainImageContainer.getElement("img");
+			
 
 			/*
 			*	[ST]TODO: Depending on how large all of the content images are, we may not need to do UNloading
@@ -124,20 +124,26 @@ RIA.AZCampaign = new Class({
 			*/
 
 			if(show === true) {
-				if(!mainImage) {
-					mainImageContainer.adopt(
-						mainImage = new Element("img", {
-							"src":mainImageContainer.get("data-main-src"),
-							"width":mainImageContainer.get("data-main-width"),
-							"height":mainImageContainer.get("data-main-height"),
-							"alt":mainImageContainer.get("data-alt")
-						})
-					);
-				} else {
-					mainImage.set("src",mainImageContainer.get("data-main-src"));
-					mainImage.set("width",mainImageContainer.get("data-main-width"));
-					mainImage.set("height",mainImageContainer.get("data-main-height"));
+				if(mainImageContainer) {
+					
+					mainImage = mainImageContainer.getElement("img");
+					
+					if(!mainImage) {
+						mainImageContainer.adopt(
+							mainImage = new Element("img", {
+								"src":mainImageContainer.get("data-main-src"),
+								"width":mainImageContainer.get("data-main-width"),
+								"height":mainImageContainer.get("data-main-height"),
+								"alt":mainImageContainer.get("data-alt")
+							})
+						);
+					} else {
+						mainImage.set("src",mainImageContainer.get("data-main-src"));
+						mainImage.set("width",mainImageContainer.get("data-main-width"));
+						mainImage.set("height",mainImageContainer.get("data-main-height"));
+					}
 				}
+
 			
 				nav.setStyle('visibility','visible');
 				
