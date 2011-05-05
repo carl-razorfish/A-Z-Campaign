@@ -27,7 +27,6 @@ RIA.AZCampaign = new Class({
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
 			
-			
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
@@ -179,7 +178,16 @@ RIA.AZCampaign = new Class({
 				articlePosY = article.getPosition().y;
 				// If the Article is not in the viewport...
 				if((articlePosY > viewport.h+viewport.scrollTop) || ((articlePosY+article.getSize().y) < viewport.scrollTop)) {
+					
+					// hide and unload content
+					if(article.retrieve("inviewport")) {
+						this.handleContent(article, false);
+					}
+					
 					article.store("inviewport",false);
+					
+					
+					
 				} 
 				else {
 					/*
@@ -558,6 +566,8 @@ RIA.AZCampaign = new Class({
 				this.generateTweetButton(article);
 
 			} else {
+				Log.info("unloading "+article.get("id"));
+				
 				if(container.getStyle("opacity") != 0) {
 					container.setStyle('opacity',0);
 				}
