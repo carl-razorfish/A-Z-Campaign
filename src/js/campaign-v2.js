@@ -27,6 +27,7 @@ RIA.AZCampaign = new Class({
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
 			
+			
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
