@@ -4,10 +4,8 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 from google.appengine.dist import use_library
 use_library('django', '1.2')
 
-import cgi
 import logging
-import os.path
-import wsgiref.handlers
+#import wsgiref.handlers
 import simplejson as json
 import time
 
@@ -20,8 +18,6 @@ from properties.setproperties import AToZProperties
 from properties.setproperties import AToZList
 from properties.setproperties import CommonProperties
 from properties.setproperties import CategoryProperties
-from google.appengine.api import images
-from google.appengine.api import mail
 
 common = CommonProperties()
 content = AToZProperties()

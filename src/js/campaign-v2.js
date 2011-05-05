@@ -473,7 +473,7 @@ RIA.AZCampaign = new Class({
 					paddingTop:article.getStyle("paddingTop"),
 					paddingBottom:article.getStyle("paddingBottom"),
 					filterFx: new Fx.Morph(article, {
-	   		 			duration: 500,
+	   		 			duration: 1000,
 						link:"cancel",
 			    		transition: "sine:in:out"
 					}),
