@@ -122,7 +122,7 @@ section.layout-two-column .content-image {
 	display:block;
 	position:relative;
 	float:left;
-	margin:20px 20px 20px 0;
+	margin:10px 20px 20px 0;
 	background:#999 url(../img/spinner.gif) no-repeat 48% 48%;
 }
 
