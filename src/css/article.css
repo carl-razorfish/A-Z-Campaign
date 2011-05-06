@@ -23,14 +23,6 @@ article p {
 	padding:10px 0;
 }
 
-/*
-article.inactive {
-	position:absolute;
-	left:-10000em;
-	top:-10000em;
-}
-*/
-
 article a.info {
 	background:url(../img/i.png) no-repeat top left; /* TODO : move production image to a sprite */
 	width:57px;
@@ -43,7 +35,6 @@ article a {
 
 article div.container {
 	position:relative;
-	min-height:300px;
 }
 
 .js article div.container {

@@ -9,12 +9,7 @@ RIA.GA = new Class({
 		*		label: 		The text value of the action, e.g. "D" [String]
 		*		value: 		An integer counter representing a value [Int](Optional)
 		*/
-		try {
-			_gaq.push(['_trackEvent', category, action, label, value]);
-			Log.info("GA_trackEvent() : "+category+" : "+action+" : "+label);
-		} catch(e) {
-			Log.error({method:"GA_trackEvent()", error:e});
-		}
+		_gaq.push(['_trackEvent', category, action, label, value]);		
 	},
 	GA_trackPageview: function(url, action) {
 		/*
@@ -25,13 +20,7 @@ RIA.GA = new Class({
 		*		url: 		The URL of the page view to be tracked [String]
 		*		action: 	Additional parameter for our project, which sets the context of the page view in the report, e.g. "/scrolled" [String]
 		*/
-		try {
-			var path = url;
-			if(action) path += ("/" + action);
-			_gaq.push(['_trackPageview', path]);
-			Log.info("GA_trackPageview() : "+path);
-		} catch(e) {
-			Log.error({method:"GA_trackPageview()", error:e});
-		}
+		if(action) url += ("/" + action);
+		_gaq.push(['_trackPageview', url]);
 	}
 });

@@ -1,37 +1,20 @@
-RIA.NavigationPanels = new Class({
-	setAlphaNavState: function(filter) {
-		/*
-		*	@description:
-		*		Handles the Alpha menu nav state
-		*/
-		try {
-			this.navArticles.each(function(alpha) {
-				if(filter == "all") {
-					alpha.removeClass("inactive").addClass("active");
+RIA.NavigationPanels = new Class({	
+	setNavState: function(filter) {
+		this.navAll.each(function(nav) {
+			if(filter == "all") {
+				this.options.category = "";
+				if(["planet","food","people","community","london2012"].contains(nav.get("data-category"))) {
+					nav.removeClass("active");
+				} else {
+					nav.removeClass("inactive").addClass("active");
 				}
-				else if(alpha.get("data-category").test(filter)){
-					alpha.removeClass("inactive").addClass("active");
-				} 
-				else {
-					alpha.removeClass("active").addClass("inactive");
-				}
-			},this);
-		} catch(e) {
-			Log.error({method:"RIA.NavigationPanels : setAlphaNavState()", error:e});
-		}
-	},
-	setCategoryNavState: function(filter) {
-		/*
-		*	@description:
-		*		Handles the Category menu nav state
-		*/
-		try {
-			this.navCategories.each(function(category) {
-				category.removeClass("active").removeClass("inactive");
-				if(category.get("data-category").test(filter)) category.addClass("active");
-			},this);
-		} catch(e) {
-			Log.error({method:"RIA.NavigationPanels : setCategoryNavState()", error:e});
-		}
+			}
+			else if(nav.get("data-category") && nav.get("data-category").test(filter)){
+				nav.removeClass("inactive").addClass("active");
+			} 
+			else {
+				nav.removeClass("active").addClass("inactive");
+			}
+		},this);
 	}
 });

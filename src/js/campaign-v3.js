@@ -32,6 +32,8 @@ RIA.AZCampaign = new Class({
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
 			
+			this.navAll = document.getElements("#navigation a, article .categories a");
+			
 			this.navCategoryHeight = document.id("categories").getSize().y;
 			
 			this.pinNavPanel();
@@ -39,8 +41,6 @@ RIA.AZCampaign = new Class({
 			this.storeArticleData();
 			
 			this.getContentInViewport();
-			
-			
 			
 			this.scrollFx = new Fx.Scroll(window, {
 				offset: {y: -this.navCategoryHeight}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
@@ -256,17 +256,18 @@ RIA.AZCampaign = new Class({
 		*		Else check to see if we have an article that matches the required filter
 		*/
 		try {
-			Log.info("filter() : "+filter);
 			if(this.options.keyCodes[filter]) {
+				//Log.info("filter() : keyCode found : "+filter);
 				this.filterByCategory(this.options.keyCodes[filter], eventType);
 			}
 			else if(this.options.categories[filter]) {
+				//Log.info("filter() : category found : "+filter);
 				this.filterByCategory(filter, eventType);
 			}
 			else if(document.id(filter)) {
+				//Log.info("filter() : article found : "+filter);
 				this.scrollToArticle(document.id(filter), eventType);
 			}
-			article = null;
 		} catch(e) {
 			Log.error({method:"filter()", error:e});
 		}
@@ -276,7 +277,7 @@ RIA.AZCampaign = new Class({
 		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
 		*/
 		try {
-			var viewport = this.getViewport(), articleId = articleElement.get("id"), articlePos;
+			var viewport = this.getViewport(), articleId = articleElement.get("id"), articleCoords;
 
 			/*
 			*	Hide all Article content whilst we scroll. We switch back on the relevant content later...
@@ -292,17 +293,15 @@ RIA.AZCampaign = new Class({
 				
 				this.articles.each(function(article) {
 					article.store("filteredin",true);
-					article.set('reveal', {duration: 0});
-					article.reveal();
+					
+					article.setStyles({
+						"display":"block",
+						"height":article.getComputedSize().totalHeight
+					});
+					
 				},this);
 
-				this.setCategoryNavState();
-				this.setAlphaNavState("all");
-				
-				
-				this.articles.each(function(article) {
-					article.set('reveal', {duration: 1000});					
-				},this);
+				this.setNavState("all");
 			} 
 			/*
 			*	Now get the Element Position, in case we have removed any CSS classes for filtered out content in filterInAll()
@@ -326,7 +325,7 @@ RIA.AZCampaign = new Class({
 		
 			this.GA_trackEvent('AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null);
 				
-			articleElement = viewport = articleId = articlePos = null;
+			viewport = articleId = articleCoords = null;
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign : goToArticle()", error:e});
 		}
@@ -340,53 +339,44 @@ RIA.AZCampaign = new Class({
 		/*
 		*	If the User selects a category we are already on, do not apply transitions
 		*/
-		try {
-			if(this.options.category === category) return;
+		if(this.options.category === category) return;
 
-			this.options.category = category;
+		this.options.category = category;
+
+		this.setNavState(this.options.category);
 		
-			this.setAlphaNavState();
-		
+		/*
+		*	For each of the Articles...
+		*/
+		this.articles.each(function(article, index) {
 			/*
-			*	Set the Category navigation
-			*/
-			this.setCategoryNavState(category);
-		
+			*	If the Article ID is included in our Category Array, filter it in
+			*/			
+			if(this.options.categories[category].contains(article.get("id"))) {
+				this.navArticles[index].removeClass("inactive");
+				article.reveal();
+				article.store("filteredin",true);
+			}				
 			/*
-			*	For each of the Articles...
-			*/
-			this.articles.each(function(article, index) {
-				/*
-				*	If the Article ID is not included in our Category Array, filter it out
-				*/				
-				if(this.options.categories[category].indexOf(article.get("id")) === -1) {
-					this.navArticles[index].addClass("inactive");
-					article.dissolve();
-					article.store("filteredin",false);					
-				}
-				/*
-				*	Else the Article ID is included in our Category Array, so filter it in
-				*/
-				else { 
-					this.navArticles[index].removeClass("inactive");
-					article.reveal();
-					article.store("filteredin",true);
-				}			
-			},this);
-		
-			/*
-			*	Reset any Window scroll position
-			*/
-			this.scrollFx.toTop();	
-		
-			/*
-			*	Track the Category Navigation usage with GA
-			*/
-			this.GA_trackEvent('CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null);
-			category = eventType = null;
-		} catch(e) {
-			Log.error({method:"RIA.AZCampaign : filterByCategory()", error:e});
-		}
+			*	Else the Article ID is not included in our Category Array, so filter it out
+			*/	
+			else { 
+				this.navArticles[index].addClass("inactive");
+				article.dissolve();
+				article.store("filteredin",false);		
+			}			
+		},this);
+	
+		/*
+		*	Reset any Window scroll position
+		*/
+		this.scrollFx.toTop();	
+	
+		/*
+		*	Track the Category Navigation usage with GA
+		*/
+		this.GA_trackEvent('CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null);
+		category = eventType = null;
 	},
 	setNavPositionForiOs: function() {
 		try {
