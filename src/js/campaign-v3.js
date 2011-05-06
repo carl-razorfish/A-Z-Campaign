@@ -64,9 +64,8 @@ RIA.AZCampaign = new Class({
 			});
 			
 			/*
-			*	Don't add any event listeners if the Alpha Article & URL is present
-			*/
-			
+			*	Don't add all event listeners if the Alpha Article & URL is present. Just add the resize event listener
+			*/			
 			if(!this.options.alpha || this.options.alpha == "") {
 				this.addEventListeners();
 			} else {
@@ -122,10 +121,6 @@ RIA.AZCampaign = new Class({
 				
 				article.set('reveal', {duration: 'long', link:'cancel'});
 				
-				if(article.hasClass("inactive")) {
-					article.setStyle("height",0);
-				}
-				
 			},this);
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign : storeArticleData()", error:e});
@@ -136,67 +131,63 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Establish which content is visible in the viewport		
 		*/
-		try {
-			var viewport = this.getViewport(), articleCoords;
-		
-			this.articles.each(function(article) {
-				articleCoords = article.getCoordinates();
+		var viewport = this.getViewport(), articleCoords;
+	
+		this.articles.each(function(article) {
+			articleCoords = article.getCoordinates();
+			
+			// If the Article is not in the viewport...
+			if((articleCoords.top > viewport.h+viewport.scrollTop) || (articleCoords.bottom < viewport.scrollTop)) {
 				
-				// If the Article is not in the viewport...
-				if((articleCoords.top > viewport.h+viewport.scrollTop) || (articleCoords.bottom < viewport.scrollTop)) {
-					
-					// hide and unload content
-					if(article.retrieve("inviewport")) {
-						if(article.retrieve("filteredin") != false) {
-							//this.handleContent(article, false);
-						}
+				// hide and unload content
+				if(article.retrieve("inviewport")) {
+					if(article.retrieve("filteredin") != false) {
+						//this.handleContent(article, false);
 					}
-					
-					article.store("inviewport",false);
-					
-				} 
-				else {
+				}
+				
+				article.store("inviewport",false);
+				
+			} 
+			else {
+				/*
+				*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
+				*/
+				if(!article.retrieve("inviewport") && article.retrieve("filteredin") != false) {
+					this.loadArticle(article);
 					/*
-					*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
+					*	[ST]TODO: we're essentially repeating ourselves here, do we need handleContent...? The NAV is not switching back on by just using loadArticle()
 					*/
-					if(!article.retrieve("inviewport") && article.retrieve("filteredin") != false) {
-						this.loadArticle(article);
-						/*
-						*	[ST]TODO: we're essentially repeating ourselves here, do we need handleContent...? The NAV is not switching back on by just using loadArticle()
-						*/
-						//this.handleContent(article, true);
-						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
-						
-						// [ST]TODO: The UI Scroll event tracking is being fired regardless of whether this was a Category select, Alphabet select or Scroll - fix this
-						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
-					}
-					article.store("inviewport",true);
+					//this.handleContent(article, true);
+					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
 					
-					
-					
-					/*
-					*	If the Article does not yet have a Facebook Like Button, generate one (once)
-					*/
-					if(!article.retrieve("likebutton:generated")) {
-						this.generateLikeButton(article);
-					}
-					article.store("likebutton:generated",true);
-					
-					/*
-					*	If the Article does not yet have a Twitter Tweet Button, generate one (once)
-					*/
-					if(!article.retrieve("tweetbutton:generated")) {
-						this.generateTweetButton(article);
-					}
-					article.store("tweetbutton:generated",true);
-					
-				}				
-			},this);
+					// [ST]TODO: The UI Scroll event tracking is being fired regardless of whether this was a Category select, Alphabet select or Scroll - fix this
+					_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
+				}
+				article.store("inviewport",true);
+				
+				
+				
+				/*
+				*	If the Article does not yet have a Facebook Like Button, generate one (once)
+				*/
+				if(!article.retrieve("likebutton:generated")) {
+					this.generateLikeButton(article);
+				}
+				article.store("likebutton:generated",true);
+				
+				/*
+				*	If the Article does not yet have a Twitter Tweet Button, generate one (once)
+				*/
+				if(!article.retrieve("tweetbutton:generated")) {
+					this.generateTweetButton(article);
+				}
+				article.store("tweetbutton:generated",true);
+				
+			}				
+		},this);
 
-			viewport = articlePosY = null;
-		} catch(e) {
-			Log.error({method:"RIA.AZCampaign : getContentInViewport()", error:e});
-		}
+		viewport = articlePosY = null;
 	},
 	loadArticle: function(article) {
 		/*
@@ -255,21 +246,17 @@ RIA.AZCampaign = new Class({
 		*		Check to see if we have a category that matches the required filter
 		*		Else check to see if we have an article that matches the required filter
 		*/
-		try {
-			if(this.options.keyCodes[filter]) {
-				//Log.info("filter() : keyCode found : "+filter);
-				this.filterByCategory(this.options.keyCodes[filter], eventType);
-			}
-			else if(this.options.categories[filter]) {
-				//Log.info("filter() : category found : "+filter);
-				this.filterByCategory(filter, eventType);
-			}
-			else if(document.id(filter)) {
-				//Log.info("filter() : article found : "+filter);
-				this.scrollToArticle(document.id(filter), eventType);
-			}
-		} catch(e) {
-			Log.error({method:"filter()", error:e});
+		if(this.options.keyCodes[filter]) {
+			//Log.info("filter() : keyCode found : "+filter);
+			this.filterByCategory(this.options.keyCodes[filter], eventType);
+		}
+		else if(this.options.categories[filter]) {
+			//Log.info("filter() : category found : "+filter);
+			this.filterByCategory(filter, eventType);
+		}
+		else if(document.id(filter)) {
+			//Log.info("filter() : article found : "+filter);
+			this.scrollToArticle(document.id(filter), eventType);
 		}
 	},
 	scrollToArticle: function(articleElement, eventType) {
@@ -292,6 +279,7 @@ RIA.AZCampaign = new Class({
 			if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(articleId) === -1) {
 				
 				this.articles.each(function(article) {
+					article.removeClass("inactive");
 					article.store("filteredin",true);
 					
 					article.setStyles({

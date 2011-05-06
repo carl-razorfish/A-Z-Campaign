@@ -23,6 +23,12 @@ article p {
 	padding:10px 0;
 }
 
+article.inactive {
+	position:absolute;
+	top:-10000em;
+	left:-10000em;
+}
+
 article a.info {
 	background:url(../img/i.png) no-repeat top left; /* TODO : move production image to a sprite */
 	width:57px;

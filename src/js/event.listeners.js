@@ -54,18 +54,14 @@ RIA.EventListeners = new Class({
 		*	@description:
 		*		Add mouse and touch (iOS) event listeners	
 		*/
-		try {
-			e.preventDefault();
-			var target = e.targetTouches ? e.targetTouches[0].target : e.target;
-			var targetCategory = target.getAttribute("data-category");
+		e.preventDefault();
+		var target = e.targetTouches ? e.targetTouches[0].target : e.target;
+		var targetCategory = target.getAttribute("data-category");
 
-			if(targetCategory) {
-				this.filter(targetCategory, e.type);
-			}
-			target = targetCategory = null;
-		} catch(e) {
-			Log.error({method:"RIA.AZCampaign : mouseAndTouchNavigationEvent()", error:e});
+		if(targetCategory) {
+			this.filter(targetCategory, e.type);
 		}
+		target = targetCategory = null;
 	},
 	keyboardNavigationEvent: function(e) {
 		/*
