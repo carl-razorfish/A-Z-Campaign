@@ -315,7 +315,7 @@ RIA.AZCampaign = new Class({
 				
 			viewport = articleId = articleCoords = null;
 		} catch(e) {
-			Log.error({method:"RIA.AZCampaign : goToArticle()", error:e});
+			Log.error({method:"RIA.AZCampaign : scrollToArticle()", error:e});
 		}
 	},
 	filterByCategory: function(category, eventType) {
@@ -373,7 +373,7 @@ RIA.AZCampaign = new Class({
 			var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navPanel.style.webkitTransform.substring(11);
 			translateYCurrent = translateYCurrent.replace("px)","");
 			if(translateYCurrent == "") translateYCurrent = 0;
-			this.navigationPanel.style.webkitTransform = "translateY("+yPos+"px)";
+			this.navPanel.style.webkitTransform = "translateY("+yPos+"px)";
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign : setNavPositionForiOs()", error:e});
 		}
