@@ -3,7 +3,6 @@ RIA.AZCampaign = new Class({
 		Options,
 		RIA.Facebook,
 		RIA.Twitter,
-		RIA.GA,
 		RIA.Util,
 		RIA.EventListeners,
 		RIA.NavigationPanels
@@ -166,9 +165,10 @@ RIA.AZCampaign = new Class({
 						*	[ST]TODO: we're essentially repeating ourselves here, do we need handleContent...? The NAV is not switching back on by just using loadArticle()
 						*/
 						//this.handleContent(article, true);
-						this.GA_trackPageview("/"+article.get("id"), "scrolled");
+						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
+						
 						// [ST]TODO: The UI Scroll event tracking is being fired regardless of whether this was a Category select, Alphabet select or Scroll - fix this
-						this.GA_trackEvent('UI', 'Scroll', article.get("id").toUpperCase(), null);				
+						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
 					}
 					article.store("inviewport",true);
 					
@@ -323,7 +323,7 @@ RIA.AZCampaign = new Class({
 		
 			this.scrollFx.toElement(articleId, 'y');	
 		
-			this.GA_trackEvent('AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null);
+			_gaq.push(['_trackEvent', 'AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null]);
 				
 			viewport = articleId = articleCoords = null;
 		} catch(e) {
@@ -375,7 +375,8 @@ RIA.AZCampaign = new Class({
 		/*
 		*	Track the Category Navigation usage with GA
 		*/
-		this.GA_trackEvent('CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null);
+		_gaq.push(['_trackEvent', 'CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null]);
+		
 		category = eventType = null;
 	},
 	setNavPositionForiOs: function() {

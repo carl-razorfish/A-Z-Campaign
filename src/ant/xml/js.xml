@@ -36,7 +36,6 @@
 				log.js,
 				facebook.js,
 				twitter.js,
-				google.analytics.methods.js,
 				navigation.panels.js,
 				event.listeners.js,
 				campaign-v3.js
