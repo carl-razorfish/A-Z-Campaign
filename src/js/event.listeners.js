@@ -25,14 +25,15 @@ RIA.EventListeners = new Class({
 		*		The scroll event listener is separated as we need to disable the onScroll event whilst scrolling to an element. Otherwise we'll constantly be checking content as we scroll
 		*/
 		this.getContentBind = this.getContentInViewport.bind(this);
-		document.addEvent("scroll", this.getContentBind.pass([{trackScroll:true}],this));
+		window.addEvent("scroll", this.getContentBind);
 	},
 	removeScrollEventListener: function() {
 		/*
 		*	@description:
 		*		The scroll event listener is separated as we need to disable the onScroll event whilst scrolling to an element. Otherwise we'll constantly be checking content as we scroll
 		*/
-		document.removeEvent("scroll", this.getContentBind);
+		Log.info("removeScrollEventListener()");
+		window.removeEvent("scroll", this.getContentBind);
 	},
 	qandaEventListener: function(e) {
 		/*

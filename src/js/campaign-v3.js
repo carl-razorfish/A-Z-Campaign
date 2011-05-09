@@ -126,13 +126,11 @@ RIA.AZCampaign = new Class({
 			Log.error({method:"RIA.AZCampaign : storeArticleData()", error:e});
 		}
 	},
-	getContentInViewport: function(obj) {
+	getContentInViewport: function(eventObj) {
 		/*
 		*	@description:
 		*		Establish which content is visible in the viewport		
 		*/
-		
-		
 		var viewport = this.getViewport(), articleCoords;
 	
 		this.articles.each(function(article) {
@@ -163,9 +161,7 @@ RIA.AZCampaign = new Class({
 					//this.handleContent(article, true);
 					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
 
-					// [ST]TODO: The UI Scroll event tracking is being fired regardless of whether this was a Category select, Alphabet select or Scroll - fix this
-					if(obj && obj.trackScroll) {
-						Log.info("Tracking UI scroll");
+					if(!eventObj || eventObj.trackScroll != false) {
 						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
 					}
 				}
