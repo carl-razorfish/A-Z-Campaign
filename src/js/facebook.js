@@ -5,32 +5,27 @@ RIA.Facebook = new Class({
 		*		Generate a Facebook Like Button (once only) for an Article	
 		*/
 		try {
-			//[ST]TODO: REMOVE THIS DEBUG LINE
-			return;
-			
-			if(!article.getElement("p.facebook-like")) {
-			
-				var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
+			var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
 
-				fb = document.id(document.createElement("fb:like")); // Call document.id on the variable we have just created to use Moo's Element extendables
-				fb.set({
-					"href":"http://a-z-campaign.appspot.com/"+articleId,
-					"show_faces":false,
-					"width":450,
-					"height":80,
-					"font":"arial",
-					"ref":"a-to-z-mcdonalds-"+articleId
-				}).inject(fbContainer);
+			fb = document.id(document.createElement("fb:like")); // Call document.id on the variable we have just created to use Moo's Element extendables
+			fb.set({
+				"href":"http://a-z-campaign.appspot.com/"+articleId,
+				"show_faces":false,
+				"width":450,
+				"height":80,
+				"font":"arial",
+				"ref":"a-to-z-mcdonalds-"+articleId
+			}).inject(fbContainer);
 
-				fbContainer.inject(article.getElement("nav"),"bottom");
-			
-				/*
-				*	Generate the FB Like button
-				*/
-				if(FB) FB.XFBML.parse(fbContainer);
+			fbContainer.inject(article.getElement("nav"),"bottom");
+		
+			/*
+			*	Generate the FB Like button
+			*/
+			if(FB) FB.XFBML.parse(fbContainer);
 
-				articleId = fb = fbContainer = null;
-			}
+			articleId = fb = fbContainer = null;
+
 		} catch(e) {
 			Log.error({method:"generateLikeButton()", error:e});
 		}

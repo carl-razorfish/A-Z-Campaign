@@ -32,7 +32,6 @@ RIA.EventListeners = new Class({
 		*	@description:
 		*		The scroll event listener is separated as we need to disable the onScroll event whilst scrolling to an element. Otherwise we'll constantly be checking content as we scroll
 		*/
-		Log.info("removeScrollEventListener()");
 		window.removeEvent("scroll", this.getContentBind);
 	},
 	qandaEventListener: function(e) {

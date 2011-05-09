@@ -13,9 +13,9 @@ RIA.AZCampaign = new Class({
 		categories:null,
 		category:null,
 		eventTypes:{
-			"touchstart":"Touch Navigation",
-			"click":"Mouse Navigation",
-			"keyup":"Keyboard Navigation"
+			"touchstart":"Touch",
+			"click":"Mouse",
+			"keyup":"Keyboard"
 		}
 	},
 	initialize: function(options) {
@@ -153,16 +153,23 @@ RIA.AZCampaign = new Class({
 				/*
 				*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
 				*/
-				if(!article.retrieve("inviewport") && article.retrieve("filteredin") != false) {
+
+				if(article.retrieve("filteredin") != false) {
 					this.loadArticle(article);
 					/*
 					*	[ST]TODO: we're essentially repeating ourselves here, do we need handleContent...? The NAV is not switching back on by just using loadArticle()
 					*/
-					//this.handleContent(article, true);
-					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
-
-					if(!eventObj || eventObj.trackScroll != false) {
-						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
+					
+					if(!article.retrieve("inviewport") || article.retrieve("inviewport") == false) {
+						Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
+						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
+						
+						/*
+						*	Only track a UI Scroll event if the user has manually scrolled, and nto used the Fx.Scroll via the navigation
+						*/
+						if(!eventObj || eventObj.trackScroll != false) {
+							_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
+						}						
 					}
 				}
 				article.store("inviewport",true);
@@ -184,7 +191,7 @@ RIA.AZCampaign = new Class({
 					this.generateTweetButton(article);
 				}
 				article.store("tweetbutton:generated",true);
-				
+								
 			}				
 		},this);
 
@@ -352,7 +359,7 @@ RIA.AZCampaign = new Class({
 			else { 
 				this.navArticles[index].addClass("inactive");
 				article.dissolve();
-				article.store("filteredin",false);		
+				article.store("filteredin",false);
 			}			
 		},this);
 	
@@ -360,13 +367,12 @@ RIA.AZCampaign = new Class({
 		*	Reset any Window scroll position
 		*/
 		this.scrollFx.toTop();	
-	
+
+		
 		/*
 		*	Track the Category Navigation usage with GA
 		*/
 		_gaq.push(['_trackEvent', 'CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null]);
-		
-		category = eventType = null;
 	},
 	setNavPositionForiOs: function() {
 		try {
