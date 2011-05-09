@@ -8,7 +8,7 @@ RIA.EventListeners = new Class({
 		window.addEvent("resize", this.onWindowResize.bind(this));
 		
 		// Add orientation change event listener
-		window.onorientationchange = this.onOrientationChange.bind(this);
+		window.addEvent("orientationchange", this.onOrientationChange.bind(this));
 		
 		// Add mouse navigation event listener
 		this.navigation.addEvent("click", this.mouseAndTouchNavigationEvent.bind(this));
@@ -86,11 +86,17 @@ RIA.EventListeners = new Class({
 		this.pinNavPanel();
 		this.getContentInViewport();
 	},
-	onOrientationChange: function(orientation) {
-		Log.info(orientation);
-		if(orientation == 90 || orientation == -90) {
-			document.getElement("body").removeClass("portrait").addClass("landscape");
-			this.scrollVerticalOffset = (this.navCategoryHeight+this.navAlphabetHeight+20);
+	onOrientationChange: function() {
+		Log.info("onOrientationChange");
+		if(window.orientation) {
+			Log.info(window.orientation);
+			if(window.orientation == 90 || orientation == -90) {
+				document.getElement("body").removeClass("portrait").addClass("landscape");
+				this.scrollVerticalOffset = (this.navCategoryHeight+this.navAlphabetHeight+20);
+			} else {
+				document.getElement("body").removeClass("landscape").addClass("portrait");
+				this.scrollVerticalOffset = this.navCategoryHeight;
+			}
 		} else {
 			document.getElement("body").removeClass("landscape").addClass("portrait");
 			this.scrollVerticalOffset = this.navCategoryHeight;
