@@ -11,19 +11,10 @@
 			2. With no category filter, all articles should be on the page so use a hash instead
 			3. For pages loaded with an alpha filter, we want to reload the page with all alpha articles and jump to the required alpha
 		{% endcomment %}
-		<div id="alphabet">
-			{% for article in content %}
-				{% if forloop.first %}
-				<ul class="set1">
-				{% endif %}
-				<li><a class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-category="{{ article.id }}" href="/{% if not category and not alpha %}#{{ article.id }}{% endif %}{% if category %}{% if category in article.category_tags %}{{category}}#{{article.id}}{% else %}#{{article.id}}{% endif %}{% endif %}{% if alpha %}#{{article.id}}{% endif %}">{{ article.menu }}</a></li>
-				{% ifequal forloop.counter 13 %}
-				</ul><ul class="set2">
-				{% endifequal %}
-				{% if forloop.last %}
-				</ul>
-				{% endif %}
-			{% endfor %}
-		</div>
+		<ul id="alphabet">
+		{% for article in content %}
+			<li><a class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-category="{{ article.id }}" href="/{% if not category and not alpha %}#{{ article.id }}{% endif %}{% if category %}{% if category in article.category_tags %}{{category}}#{{article.id}}{% else %}#{{article.id}}{% endif %}{% endif %}{% if alpha %}#{{article.id}}{% endif %}">{{ article.menu }}</a></li>
+		{% endfor %}
+		</ul>
 	</nav>
 </div>

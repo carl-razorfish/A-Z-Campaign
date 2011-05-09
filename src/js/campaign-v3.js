@@ -34,6 +34,9 @@ RIA.AZCampaign = new Class({
 			this.navAll = document.getElements("#navigation a, article .categories a");
 			
 			this.navCategoryHeight = document.id("categories").getSize().y;
+			this.navAlphabetHeight = document.id("alphabet").getSize().y;
+			
+			this.scrollVerticalOffset = this.navCategoryHeight;
 			
 			this.pinNavPanel();
 			
@@ -42,7 +45,7 @@ RIA.AZCampaign = new Class({
 			this.getContentInViewport();
 			
 			this.scrollFx = new Fx.Scroll(window, {
-				offset: {y: -this.navCategoryHeight}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
+				offset: {y: -this.scrollVerticalOffset}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
 				duration:1000,
 				transition:"sine:in:out",
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately

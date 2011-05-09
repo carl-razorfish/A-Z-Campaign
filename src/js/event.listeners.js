@@ -7,6 +7,9 @@ RIA.EventListeners = new Class({
 		// Add mouse window resize event listener
 		window.addEvent("resize", this.onWindowResize.bind(this));
 		
+		// Add orientation change event listener
+		window.addEvent("orientationchange", this.onOrientationChange.bind(this));
+		
 		// Add mouse navigation event listener
 		this.navigation.addEvent("click", this.mouseAndTouchNavigationEvent.bind(this));
 		
@@ -82,5 +85,13 @@ RIA.EventListeners = new Class({
 		*/
 		this.pinNavPanel();
 		this.getContentInViewport();
+	},
+	onOrientationChange: function(orientation) {
+		Log.info(orientation);
+		if(orientation == 90 || orientation == -90) {
+			this.scrollVerticalOffset = (this.navCategoryHeight+this.navAlphabetHeight+20);
+		} else {
+			this.scrollVerticalOffset = this.navCategoryHeight;
+		}
 	}
 });

@@ -1,1 +1,1 @@
-#content{padding:100px 60px 0 60px;}#navigation{-webkit-transition:-webkit-transform ease-in .7s;}#navigation #alphabet ul.set2{position:absolute;top:0;left:950px;}
+#content{padding:100px 60px 0 60px;}#navigation{-webkit-transition:-webkit-transform ease-in .7s;}#navigation ul#alphabet{width:1024px;}#navigation ul#alphabet li{float:left;margin:0 10px 0 0;}

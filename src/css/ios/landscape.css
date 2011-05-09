@@ -4,9 +4,10 @@
 #navigation {
 	-webkit-transition: -webkit-transform ease-in 0.7s;
 }
-
-#navigation #alphabet ul.set2 {
-	position:absolute;
-	top:0px;
-	left:950px;
+#navigation ul#alphabet {
+	width:1024px;
+}
+#navigation ul#alphabet li {
+	float:left;
+	margin:0 10px 0 0;
 }
