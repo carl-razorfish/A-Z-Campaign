@@ -51,15 +51,15 @@ RIA.AZCampaign = new Class({
 				}.bind(this),
 				onComplete: function(e) {
 					this.scrollFx.options.duration = 1000;
-					this.getContentInViewport();
+					this.getContentInViewport({trackScroll:false});
 					this.addScrollEventListener();
-					if(Browser.Platform.ios) this.setNavPositionForiOs();
+					this.setNavPositionForiOs();
 				}.bind(this),
 				onCancel: function(e) {
 					this.scrollFx.options.duration = 1000;
-					this.getContentInViewport();
+					this.getContentInViewport({trackScroll:false});
 					this.addScrollEventListener();
-					if(Browser.Platform.ios) this.setNavPositionForiOs();
+					this.setNavPositionForiOs();
 				}.bind(this)
 			});
 			
@@ -126,11 +126,13 @@ RIA.AZCampaign = new Class({
 			Log.error({method:"RIA.AZCampaign : storeArticleData()", error:e});
 		}
 	},
-	getContentInViewport: function() {
+	getContentInViewport: function(obj) {
 		/*
 		*	@description:
 		*		Establish which content is visible in the viewport		
 		*/
+		
+		
 		var viewport = this.getViewport(), articleCoords;
 	
 		this.articles.each(function(article) {
@@ -160,9 +162,12 @@ RIA.AZCampaign = new Class({
 					*/
 					//this.handleContent(article, true);
 					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
-					
+
 					// [ST]TODO: The UI Scroll event tracking is being fired regardless of whether this was a Category select, Alphabet select or Scroll - fix this
-					_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
+					if(obj && obj.trackScroll) {
+						Log.info("Tracking UI scroll");
+						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
+					}
 				}
 				article.store("inviewport",true);
 				

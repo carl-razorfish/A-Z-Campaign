@@ -25,7 +25,7 @@ RIA.EventListeners = new Class({
 		*		The scroll event listener is separated as we need to disable the onScroll event whilst scrolling to an element. Otherwise we'll constantly be checking content as we scroll
 		*/
 		this.getContentBind = this.getContentInViewport.bind(this);
-		document.addEvent("scroll", this.getContentBind);
+		document.addEvent("scroll", this.getContentBind.pass([{trackScroll:true}],this));
 	},
 	removeScrollEventListener: function() {
 		/*

@@ -52,9 +52,6 @@ article div.container {
 */
 article section.qanda {
 	background:#fff;
-	position:absolute;
-	top:0px;
-	left:0px;
 	display:none;
 	width:600px;
 }
