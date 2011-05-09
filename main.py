@@ -32,12 +32,6 @@ def getKeyCodes(self):
 	Generate JavaScript numeric keyCodes for Categories keyboard navigation, and assign them
 	Note that the categories must be returned from the ConfigParser pre-sorted into the correct order
 	"""
-	counter = 1
-	self._keyCodes = dict()
-	categoriesMC = categories.load()
-	for cat in categoriesMC:
-		self._keyCodes[counter] = cat
-		counter = counter + 1
 		
 	mcKeyCodes = memcache.get("categorykeycodes")
 	if mcKeyCodes is not None:
@@ -45,6 +39,12 @@ def getKeyCodes(self):
 		return mcKeyCodes
 	else:
 		#logging.info("NOT Got categorykeycodes from memcache")
+		counter = 1
+		self._keyCodes = dict()
+		categoriesMC = categories.load()
+		for cat in categoriesMC:
+			self._keyCodes[counter] = cat
+			counter = counter + 1
 		memcache.add("categorykeycodes", self._keyCodes)
 		return self._keyCodes
 
