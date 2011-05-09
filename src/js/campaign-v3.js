@@ -381,15 +381,14 @@ RIA.AZCampaign = new Class({
 		_gaq.push(['_trackEvent', 'CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null]);
 	},
 	setNavPositionForiOs: function() {
-		try {
-			Log.info("setNavPositionForiOs");
-			if(!Browser.Platform.ios) return;
-			var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navPanel.style.webkitTransform.substring(11);
-			translateYCurrent = translateYCurrent.replace("px)","");
-			if(translateYCurrent == "") translateYCurrent = 0;
-			this.navPanel.style.webkitTransform = "translateY("+yPos+"px)";
-		} catch(e) {
-			Log.error({method:"RIA.AZCampaign : setNavPositionForiOs()", error:e});
-		}
+		/*
+		*	@description:
+		*		For Apploe iOS (Safari Webkit) only, reset the position of the navigation using webkitTransform
+		*/
+		if(!Browser.Platform.ios) return;
+		var yPos = (this.navOffsetTop + document.body.scrollTop), translateYCurrent = this.navPanel.style.webkitTransform.substring(11);
+		translateYCurrent = translateYCurrent.replace("px)","");
+		if(translateYCurrent == "") translateYCurrent = 0;
+		this.navPanel.style.webkitTransform = "translateY("+yPos+"px)";
 	}
 });
