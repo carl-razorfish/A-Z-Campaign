@@ -23,10 +23,10 @@ handlers:
   script: main.py
   
 error_handlers:
-  - file: /error.html
+  - file: error.html
 
   - error_code: over_quota
-    file: /over_quota.html
+    file: over_quota.html
 
   - error_code: timeout
-    file: /timeout.html
+    file: timeout.html
