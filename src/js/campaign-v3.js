@@ -355,6 +355,7 @@ RIA.AZCampaign = new Class({
 			*	If the Article ID is included in our Category Array, filter it in
 			*/			
 			if(this.options.categories[category].contains(article.get("id"))) {
+				article.removeClass("inactive");
 				this.navArticles[index].removeClass("inactive");
 				article.reveal();
 				article.store("filteredin",true);
