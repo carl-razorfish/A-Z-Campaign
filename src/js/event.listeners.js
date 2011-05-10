@@ -87,9 +87,7 @@ RIA.EventListeners = new Class({
 		this.getContentInViewport();
 	},
 	onOrientationChange: function() {
-		Log.info("onOrientationChange");
 		if(window.orientation) {
-			Log.info(window.orientation);
 			if(window.orientation == 90 || orientation == -90) {
 				document.getElement("body").removeClass("portrait").addClass("landscape");
 				this.scrollVerticalOffset = (this.navCategoryHeight+this.navAlphabetHeight+20);

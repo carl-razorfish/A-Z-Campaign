@@ -56,13 +56,11 @@ RIA.AZCampaign = new Class({
 					this.scrollFx.options.duration = 1000;
 					this.getContentInViewport({trackScroll:false});
 					this.addScrollEventListener();
-					//this.setNavPositionForiOs();
 				}.bind(this),
 				onCancel: function(e) {
 					this.scrollFx.options.duration = 1000;
 					this.getContentInViewport({trackScroll:false});
 					this.addScrollEventListener();
-					//this.setNavPositionForiOs();
 				}.bind(this)
 			});
 			
