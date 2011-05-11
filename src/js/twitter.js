@@ -11,9 +11,9 @@ RIA.Twitter = new Class({
 				"href":"http://twitter.com/share",
 				"class":"twitter-share-button",
 				"data-lang":"en",
-				"data-url":"http://a-z-campaign.appspot.com/"+articleId,
+				"data-url":"http://www.google.co.uk",//"http://a-z-campaign.appspot.com/"+articleId,
 				"data-count":"none",
-				"data-text":header+" "+tweetHash,
+				"data-text":"I like Google",//header+" "+tweetHash,
 				"html":"Tweet"
 			}).inject(twContainer);
 
