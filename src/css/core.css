@@ -3,9 +3,12 @@ body {
 	font-family:lucida, arial, verdana, helvetica;
 	position:relative;
 	font-size:0.8em;
-	color:#333;
+	color:#000;
 	text-align:center;
-	background-color:#fff;	
+	background:#fff;
+	background: -moz-linear-gradient(top, #5c9821, #28440e);
+    background: -webkit-gradient(linear, left top, left bottom, from(#5c9821), to(#28440e));
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#5c9821', EndColorStr='#28440e', GradientType=0);	
 }
 img {
 	border:none;
@@ -30,7 +33,9 @@ footer {
 }
 
 h1 {
-	margin:0 0 30px 0;
+	position:absolute;
+	top:-10000em;
+	left:-10000em;
 }
 h2 {
 	margin:0 0 20px 0;
@@ -40,8 +45,9 @@ h3 {
 }
 
 #shell {
+	background:#fff url(../img/bg-content.gif) repeat top left;
 	position:relative;
-	width:1024px;
+	width:920px;
 	margin:0 auto;
 	text-align:left;
 	overflow:hidden;
@@ -52,9 +58,9 @@ ul,dl,ol {
 }
 
 #content {
-	width:900px;
+	width:920px;
 	min-height:768px;
-	padding:100px 0 0 120px;
+	padding:200px 0 0 0; /* [ST]TODO: check whether this top padding is required */
 }
 
 .js .js-hide {

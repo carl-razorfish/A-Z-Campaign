@@ -1,39 +1,38 @@
 <article id="{{ article.id }}" data-tags="{{ article.category_tags }}" class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-tweet-hash="{{ common.tweet_hash }}">
 	<a name="{{ article.id }}"></a>
+	{% if article.section_img %}
+	<div class="content-image" data-loading-width="14" data-loading-height="14" data-main-width="855" data-main-height="341" data-loading-src="img/spinner.gif" data-main-src="{{ article.section_img }}" data-alt="{{ article.header }}" data-letter-width="309" data-letter-height="340" data-letter-src="{{ article.letter_img }}">
+		<noscript>
+			<img width="855" height="341" src="{{ article.section_img }}" alt="{{ article.header }}" />
+			<img width="309" height="340" src="{{ article.letter_img }}" alt="{{ article.header }}" />
+		</noscript>
+	</div>
+	{% endif %}
 	<header>
-		<h2 data-src="img/{{ article.id }}/letter.jpg" data-width="90" data-height="90" data-alt="{{ article.title }}">
-			<noscript>
-				<img src="img/{{ article.id }}/letter.jpg" width="90" height="90" alt="{{ article.title }}"/>
-			</noscript>
-			<span>{{ article.title }}</span>
-		</h2>
+		<h2>{{ article.title }}</h2>
 	</header>
-	<div class="container">
-		<section class="content {{ article.section_layout }}">
-			{% if article.section_statement1 %}<p>{{ article.section_statement1 }}</p>{% endif %}
-			{% if article.section_img %}
-			<div class="content-image" style="width:344px; height:237px;" data-loading-width="14" data-loading-height="14" data-main-width="344" data-main-height="237" data-loading-src="img/spinner.gif" data-main-src="{{ article.section_img }}" data-alt="{{ article.header }}">
-				<noscript>
-					<img width="344" height="237" src="{{ article.section_img }}" alt="{{ article.header }}" />					
-				</noscript>
-			</div>
-			{% endif %}
+	<div class="container layout-right">
+		<section class="content">
+			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1 }}</p>{% endif %}
 			{% if article.section_statement2 %}<p>{{ article.section_statement2 }}</p>{% endif %}
 			{% if article.section_statement3 %}<p>{{ article.section_statement3 }}</p>{% endif %}
 			{% if article.section_statement4 %}<p>{{ article.section_statement4 }}</p>{% endif %}
 			{% if article.section_statement5 %}<p>{{ article.section_statement5 }}</p>{% endif %}
+			<div class="social">
+				
+				<a href="{{ common.facebook_fanpage_url }}" class="facebook-fan" title="{{ common.facebook_fanpage_link }}">{{ common.facebook_fanpage_link }}</a>
+				<a href="{{ common.twitter_fanpage_url }}" class="twitter-fan" title="{{ common.twitter_fanpage_link }}">{{ common.twitter_fanpage_link }}</a>
+			</div>
 		</section>
 		{% if article.question_1 and article.answer_1 %}
 		<section class="qanda">
 			<div class="qanda-container">
-				{% if article.question_1 and article.answer_1 %}
 				<header class="question">
 					<h3>{{ article.question_1 }}<span></span></h3>
 				</header>							
 				<div class="answer">
 					<p>{{ article.answer_1 }}</p>
-				</div>							
-				{% endif %}		
+				</div>	
 				{% if article.question_2 and article.answer_2 %}
 				<header class="question">
 					<h3>{{ article.question_2 }}<span></span></h3>
@@ -53,20 +52,21 @@
 			</div>				
 		</section>
 		{% endif %}
-	</div>
-	<nav>
-		<ul class="categories">
-		{% for cat in categories.items %}
-			{% if cat.0 in article.category_tags %}
-			<li><a class="{% if category %}{% ifequal category cat.0 %}active{% else %}inactive{% endifequal %}{% else %}inactive{% endif %}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
+		<nav>
+			<ul class="categories">
+			{% for cat in categories.items %}
+				{% if cat.0 in article.category_tags %}
+				<li><a class="{% if category %}{% ifequal category cat.0 %}active{% else %}inactive{% endifequal %}{% else %}inactive{% endif %}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
+				{% endif %}
+			{% endfor %}
+			</ul>
+			{% if article.question_1 and article.answer_1 %}
+			<p>
+				<a class="info" href="#" title="">Questions &amp; Answers</a>
+			</p>
 			{% endif %}
-		{% endfor %}
-		</ul>
-		{% if article.question_1 and article.answer_1 %}
-		<p>
-			<a class="info" href="#" title="">Questions &amp; Answers</a>
-		</p>
-		{% endif %}
-		<a class="js-hide" href="#top">Back to top</a>
-	</nav>	
+			<a class="js-hide" href="#top">Back to top</a>
+		</nav>
+	</div>
+		
 </article>	

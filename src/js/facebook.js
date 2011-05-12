@@ -5,7 +5,7 @@ RIA.Facebook = new Class({
 		*		Generate a Facebook Like Button (once only) for an Article	
 		*/
 		try {
-			var articleId = article.get("id"), fb, fbContainer = new Element("p", {"class":"facebook-like"});
+			var articleId = article.get("id"), fb, fbContainer = new Element("span", {"class":"facebook-like"});
 
 			fb = document.id(document.createElement("fb:like")); // Call document.id on the variable we have just created to use Moo's Element extendables
 			fb.set({
@@ -17,7 +17,7 @@ RIA.Facebook = new Class({
 				"ref":""//"a-to-z-mcdonalds-"+articleId
 			}).inject(fbContainer);
 
-			fbContainer.inject(article.getElement("nav"),"bottom");
+			fbContainer.inject(article.getElement(".social"),"top");
 		
 			/*
 			*	Generate the FB Like button

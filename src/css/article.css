@@ -1,18 +1,18 @@
 article {
-	/*
-	overflow:hidden;
-	*/
+	position:relative;
+	width:815px; /* 40px padding offset */
 	padding:20px;
-	border:1px solid #333;
+	margin:0 0 9px 30px;
 	-o-border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
-	margin-bottom:50px;	
 }
 
 article h2 {
-	min-height:90px;
+	position:absolute;
+	top:-10000em;
+	left:-10000em;
 }
 
 article header {
@@ -20,7 +20,11 @@ article header {
 }
 
 article p {
-	padding:10px 0;
+	padding:0 0 18px 0;
+}
+
+article p.first {
+	font-weight:bold;
 }
 
 article.inactive {
@@ -40,20 +44,45 @@ article a {
 }
 
 article div.container {
+	width:390px;
+	min-height:300px;
 	position:relative;
+}
+
+article div.layout-left {
+	
+}
+
+article div.layout-right {
+	margin-left:425px;
 }
 
 .js article div.container {
 	opacity:0;
 }
 
+
+article section {
+	background:#fff url(../img/bg-content.gif) repeat top left;
+	padding:18px 18px 5px 18px;
+	
+	-o-border-radius:3px;
+	-ms-border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	
+	-ms-box-shadow: 5px 5px 20px #a3a3a3;
+	-o-box-shadow: 5px 5px 20px #a3a3a3;
+	-moz-box-shadow: 5px 5px 20px #a3a3a3;
+	-webkit-box-shadow: 5px 5px 20px #333;
+	box-shadow: 5px 5px 20px #a3a3a3;
+}
 /*
 *	Questions & Answers Section
 */
 article section.qanda {
-	background:#fff;
 	display:none;
-	width:600px;
 }
 
 article section.qanda .qanda-container {
@@ -106,24 +135,24 @@ article section.qanda .answer p {
 /*
 *	Section content layout
 */
-
-section.layout-two-column {
-	
-	overflow:hidden;
-	
-}
-section.layout-two-column .content-image {
+.content-image {
 	display:block;
-	position:relative;
-	float:left;
-	margin:10px 20px 20px 0;
+	position:absolute;
+	top:0px;
+	left:0px;
 	background:#999 url(../img/spinner.gif) no-repeat 48% 48%;
 }
-
+.content-image img {
+	display:block;
+	position:absolute;
+	top:0px;
+	left:0px;
+}
 article nav {
 	/*
 	overflow:hidden;
 	*/
+	margin:5px 0 0 0;
 	clear:right;
 }
 article nav p {

@@ -48,6 +48,11 @@ def getKeyCodes(self):
 		memcache.add("categorykeycodes", self._keyCodes)
 		return self._keyCodes
 
+class OverQuotaHandler(webapp.RequestHandler):
+  def get(self):
+	path = os.path.join(os.path.dirname(__file__),'over_quota.html')
+	self.response.out.write(template.render(path,{}))		
+	
 class HomeHandler(webapp.RequestHandler):
   def get(self):
 	atozlistMC = AToZList.load()
@@ -98,6 +103,7 @@ class Error404Handler(webapp.RequestHandler):
 		
 def real_main():
   util.run_wsgi_app(webapp.WSGIApplication([
+	('/over-quota',OverQuotaHandler),
 	('/',HomeHandler),
 	(regexpURLAtoZ,ViewHandler),
 	(regexpURLError,Error404Handler)

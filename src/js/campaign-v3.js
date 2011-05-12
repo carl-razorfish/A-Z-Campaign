@@ -36,7 +36,7 @@ RIA.AZCampaign = new Class({
 			this.navCategoryHeight = document.id("categories").getSize().y;
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
 			
-			this.scrollVerticalOffset = this.navCategoryHeight;
+			this.scrollVerticalOffset = this.navPanel.getSize().y;
 			
 			this.pinNavPanel();
 			
@@ -94,7 +94,7 @@ RIA.AZCampaign = new Class({
 		*/
 		var viewportWidth = this.getViewportWidth();
 		if(viewportWidth > this.shellWidth) {
-			this.navPanel.setStyle("left",((viewportWidth - this.shellWidth) / 2)+"px");
+			this.navPanel.setStyle("left",(((viewportWidth - this.shellWidth) / 2)-10)+"px");
 		}
 		viewportWidth = null;
 	},
@@ -207,8 +207,6 @@ RIA.AZCampaign = new Class({
 		*		Load an Article
 		*/
 		var container = article.getElement(".container"),
-		header = article.getElement("h2"),
-		letterImage = header.getElement("img"),
 		mainImageContainer = article.getElement(".content-image");
 		
 		if(mainImageContainer) { 
@@ -216,6 +214,9 @@ RIA.AZCampaign = new Class({
 			mainImageSrc = mainImageContainer.get("data-main-src"),
 			mainImageWidth = mainImageContainer.get("data-main-width"),
 			mainImageHeight = mainImageContainer.get("data-main-height"),
+			letterImageSrc = mainImageContainer.get("data-letter-src"),
+			letterImageWidth = mainImageContainer.get("data-letter-width"),
+			letterImageHeight = mainImageContainer.get("data-letter-height"),
 			mainImageAlt = mainImageContainer.get("data-alt");
 		
 			/*
@@ -228,29 +229,24 @@ RIA.AZCampaign = new Class({
 						"width":mainImageWidth,
 						"height":mainImageHeight,
 						"alt":mainImageAlt
+					}),
+					letterImage = new Element("img", {
+						"src":letterImageSrc,
+						"width":letterImageWidth,
+						"height":letterImageHeight,
+						"alt":mainImageAlt
 					})
 				);
 			}
 		}
-		/*
-		*	If we do not yet have a letter image then create one
-		*/
-		if(!letterImage) {		
-			letterImage = new Element("img", {
-				"src":header.get("data-src"),
-				"width":header.get("data-width"),
-				"height":header.get("data-height"),
-				"alt":header.get("data-alt")
-			}).inject(header, "top");
-		}
-	
+
 		if(!Browser.Platform.ios) {
 			container.morph({'opacity':1});
 		} else {
 			container.setStyle('opacity',1);
 		}	
 		
-		container = mainImageContainer = mainImage = mainImageSrc = mainImageWidth = mainImageHeight = mainImageAlt = header = letterImage = null;
+		//container = mainImageContainer = mainImage = mainImageSrc = mainImageWidth = mainImageHeight = mainImageAlt = null;
 	},
 	filter: function(filter, eventType) {
 		/*

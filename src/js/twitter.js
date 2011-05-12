@@ -4,6 +4,10 @@ RIA.Twitter = new Class({
 		*	@description:
 		*		Generate a Twitter Tweet Button (once only) for an Article	
 		*/
+		/*
+		*	[ST]TODO: confirm whether we want a Twitter Tweet Button or not
+		*/
+		return;
 		try {
 			var articleId = article.get("id"), header = article.getElement("h2").get("text"), tw, twContainer = new Element("p", {"class":"twitter-tweet"}), tweetHash = article.get("data-tweet-hash");
 		
