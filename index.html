@@ -53,11 +53,10 @@
 			(function() {
 				var e = document.createElement('script');
 				e.type = 'text/javascript';
-				e.src = document.location.protocol+'//connect.facebook.net/en_US/all.js';
+				e.src = document.location.protocol+'//connect.facebook.net/en_US/all.js#xfbml=1';
 				e.async = true;
 				document.getElementById('fb-root').appendChild(e);
 			}());
-			
 			{% comment %} Include Facebook SDK, for tracking and XFBML Like Button dynamic creation {% endcomment %}
 			window.fbAsyncInit = function() {
 				FB.init({

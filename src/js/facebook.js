@@ -5,16 +5,17 @@ RIA.Facebook = new Class({
 		*		Generate a Facebook Like Button (once only) for an Article	
 		*/
 		try {
-			var articleId = article.get("id"), fb, fbContainer = new Element("span", {"class":"facebook-like"});
+			var articleId = article.get("id"), fb, fbContainer = new Element("span", {"class":"facebook-like"}), url = article.get("data-url");
 
 			fb = document.id(document.createElement("fb:like")); // Call document.id on the variable we have just created to use Moo's Element extendables
 			fb.set({
-				"href":"http://www.google.co.uk",//"http://a-z-campaign.appspot.com/"+articleId,
-				"show_faces":false,
+				"href":url+articleId,
+				"show_faces":"false",
+				"send":"true",
 				"width":450,
 				"height":80,
 				"font":"arial",
-				"ref":""//"a-to-z-mcdonalds-"+articleId
+				"ref":"a-to-z-mcdonalds-"+articleId
 			}).inject(fbContainer);
 
 			fbContainer.inject(article.getElement(".social"),"top");
@@ -24,7 +25,7 @@ RIA.Facebook = new Class({
 			*/
 			if(FB) FB.XFBML.parse(fbContainer);
 
-			articleId = fb = fbContainer = null;
+			articleId = fb = fbContainer = url = null;
 
 		} catch(e) {
 			Log.error({method:"generateLikeButton()", error:e});
@@ -36,6 +37,7 @@ RIA.Facebook = new Class({
 		*/
 		FB.Event.subscribe('edge.create', this.eventEdgeCreate.bind(this));
 		FB.Event.subscribe('edge.remove', this.eventEdgeRemove.bind(this));
+		FB.Event.subscribe('message.send', this.eventMessageSend.bind(this));
 	},
 	eventEdgeCreate: function(href, widget) {
 		/*
@@ -50,5 +52,12 @@ RIA.Facebook = new Class({
 		*		Method hook from Facebook Unlike action (edge.remove).
 		*/
 		_gaq.push(['_trackEvent', 'Facebook', 'Unlike', href, null]);
+	},
+	eventMessageSend: function(href, widget) {
+		/*
+		*	@description:
+		*		Method hook from Facebook Send action (message.send).
+		*/
+		_gaq.push(['_trackEvent', 'Facebook', 'Message', href, null]);
 	}
 });

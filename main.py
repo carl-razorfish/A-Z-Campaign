@@ -30,11 +30,11 @@ regexpURLError = r"/(.*)"
 
 CDNPrefix = "http://a-z-campaign-"
 CDNSuffix = ".appspot.com/"
-CDNSlaves = ["master","2","3"]
+CDNSlaves = ["2","3","4","5"]
 
 def getCDN(self):
 	"""
-	Generate a GAE instance as a CDN, for static file requests
+	Generate a GAE URL as a CDN, for static file requests
 	"""
 	self.cdn = CDNPrefix + choice(CDNSlaves) + CDNSuffix
 	return self.cdn
@@ -72,7 +72,7 @@ class HomeHandler(webapp.RequestHandler):
 	contentMC = content.load()
 	commonMC = common.load()
 	keyCodes = getKeyCodes(self)
-	cdn = getCDN(self)
+	cdn = ""#getCDN(self)
 	path = os.path.join(os.path.dirname(__file__),'index.html')
 	args = dict(content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes,cdn=cdn)
 	self.response.out.write(template.render(path,args))
@@ -95,7 +95,7 @@ class ViewHandler(webapp.RequestHandler):
 		else:
 			category = urlPath
 	keyCodes = getKeyCodes(self)
-	cdn = getCDN(self)
+	cdn = ""#getCDN(self)
 	path = os.path.join(os.path.dirname(__file__),'index.html')
 	args = dict(alpha=alpha,category=category,content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes,cdn=cdn)
 	self.response.out.write(template.render(path,args))
