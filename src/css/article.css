@@ -48,6 +48,7 @@ article div.container {
 	width:390px;
 	min-height:300px;
 	position:relative;
+	padding:20px 0 0 0;
 }
 
 article div.layout-left {

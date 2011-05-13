@@ -5,6 +5,7 @@
 	left:0px;
 	width:1088px;
 	height:102px;
+	margin-left:35px;
 }
 
 .js #navigation {
@@ -113,3 +114,14 @@ article nav ul li {
 	float:left;
 }
 
+#navigation .shadow {
+	display:none;
+	width:915px;	
+	height:20px;
+	margin:82px 0 0 72px;
+	-o-box-shadow: 5px 5px 5px #ccc;
+	-ms-box-shadow: 5px 5px 5px #ccc;
+	-moz-box-shadow: 5px 5px 5px #ccc;
+  	-webkit-box-shadow: 0px 10px 20px 0px #d2d2d2;
+  	box-shadow: 5px 5px 5px #ccc;
+}

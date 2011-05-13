@@ -137,9 +137,11 @@ RIA.AZCampaign = new Class({
 	
 		if(viewport.scrollTop <= 91) {
 			this.navPanel.setStyle("top",91-viewport.scrollTop+"px");
+			this.navPanel.getElement('.shadow').setStyle("display","none");
 		}
 		else if(viewport.scrollTop > 91) {
 			this.navPanel.setStyle("top","0px");
+			this.navPanel.getElement('.shadow').setStyle("display","block");
 		}
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();

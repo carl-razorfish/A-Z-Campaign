@@ -2,10 +2,35 @@ footer {
 	background:#000 url(../img/bg-footer.gif) repeat top left;
 }
 
+footer nav {
+	width:888px;
+	margin:23px auto 0 auto;
+	-o-box-shadow: 5px 5px 5px #ccc;
+	-ms-box-shadow: 5px 5px 5px #ccc;
+	-moz-box-shadow: 5px 5px 5px #ccc;
+  	-webkit-box-shadow: 0px 0px 5px #ccc;
+  	box-shadow: 5px 5px 5px #ccc;
+}
+
 footer p {
 	width:632px;
 	margin:0 auto;
 	text-align:center;
 	padding:10px 160px;
 	font-size:0.9em;
+}
+
+footer header {
+	width:952px;
+	margin:0 auto;
+	position:relative;
+}
+footer h3 {
+	width:952px;
+	height:142px;
+	position:absolute;
+	top:-142px;
+	left:0px;
+	background:transparent url(../img/bg-twmm.png) no-repeat top left;
+	text-indent:-10000em;
 }
