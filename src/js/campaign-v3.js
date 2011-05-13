@@ -21,7 +21,9 @@ RIA.AZCampaign = new Class({
 	initialize: function(options) {
 		try {
 			this.setOptions(options);
-			document.getElement("body").addClass("js");
+			if(!this.options.alpha || this.options.alpha == "") {
+				document.getElement("body").addClass("js");
+			}
 			this.articles = document.getElements("article");			
 			this.navigation = document.getElements("#navigation, ul.categories");
 			this.navPanel = document.id("navigation");
