@@ -26,7 +26,7 @@ RIA.AZCampaign = new Class({
 			this.navigation = document.getElements("#navigation, ul.categories");
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
-			
+			this.headerH1 = document.getElement("h1");
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
@@ -135,11 +135,11 @@ RIA.AZCampaign = new Class({
 		*/
 		var viewport = this.getViewport(), articleCoords;
 	
-		if(viewport.scrollTop <= 91) {
-			this.navPanel.setStyle("top",91-viewport.scrollTop+"px");
+		if(viewport.scrollTop <= this.headerH1.getSize().y) {
+			this.navPanel.setStyle("top",this.headerH1.getSize().y-viewport.scrollTop+"px");
 			this.navPanel.getElement('.shadow').setStyle("display","none");
 		}
-		else if(viewport.scrollTop > 91) {
+		else if(viewport.scrollTop > this.headerH1.getSize().y) {
 			this.navPanel.setStyle("top","0px");
 			this.navPanel.getElement('.shadow').setStyle("display","block");
 		}

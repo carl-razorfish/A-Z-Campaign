@@ -35,7 +35,7 @@ h1 {
 	top:0px;
 	left:-5px;
 	width:1088px;
-	height:91px;
+	height:71px;
 	background:url(../img/h1.png) no-repeat top left;
 	text-indent:-10000em;
 }
@@ -63,7 +63,7 @@ ul,dl,ol {
 #content {
 	min-height:768px;
 	margin-left:-35px;
-	padding:190px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
+	padding:170px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
 }
 
 .js .js-hide {

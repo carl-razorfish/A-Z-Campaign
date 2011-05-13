@@ -1,7 +1,7 @@
 #navigation {
-	background:transparent url(../img/navigation.png) repeat top left;
+	background:transparent url(../img/bg-navigation.png) repeat top left;
 	position:absolute;
-	top:91px;
+	top:71px;
 	left:0px;
 	width:1088px;
 	height:102px;
@@ -12,93 +12,85 @@
 	position:fixed;
 }
 
+/*
+*	Categories
+*/
 #navigation #categories {
 	width:920px;		
 	overflow:hidden;
+	margin:0 0 0 120px;
+	padding:15px 0 0 0;
 }
 
 #navigation #categories li {
 	height:50px;
 	display:block;
 	float:left;
-	margin:7px 0 0 10px;
+	margin:0 55px 0 0;
 }
 
-#navigation #categories a,
-#navigation #categories a.inactive,
-article nav ul.categories a,
-article nav ul.categories a.inactive {
-	color:#333;
-	font-size:0.9em;
+#navigation #categories a {
 	display:block;
-	text-align:left;
-	padding:5px 7px;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	-o-border-radius:5px;
-	border-radius:5px;	
-	background:#fff;
-	opacity:0.9;
+	height:23px;
+	background-image:url(../img/sprite-categories.png);
+	background-repeat:none;
+	text-indent:-10000em;
 }
+
+#navigation .food {
+	width:65px;	
+	background-position:0 0;
+}
+
+#navigation .people {
+	width:90px;	
+	background-position:-117px 0;
+}
+
+#navigation .community {
+	width:175px;	
+	background-position:-254px 0;
+}
+
+#navigation .planet {
+	width:105px;	
+	background-position:-476px 0;
+}
+
+#navigation .london2012 {
+	width:185px;	
+	background-position:-635px 0;
+}
+
 
 article nav ul.categories a,
 article nav ul.categories a.inactive {
 	display:inline;
 }
 
-#navigation #categories a.active,
-article nav ul.categories a.active {
-	background:#cd1e24;
-	background: -o-linear-gradient(top, rgb(0,0,0), rgb(0,0,0)); /* not working */
-	background: -moz-linear-gradient(top, #cd1e24, #b61816);
-    background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cd1e24', EndColorStr='#b61816', GradientType=0);
-}
-
-#navigation #categories a#logo {
-	background:none;
-	border:none;
-}
-
 /*
 *	Alphabet
 */
 #navigation #alphabet {
-	
+	margin-left:120px;
+	padding:20px 0 0 0;
+}
+#navigation #alphabet a {
+	display:block;
+	width:22px;
+	height:22px;
+	background-image:url(../img/sprite-alphabet.png);
+	background-repeat:none;
+	text-indent:-10000em;
 }
 
 #navigation #alphabet li {
 	float:left;
-	margin:0 10px 0 0;
+	margin:0 20px 0 0;
 	text-align:center;
 	margin:3px 0;
 }
 
-#navigation #alphabet a {
-	color:#fff;
-	font-size:1.2em;
-	display:inline-block;
-	text-align:center;
-	width:25px;
-	height:22px;
-	padding-top:4px;
-
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	-o-border-radius:5px;
-	border-radius:5px;
-		
-	background:#cd1e24;
-	background: -moz-linear-gradient(top, #cd1e24, #b61816);
-    background: -webkit-gradient(linear, left top, left bottom, from(#cd1e24), to(#b61816));
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cd1e24', EndColorStr='#b61816', GradientType=0);	
-}
-
-#navigation #alphabet a.inactive {
-	background: -moz-linear-gradient(top, #cdcbcb, #a7a7a7);
-    background: -webkit-gradient(linear, left top, left bottom, from(#cdcbcb), to(#a7a7a7));
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#cdcbcb', EndColorStr='#a7a7a7', GradientType=0);			
-}
 
 /*
 *	Article Nav
@@ -118,10 +110,34 @@ article nav ul li {
 	display:none;
 	width:915px;	
 	height:20px;
-	margin:82px 0 0 72px;
+	margin:-31px 0 0 72px;
 	-o-box-shadow: 5px 5px 5px #ccc;
 	-ms-box-shadow: 5px 5px 5px #ccc;
 	-moz-box-shadow: 5px 5px 5px #ccc;
   	-webkit-box-shadow: 0px 10px 20px 0px #d2d2d2;
   	box-shadow: 5px 5px 5px #ccc;
+}
+
+
+/*
+*	Alphabet Letters (sprite)
+*/
+#navigation .a {
+	background-position:0 0;
+}
+
+#navigation .b {
+	background-position:-34px 0;
+}
+
+#navigation .c {
+	background-position:-65px 0;
+}
+
+#navigation .d {
+	background-position:-98px 0;
+}
+
+#navigation .e {
+	background-position:-129px 0;
 }

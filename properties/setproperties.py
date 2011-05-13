@@ -95,7 +95,7 @@ class CategoryProperties(object):
 			categoryCopyProperties = "properties/category.properties"
 			categoryCfg = ConfigParser()
 			categoryCfg.read(categoryCopyProperties)
-			content = {}
+			content = dict()
 			for i in categoryCfg.items("Categories"):
 				content[i[0]] = i[1]
 			memcache.add("categoryproperties", content)
