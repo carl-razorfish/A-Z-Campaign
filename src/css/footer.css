@@ -1,0 +1,11 @@
+footer {	
+	background:#000 url(../img/bg-footer.gif) repeat top left;
+}
+
+footer p {
+	width:632px;
+	margin:0 auto;
+	text-align:center;
+	padding:10px 160px;
+	font-size:0.9em;
+}

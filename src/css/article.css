@@ -1,12 +1,13 @@
 article {
 	position:relative;
-	width:815px; /* 40px padding offset */
-	padding:20px;
-	margin:0 0 9px 30px;
-	-o-border-radius:5px;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
+	width:1088px;
+	margin:0 0 0 30px;
+	
+	/*
+	*	[ST]TODO: may affect category filter fx
+	*/
+	overflow:hidden;
+	
 }
 
 article h2 {
@@ -50,11 +51,11 @@ article div.container {
 }
 
 article div.layout-left {
-	
+	margin-left:100px;
 }
 
 article div.layout-right {
-	margin-left:425px;
+	margin-left:600px;
 }
 
 .js article div.container {
@@ -63,20 +64,7 @@ article div.layout-right {
 
 
 article section {
-	background:#fff url(../img/bg-content.gif) repeat top left;
-	padding:18px 18px 5px 18px;
-	
-	-o-border-radius:3px;
-	-ms-border-radius:3px;
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px;
-	
-	-ms-box-shadow: 5px 5px 20px #a3a3a3;
-	-o-box-shadow: 5px 5px 20px #a3a3a3;
-	-moz-box-shadow: 5px 5px 20px #a3a3a3;
-	-webkit-box-shadow: 5px 5px 20px #333;
-	box-shadow: 5px 5px 20px #a3a3a3;
+
 }
 /*
 *	Questions & Answers Section

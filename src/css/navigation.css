@@ -1,10 +1,10 @@
 #navigation {
-	background:#fff url(../img/bg-content.gif) repeat top left;
+	background:transparent url(../img/navigation.png) repeat top left;
 	position:absolute;
-	top:0px;
+	top:91px;
 	left:0px;
-	width:920px;
-	height:200px;
+	width:1088px;
+	height:102px;
 }
 
 .js #navigation {

@@ -1,9 +1,11 @@
 <div id="navigation">
 	<nav>
-		<img src="img/nav-logo.png" width="52" height="50" alt="{{ common.mcdonalds }}" />
+		
 		<ul id="categories">
 			{% for cat in categories.items %}
-				<li><a class="{% ifequal cat.0 category %}active {{category}}{% else %}inactive {{category}}{% endifequal %}" id="nav-category-{{cat.0}}" data-category="{{cat.0}}" href="/{{cat.0}}">{{cat.1|upper}}</a></li>							
+				<!--//
+				<li><a class="{% ifequal cat.0 category %}active {{category}}{% else %}inactive {{category}}{% endifequal %}" id="nav-category-{{cat.0}}" data-category="{{cat.0}}" href="/{{cat.0}}">{{cat.1|upper}}</a></li>
+				//-->
 			{% endfor %}
 		</ul>
 		{% comment %}
@@ -13,7 +15,9 @@
 		{% endcomment %}
 		<ul id="alphabet">
 		{% for article in content %}
+			<!--//
 			<li><a class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-category="{{ article.id }}" href="/{% if not category and not alpha %}#{{ article.id }}{% endif %}{% if category %}{% if category in article.category_tags %}{{category}}#{{article.id}}{% else %}#{{article.id}}{% endif %}{% endif %}{% if alpha %}#{{article.id}}{% endif %}">{{ article.menu }}</a></li>
+			//-->
 		{% endfor %}
 		</ul>
 	</nav>

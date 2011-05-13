@@ -50,6 +50,7 @@ RIA.AZCampaign = new Class({
 				transition:"sine:in:out",
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately
 				onStart: function(e) {
+					this.navPanel.setStyle("top","0px");
 					this.removeScrollEventListener();
 				}.bind(this),
 				onComplete: function(e) {
@@ -94,7 +95,7 @@ RIA.AZCampaign = new Class({
 		*/
 		var viewportWidth = this.getViewportWidth();
 		if(viewportWidth > this.shellWidth) {
-			this.navPanel.setStyle("left",(((viewportWidth - this.shellWidth) / 2)-10)+"px");
+			this.navPanel.setStyle("left",((viewportWidth - this.shellWidth) / 2)-35+"px");
 		}
 		viewportWidth = null;
 	},
@@ -134,6 +135,12 @@ RIA.AZCampaign = new Class({
 		*/
 		var viewport = this.getViewport(), articleCoords;
 	
+		if(viewport.scrollTop <= 91) {
+			this.navPanel.setStyle("top",91-viewport.scrollTop+"px");
+		}
+		else if(viewport.scrollTop > 91) {
+			this.navPanel.setStyle("top","0px");
+		}
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
 			
@@ -229,14 +236,17 @@ RIA.AZCampaign = new Class({
 						"width":mainImageWidth,
 						"height":mainImageHeight,
 						"alt":mainImageAlt
-					}),
+					})
+				);
+				/*
+				,
 					letterImage = new Element("img", {
 						"src":letterImageSrc,
 						"width":letterImageWidth,
 						"height":letterImageHeight,
 						"alt":mainImageAlt
 					})
-				);
+				*/
 			}
 		}
 
@@ -350,7 +360,7 @@ RIA.AZCampaign = new Class({
 			*/			
 			if(this.options.categories[category].contains(article.get("id"))) {
 				article.removeClass("inactive");
-				this.navArticles[index].removeClass("inactive");
+				if(this.navArticles[index]) this.navArticles[index].removeClass("inactive");
 				article.reveal();
 				article.store("filteredin",true);
 			}				
@@ -358,7 +368,7 @@ RIA.AZCampaign = new Class({
 			*	Else the Article ID is not included in our Category Array, so filter it out
 			*/	
 			else { 
-				this.navArticles[index].addClass("inactive");
+				if(this.navArticles[index]) this.navArticles[index].addClass("inactive");
 				article.dissolve();
 				article.store("filteredin",false);
 			}			

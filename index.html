@@ -34,10 +34,10 @@
 				{% for article in content %}
 					{% if alpha %}{% if article.id in alpha %}{% include "includes/article.html" %}{% endif %}{% else %}{% include "includes/article.html" %}{% endif %}
 				{% endfor %}
-			</div>
-			{% include "includes/footer.html" %}			
+			</div>			
 			{% include "includes/navigation.html" %}			
 		</div>
+		{% include "includes/footer.html" %}
 		<div id="fb-root">	
 		</div>
 		<script type="text/javascript" src="{{ cdn }}js/scripts.js"></script>

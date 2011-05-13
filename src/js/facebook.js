@@ -18,7 +18,7 @@ RIA.Facebook = new Class({
 				"ref":"a-to-z-mcdonalds-"+articleId
 			}).inject(fbContainer);
 
-			fbContainer.inject(article.getElement(".social"),"top");
+			fbContainer.inject(article.getElement(".social"),"bottom");
 		
 			/*
 			*	Generate the FB Like button
