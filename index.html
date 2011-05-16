@@ -43,13 +43,14 @@
 		<script type="text/javascript" src="{{ cdn }}js/scripts.js"></script>
 		<script type="text/javascript">
 		//<![CDATA[
+			
 			RIA.Campaign = new RIA.AZCampaign({
 				categories:{{aToZList|safe}},
 				category:"{{ category }}",
 				alpha:"{{ alpha }}",
 				keyCodes:{{keyCodes|safe}}
-			});	
-			
+			});
+		
 			(function() {
 				var e = document.createElement('script');
 				e.type = 'text/javascript';
@@ -66,10 +67,9 @@
 					xfbml: true			
 				});	
 
-				RIA.Campaign.initFacebook();	
-				
+				RIA.Campaign.initFacebook();					
 			};		
-			
+	
 		//]]>
 		</script>
     </body>

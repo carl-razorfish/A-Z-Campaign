@@ -55,7 +55,7 @@ def getKeyCodes(self):
 		self._keyCodes = dict()
 		categoriesMC = categories.load()
 		for cat in categoriesMC:
-			self._keyCodes[counter] = cat
+			self._keyCodes[str(counter)] = cat
 			counter = counter + 1
 		memcache.add("categorykeycodes", self._keyCodes)
 		return self._keyCodes
