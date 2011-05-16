@@ -69,9 +69,7 @@ RIA.EventListeners = new Class({
 		/*
 		*	@description:
 		*		Callback from the window onResize event listener
-		*/
-		this.viewport = this.getViewport();
-		this.pinNavPanel();
+		*/		
 		this.getContentInViewport();
 	},
 	onOrientationChange: function() {

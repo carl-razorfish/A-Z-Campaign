@@ -31,8 +31,6 @@ RIA.AZCampaign = new Class({
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
 			
-			this.viewport = this.getViewport();
-			
 			this.navAll = document.getElements("#navigation a, article .categories a");
 			
 			this.navCategoryHeight = document.id("categories").getSize().y;
@@ -40,8 +38,6 @@ RIA.AZCampaign = new Class({
 			
 			this.scrollVerticalOffset = this.navPanel.getSize().y;
 			this.headerH1Offset = this.headerH1.getSize().y;
-			
-			this.pinNavPanel();
 			
 			this.storeArticleData();
 			
@@ -91,28 +87,33 @@ RIA.AZCampaign = new Class({
 			Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});
 		}
 	},
-	pinNavPanel: function() {
+	pinNavPanel: function(gotViewport) {
 		/*
 		*	@description:
 		*		Pin the Nav Panel x coordinate, in case the window has been resized along the x axis
 		*		Pin the Nav Panel y coordinate, in case the window has scrolled such that the H1 header is out of view
 		*		[ST]TODO: we only need to call this function once, under 2 conditions; if the viewport.scrollTop is less than the H1 height when scrolling up, or vice versa
+		*	@arguments:
+		*		gotViewport[Boolean]: If this method has been called from getContentInViewport(), for example, we will have just got the viewport dimensions. 
+		*			Therefore do not cause an unnecessary DOM lookup
 		*/
-		var viewport = this.viewport, scrollTop = this.getViewportScrollTop();
-		if(viewport.w > this.shellWidth) {
-			this.navPanel.setStyle("left",((viewport.w - this.shellWidth) / 2)-35+"px");
+		if(!gotViewport) {
+			this.viewport = this.getViewport();
+		}
+
+		if(this.viewport.w > this.shellWidth) {
+			this.navPanel.setStyle("left",((this.viewport.w - this.shellWidth) / 2)-35+"px");
 		}
 		
-		if(scrollTop <= this.headerH1Offset) {
-			this.navPanel.setStyle("top",this.headerH1Offset-scrollTop+"px");
+		if(this.viewport.scrollTop <= this.headerH1Offset) {
+			this.navPanel.setStyle("top",this.headerH1Offset-this.viewport.scrollTop+"px");
 			this.navPanel.getElement('.shadow').setStyle("display","none");
 		}
-		else if(scrollTop > this.headerH1Offset) {
+		else if(this.viewport.scrollTop > this.headerH1Offset) {
 			this.navPanel.setStyle("top","0px");
 			this.navPanel.getElement('.shadow').setStyle("display","block");
 		}
-		
-		viewport = null;
+
 	},
 	storeArticleData: function() {
 		/*
@@ -148,15 +149,18 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Establish which content is visible in the viewport		
 		*/
-		var viewport = this.getViewport(), articleCoords;
+		Log.info("getContentInViewport()");
 		
-		this.pinNavPanel();
+		this.viewport = this.getViewport();
+		var articleCoords;
+		
+		this.pinNavPanel(true);
 		
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
 			
 			// If the Article is not in the viewport...
-			if((articleCoords.top > viewport.h+viewport.scrollTop) || (articleCoords.bottom < viewport.scrollTop)) {
+			if((articleCoords.top > this.viewport.h+this.viewport.scrollTop) || (articleCoords.bottom < this.viewport.scrollTop)) {
 				
 				// hide and unload content
 				if(article.retrieve("inviewport")) {
@@ -219,7 +223,7 @@ RIA.AZCampaign = new Class({
 
 		this.setNavPositionForiOs();
 		
-		viewport = articlePosY = null;
+		articlePosY = null;
 	},
 	loadArticle: function(article) {
 		/*
