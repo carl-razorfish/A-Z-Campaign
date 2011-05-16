@@ -152,7 +152,6 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Establish which content is visible in the viewport		
 		*/
-		Log.info("getContentInViewport()");
 		
 		this.viewport = this.getViewport();
 		var articleCoords;
