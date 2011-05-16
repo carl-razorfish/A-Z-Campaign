@@ -10,9 +10,10 @@ RIA.Facebook = new Class({
 			fb = document.id(document.createElement("fb:like")); // Call document.id on the variable we have just created to use Moo's Element extendables
 			fb.set({
 				"href":url+articleId,
+				"layout":"button_count",
 				"show_faces":"false",
 				"send":"true",
-				"width":450,
+				"width":150,
 				"height":80,
 				"font":"arial",
 				"ref":"a-to-z-mcdonalds-"+articleId

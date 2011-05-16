@@ -57,11 +57,6 @@
 	background-position:-476px 0;
 }
 
-#navigation .london2012 {
-	width:185px;	
-	background-position:-635px 0;
-}
-
 
 article nav ul.categories a,
 article nav ul.categories a.inactive {
@@ -86,9 +81,7 @@ article nav ul.categories a.inactive {
 
 #navigation #alphabet li {
 	float:left;
-	margin:0 20px 0 0;
-	text-align:center;
-	margin:3px 0;
+	margin:0 10px 0 0;
 }
 
 
@@ -140,4 +133,88 @@ article nav ul li {
 
 #navigation .e {
 	background-position:-129px 0;
+}
+
+#navigation .f {
+	background-position:-162px 0;
+}
+
+#navigation .g {
+	background-position:-194px 0;
+}
+
+#navigation .h {
+	background-position:-225px 0;
+}
+
+#navigation .i {
+	background-position:-261px 0;
+}
+
+#navigation .j {
+	background-position:-285px 0;
+}
+
+#navigation .k {
+	background-position:-322px 0;
+}
+
+#navigation .l {
+	background-position:-350px 0;
+}
+
+#navigation .m {
+	background-position:-376px 0;
+}
+
+#navigation .n {
+	background-position:-409px 0;
+}
+
+#navigation .o {
+	background-position:-444px 0;
+}
+
+#navigation .p {
+	background-position:-474px 0;
+}
+
+#navigation .q {
+	background-position:-502px 0;
+}
+
+#navigation .r {
+	background-position:-536px 0;
+}
+
+#navigation .s {
+	background-position:-570px 0;
+}
+
+#navigation .t {
+	background-position:-598px 0;
+}
+
+#navigation .u {
+	background-position:-629px 0;
+}
+
+#navigation .v {
+	background-position:-659px 0;
+}
+
+#navigation .w {
+	background-position:-691px 0;
+}
+
+#navigation .x {
+	background-position:-728px 0;
+}
+
+#navigation .y {
+	background-position:-762px 0;
+}
+
+#navigation .z {
+	background-position:-797px 0;
 }
