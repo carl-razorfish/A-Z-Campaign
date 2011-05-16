@@ -34,5 +34,5 @@ RIA.Twitter = new Class({
 		*/
 		Log.info("Tweet : "+href);
 		_gaq.push(['_trackEvent', 'Twitter', 'Tweet', href, null]);
-	},
+	}
 });
