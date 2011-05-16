@@ -50,17 +50,20 @@ RIA.AZCampaign = new Class({
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately
 				onStart: function(e) {
 					this.pinNavPanel();
+					this.addPinNavEventListener();
 					this.removeScrollEventListener();
 				}.bind(this),
 				onComplete: function(e) {
 					this.scrollFx.options.duration = 1000;
 					this.getContentInViewport({trackScroll:false});
 					this.addScrollEventListener();
+					this.removePinNavEventListener();
 				}.bind(this),
 				onCancel: function(e) {
 					this.scrollFx.options.duration = 1000;
 					this.getContentInViewport({trackScroll:false});
 					this.addScrollEventListener();
+					this.removePinNavEventListener();
 				}.bind(this)
 			});
 			
