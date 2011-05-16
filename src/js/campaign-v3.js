@@ -31,12 +31,15 @@ RIA.AZCampaign = new Class({
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
 			
+			this.viewport = this.getViewport();
+			
 			this.navAll = document.getElements("#navigation a, article .categories a");
 			
 			this.navCategoryHeight = document.id("categories").getSize().y;
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
 			
 			this.scrollVerticalOffset = this.navPanel.getSize().y;
+			this.headerH1Offset = this.headerH1.getSize().y;
 			
 			this.pinNavPanel();
 			
@@ -95,23 +98,21 @@ RIA.AZCampaign = new Class({
 		*		Pin the Nav Panel y coordinate, in case the window has scrolled such that the H1 header is out of view
 		*		[ST]TODO: we only need to call this function once, under 2 conditions; if the viewport.scrollTop is less than the H1 height when scrolling up, or vice versa
 		*/
-		var viewport = this.getViewport();
-		Log.info("pinNavPanel");
-		
+		var viewport = this.viewport, scrollTop = this.getViewportScrollTop();
 		if(viewport.w > this.shellWidth) {
 			this.navPanel.setStyle("left",((viewport.w - this.shellWidth) / 2)-35+"px");
 		}
 		
-		if(viewport.scrollTop <= this.headerH1.getSize().y) {
-			this.navPanel.setStyle("top",this.headerH1.getSize().y-viewport.scrollTop+"px");
+		if(scrollTop <= this.headerH1Offset) {
+			this.navPanel.setStyle("top",this.headerH1Offset-scrollTop+"px");
 			this.navPanel.getElement('.shadow').setStyle("display","none");
 		}
-		else if(viewport.scrollTop > this.headerH1.getSize().y) {
+		else if(scrollTop > this.headerH1Offset) {
 			this.navPanel.setStyle("top","0px");
 			this.navPanel.getElement('.shadow').setStyle("display","block");
 		}
 		
-		viewportWidth = null;
+		viewport = null;
 	},
 	storeArticleData: function() {
 		/*
@@ -179,7 +180,7 @@ RIA.AZCampaign = new Class({
 					*/
 					
 					if(!article.retrieve("inviewport") || article.retrieve("inviewport") == false) {
-						Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
+						//Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
 						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
 						
 						/*
@@ -190,8 +191,8 @@ RIA.AZCampaign = new Class({
 						}						
 					}
 				}
-				article.store("inviewport",true);
 				
+				article.store("inviewport",true);
 				
 				
 				/*
@@ -199,16 +200,18 @@ RIA.AZCampaign = new Class({
 				*/
 				if(!article.retrieve("likebutton:generated")) {
 					this.generateLikeButton(article);
+					article.store("likebutton:generated",true);
 				}
-				article.store("likebutton:generated",true);
+				
 				
 				/*
 				*	If the Article does not yet have a Twitter Tweet Button, generate one (once)
 				*/
 				if(!article.retrieve("tweetbutton:generated")) {
 					this.generateTweetButton(article);
+					article.store("tweetbutton:generated",true);
 				}
-				article.store("tweetbutton:generated",true);
+				
 								
 			}				
 		},this);
@@ -291,60 +294,57 @@ RIA.AZCampaign = new Class({
 		/*
 		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
 		*/
-		try {
-			var viewport = this.getViewport(), articleId = articleElement.get("id"), articleCoords;
 
-			/*
-			*	Hide all Article content whilst we scroll. We switch back on the relevant content later...
-			*/
-			this.articles.each(function(art) {
-				//this.handleContent(art, false);
+		var viewport = this.viewport, articleId = articleElement.get("id"), articleCoords;
+
+		/*
+		*	Hide all Article content whilst we scroll. We switch back on the relevant content later...
+		*/
+		this.articles.each(function(art) {
+			//this.handleContent(art, false);
+		},this);
+	
+		/*
+		*	If the selected Alpha is not a member of the currently selected category, then reset the menus 
+		*/
+		if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(articleId) === -1) {
+			
+			this.articles.each(function(article) {
+				article.removeClass("inactive");
+				article.store("filteredin",true);
+				
+				article.setStyles({
+					"display":"block",
+					"height":article.getComputedSize().totalHeight
+				});
+				
 			},this);
-		
-			/*
-			*	If the selected Alpha is not a member of the currently selected category, then reset the menus 
-			*/
-			if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(articleId) === -1) {
-				
-				this.articles.each(function(article) {
-					article.removeClass("inactive");
-					article.store("filteredin",true);
-					
-					article.setStyles({
-						"display":"block",
-						"height":article.getComputedSize().totalHeight
-					});
-					
-				},this);
 
-				this.setNavState("all");
-			} 
-			/*
-			*	Now get the Element Position, in case we have removed any CSS classes for filtered out content in filterInAll()
-			*/
-			articleCoords = articleElement.getCoordinates();
-		
-			/*
-			*	Reset the Fx.Transition duration in case the chain has been cancelled and we are starting a new scroll
-			*/
-			this.scrollFx.options.duration = 1000;
-			if(articleCoords.top < viewport.scrollTop) {
-				this.scrollFx.options.duration += this.velocityCurve(viewport.scrollTop, articleCoords.top);
-			} else {
-				this.scrollFx.options.duration += this.velocityCurve(articleCoords.top, viewport.scrollTop);
-			}
-			/*
-			*	Scroll to the selected Alpha
-			*/
-		
-			this.scrollFx.toElement(articleId, 'y');	
-		
-			_gaq.push(['_trackEvent', 'AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null]);
-				
-			viewport = articleId = articleCoords = null;
-		} catch(e) {
-			Log.error({method:"RIA.AZCampaign : scrollToArticle()", error:e});
+			this.setNavState("all");
+		} 
+		/*
+		*	Now get the Element Position, in case we have removed any CSS classes for filtered out content in filterInAll()
+		*/
+		articleCoords = articleElement.getCoordinates();
+	
+		/*
+		*	Reset the Fx.Transition duration in case the chain has been cancelled and we are starting a new scroll
+		*/
+		this.scrollFx.options.duration = 1000;
+		if(articleCoords.top < viewport.scrollTop) {
+			this.scrollFx.options.duration += this.velocityCurve(viewport.scrollTop, articleCoords.top);
+		} else {
+			this.scrollFx.options.duration += this.velocityCurve(articleCoords.top, viewport.scrollTop);
 		}
+		/*
+		*	Scroll to the selected Alpha
+		*/
+	
+		this.scrollFx.toElement(articleId, 'y');	
+	
+		_gaq.push(['_trackEvent', 'AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null]);
+			
+		viewport = articleId = articleCoords = null;
 	},
 	filterByCategory: function(category, eventType) {
 		/*
