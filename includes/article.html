@@ -16,41 +16,13 @@
 	<div class="container {{ article.section_layout }}">
 		<section class="content">
 			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1 }}</p>{% endif %}
-			{% if article.section_statement2 %}<p>{{ article.section_statement2 }}</p>{% endif %}
+			{% if article.section_statement2 %}<p>{{ article.section_statement2|safe }}</p>{% endif %}
 			{% if article.section_statement3 %}<p>{{ article.section_statement3 }}</p>{% endif %}
 			{% if article.section_statement4 %}<p>{{ article.section_statement4 }}</p>{% endif %}
 			{% if article.section_statement5 %}<p>{{ article.section_statement5 }}</p>{% endif %}
 			<div class="social">
 			</div>
 		</section>
-		{% if article.question_1 and article.answer_1 %}
-		<section class="qanda">
-			<div class="qanda-container">
-				<header class="question">
-					<h3>{{ article.question_1 }}<span></span></h3>
-				</header>							
-				<div class="answer">
-					<p>{{ article.answer_1 }}</p>
-				</div>	
-				{% if article.question_2 and article.answer_2 %}
-				<header class="question">
-					<h3>{{ article.question_2 }}<span></span></h3>
-				</header>							
-				<div class="answer">
-					<p>{{ article.answer_2 }}</p>
-				</div>							
-				{% endif %}
-				{% if article.question_3 and article.answer_3 %}
-				<header class="question">
-					<h3>{{ article.question_3 }}<span></span></h3>
-				</header>							
-				<div class="answer">
-					<p>{{ article.answer_3 }}</p>
-				</div>							
-				{% endif %}
-			</div>				
-		</section>
-		{% endif %}
 		<nav>
 			<ul class="categories">
 			{% for cat in categories.items %}

@@ -4,13 +4,13 @@ article {
 	margin:0 0 0 30px;
 	
 	/*
-	*	[ST]TODO: may affect category filter fx
+	*	[ST]TODO: overflow:hidden may affect category filter fx
 	*/
 	overflow:hidden;
 	
 }
 
-article h2 {
+article h2 { /* [ST]: currently the H2 is not displayed, so we are just repositioning the text out of the viewport. The Alphabet letter graphic is currently part of the background. */
 	position:absolute;
 	top:-10000em;
 	left:-10000em;
@@ -34,14 +34,8 @@ article.inactive {
 	left:-10000em;
 }
 
-article a.info {
-	background:url(../img/i.png) no-repeat top left; /* TODO : move production image to a sprite */
-	width:57px;
-	height:57px;
-	text-indent:-10000em;
-}
 article a {
-	display:block;
+	display:inline;
 }
 
 article div.container {
@@ -62,64 +56,6 @@ article div.layout-right {
 .js article div.container {
 	opacity:0;
 }
-
-
-article section {
-
-}
-/*
-*	Questions & Answers Section
-*/
-article section.qanda {
-	display:none;
-}
-
-article section.qanda .qanda-container {
-	border:1px solid #333;
-	-o-border-radius:5px;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;	
-}
-
-article.questions section.content {
-	display:none;
-}
-
-article.questions section.qanda {
-	display:block;
-}
-
-article section.qanda header {
-	-webkit-tap-highlight-color:none;
-	padding:5px 20px 0 20px;
-	cursor:pointer;
-	border-top:1px solid #333;
-}
-article section.qanda header span {
-	margin:5px 0 0 0;
-	display:block;
-	float:right;
-	background:url(../img/arrow-sprite.gif) no-repeat 0 0;
-	width:8px;
-	height:7px;
-}
-article section.qanda header.open span {
-	background:url(../img/arrow-sprite.gif) no-repeat -9px 0;
-	width:7px;
-	height:8px;
-}
-
-article section.qanda header:first-child {
-	border-top:none;
-}
-
-article section.qanda .answer p {
-	height:auto;
-	padding:5px 20px 20px 20px;
-
-}
-
 
 /*
 *	Section content layout

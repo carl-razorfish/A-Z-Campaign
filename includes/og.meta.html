@@ -8,13 +8,11 @@
 		<meta property="og:url" content="http://a-z-campaign.appspot.com/{{ article.id }}" />
 		<meta property="og:image" content="{{ cdn }}img/{{ article.id }}/letter.jpg" />
 		<meta property="og:description" content="{{ article.section_statement1|safe|truncatewords:30 }}" />
-		<meta property="keywords" content="{{ article.category_tags|safe }}" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
 		{% endif %}				
 	{% endfor %}
-{% else %}	
-		<meta property="og:title" content="{{ common.pagetitle|safe }}" />	
-		<meta property="og:url" content="http://a-z-campaign.appspot.com/" />
-		<meta property="og:image" content="{{ cdn }}img/nav-logo.png" />
-		<meta property="og:description" content="{{ common.description|safe }}" />
-		<meta property="keywords" content="" />
+{% else %}
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
 {% endif %}	

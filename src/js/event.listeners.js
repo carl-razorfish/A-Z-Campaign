@@ -16,9 +16,6 @@ RIA.EventListeners = new Class({
 		// Add keyboard navigation event listener
 		document.addEvent("keyup", this.keyboardNavigationEvent.bind(this));
 		
-		// Add Question & Answer select event listener
-		document.id("content").addEvent("click",this.qandaEventListener.bind(this));
-		
 		// Add document scroll event listener
 		this.addScrollEventListener();
 	},
@@ -36,21 +33,6 @@ RIA.EventListeners = new Class({
 		*		The scroll event listener is separated as we need to disable the onScroll event whilst scrolling to an element. Otherwise we'll constantly be checking content as we scroll
 		*/
 		window.removeEvent("scroll", this.getContentBind);
-	},
-	qandaEventListener: function(e) {
-		/*
-		*	@description:
-		*		Add event listener for the Question & Answer section 'reveal'
-		*/
-		if(e.target.hasClass("info")) {
-			e.preventDefault();
-			var parent = e.target.getParent("article");		
-			if(parent.hasClass("questions")) {
-				parent.removeClass("questions");
-			} else {
-				parent.addClass("questions");
-			}
-		}
 	},
 	mouseAndTouchNavigationEvent: function(e) {
 		/*
