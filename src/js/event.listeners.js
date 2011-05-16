@@ -26,6 +26,8 @@ RIA.EventListeners = new Class({
 		*/
 		this.getContentBind = this.getContentInViewport.bind(this);
 		window.addEvent("scroll", this.getContentBind);
+		
+		window.removeEvent("scroll", this.pinNavPanelBind);
 	},
 	removeScrollEventListener: function() {
 		/*
@@ -33,6 +35,9 @@ RIA.EventListeners = new Class({
 		*		The scroll event listener is separated as we need to disable the onScroll event whilst scrolling to an element. Otherwise we'll constantly be checking content as we scroll
 		*/
 		window.removeEvent("scroll", this.getContentBind);
+		
+		this.pinNavPanelBind = this.pinNavPanel.bind(this);
+		window.addEvent("scroll", this.pinNavPanelBind);
 	},
 	mouseAndTouchNavigationEvent: function(e) {
 		/*

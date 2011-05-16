@@ -50,7 +50,7 @@ RIA.AZCampaign = new Class({
 				transition:"sine:in:out",
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately
 				onStart: function(e) {
-					this.navPanel.setStyle("top","0px");
+					this.pinNavPanel();
 					this.removeScrollEventListener();
 				}.bind(this),
 				onComplete: function(e) {
@@ -92,11 +92,25 @@ RIA.AZCampaign = new Class({
 		/*
 		*	@description:
 		*		Pin the Nav Panel x coordinate, in case the window has been resized along the x axis
+		*		Pin the Nav Panel y coordinate, in case the window has scrolled such that the H1 header is out of view
+		*		[ST]TODO: we only need to call this function once, under 2 conditions; if the viewport.scrollTop is less than the H1 height when scrolling up, or vice versa
 		*/
-		var viewportWidth = this.getViewportWidth();
-		if(viewportWidth > this.shellWidth) {
-			this.navPanel.setStyle("left",((viewportWidth - this.shellWidth) / 2)-35+"px");
+		var viewport = this.getViewport();
+		Log.info("pinNavPanel");
+		
+		if(viewport.w > this.shellWidth) {
+			this.navPanel.setStyle("left",((viewport.w - this.shellWidth) / 2)-35+"px");
 		}
+		
+		if(viewport.scrollTop <= this.headerH1.getSize().y) {
+			this.navPanel.setStyle("top",this.headerH1.getSize().y-viewport.scrollTop+"px");
+			this.navPanel.getElement('.shadow').setStyle("display","none");
+		}
+		else if(viewport.scrollTop > this.headerH1.getSize().y) {
+			this.navPanel.setStyle("top","0px");
+			this.navPanel.getElement('.shadow').setStyle("display","block");
+		}
+		
 		viewportWidth = null;
 	},
 	storeArticleData: function() {
@@ -134,15 +148,9 @@ RIA.AZCampaign = new Class({
 		*		Establish which content is visible in the viewport		
 		*/
 		var viewport = this.getViewport(), articleCoords;
-	
-		if(viewport.scrollTop <= this.headerH1.getSize().y) {
-			this.navPanel.setStyle("top",this.headerH1.getSize().y-viewport.scrollTop+"px");
-			this.navPanel.getElement('.shadow').setStyle("display","none");
-		}
-		else if(viewport.scrollTop > this.headerH1.getSize().y) {
-			this.navPanel.setStyle("top","0px");
-			this.navPanel.getElement('.shadow').setStyle("display","block");
-		}
+		
+		this.pinNavPanel();
+		
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
 			
