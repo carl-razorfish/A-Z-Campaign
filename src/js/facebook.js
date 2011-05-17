@@ -9,7 +9,7 @@ RIA.Facebook = new Class({
 		var id = article.get("id"), l = document.id(document.createElement("fb:like")), c = new Element("span", {"class":"facebook-like"}), u = article.get("data-url");
 
 		l.set({
-			"href":u+id,
+			"href":u,
 			"layout":"button_count",
 			"show_faces":"false",
 			"send":"true",
