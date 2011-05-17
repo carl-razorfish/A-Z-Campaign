@@ -26,7 +26,8 @@ RIA.Twitter = new Class({
 		
 		tt.inject(ta);
 		ta.inject(tb);
-		article.getElement(".social").adopt(tb);
+		
+		tb.inject(article.getElement(".social"),"top");
 		
 		h = a = u = url = tb = ta = tt = null;
 	},
