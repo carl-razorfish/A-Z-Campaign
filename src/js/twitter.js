@@ -4,28 +4,33 @@ RIA.Twitter = new Class({
 		*	@description:
 		*		Generate a Twitter Tweet Button (once only) for an Article	
 		*/
-		try {
-			var articleId = article.get("id"), header = article.getElement("h2").get("text"), tw, twContainer = new Element("span", {"class":"twitter-tweet"}), tweetHash = article.get("data-tweet-hash"), url = article.get("data-url");
 		
-			tw = new Element("a", {
-				"href":"http://twitter.com/share",
-				"class":"twitter-share-button",
-				"data-lang":"en",
-				"data-url":"http://www.google.co.uk",//url+articleId,
-				"data-count":"none",
-				"data-text":"I like Google",//header+" "+tweetHash,
-				"html":"Tweet"
-			}).inject(twContainer);
-
-			twContainer.inject(article.getElement(".social"),"top");
+		if(!twttr) return;
 		
-			var tweet_button = new twttr.TweetButton(tw);
-			tweet_button.render();
-			tweet_button = articleId = header = tweetHash = tw = twContainer = url = null;			
+		var id = article.get("id"), 
+		h = article.getElement("h2").get("text"), 
+		t = new Element("a"), 
+		c = new Element("span", {"class":"twitter-tweet"}), 
+		a = article.get("data-tweet-hash"), 
+		u = article.get("data-url"),
+		s = article.getElement(".social"),
+		tb = null;
+	
+		t.set({
+			"href":"http://twitter.com/share",
+			"class":"twitter-share-button",
+			"data-lang":"en",
+			"data-url":"http://www.google.co.uk",//u+id,
+			"data-count":"none",
+			"data-text":"I like Google",//h+" "+a,
+			"html":"Tweet"
+		}).inject(c);
 
-		} catch(e) {
-			Log.error({method:"generateTweetButton()", error:e});
-		}
+		c.inject(s,"top");
+	
+		tb = new twttr.TweetButton(t);
+		tb.render();
+		tb = id = h = a = t = c = u = s = null;
 	},
 	eventTweet: function(href) {
 		/*

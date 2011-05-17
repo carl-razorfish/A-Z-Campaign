@@ -38,7 +38,7 @@
 				twitter.js,
 				navigation.panels.js,
 				event.listeners.js,
-				campaign-v3.js
+				campaign.js
 				"/>	
 		</concat>
 	</target>	

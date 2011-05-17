@@ -10,11 +10,11 @@ RIA.EventListeners = new Class({
 		// Add orientation change event listener
 		window.addEvent("orientationchange", this.onOrientationChange.bind(this));
 		
-		// Add mouse navigation event listener
-		this.navigation.addEvent("click", this.mouseAndTouchNavigationEvent.bind(this));
+		// Add mouse & touch navigation event listener
+		this.navigation.addEvent("click", this.pointerEvent.bind(this));
 		
 		// Add keyboard navigation event listener
-		document.addEvent("keyup", this.keyboardNavigationEvent.bind(this));
+		document.addEvent("keyup", this.keyboardEvent.bind(this));
 		
 		// Add document scroll event listener
 		this.addScrollEventListener();
@@ -51,21 +51,20 @@ RIA.EventListeners = new Class({
 		*/
 		window.removeEvent("scroll", this.pinNavPanelBind);
 	},
-	mouseAndTouchNavigationEvent: function(e) {
+	pointerEvent: function(e) {
 		/*
 		*	@description:
 		*		Add mouse and touch (iOS) event listeners	
 		*/
 		e.preventDefault();
-		var target = e.targetTouches ? e.targetTouches[0].target : e.target;
-		var targetCategory = target.getAttribute("data-category");
-
-		if(targetCategory) {
-			this.filter(targetCategory, e.type);
+		var t = e.targetTouches ? e.targetTouches[0].target : e.target, c = null;
+		c = t.getAttribute("data-category");
+		if(c) {
+			this.filter(c, e.type);
 		}
-		target = targetCategory = null;
+		t = c = null;
 	},
-	keyboardNavigationEvent: function(e) {
+	keyboardEvent: function(e) {
 		/*
 		*	@description:
 		*		Handle keyboard navigation.
@@ -85,17 +84,23 @@ RIA.EventListeners = new Class({
 		this.getContentInViewport();
 	},
 	onOrientationChange: function() {
+		/*
+		*	@description:
+		*		Callback from orientation change
+		*/
+		var b = document.getElement("body");
 		if(window.orientation) {
 			if(window.orientation == 90 || orientation == -90) {
-				document.getElement("body").removeClass("portrait").addClass("landscape");
+				b.removeClass("portrait").addClass("landscape");
 				this.scrollVerticalOffset = (this.navCategoryHeight+this.navAlphabetHeight+20);
 			} else {
-				document.getElement("body").removeClass("landscape").addClass("portrait");
+				b.removeClass("landscape").addClass("portrait");
 				this.scrollVerticalOffset = this.navCategoryHeight;
 			}
 		} else {
-			document.getElement("body").removeClass("landscape").addClass("portrait");
+			b.removeClass("landscape").addClass("portrait");
 			this.scrollVerticalOffset = this.navCategoryHeight;
 		}
+		b = null;
 	}
 });

@@ -6,28 +6,27 @@ RIA.Facebook = new Class({
 		*/
 		//Log.info("Generating FB Like Button")
 		
-		var articleId = article.get("id"), fb, fbContainer = new Element("span", {"class":"facebook-like"}), url = article.get("data-url");
+		var id = article.get("id"), l = document.id(document.createElement("fb:like")), c = new Element("span", {"class":"facebook-like"}), u = article.get("data-url");
 
-		fb = document.id(document.createElement("fb:like")); // Call document.id on the variable we have just created to use Moo's Element extendables
-		fb.set({
-			"href":url+articleId,
+		l.set({
+			"href":u+id,
 			"layout":"button_count",
 			"show_faces":"false",
 			"send":"true",
 			"width":150,
 			"height":80,
 			"font":"arial",
-			"ref":"a-to-z-mcdonalds-"+articleId
-		}).inject(fbContainer);
+			"ref":"a-to-z-mcdonalds-"+id
+		}).inject(c);
 
-		fbContainer.inject(article.getElement(".social"),"bottom");
+		c.inject(article.getElement(".social"),"bottom");
 	
 		/*
 		*	Generate the FB Like button
 		*/
-		if(FB) FB.XFBML.parse(fbContainer);
+		if(FB) FB.XFBML.parse(c);
 
-		articleId = fb = fbContainer = url = null;
+		id = l = c = u = null;
 
 	},
 	initFacebook: function() {
