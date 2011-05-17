@@ -1,12 +1,12 @@
-Log = {
+var Log = {
 	info: function(msg) {
 		if(window.console && console.log && msg) console.log(msg);
 	},
 	error: function(errorObject) {
 		/* 
 		* 	errorObject : {
-		* 		method:"MyClass : myFunction()", // string to help you identify which js file and function caused the error
-		* 		error:e // the captured error object
+		* 		method[String]: "MyClass : myFunction()" (example) string to help you identify which js file and function caused the error
+		* 		error:[Object]: the error object
 		* 	}
 		*/
 		if (errorObject.error instanceof TypeError) {

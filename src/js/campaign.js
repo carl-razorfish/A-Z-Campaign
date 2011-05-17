@@ -41,7 +41,9 @@ RIA.AZCampaign = new Class({
 			this.navCategoryHeight = document.id("categories").getSize().y;
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
 			
-			this.scrollVerticalOffset = this.navPanel.getSize().y;
+			this.scrollVerticalOffset = this.navPanel.getSize().y + 20; // [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
+
+			
 			this.headerH1Offset = this.headerH1.getSize().y;
 			
 			this.getContentInViewport();
@@ -138,7 +140,7 @@ RIA.AZCampaign = new Class({
 			articleCoords = article.getCoordinates();
 			
 			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
-			if((articleCoords.top > this.viewport.y+this.scrollTop) || (articleCoords.bottom < this.scrollTop)) {
+			if((articleCoords.top > this.viewport.y+this.scrollTop) || (articleCoords.bottom < (this.scrollTop+this.scrollVerticalOffset))) {
 				
 				// hide and unload content
 				if(article.retrieve("inviewport")) {
@@ -162,6 +164,7 @@ RIA.AZCampaign = new Class({
 					*/
 					
 					if(!article.retrieve("inviewport") || article.retrieve("inviewport") == false) {
+						
 						//Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
 						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
 						
@@ -208,6 +211,8 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load an Article
 		*/
+		article.removeClass("inactive");
+		
 		var c = article.getElement(".container"), 
 		i = null, 
 		s, 
@@ -287,6 +292,7 @@ RIA.AZCampaign = new Class({
 		if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(articleId) === -1) {
 			
 			this.articles.each(function(article) {
+				
 				article.removeClass("inactive");
 				article.store("filteredin",true);
 				
