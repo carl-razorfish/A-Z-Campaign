@@ -22,19 +22,20 @@ RIA.Twitter = new Class({
 				"click":this.eventTweet.bind(this)
 			}
 		}),
-		tt = new Element("span").set({text:"Tweet"});
+		tt = new Element("span").set({text:"Tweet"}),
+		s = article.getElement(".social");
 		
 		tt.inject(ta);
 		ta.inject(tb);
 		
-		tb.inject(article.getElement(".social"),"top");
+		tb.inject(s,"top");
 		
 		h = a = u = url = tb = ta = tt = null;
 	},
 	eventTweet: function(e) {
 		/*
 		*	@description:
-		*		Method hook from Facebook Like action (edge.create).
+		*		Method hook from Twitter Tweet LAUNCH BUTTON action
 		*/
 		e.preventDefault();
 		

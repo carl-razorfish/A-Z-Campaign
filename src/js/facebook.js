@@ -4,9 +4,11 @@ RIA.Facebook = new Class({
 		*	@description:
 		*		Generate a Facebook Like Button (once only) for an Article	
 		*/
-		//Log.info("Generating FB Like Button")
-		
-		var id = article.get("id"), l = document.id(document.createElement("fb:like")), c = new Element("span", {"class":"facebook-like"}), u = article.get("data-url");
+		var id = article.get("id"), 
+		l = document.id(document.createElement("fb:like")), 
+		c = new Element("span", {"class":"facebook-like"}), 
+		u = article.get("data-url"),
+		s = article.getElement(".social");
 
 		l.set({
 			"href":u,
@@ -19,7 +21,7 @@ RIA.Facebook = new Class({
 			"ref":"a-to-z-mcdonalds-"+id
 		}).inject(c);
 
-		c.inject(article.getElement(".social"),"bottom");
+		c.inject(s,"bottom");
 	
 		/*
 		*	Generate the FB Like button
