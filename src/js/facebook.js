@@ -1,5 +1,5 @@
 RIA.Facebook = new Class({
-	generateLikeButton: function(article) {
+	generateLike: function(article) {
 		/*
 		*	@description:
 		*		Generate a Facebook Like Button (once only) for an Article	

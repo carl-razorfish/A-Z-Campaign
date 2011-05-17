@@ -8,7 +8,6 @@ RIA.AZCampaign = new Class({
 		Options,
 		RIA.Facebook,
 		RIA.Twitter,
-		RIA.Util,
 		RIA.EventListeners,
 		RIA.NavigationPanels
 	],
@@ -53,18 +52,15 @@ RIA.AZCampaign = new Class({
 				transition:"sine:in:out",
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately
 				onStart: function(e) {
-					this.pinNavPanel();
 					this.addPinNavEventListener();
 					this.removeScrollEventListener();
 				}.bind(this),
 				onComplete: function(e) {
-					this.scrollFx.options.duration = 1000;
 					this.getContentInViewport({trackScroll:false});
 					this.addScrollEventListener();
 					this.removePinNavEventListener();
 				}.bind(this),
 				onCancel: function(e) {
-					this.scrollFx.options.duration = 1000;
 					this.getContentInViewport({trackScroll:false});
 					this.addScrollEventListener();
 					this.removePinNavEventListener();
@@ -104,17 +100,23 @@ RIA.AZCampaign = new Class({
 		*		gotViewport[Boolean]: If this method has been called from getContentInViewport(), for example, we will have just got the viewport dimensions. 
 		*			Therefore do not cause an unnecessary DOM lookup
 		*/
-		if(!gotViewport) this.viewport = this.getViewport();
 
-		if(this.viewport.w > this.shellWidth) {
-			this.navPanel.setStyle("left",((this.viewport.w - this.shellWidth) / 2)-35+"px");
+		if(!gotViewport) {
+			this.viewport = window.getSize(); 
+		}
+		this.scrollTop = window.getScroll().y;
+
+		
+		// [ST] TODO: we have a hard-coded pixel adjustment value here
+		if(this.viewport.x > this.shellWidth) {
+			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)-30+"px");
 		}
 		
-		if(this.viewport.scrollTop <= this.headerH1Offset) {
-			this.navPanel.setStyle("top",this.headerH1Offset-this.viewport.scrollTop+"px");
+		if(this.scrollTop <= this.headerH1Offset) {
+			this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
 			this.navPanel.getElement('.shadow').setStyle("display","none");
 		}
-		else if(this.viewport.scrollTop > this.headerH1Offset) {
+		else if(this.scrollTop > this.headerH1Offset) {
 			this.navPanel.setStyle("top","0px");
 			this.navPanel.getElement('.shadow').setStyle("display","block");
 		}
@@ -126,7 +128,8 @@ RIA.AZCampaign = new Class({
 		*		Establish which content is visible in the viewport		
 		*/
 		
-		this.viewport = this.getViewport();
+		this.viewport = window.getSize();
+		this.scrollTop = window.getScroll().y;
 		var articleCoords;
 		
 		this.pinNavPanel(true);
@@ -134,8 +137,8 @@ RIA.AZCampaign = new Class({
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
 			
-			// If the Article is not in the viewport...
-			if((articleCoords.top > this.viewport.h+this.viewport.scrollTop) || (articleCoords.bottom < this.viewport.scrollTop)) {
+			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
+			if((articleCoords.top > this.viewport.y+this.scrollTop) || (articleCoords.bottom < this.scrollTop)) {
 				
 				// hide and unload content
 				if(article.retrieve("inviewport")) {
@@ -178,7 +181,7 @@ RIA.AZCampaign = new Class({
 				*	If the Article does not yet have a Facebook Like Button, generate one (once)
 				*/
 				if(!article.retrieve("likebutton:generated")) {
-					this.generateLikeButton(article);
+					this.generateLike(article);
 					article.store("likebutton:generated",true);
 				}
 				
@@ -187,7 +190,7 @@ RIA.AZCampaign = new Class({
 				*	If the Article does not yet have a Twitter Tweet Button, generate one (once)
 				*/
 				if(!article.retrieve("tweetbutton:generated")) {
-					this.generateTweetButton(article);
+					this.generateTweet(article);
 					article.store("tweetbutton:generated",true);
 				}
 				
@@ -264,7 +267,8 @@ RIA.AZCampaign = new Class({
 	},
 	scrollToArticle: function(articleElement, eventType) {
 		/*
-		*	If the selected Alpha exists (e.g. from keyboard onKeyUp, if the keyCode is valid)
+		*	@description:
+		*		If the selected Alpha exists, scroll to it's top coordinate
 		*/
 
 		var articleId = articleElement.get("id"), articleCoords;
@@ -277,8 +281,9 @@ RIA.AZCampaign = new Class({
 		},this);
 	
 		/*
-		*	If the selected Alpha is not a member of the currently selected category, then reset the menus 
+		*	If the selected Alpha is not a member of the currently selected category, then reset the menus and switch all articles on
 		*/
+		// [ST] TODO: should we use loadArticle here instead, and combine some activity? Yes!
 		if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(articleId) === -1) {
 			
 			this.articles.each(function(article) {
@@ -303,16 +308,16 @@ RIA.AZCampaign = new Class({
 		*	Reset the Fx.Transition duration in case the chain has been cancelled and we are starting a new scroll
 		*/
 		this.scrollFx.options.duration = 1000;
-		if(articleCoords.top < this.viewport.scrollTop) {
-			this.scrollFx.options.duration += this.velocityCurve(this.viewport.scrollTop, articleCoords.top);
+		if(articleCoords.top < this.scrollTop) {
+			this.scrollFx.options.duration += Math.floor(Math.PI*((this.scrollTop - articleCoords.top)/10));
 		} else {
-			this.scrollFx.options.duration += this.velocityCurve(articleCoords.top, this.viewport.scrollTop);
+			this.scrollFx.options.duration += Math.floor(Math.PI*((articleCoords.top - this.scrollTop)/10));
 		}
 		/*
 		*	Scroll to the selected Alpha
 		*/
 	
-		this.scrollFx.toElement(articleId, 'y');	
+		this.scrollFx.stop().toElement(articleId, 'y');	
 	
 		_gaq.push(['_trackEvent', 'AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null]);
 			
@@ -373,6 +378,6 @@ RIA.AZCampaign = new Class({
 		*		For Apple iOS (Safari Webkit) only, reset the position of the navigation using webkitTransform
 		*/
 		if(!Browser.Platform.ios) return;
-		this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.viewport.scrollTop)+"px)";
+		this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.scrollTop)+"px)";
 	}
 });

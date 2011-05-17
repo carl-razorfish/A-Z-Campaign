@@ -1,0 +1,5 @@
+.tb {display:block;background:transparent url(http://platform2.twitter.com/widgets/images/tweet.png) no-repeat;}
+.tb a{height:20px; width:55px; display:block;}
+.tb a span{position:absolute;left:-999em;}
+.tb:hover{background-position:0 -21px;}
+.tb:active{background-position:0 -42px;}

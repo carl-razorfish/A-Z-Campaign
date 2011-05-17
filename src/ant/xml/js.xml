@@ -30,9 +30,7 @@
 		<concat destfile="${build.js.dir}/build.concat.js" fixlastline="yes">
 			<filelist dir="${src.js.dir}" 
 				files="
-				twitter.widgets.js,
 				namespace.js,
-				util.js,
 				log.js,
 				facebook.js,
 				twitter.js,
@@ -42,7 +40,7 @@
 				"/>	
 		</concat>
 	</target>	
-	
+
 	<target name="OPERATION.JS.Minify" description="Minifying JS">
 		<echo>Minifying JavaScript</echo>
 		<apply executable="java" parallel="false" dest="${build.js.dir}" failonerror="true">

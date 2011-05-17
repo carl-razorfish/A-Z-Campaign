@@ -11,3 +11,9 @@
 3. Should any ANT build errors occur, please see project lead
 4. Otherwise the resulting minified CSS and JavaScript production files will be placed in PROJECT_ROOT/css and PROJECT_ROOT/js respectively 
 
+# GAE Rollback Command
+
+http://code.google.com/appengine/docs/python/tools/uploadinganapp.html
+
+In case of any deployment errors, use this rollback command on the root directory of the project:
+

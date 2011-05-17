@@ -2,18 +2,10 @@ article {
 	position:relative;
 	width:1088px;
 	margin:0 0 0 30px;
-	
-	/*
-	*	[ST]TODO: overflow:hidden may affect category filter fx
-	*/
-	overflow:hidden;
-	
 }
 
 article h2 { /* [ST]: currently the H2 is not displayed, so we are just repositioning the text out of the viewport. The Alphabet letter graphic is currently part of the background. */
-	position:absolute;
-	top:-10000em;
-	left:-10000em;
+	text-indent:-10000em;
 }
 
 article header {
@@ -40,7 +32,9 @@ article a {
 
 article div.container {
 	width:390px;
+	/*
 	min-height:300px;
+	*/
 	position:relative;
 	padding:20px 0 0 0;
 }
@@ -80,23 +74,16 @@ article nav {
 	margin:5px 0 0 0;
 	clear:right;
 }
-article nav p {
-	/*
-	float:right;
-	*/
-	display:inline-block;
-	margin:0 0 0 50px;
-	padding:0;
-}
 
 /*
 *	Social
 */
-article .social {
+.social {
 	overflow:hidden; /* [ST] May affect the FB Like Button comments flyout */
 }
 
-article .social span {
+.social span.facebook-like,
+.social span.twitter-tweet {
 	display:block;
 	margin:0 15px 0 0;
 	float:left;

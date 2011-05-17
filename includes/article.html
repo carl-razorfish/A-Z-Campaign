@@ -1,12 +1,9 @@
-<article id="{{ article.id }}" data-tags="{{ article.category_tags }}" class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-tweet-hash="{{ common.tweet_hash }}" data-url="{{ common.live_domain }}" style="min-height:{{ article.section_img_height }}px;">
+<article id="{{ article.id }}" data-tags="{{ article.category_tags }}" class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-tweet-hash="{{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" style="height:{{ article.section_img_height }}px;">
 	<a name="{{ article.id }}"></a>
 	{% if article.section_img %}
 	<div class="content-image" data-loading-width="14" data-loading-height="14" data-main-width="1088" data-main-height="{{ article.section_img_height }}" data-loading-src="img/spinner.gif" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}" data-letter-width="309" data-letter-height="340" data-letter-src="{{ cdn }}{{ article.letter_img }}">
 		<noscript>
 			<img width="1088" height="{{ article.section_img_height }}" src="{{ cdn }}{{ article.section_img }}" alt="{{ article.header }}" />
-			<!--//
-			<img width="309" height="340" src="{{ cdn }}{{ article.letter_img }}" alt="{{ article.header }}" />
-			//-->
 		</noscript>
 	</div>
 	{% endif %}
