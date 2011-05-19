@@ -142,7 +142,6 @@ RIA.Movie = new Class({
 		*		Hook from YT onYouTubePlayerReady(playerId) method
 		*/
 		this.ytplayer = document.id("movie-swf");
-		this.ytplayer.playVideo();
 		this.ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
 	},
 	onytplayerStateChange: function(newState) {
