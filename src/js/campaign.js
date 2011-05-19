@@ -28,12 +28,12 @@ RIA.AZCampaign = new Class({
 			this.setOptions(options);
 			document.getElement("body").addClass("js");
 			
-			//if(Browser.Platform.ios) {
+			if(Browser.Platform.ios) {
 				this.iOSAlphabetMenu = document.id("alpha-menu");
 				this.iOSAlphabet = document.id("alphabet-ios");
 				this.iOSAlphabet.setStyle("display","block");
 				document.id("alphabet").setStyle("display","none");				
-			//}
+			}
 			
 			
 			this.articles = document.getElements("article");			

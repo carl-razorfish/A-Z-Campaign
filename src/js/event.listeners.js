@@ -33,6 +33,14 @@ RIA.EventListeners = new Class({
 			this.iOSAlphabetMenu.addEvent("change", this.iOSMenuEvent.bind(this));
 		}
 	},
+	removeEventListeners: function() {
+		/*
+		*	@description:
+		*		Remove all event listeners
+		*/
+		document.removeEvent("keyup", this.keyboardEvent);
+		
+	},
 	addScrollEventListener: function() {
 		/*
 		*	@description:
@@ -82,13 +90,10 @@ RIA.EventListeners = new Class({
 		e.preventDefault();
 		var target = e.target.value;
 		
-
 		this.iOSAlphabetMenu.swapClass("visible","invisible").blur();
-		window.style.zoom = "100%";
-		window.style.webkitTransform = 'scale(1)';
 		(function() {
 			this.filter(target, "touch");
-		}.bind(this)).delay(750);
+		}.bind(this)).delay(500);
 	},
 	keyboardEvent: function(e) {
 		/*

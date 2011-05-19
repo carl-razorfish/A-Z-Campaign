@@ -12,9 +12,15 @@
 }
 
 #movie {
-
+	background:#000;
+	display:none;
 	position:absolute;
 	top:20px;
 	left:15%;
 	z-index:10;
+	text-align:center;
+}
+
+#movie-unsupported {
+	
 }

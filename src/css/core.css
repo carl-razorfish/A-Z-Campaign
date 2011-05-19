@@ -26,7 +26,8 @@ article,
 header,
 section,
 nav,
-footer {
+footer,
+video {
 	display:block;
 }
 

@@ -22,7 +22,7 @@
 		<concat destfile="${build.js.dir}/mootools.js" fixlastline="yes">
 			<filelist dir="${src.js.dir}" 
 				files="
-				mootools-core-1.3.2.swiff.js,
+				mootools-core-1.3.2.js,
 				mootools-more-1.3.2.1.js
 				"/>	
 		</concat>
