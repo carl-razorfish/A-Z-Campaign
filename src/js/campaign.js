@@ -9,7 +9,8 @@ RIA.AZCampaign = new Class({
 		RIA.Facebook,
 		RIA.Twitter,
 		RIA.EventListeners,
-		RIA.NavigationPanels
+		RIA.NavigationPanels,
+		RIA.Movie
 	],
 	options:{
 		binaryGIF:"data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
@@ -27,11 +28,20 @@ RIA.AZCampaign = new Class({
 			this.setOptions(options);
 			document.getElement("body").addClass("js");
 			
+			//if(Browser.Platform.ios) {
+				this.iOSAlphabetMenu = document.id("alpha-menu");
+				this.iOSAlphabet = document.id("alphabet-ios");
+				this.iOSAlphabet.setStyle("display","block");
+				document.id("alphabet").setStyle("display","none");				
+			//}
+			
+			
 			this.articles = document.getElements("article");			
 			this.navigation = document.getElements("#navigation, ul.categories");
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
 			this.headerH1 = document.getElement("h1");
+			
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
@@ -115,11 +125,11 @@ RIA.AZCampaign = new Class({
 		}
 		
 		if(this.scrollTop <= this.headerH1Offset) {
-			this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
+			if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
 			this.navPanel.getElement('.shadow').setStyle("display","none");
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
-			this.navPanel.setStyle("top","0px");
+			if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
 			this.navPanel.getElement('.shadow').setStyle("display","block");
 		}
 
@@ -257,6 +267,7 @@ RIA.AZCampaign = new Class({
 		*		Check to see if we have a category that matches the required filter
 		*		Else check to see if we have an article that matches the required filter
 		*/
+		if(!filter) return;
 		if(this.options.keyCodes[filter]) {
 			//Log.info("filter() : keyCode found : "+filter);
 			this.filterByCategory(this.options.keyCodes[filter], eventType);

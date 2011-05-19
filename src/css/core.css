@@ -5,7 +5,7 @@ body {
 	font-size:0.8em;
 	color:#000;
 	text-align:center;
-	background:#000 url(../img/bg-page.jpg) no-repeat top center;
+	background:#fff url(../img/bg-page.jpg) no-repeat top center;
 	background-attachment:fixed;
 }
 img {
@@ -75,4 +75,11 @@ ul,dl,ol {
 */
 #fb-root {
 	display:none;
+}
+
+.invisible {
+	visibility:hidden;
+}
+.visible {
+	visibility:visible;
 }

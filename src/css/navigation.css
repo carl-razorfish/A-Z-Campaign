@@ -218,3 +218,23 @@ article nav ul li {
 #navigation .z {
 	background-position:-797px 0;
 }
+
+/*
+*	Apple iOS Navigation Menu Picker
+*/
+
+#alphabet-ios {
+	background:url(../img/sprite-alphabet.png) no-repeat top left;
+	display:none;
+	position:absolute;
+	top:71px;
+	left:50px;
+	width:852px;
+	height:102px;
+	margin-left:35px;
+}
+
+#alphabet-ios #alpha-menu {
+	width:852px;
+	height:40px;
+}

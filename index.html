@@ -34,6 +34,7 @@
 				{% for article in content %}
 					{% if alpha %}{% if article.id in alpha %}{% include "includes/article.html" %}{% endif %}{% else %}{% include "includes/article.html" %}{% endif %}
 				{% endfor %}
+				<div id="movie"></div>
 			</div>			
 			{% include "includes/navigation.html" %}			
 		</div>

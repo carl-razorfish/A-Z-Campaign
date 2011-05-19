@@ -18,6 +18,20 @@ RIA.EventListeners = new Class({
 		
 		// Add document scroll event listener
 		this.addScrollEventListener();
+		
+		// add movie launch event listener
+		this.headerH1.addEvent("click", this.launchMovie.bind(this));
+		
+		
+		if(this.iOSAlphabet && this.iOSAlphabetMenu) {
+			this.iOSAlphabet.addEvent("touchstart", function(e) {
+				this.iOSAlphabetMenu.swapClass("invisible","visible").focus();
+			}.bind(this));
+			this.iOSAlphabet.addEvent("click", function(e) {
+				this.iOSAlphabetMenu.swapClass("invisible","visible").focus();
+			}.bind(this));
+			this.iOSAlphabetMenu.addEvent("change", this.iOSMenuEvent.bind(this));
+		}
 	},
 	addScrollEventListener: function() {
 		/*
@@ -63,6 +77,18 @@ RIA.EventListeners = new Class({
 			this.filter(c, e.type);
 		}
 		t = c = null;
+	},
+	iOSMenuEvent: function(e) {
+		e.preventDefault();
+		var target = e.target.value;
+		
+
+		this.iOSAlphabetMenu.swapClass("visible","invisible").blur();
+		window.style.zoom = "100%";
+		window.style.webkitTransform = 'scale(1)';
+		(function() {
+			this.filter(target, "touch");
+		}.bind(this)).delay(750);
 	},
 	keyboardEvent: function(e) {
 		/*

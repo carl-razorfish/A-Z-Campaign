@@ -12,11 +12,11 @@
 	</header>
 	<div class="container {{ article.section_layout }}">
 		<section class="content">
-			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1 }}</p>{% endif %}
+			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1|safe }}</p>{% endif %}
 			{% if article.section_statement2 %}<p>{{ article.section_statement2|safe }}</p>{% endif %}
-			{% if article.section_statement3 %}<p>{{ article.section_statement3 }}</p>{% endif %}
-			{% if article.section_statement4 %}<p>{{ article.section_statement4 }}</p>{% endif %}
-			{% if article.section_statement5 %}<p>{{ article.section_statement5 }}</p>{% endif %}
+			{% if article.section_statement3 %}<p>{{ article.section_statement3|safe }}</p>{% endif %}
+			{% if article.section_statement4 %}<p>{{ article.section_statement4|safe }}</p>{% endif %}
+			{% if article.section_statement5 %}<p>{{ article.section_statement5|safe }}</p>{% endif %}
 			<div class="social">
 			</div>
 		</section>
