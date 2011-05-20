@@ -1,7 +1,7 @@
 <!DOCTYPE html>	
 <html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://developers.facebook.com/schema/">
     <head>
-        <title>{% if alpha %}{% for article in content %}{% if article.id in alpha %}{{ article.title }} - {% endif %}{% endfor %}{% endif %}{% if category %}{% for cat in categories.items %}{% if category in cat.0 %}{{cat.1}} - {% endif %}{% endfor %}{% endif %}{{ common.pagetitle|safe }}</title>
+        <title>{% if alpha %}{% for article in content %}{% if article.id in alpha %}{{ article.title }} - {% endif %}{% endfor %}{% endif %}{{ common.pagetitle|safe }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width; initial-scale=1.0;">
 		<link rel="stylesheet" href="{{ cdn }}css/styles.css"/>
@@ -41,11 +41,13 @@
 						<param name="allowscriptaccess" value="always"/>
 						<param name="wmode" value="transparent"/>
 						<embed src="http://www.youtube.com/v/-hyZL4YLmXA?hl=en&amp;fs=1&amp;showinfo=0&amp;showsearch=0&amp;rel=0&amp;iv_load_policy=3&amp;autoplay=0&amp;loop=0&amp;hd=1&amp;enablejsapi=1&amp;playerapiid=ytplayer" type="application/x-shockwave-flash" width="700" height="500" allowscriptaccess="always" allowfullscreen="true"/>
+						<p id="movie-unsupported">{{ common.movie_unsupported }}</p>
 					</object>
+					{% comment %}
 					<video id="movie-html5" data-youtube-id="-hyZL4YLmXA" class="video-stream" x-webkit-airplay="allow" controls="controls" poster="{{ common.movie_html5_poster|safe }}">
 						<source src="{{ common.movie_html5_uri|safe }}"/>						
 					</video>
-					<p id="movie-unsupported">{{ common.movie_unsupported }}</p>
+					{% endcomment %}
 				</div>
 			</div>			
 			{% include "includes/navigation.html" %}			
@@ -58,10 +60,7 @@
 		//<![CDATA[
 			
 			RIA.Campaign = new RIA.AZCampaign({
-				categories:{{aToZList|safe}},
-				category:"{{ category }}",
-				alpha:"{{ alpha }}",
-				keyCodes:{{keyCodes|safe}}
+				alpha:"{{ alpha }}"
 			});
 		
 			(function() {

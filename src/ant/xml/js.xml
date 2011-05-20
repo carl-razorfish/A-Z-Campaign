@@ -34,7 +34,6 @@
 				log.js,
 				facebook.js,
 				twitter.js,
-				navigation.panels.js,
 				event.listeners.js,
 				movie.js,
 				campaign.js

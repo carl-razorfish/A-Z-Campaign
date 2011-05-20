@@ -11,10 +11,11 @@ RIA.EventListeners = new Class({
 		window.addEvent("orientationchange", this.onOrientationChange.bind(this));
 		
 		// Add mouse & touch navigation event listener
-		this.navigation.addEvent("click", this.pointerEvent.bind(this));
+		//this.navigation.addEvent("click", this.pointerEvent.bind(this));
+		this.navPanel.addEvent("click", this.pointerEvent.bind(this));
 		
 		// Add keyboard navigation event listener
-		document.addEvent("keyup", this.keyboardEvent.bind(this));
+		this.addKeyboardEventListeners();
 		
 		// Add document scroll event listener
 		this.addScrollEventListener();
@@ -33,12 +34,20 @@ RIA.EventListeners = new Class({
 			this.iOSAlphabetMenu.addEvent("change", this.iOSMenuEvent.bind(this));
 		}
 	},
-	removeEventListeners: function() {
+	addKeyboardEventListeners: function() {
 		/*
 		*	@description:
-		*		Remove all event listeners
+		*		Add keyboard event listeners
 		*/
-		document.removeEvent("keyup", this.keyboardEvent);
+		this.keyboardBind = this.keyboardEvent.bind(this);
+		document.addEvent("keyup", this.keyboardBind);
+	},
+	removeKeyboardEventListeners: function() {
+		/*
+		*	@description:
+		*		Remove keyboard event listeners
+		*/
+		document.removeEvent("keyup", this.keyboardBind);
 		
 	},
 	addScrollEventListener: function() {

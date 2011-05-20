@@ -9,7 +9,9 @@ RIA.AZCampaign = new Class({
 		RIA.Facebook,
 		RIA.Twitter,
 		RIA.EventListeners,
+		/* [ST] removing categories
 		RIA.NavigationPanels,
+		*/
 		RIA.Movie
 	],
 	options:{
@@ -36,19 +38,14 @@ RIA.AZCampaign = new Class({
 			}
 			
 			
-			this.articles = document.getElements("article");			
-			this.navigation = document.getElements("#navigation, ul.categories");
+			this.articles = document.getElements("article");
+			this.navigation = document.getElements("#navigation a");
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
 			this.headerH1 = document.getElement("h1");
 			
 			this.navOffsetTop = this.navPanel.offsetTop;
-			this.navArticles = document.getElements("#navigation #alphabet a");
-			this.navCategories = document.getElements("#navigation #categories a, article .categories a");
-			
-			this.navAll = document.getElements("#navigation a, article .categories a");
-			
-			this.navCategoryHeight = document.id("categories").getSize().y;
+			//this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
 			
 			this.scrollVerticalOffset = this.navPanel.getSize().y + 20; // [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
@@ -154,9 +151,7 @@ RIA.AZCampaign = new Class({
 				
 				// hide and unload content
 				if(article.retrieve("inviewport")) {
-					if(article.retrieve("filteredin") != false) {
-						//this.handleContent(article, false);
-					}
+					//this.handleContent(article, false);
 				}
 				
 				article.store("inviewport",false);
@@ -167,24 +162,23 @@ RIA.AZCampaign = new Class({
 				*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
 				*/
 
-				if(article.retrieve("filteredin") != false) {
-					this.loadArticle(article);
-					/*
-					*	[ST]TODO: we're essentially repeating ourselves here, do we need handleContent...? The NAV is not switching back on by just using loadArticle()
-					*/
+
+				this.loadArticle(article);
+				/*
+				*	[ST]TODO: we're essentially repeating ourselves here, do we need handleContent...? The NAV is not switching back on by just using loadArticle()
+				*/
+				
+				if(!article.retrieve("inviewport") || article.retrieve("inviewport") == false) {
 					
-					if(!article.retrieve("inviewport") || article.retrieve("inviewport") == false) {
-						
-						//Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
-						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
-						
-						/*
-						*	Only track a UI Scroll event if the user has manually scrolled, and nto used the Fx.Scroll via the navigation
-						*/
-						if(!eventObj || eventObj.trackScroll != false) {
-							_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
-						}						
-					}
+					Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
+					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
+					
+					/*
+					*	Only track a UI Scroll event if the user has manually scrolled, and not used the Fx.Scroll via the navigation
+					*/
+					if(!eventObj || eventObj.trackScroll != false) {
+						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
+					}						
 				}
 				
 				article.store("inviewport",true);
@@ -268,15 +262,7 @@ RIA.AZCampaign = new Class({
 		*		Else check to see if we have an article that matches the required filter
 		*/
 		if(!filter) return;
-		if(this.options.keyCodes[filter]) {
-			//Log.info("filter() : keyCode found : "+filter);
-			this.filterByCategory(this.options.keyCodes[filter], eventType);
-		}
-		else if(this.options.categories[filter]) {
-			//Log.info("filter() : category found : "+filter);
-			this.filterByCategory(filter, eventType);
-		}
-		else if(document.id(filter)) {
+		if(document.id(filter)) {
 			//Log.info("filter() : article found : "+filter);
 			this.scrollToArticle(document.id(filter), eventType);
 		}
@@ -296,26 +282,6 @@ RIA.AZCampaign = new Class({
 			//this.handleContent(art, false);
 		},this);
 	
-		/*
-		*	If the selected Alpha is not a member of the currently selected category, then reset the menus and switch all articles on
-		*/
-		// [ST] TODO: should we use loadArticle here instead, and combine some activity? Yes!
-		if(this.options.categories[this.options.category] && this.options.categories[this.options.category].indexOf(articleId) === -1) {
-			
-			this.articles.each(function(article) {
-				
-				article.removeClass("inactive");
-				article.store("filteredin",true);
-				
-				article.setStyles({
-					"display":"block",
-					"height":article.getComputedSize().totalHeight
-				});
-				
-			},this);
-
-			this.setNavState("all");
-		} 
 		/*
 		*	Now get the Element Position, in case we have removed any CSS classes for filtered out content in filterInAll()
 		*/
@@ -339,55 +305,6 @@ RIA.AZCampaign = new Class({
 		_gaq.push(['_trackEvent', 'AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null]);
 			
 		articleId = articleCoords = null;
-	},
-	filterByCategory: function(category, eventType) {
-		/*
-		*	@description:
-		*		Filter content by Category
-		*/
-
-		/*
-		*	If the User selects a category we are already on, do not apply transitions
-		*/
-		if(this.options.category === category) return;
-
-		this.options.category = category;
-
-		this.setNavState(this.options.category);
-		
-		/*
-		*	For each of the Articles...
-		*/
-		this.articles.each(function(article, index) {
-			/*
-			*	If the Article ID is included in our Category Array, filter it in
-			*/			
-			if(this.options.categories[category].contains(article.get("id"))) {
-				article.removeClass("inactive");
-				if(this.navArticles[index]) this.navArticles[index].removeClass("inactive");
-				article.reveal();
-				article.store("filteredin",true);
-			}				
-			/*
-			*	Else the Article ID is not included in our Category Array, so filter it out
-			*/	
-			else { 
-				if(this.navArticles[index]) this.navArticles[index].addClass("inactive");
-				article.dissolve();
-				article.store("filteredin",false);
-			}			
-		},this);
-	
-		/*
-		*	Reset any Window scroll position
-		*/
-		this.scrollFx.toTop();	
-
-		
-		/*
-		*	Track the Category Navigation usage with GA
-		*/
-		_gaq.push(['_trackEvent', 'CategoryNavigation', (this.options.eventTypes[eventType]||"Select"), this.options.category, null]);
 	},
 	setNavPositionForiOs: function() {
 		/*

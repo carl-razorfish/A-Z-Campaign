@@ -5,7 +5,8 @@ body {
 	font-size:0.8em;
 	color:#000;
 	text-align:center;
-	background:#fff url(../img/bg-page.jpg) no-repeat top center;
+	background:#275308;
+	background:#275308 url(../img/McD_A-Z_Grass_bg_tile2.jpg) repeat top center;
 	background-attachment:fixed;
 }
 img {
@@ -48,13 +49,15 @@ h3 {
 }
 
 #shell {
+	
 	position:relative;
 	width:1088px;
 	margin:0 auto;
-	text-align:left;
+	text-align:center;
 	/*
 	overflow:hidden;
 	*/
+
 }
 
 ul,dl,ol {
@@ -62,6 +65,7 @@ ul,dl,ol {
 }
 
 #content {
+	width:1088px;
 	min-height:768px;
 	margin-left:-35px;
 	padding:170px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */

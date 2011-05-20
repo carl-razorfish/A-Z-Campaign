@@ -1,4 +1,4 @@
-<article id="{{ article.id }}" data-tags="{{ article.category_tags }}" class="{% if category %}{% if category in article.category_tags %}active{% else %}inactive{% endif %}{% else %}active{% endif %}" data-tweet-hash="{{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" style="height:{{ article.section_img_height }}px;">
+<article id="{{ article.id }}" data-tweet-hash="{{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" style="height:{{ article.section_img_height }}px;">
 	<a name="{{ article.id }}"></a>
 	{% if article.section_img %}
 	<div class="content-image" data-loading-width="14" data-loading-height="14" data-main-width="1088" data-main-height="{{ article.section_img_height }}" data-loading-src="img/spinner.gif" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}" data-letter-width="309" data-letter-height="340" data-letter-src="{{ cdn }}{{ article.letter_img }}">
@@ -21,18 +21,6 @@
 			</div>
 		</section>
 		<nav>
-			<ul class="categories">
-			{% for cat in categories.items %}
-				{% if cat.0 in article.category_tags %}
-				<li><a class="{% if category %}{% ifequal category cat.0 %}active{% else %}inactive{% endifequal %}{% else %}inactive{% endif %}" data-category="{{cat.0}}" href="{{cat.0}}">{{cat.1|upper}}</a></li>
-				{% endif %}
-			{% endfor %}
-			</ul>
-			{% if article.question_1 and article.answer_1 %}
-			<p>
-				<a class="info" href="#" title="">Questions &amp; Answers</a>
-			</p>
-			{% endif %}
 			<a class="js-hide" href="#top">Back to top</a>
 		</nav>
 	</div>		

@@ -27,42 +27,6 @@ class AToZProperties(object):
 				content.append(section)
 			memcache.add("atozproperties", content)
 			return content
-			
-class AToZList(object):
-	"""
-	Create an Object with keys as Category items, and values as an Array of A to Z items within that Category
-	"""
-	def load(self):
-		atozlist = memcache.get("atozlistproperties")
-		if atozlist is not None:
-			#logging.info("Got atozlistproperties from memcache")
-			return atozlist
-		else:
-			#logging.info("NOT Got atozlistproperties from memcache")
-			# Get Categories
-			categoryCopyProperties = "properties/category.properties"
-			categoryCfg = ConfigParser()
-			categoryCfg.read(categoryCopyProperties)
-			
-			# Get A to Z list
-			atozCopyProperties = "properties/atoz.properties"
-			atozCfg = ConfigParser()
-			atozCfg.read(atozCopyProperties)
-			atozsections = sorted(atozCfg.sections())
-			
-			atozlist = dict()
-			for i in categoryCfg.items("Categories"):
-				section = list()
-				atozlist[i[0]] = section
-				
-				for j in atozsections:
-					for k in atozCfg.items(j):
-						if "category_tags" in k[0]:
-							m = re.search(i[0], k[1])
-							if m is not None:
-								section.append(""+j)
-			memcache.add("atozlistproperties", atozlist)
-			return atozlist
 								
 class CommonProperties(object):
 	def load(self):
@@ -82,21 +46,4 @@ class CommonProperties(object):
 				for j in commonCfg.items(i):
 					content[j[0]] = j[1]				
 			memcache.add("commonproperties", content)
-			return content
-		
-class CategoryProperties(object):
-	def load(self):
-		content = memcache.get("categoryproperties")
-		if content is not None:
-			#logging.info("Got categoryproperties from memcache")
-			return content
-		else:
-			#logging.info("NOT Got categoryproperties from memcache")
-			categoryCopyProperties = "properties/category.properties"
-			categoryCfg = ConfigParser()
-			categoryCfg.read(categoryCopyProperties)
-			content = dict()
-			for i in categoryCfg.items("Categories"):
-				content[i[0]] = i[1]
-			memcache.add("categoryproperties", content)
 			return content

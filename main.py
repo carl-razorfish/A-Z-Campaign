@@ -16,22 +16,18 @@ from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
 from properties.setproperties import AToZProperties
-from properties.setproperties import AToZList
 from properties.setproperties import CommonProperties
-from properties.setproperties import CategoryProperties
 from random import choice
 
 common = CommonProperties()
 content = AToZProperties()
-categories = CategoryProperties()
-AToZList = AToZList()
 
-regexpURLAtoZ = r"/(food|people|planet|community|london2012|[a-z]{1})"
+regexpURLAtoZ = r"/([a-z]{1})"
 regexpURLError = r"/(.*)"
 
 CDNPrefix = "http://a-z-campaign-"
 CDNSuffix = ".appspot.com/"
-CDNSlaves = ["2","3","4","5"]
+CDNSlaves = ["master","1","2","3","4","5"]
 
 def getCDN(self):
 	"""
@@ -39,27 +35,6 @@ def getCDN(self):
 	"""
 	self.cdn = CDNPrefix + choice(CDNSlaves) + CDNSuffix
 	return self.cdn
-	
-def getKeyCodes(self):
-	"""
-	Generate JavaScript numeric keyCodes for Categories keyboard navigation, and assign them
-	Note that the categories must be returned from the ConfigParser pre-sorted into the correct order
-	"""
-		
-	mcKeyCodes = memcache.get("categorykeycodes")
-	if mcKeyCodes is not None:
-		#logging.info("Got categorykeycodes from memcache")
-		return mcKeyCodes
-	else:
-		#logging.info("NOT Got categorykeycodes from memcache")
-		counter = 1
-		self._keyCodes = dict()
-		categoriesMC = categories.load()
-		for cat in categoriesMC:
-			self._keyCodes[str(counter)] = cat
-			counter = counter + 1
-		memcache.add("categorykeycodes", self._keyCodes)
-		return self._keyCodes
 
 class OverQuotaHandler(webapp.RequestHandler):
   def get(self):
@@ -68,14 +43,11 @@ class OverQuotaHandler(webapp.RequestHandler):
 	
 class HomeHandler(webapp.RequestHandler):
   def get(self):
-	atozlistMC = AToZList.load()
-	categoriesMC = categories.load()
 	contentMC = content.load()
 	commonMC = common.load()
-	keyCodes = getKeyCodes(self)
 	cdn = ""#getCDN(self)
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	args = dict(content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes,cdn=cdn)
+	args = dict(content=contentMC,common=commonMC,cdn=cdn)
 	self.response.out.write(template.render(path,args))
   def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.html')
@@ -84,21 +56,17 @@ class HomeHandler(webapp.RequestHandler):
 		
 class ViewHandler(webapp.RequestHandler):
   def get(self, urlPath):
-	atozlistMC = AToZList.load()
-	categoriesMC = categories.load()
 	contentMC = content.load()
 	commonMC = common.load()
 	alpha = ""
-	category = ""
 	if urlPath is not None:
 		if len(urlPath) < 2:
 			alpha = urlPath
 		else:
 			category = urlPath
-	keyCodes = getKeyCodes(self)
 	cdn = ""#getCDN(self)
 	path = os.path.join(os.path.dirname(__file__),'index.html')
-	args = dict(alpha=alpha,category=category,content=contentMC,common=commonMC,categories=categoriesMC,aToZList=json.dumps(atozlistMC),keyCodes=keyCodes,cdn=cdn)
+	args = dict(alpha=alpha,content=contentMC,common=commonMC,cdn=cdn)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.html')
@@ -108,11 +76,10 @@ class ViewHandler(webapp.RequestHandler):
 class Error404Handler(webapp.RequestHandler):
   def get(self, urlPath):
 	self.error(404)
-	categoriesMC = categories.load()
 	contentMC = content.load()
 	commonMC = common.load()
 	timestamp = time.time()
-	args = dict(timestamp=timestamp,content=contentMC,common=commonMC,categories=categoriesMC)
+	args = dict(timestamp=timestamp,content=contentMC,common=commonMC)
 	path = os.path.join(os.path.dirname(__file__),'error.html')
 	self.response.out.write(template.render(path,args))
 		

@@ -20,11 +20,6 @@ article p.first {
 	font-weight:bold;
 }
 
-article.inactive {
-	position:absolute;
-	top:-10000em;
-	left:-10000em;
-}
 
 article a {
 	display:inline;
@@ -32,9 +27,6 @@ article a {
 
 article div.container {
 	width:390px;
-	/*
-	min-height:300px;
-	*/
 	position:relative;
 	padding:20px 0 0 0;
 }
