@@ -45,11 +45,8 @@ RIA.AZCampaign = new Class({
 			this.headerH1 = document.getElement("h1");
 			
 			this.navOffsetTop = this.navPanel.offsetTop;
-			//this.navArticles = document.getElements("#navigation #alphabet a");
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
-			
 			this.scrollVerticalOffset = this.navPanel.getSize().y + 20; // [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
-
 			
 			this.headerH1Offset = this.headerH1.getSize().y;
 			
@@ -77,16 +74,7 @@ RIA.AZCampaign = new Class({
 			});
 			
 			/*
-			*	Don't add all event listeners if the Alpha Article & URL is present. Just add the resize event listener
-			*/			
-			//if(!this.options.alpha || this.options.alpha == "") {
-				this.addEventListeners();
-			//} else {
-			//	window.addEvent("resize", this.onWindowResize.bind(this));
-			//}
-			
-			/*
-			*	If we've linked from an Article only page, we will have a hash.
+			*	If we've linked from an Article only page, we may have a hash.
 			*	The hash will hide the top of the content behind the nav, however, so scroll to it.
 			*	This problem won't occur with JavaScript enabled, as the page will jump to the appropriate content using the hash anchor
 			*/
@@ -94,6 +82,8 @@ RIA.AZCampaign = new Class({
 			if(window.location.hash) {
 				this.scrollToArticle(document.id(window.location.hash.substring(1)));
 			}
+			
+			this.addEventListeners();
 			
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});

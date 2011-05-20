@@ -19,7 +19,7 @@
 	<target name="OPERATION.JS.Concat" description="Concatenating JS">
 		<echo>Concatenating JS</echo>
 		
-		<concat destfile="${build.js.dir}/mootools.js" fixlastline="yes">
+		<concat destfile="${build.js.dir}/mootools.concat.js" fixlastline="yes">
 			<filelist dir="${src.js.dir}" 
 				files="
 				mootools-core-1.3.2.js,
@@ -44,7 +44,7 @@
 	<target name="OPERATION.JS.Minify" description="Minifying JS">
 		<echo>Minifying JavaScript</echo>
 		<apply executable="java" parallel="false" dest="${build.js.dir}" failonerror="true">
-			<fileset dir="${build.js.dir}" includes="*.js" excludes="mootools.js"/>
+			<fileset dir="${build.js.dir}" includes="*.js"/><!-- excludes="mootools.js"-->
 			<arg line="-jar"/>
 			<arg path="${yui.compressor}"/>
 			<srcfile/>
@@ -59,7 +59,7 @@
 		<concat destfile="${build.js.dir}/scripts.js" fixlastline="yes">
 			<filelist dir="${build.js.dir}" 
 				files="
-				mootools.js,
+				mootools.min.js,
 				build.min.js
 				"/>
 		</concat>		
