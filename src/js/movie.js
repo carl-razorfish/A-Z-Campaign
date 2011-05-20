@@ -109,7 +109,7 @@ RIA.Movie = new Class({
 		*		
 		*/
 		this.addKeyboardEventListeners();
-		if(this.ytplayer) this.ytplayer.pauseVideo();
+		if(this.ytplayer && this.ytplayer.pauseVideo) this.ytplayer.pauseVideo();
 		if(this.movieHTML5) this.movieHTML5.pause();
 		this.movieContainer.setStyle("display","none");
 		this.mask.morph({opacity:"0"});	

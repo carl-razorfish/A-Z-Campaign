@@ -11,7 +11,7 @@ RIA.Twitter = new Class({
 		var h = article.getElement("h2").get("text"), 
 		a = article.get("data-tweet-hash"), 
 		u = article.get("data-url"),
-		url = "http://twitter.com/share?_="+new Date().getTime()+"&count=none&original_referrer="+encodeURIComponent(u)+"&lang=en&text="+encodeURIComponent(h+" "+a)+"&url="+encodeURIComponent(u),
+		url = "http://twitter.com/share?_="+new Date().getTime()+"&count=none&original_referrer="+encodeURIComponent(window.location.href)+"&lang=en&text="+encodeURIComponent(h+" "+a)+"&url="+encodeURIComponent(u),
 		tb = new Element("span").addClass("twitter-tweet tb"),
 		ta = new Element("a", {
 			"data-ga-url":u,

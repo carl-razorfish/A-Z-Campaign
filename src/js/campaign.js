@@ -26,7 +26,7 @@ RIA.AZCampaign = new Class({
 		}
 	},
 	initialize: function(options) {
-		try {
+		//try {
 			this.setOptions(options);
 			document.getElement("body").addClass("js");
 			
@@ -85,9 +85,9 @@ RIA.AZCampaign = new Class({
 			
 			this.addEventListeners();
 			
-		} catch(e) {
-			Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});
-		}
+		//} catch(e) {
+		//	Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});
+		//}
 	},
 	pinNavPanel: function(gotViewport) {
 		/*
