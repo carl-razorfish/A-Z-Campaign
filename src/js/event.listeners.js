@@ -7,9 +7,6 @@ RIA.EventListeners = new Class({
 		// Add mouse window resize event listener
 		window.addEvent("resize", this.onWindowResize.bind(this));
 		
-		// Add orientation change event listener
-		window.addEvent("orientationchange", this.onOrientationChange.bind(this));
-		
 		// Add mouse & touch navigation event listener
 		//this.navigation.addEvent("click", this.pointerEvent.bind(this));
 		if(!this.options.alpha || this.options.alpha == "") {
@@ -124,25 +121,5 @@ RIA.EventListeners = new Class({
 		*		Callback from the window onResize event listener
 		*/		
 		this.getContentInViewport();
-	},
-	onOrientationChange: function() {
-		/*
-		*	@description:
-		*		Callback from orientation change
-		*/
-		var b = document.getElement("body");
-		if(window.orientation) {
-			if(window.orientation == 90 || orientation == -90) {
-				b.removeClass("portrait").addClass("landscape");
-				this.scrollVerticalOffset = (this.navCategoryHeight+this.navAlphabetHeight+20);
-			} else {
-				b.removeClass("landscape").addClass("portrait");
-				this.scrollVerticalOffset = this.navCategoryHeight;
-			}
-		} else {
-			b.removeClass("landscape").addClass("portrait");
-			this.scrollVerticalOffset = this.navCategoryHeight;
-		}
-		b = null;
 	}
 });

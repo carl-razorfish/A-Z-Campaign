@@ -21,11 +21,6 @@
 				<include name="*.css"/>
 			</fileset>
 		</concat>		
-		<concat destfile="${build.css.dir}/landscape.concat.css" fixlastline="yes">
-			<fileset dir="${src.css.dir}">
-				<include name="ios/landscape.css"/>
-			</fileset>
-		</concat>	
 	</target>
 
 	
