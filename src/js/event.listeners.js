@@ -12,7 +12,9 @@ RIA.EventListeners = new Class({
 		
 		// Add mouse & touch navigation event listener
 		//this.navigation.addEvent("click", this.pointerEvent.bind(this));
-		this.navPanel.addEvent("click", this.pointerEvent.bind(this));
+		if(!this.options.alpha || this.options.alpha == "") {
+			this.navPanel.addEvent("click", this.pointerEvent.bind(this));
+		}
 		
 		// Add keyboard navigation event listener
 		this.addKeyboardEventListeners();

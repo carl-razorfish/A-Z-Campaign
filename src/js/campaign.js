@@ -79,11 +79,11 @@ RIA.AZCampaign = new Class({
 			/*
 			*	Don't add all event listeners if the Alpha Article & URL is present. Just add the resize event listener
 			*/			
-			if(!this.options.alpha || this.options.alpha == "") {
+			//if(!this.options.alpha || this.options.alpha == "") {
 				this.addEventListeners();
-			} else {
-				window.addEvent("resize", this.onWindowResize.bind(this));
-			}
+			//} else {
+			//	window.addEvent("resize", this.onWindowResize.bind(this));
+			//}
 			
 			/*
 			*	If we've linked from an Article only page, we will have a hash.
@@ -112,9 +112,8 @@ RIA.AZCampaign = new Class({
 
 		if(!gotViewport) {
 			this.viewport = window.getSize(); 
+			this.scrollTop = window.getScroll().y;
 		}
-		this.scrollTop = window.getScroll().y;
-
 		
 		// [ST] TODO: we have a hard-coded pixel adjustment value here
 		if(this.viewport.x > this.shellWidth) {
@@ -262,7 +261,7 @@ RIA.AZCampaign = new Class({
 		*		Else check to see if we have an article that matches the required filter
 		*/
 		if(!filter) return;
-		if(document.id(filter)) {
+		if(document.getElementById(filter)) {
 			//Log.info("filter() : article found : "+filter);
 			this.scrollToArticle(document.id(filter), eventType);
 		}
@@ -279,7 +278,7 @@ RIA.AZCampaign = new Class({
 		*	Hide all Article content whilst we scroll. We switch back on the relevant content later...
 		*/
 		this.articles.each(function(art) {
-			//this.handleContent(art, false);
+			// hide the content for iOS only ??
 		},this);
 	
 		/*
