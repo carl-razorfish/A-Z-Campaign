@@ -21,5 +21,9 @@
 }
 
 #movie-unsupported {
-	
+	position:absolute;
+	top:0px;
+	left:0px;
+	text-align:left;
+	padding:30px;
 }
