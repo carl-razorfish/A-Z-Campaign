@@ -22,35 +22,35 @@ RIA.AZCampaign = new Class({
 			"keyup":"Keyboard"
 		}
 	},
-	initialize: function(options) {
+	initialize: function(options, init) {
 		try {
 			this.setOptions(options);
-				
+
 			document.getElement("body").addClass("js");
-			
+		
 			if(Browser.Platform.ios) {
 				this.iOSAlphabetMenu = document.id("alpha-menu");
 				this.iOSAlphabet = document.id("alphabet-ios");
 				this.iOSAlphabet.setStyle("display","block");
 				document.id("alphabet").setStyle("display","none");				
 			}
-						
+					
 			this.articles = document.getElements("article");
 			this.navigation = document.getElements("#navigation a");
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
 			this.headerH1 = document.getElement("h1");
-			
+		
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
-			
+		
 			// [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
 			this.scrollVerticalOffset = this.navPanel.getSize().y;
-			
+		
 			this.headerH1Offset = this.headerH1.getSize().y;
-			
+		
 			this.getContentInViewport();
-			
+		
 			this.scrollFx = new Fx.Scroll(window, {
 				offset: {y: -this.scrollVerticalOffset}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
 				duration:1000,
@@ -71,19 +71,19 @@ RIA.AZCampaign = new Class({
 					this.removePinNavEventListener();
 				}.bind(this)
 			});
-			
+		
 			/*
 			*	If we've linked from an Article only page, we may have a hash.
 			*	The hash will hide the top of the content behind the nav, however, so scroll to it.
 			*	This problem won't occur with JavaScript enabled, as the page will jump to the appropriate content using the hash anchor
 			*/
-			
+		
 			if(window.location.hash) {
 				this.scrollToArticle(document.id(window.location.hash.substring(1)));
 			}
-			
+		
 			this.addEventListeners();
-			
+
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});
 		}
@@ -112,12 +112,12 @@ RIA.AZCampaign = new Class({
 		if(this.scrollTop <= this.headerH1Offset) {
 			if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
 			//[ST]TODO: hide nav cutoff
-			//this.navPanel.getElement('.shadow').setStyle("display","none");
+
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
 			if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
 			//[ST]TODO: show nav cutoff
-			//this.navPanel.getElement('.shadow').setStyle("display","block");
+
 		}
 
 	},
@@ -126,7 +126,11 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Establish which content is visible in the viewport		
 		*/
-		
+		if(Browser.ie) {
+			//alert("getContentInViewport("+referrer+")");
+		} else {
+			Log.info("getContentInViewport("+referrer+")");
+		}
 		this.viewport = window.getSize();
 		this.scrollTop = window.getScroll().y;
 		var articleCoords;
@@ -136,13 +140,15 @@ RIA.AZCampaign = new Class({
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
 			
-			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
-			if((articleCoords.top > this.viewport.y+this.scrollTop) || (articleCoords.bottom < (this.scrollTop+this.scrollVerticalOffset))) {
+			/*
+			if(Browser.ie) {
+				alert("article top : "+articleCoords.top+", viewport.y.scrollTop : "+(this.viewport.y+this.scrollTop)+", article bottom : "+articleCoords.bottom+", vert offset : "+(this.scrollTop+this.scrollVerticalOffset))
+			}
+			*/
 				
-				// hide and unload content
-				if(article.retrieve("inviewport")) {
-					//this.handleContent(article, false);
-				}
+			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
+			if((articleCoords.top >= this.viewport.y+this.scrollTop) || (articleCoords.bottom <= (this.scrollTop+this.scrollVerticalOffset))) {
+			
 				
 				article.store("inviewport",false);
 				
@@ -152,14 +158,14 @@ RIA.AZCampaign = new Class({
 				*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
 				*/
 
-
-				this.loadArticle(article);
-				/*
-				*	[ST]TODO: we're essentially repeating ourselves here, do we need handleContent...? The NAV is not switching back on by just using loadArticle()
-				*/
-				
 				if(!article.retrieve("inviewport") || article.retrieve("inviewport") == false) {
+					article.store("inviewport",true);
 					
+					if(!article.retrieve("loaded") || article.retrieve("loaded") == false) {
+						this.loadArticle(article);
+						article.store("loaded",true);
+					}
+				
 					Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
 					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
 					
@@ -169,42 +175,24 @@ RIA.AZCampaign = new Class({
 					if(!eventObj || eventObj.trackScroll != false) {
 						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
 					}						
-				}
-				
-				article.store("inviewport",true);
-				
-				
-				/*
-				*	If the Article does not yet have a Facebook Like Button, generate one (once)
-				*/
-				if(!article.retrieve("likebutton:generated")) {
-					this.generateLike(article);
-					article.store("likebutton:generated",true);
-				}
-				
-				
-				/*
-				*	If the Article does not yet have a Twitter Tweet Button, generate one (once)
-				*/
-				if(!article.retrieve("tweetbutton:generated")) {
-					this.generateTweet(article);
-					article.store("tweetbutton:generated",true);
-				}
-				
-								
+				}								
 			}				
 		},this);
 
 
 		this.setNavPositionForiOs();
 		
-		articlePosY = null;
+		articleCoords = null;
 	},
 	loadArticle: function(article) {
 		/*
 		*	@description:
 		*		Load an Article
 		*/
+		
+		Log.info("loadArticle("+article.get("id")+")");
+		//if(Browser.ie) alert("loading article "+article.get("id"));
+		
 		//[ST]TODO: is this still required?
 		article.removeClass("inactive");
 		
@@ -218,42 +206,47 @@ RIA.AZCampaign = new Class({
 		ib;
 		
 		if(ic) { 
-			i = ic.getElement("img");
 			s = ic.get("data-main-src"),
 			w = ic.get("data-main-width"),
 			h = ic.get("data-main-height"),
 			a = ic.get("data-alt"),
 			ib = ic.getElement(".image-bg");
 			
-			/*
-			*	If we do not yet have a main content image then create one
-			*/
-			if(!i) {
-				ic.adopt(
-					i = new Element("img", {
-						"src":s,
-						"width":w,
-						"height":h,
-						"alt":a,
-						events:{
-							"load": this.loadImage.pass([article],this)
-						}
-					})
-				);
-				
-			}
+			ic.adopt(
+				i = new Element("img", {
+					"src":s,
+					"width":w,
+					"height":h,
+					"alt":a,
+					events:{
+						"load": this.loadImage.pass([article],this)
+					}
+				})
+			);
+
 		}	
+		
+		this.generateLike(article);
+		
+		this.generateTweet(article);
 		
 		c = ic = ib = i = s = w = h = a = null;
 	},
 	loadImage: function(article) {
-		var ib = article.getElement(".image-bg");
-		ib.removeClass("loading");		
-		if(Browser.Platform.ios) {
-			ib.addClass("-webkit-fade-out");
-		} else {
-			ib.set("morph", {duration:500});
-			ib.morph({"opacity":0});					
+		
+		//if(Browser.ie) alert("loadImage for "+article.get("id"));
+		try {
+			var ib = article.getElement(".image-bg");
+			ib.removeClass("loading");		
+			if(Browser.Platform.ios) {
+				ib.addClass("-webkit-fade-out");
+			} else {
+				ib.set("morph", {duration:500});
+				ib.morph({"opacity":0});					
+			}
+		} catch(e) {
+			if(Browser.ie) alert("loadImage() error : "+e.message);
+			Log.error({method:"loadImage()", error:e});
 		}
 	},
 	filter: function(filter, eventType) {
