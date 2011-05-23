@@ -28,7 +28,7 @@ RIA.Facebook = new Class({
 		*/
 		if(FB) FB.XFBML.parse(c);
 
-		id = l = c = u = null;
+		id = l = c = u = s = null;
 
 	},
 	initFacebook: function() {

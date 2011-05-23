@@ -99,7 +99,7 @@ article nav {
 }
 
 .social span.facebook-like,
-.social span.twitter-tweet {
+.social span.tweet-button {
 	display:block;
 	margin:0 15px 0 0;
 	float:left;
