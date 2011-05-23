@@ -1,7 +1,7 @@
 article {
 	position:relative;
-	width:1088px;
-	margin:0 0 0 30px;
+	width:850px;
+	background:transparent;
 }
 
 article h2 { /* [ST]: currently the H2 is not displayed, so we are just repositioning the text out of the viewport. The Alphabet letter graphic is currently part of the background. */
@@ -9,7 +9,9 @@ article h2 { /* [ST]: currently the H2 is not displayed, so we are just repositi
 }
 
 article header {
-	overflow:hidden;
+	position:absolute;
+	left:-10000em;
+	top:-10000em;
 }
 
 article p {
@@ -17,6 +19,7 @@ article p {
 }
 
 article p.first {
+	padding:25px 0 18px 0;
 	font-weight:bold;
 }
 
@@ -26,18 +29,31 @@ article a {
 }
 
 article div.container {
-	width:390px;
+	width:850px;
 	position:relative;
 	padding:20px 0 0 0;
+	overflow:hidden;
 }
 
-article div.layout-left {
-	margin-left:100px;
+article div.container .content {
+	background:#f6f6f6;
+	display:block;
+	width:375px;
+	height:100%;
+	padding:0 25px;
+	/*
+	height:1000px;
+	*/
 }
 
-article div.layout-right {
-	margin-left:600px;
+.layout-img-left div.container .content {	
+	float:left;	
 }
+
+.layout-img-right div.container .content {	
+	float:none;	
+}
+
 
 .js article div.container {
 	opacity:0;
@@ -47,18 +63,26 @@ article div.layout-right {
 *	Section content layout
 */
 .content-image {
-	display:block;
-	position:absolute;
-	top:0px;
-	left:0px;
+	display:inline-block;
+	position:relative;
+	/*
 	background:#999 url(../img/spinner.gif) no-repeat 48% 48%;
+	*/
 }
+
 .content-image img {
-	display:block;
-	position:absolute;
-	top:0px;
-	left:0px;
+	
 }
+
+
+.layout-img-left .content-image {
+	float:left;
+}
+
+.layout-img-right .content-image {
+	float:right;
+}
+
 article nav {
 	/*
 	overflow:hidden;

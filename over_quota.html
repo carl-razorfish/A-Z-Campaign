@@ -42,6 +42,13 @@
 				text-align:left;
 				overflow:hidden;
 			}
+			
+			
+			.tweet-button {display:block;}
+			.tweet-button a{height:20px; width:55px; display:block; background:transparent url(http://platform2.twitter.com/widgets/images/tweet.png) no-repeat;}
+			.tweet-button a span{position:absolute;left:-999em;}
+			.tweet-button a:hover{background-position:0 -21px;}
+			.tweet-button a:active{background-position:0 -42px;}
 		</style>
 	</head>
     <body>	
@@ -49,7 +56,92 @@
 			<header>
 				<h1>Over quota</h1>
 				<p>A resource quota has been exceeded. Please try again later.</p>
+				<span class="tweet-button" data-tweet="I love custom Tweet Buttons" data-url="http://mydomain/myurl">
+					<a href="http://twitter.com/share?text=I%20love%20custom%20Tweet%20Buttons&url=http://mydomain/myurl" rel="external" target="_blank">
+						<span>Tweet</span>
+					</a>
+				</span>
 			</header>	
 		</div>
+		<script type="text/javascript">
+			//<![CDATA[
+				var CustomTwitter = {
+					generateTweetButton: function() {
+						/*
+						*	@description:
+						*		Generate a custom Twitter Tweet Button
+						*/
+						var tweetButtons, regex, dataUrl, dataTweet, url;
+		
+						/*
+						*	Collect all Tweet Buttons
+						*/
+						if(document.querySelectorAll) {
+							tweetButtons = document.querySelectorAll(".tweet-button");
+						} 
+						else if(document.getElementsByTagName) {
+							var tweetButtonsTemp = document.getElementsByTagName("span");
+							regex = /tweet-button/g;
+							for(var i=0, l=tweetButtonsTemp.length; i<l; i++) {				
+								if(tweetButtonsTemp[i].className.test(regex)) {
+									tweetButtons.push(tweetButtonsTemp[i]);
+								}
+							}
+						}
+		
+						/*
+						*	Process the Tweet Buttons
+						*/
+						for(var i=0, l=tweetButtons.length; i<l; i++) {				
+							dataTweet = tweetButtons[i].getAttribute("data-tweet");
+							dataUrl = tweetButtons[i].getAttribute("data-url");
+							url = "http://twitter.com/share?_="+new Date().getTime()+"&count=none&original_referrer="+encodeURIComponent(window.location.href)+"&lang=en&text="+encodeURIComponent(dataTweet)+"&url="+encodeURIComponent(dataUrl);
+			
+							tweetButtons[i].getElementsByTagName("a")[0].setAttribute("href", url);
+			
+							if(document.addEventListener) {
+								tweetButtons[i].addEventListener("click", CustomTwitter.tweetEvent, false);
+							}
+							else if(document.attachEvent) {
+								tweetButtons[i].attachEvent("click", CustomTwitter.tweetEvent);
+							}
+			
+						}
+		
+					},
+					tweetEvent: function(event) {
+						/*
+						*	@description:
+						*		Event listener callback for Twitter Tweet click event
+						*/
+						if(event.preventDefault) {
+							event.preventDefault();
+						} 
+						else if(event.returnValue) {
+							event.returnValue = false;
+						}
+		
+						var target = event.target, 
+						width = 550,
+						height = 450,
+						leftPos = Math.round(((window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth) / 2)-(width/2)),
+						newWindow=window.open(target.getAttribute("href"),"twitter_tweet","left="+leftPos+",top=0,width="+width+",height="+height+",personalbar=0,toolbar=0,scrollbars=1,resizable=1");
+						if(newWindow) newWindow.focus();
+		
+						/*
+						*	Place your bootstrap to track the Tweet here
+						*/
+						// E.g.: myAnalytics.track("TweetButton", "Click", target.getAttribute("href"));
+		
+						/*
+						*	Null the local variables now that we're done
+						*/
+						target = u = w = h = l = n = null;
+					}
+				}
+			
+				CustomTwitter.generateTweetButton();
+			//]]>
+		</script>
     </body>
 </html>

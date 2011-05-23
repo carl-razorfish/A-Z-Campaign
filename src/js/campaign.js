@@ -112,11 +112,11 @@ RIA.AZCampaign = new Class({
 		
 		if(this.scrollTop <= this.headerH1Offset) {
 			if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
-			this.navPanel.getElement('.shadow').setStyle("display","none");
+			//this.navPanel.getElement('.shadow').setStyle("display","none");
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
 			if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
-			this.navPanel.getElement('.shadow').setStyle("display","block");
+			//this.navPanel.getElement('.shadow').setStyle("display","block");
 		}
 
 	},

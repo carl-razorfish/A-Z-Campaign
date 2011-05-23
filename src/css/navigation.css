@@ -2,10 +2,9 @@
 	background:transparent url(../img/bg-navigation.png) repeat top left;
 	position:absolute;
 	top:71px;
-	left:-25px;
-	width:1088px;
+	left:0px;
+	width:850px;
 	height:102px;
-	margin-left:35px;
 }
 
 .js #navigation {
@@ -48,6 +47,7 @@ article nav ul li {
 	float:left;
 }
 
+/*
 #navigation .shadow {
 	display:none;
 	width:915px;	
@@ -59,7 +59,7 @@ article nav ul li {
   	-webkit-box-shadow: 0px 10px 20px 0px #d2d2d2;
   	box-shadow: 5px 5px 5px #ccc;
 }
-
+*/
 
 /*
 *	Alphabet Letters (sprite)

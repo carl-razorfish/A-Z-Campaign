@@ -35,8 +35,8 @@ video {
 h1 {
 	position:absolute;
 	top:0px;
-	left:-5px;
-	width:1088px;
+	left:0px;
+	width:850px;
 	height:71px;
 	background:url(../img/h1.png) no-repeat top left;
 	text-indent:-10000em;
@@ -51,7 +51,7 @@ h3 {
 #shell {
 	
 	position:relative;
-	width:1088px;
+	width:850px;
 	margin:0 auto;
 	text-align:left;
 	/*
@@ -65,10 +65,9 @@ ul,dl,ol {
 }
 
 #content {
-	width:1088px;
+	width:850px;
 	min-height:768px;
-	margin-left:-35px;
-	padding:170px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
+	padding:150px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
 }
 
 .js .js-hide {

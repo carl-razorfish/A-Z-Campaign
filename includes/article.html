@@ -1,16 +1,17 @@
-<article id="{{ article.id }}" data-tweet-hash="{{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" style="height:{{ article.section_img_height }}px;">
-	<a name="{{ article.id }}"></a>
-	{% if article.section_img %}
-	<div class="content-image" data-loading-width="14" data-loading-height="14" data-main-width="1088" data-main-height="{{ article.section_img_height }}" data-loading-src="img/spinner.gif" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}" data-letter-width="309" data-letter-height="340" data-letter-src="{{ cdn }}{{ article.letter_img }}">
-		<noscript>
-			<img width="1088" height="{{ article.section_img_height }}" src="{{ cdn }}{{ article.section_img }}" alt="{{ article.header }}" />
-		</noscript>
-	</div>
-	{% endif %}
+<article id="{{ article.id }}" class="{{ article.section_layout }}" data-tweet-hash="{{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" style="height:{{ article.section_img_height }}px;">
 	<header>
 		<h2>{{ article.title }}</h2>
 	</header>
-	<div class="container {{ article.section_layout }}">
+	<a name="{{ article.id }}"></a>
+	{% comment %}
+	{% if article.section_img %}
+	<div class="content-image" data-loading-width="14" data-loading-height="14" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-loading-src="img/spinner.gif" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}">
+		<noscript>
+			<img width="{{ article.section_img_width }}" height="{{ article.section_img_height }}" src="{{ cdn }}{{ article.section_img }}" alt="{{ article.header }}" />
+		</noscript>
+	</div>
+	{% endif %}
+	<div class="container">
 		<section class="content">
 			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1|safe }}</p>{% endif %}
 			{% if article.section_statement2 %}<p>{{ article.section_statement2|safe }}</p>{% endif %}
@@ -23,5 +24,26 @@
 		<nav>
 			<a class="js-hide" href="#top">Back to top</a>
 		</nav>
-	</div>		
+	</div>	
+	{% endcomment %}
+	<div class="container">
+		<div class="content-image" data-loading-width="14" data-loading-height="14" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-loading-src="img/spinner.gif" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}">
+			<noscript>
+				<img width="{{ article.section_img_width }}" height="{{ article.section_img_height }}" src="{{ cdn }}{{ article.section_img }}" alt="{{ article.header }}" />
+			</noscript>
+		</div>
+		<section class="content" style="height:{{ article.section_img_height }}px;">{% comment %}style="height:{{ article.section_img_height }}px;"{% endcomment %}
+			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1|safe }}</p>{% endif %}
+			{% if article.section_statement2 %}<p>{{ article.section_statement2|safe }}</p>{% endif %}
+			{% if article.section_statement3 %}<p>{{ article.section_statement3|safe }}</p>{% endif %}
+			{% if article.section_statement4 %}<p>{{ article.section_statement4|safe }}</p>{% endif %}
+			{% if article.section_statement5 %}<p>{{ article.section_statement5|safe }}</p>{% endif %}
+			<div class="social">
+			</div>
+		</section>
+		<nav>
+			<a class="js-hide" href="#top">Back to top</a>
+		</nav>
+	</div>	
+	
 </article>	
