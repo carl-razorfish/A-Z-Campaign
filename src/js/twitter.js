@@ -7,8 +7,7 @@ RIA.Twitter = new Class({
 		*/
 		var tb = article.getElement(".tweet-button a"), 
 		url = "http://twitter.com/share?_="+new Date().getTime()+"&count=none&original_referrer="+encodeURIComponent(window.location.href)+"&lang=en&text="+encodeURIComponent(tb.get("data-tweet"))+"&url="+encodeURIComponent(tb.get("data-url"));
-		tb.set("href", url);
-		tb.addEvent("click", this.eventTweet.bind(this));		
+		tb.set("href", url).addEvent("click", this.eventTweet.bind(this));		
 		tb = url = null;
 	},
 	eventTweet: function(e) {
