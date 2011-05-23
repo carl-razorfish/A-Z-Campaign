@@ -6,7 +6,7 @@
 		{% if article.id in alpha %}
 		<meta property="og:title" content="{{ article.title|safe }}" />
 		<meta property="og:url" content="{{ common.live_domain }}{{ article.id }}" />
-		<meta property="og:image" content="{{ cdn }}img/{{ article.id }}/letter.jpg" />
+		<meta property="og:image" content="http://a-z-campaign-master.appspot.com/img/{{ article.id }}/letter.jpg" />
 		<meta property="og:description" content="{{ article.section_statement1|safe|truncatewords:30 }}" />
 		{% if article.keywords %}<meta name="keywords" content="{{ article.keywords|safe }}" />{% endif %}
 		<meta name="description" content="{{ article.section_statement1|safe|truncatewords:30 }}" />

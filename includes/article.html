@@ -1,13 +1,14 @@
-<article id="{{ article.id }}" class="{{ article.section_layout }}" data-tweet-hash="{{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" style="height:{{ article.section_img_height }}px;">
+<article id="{{ article.id }}" class="{{ article.section_layout }}" data-url="{{ common.live_domain }}{{ article.id }}" style="height:{{ article.section_img_height }}px;">
 	<header>
 		<h2>{{ article.title }}</h2>
 	</header>
 	<a name="{{ article.id }}"></a>
 	<div class="container">
-		<div class="content-image" data-loading-width="14" data-loading-height="14" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-loading-src="img/spinner.gif" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}">
+		<div class="content-image" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}" style="height:{{ article.section_img_height }}px;">
 			<noscript>
 				<img width="{{ article.section_img_width }}" height="{{ article.section_img_height }}" src="{{ cdn }}{{ article.section_img }}" alt="{{ article.header }}" />
 			</noscript>
+			<div class="image-bg loading" style="height:{{ article.section_img_height }}px;">&nbsp;</div>
 		</div>
 		<section class="content" style="height:{{ article.section_img_height }}px;">{% comment %}style="height:{{ article.section_img_height }}px;"{% endcomment %}
 			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1|safe }}</p>{% endif %}

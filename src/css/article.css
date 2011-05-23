@@ -55,23 +55,25 @@ article div.container .content {
 }
 
 
-.js article div.container {
-	opacity:0;
-}
-
 /*
 *	Section content layout
 */
 .content-image {
 	display:inline-block;
 	position:relative;
-	/*
-	background:#999 url(../img/spinner.gif) no-repeat 48% 48%;
-	*/
+	min-width:425px;
 }
 
 .content-image img {
 	
+}
+
+.js .image-bg {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	background-color:#f6f6f6;
 }
 
 
@@ -101,6 +103,6 @@ article nav {
 .social span.facebook-like,
 .social span.tweet-button {
 	display:block;
-	margin:0 15px 0 0;
+	margin:0 12px 0 0;
 	float:left;
 }

@@ -4,6 +4,7 @@ RIA.Facebook = new Class({
 		*	@description:
 		*		Generate a Facebook Like Button (once only) for an Article	
 		*/
+		
 		var id = article.get("id"), 
 		l = document.id(document.createElement("fb:like")), 
 		c = new Element("span", {"class":"facebook-like"}), 

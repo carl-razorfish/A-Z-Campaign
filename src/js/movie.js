@@ -116,7 +116,10 @@ RIA.Movie = new Class({
 	},
 	trackYTSWF: function(action) {
 		Log.info("trackYTSWF("+action+")");
-		_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, this.movieSWF.getElement("param[name=movie]").value, null]);
+		if(!action) return;
+		var source = this.movieSWF.getElement("param[name=movie]") ? this.movieSWF.getElement("param[name=movie]").value : "movie src unknown";
+		_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, source, null]);
+		source = null;
 	},
 	trackHTML5: function(action) {
 		Log.info("trackHTML5("+action+")");
@@ -128,9 +131,14 @@ RIA.Movie = new Class({
 		*		Hook from YT onYouTubePlayerReady(playerId) method
 		*/
 		this.ytplayer = document.id("movie-swf");
-		this.ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
-		this.ytplayer.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");
-		
+	
+		if(document.addEventListener) {
+			this.ytplayer.addEventListener("onStateChange", "onytplayerStateChange", false);
+			this.ytplayer.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange", false);			
+		} else if(document.attachEvent) {
+			this.ytplayer.attachEvent("onStateChange", "onytplayerStateChange");
+			this.ytplayer.attachEvent("onPlaybackQualityChange", "onPlaybackQualityChange");
+		}
 	},
 	onytplayerStateChange: function(newState) {
 		/*

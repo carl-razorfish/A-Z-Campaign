@@ -9,9 +9,6 @@ RIA.AZCampaign = new Class({
 		RIA.Facebook,
 		RIA.Twitter,
 		RIA.EventListeners,
-		/* [ST] removing categories
-		RIA.NavigationPanels,
-		*/
 		RIA.Movie
 	],
 	options:{
@@ -28,6 +25,7 @@ RIA.AZCampaign = new Class({
 	initialize: function(options) {
 		try {
 			this.setOptions(options);
+				
 			document.getElement("body").addClass("js");
 			
 			if(Browser.Platform.ios) {
@@ -36,8 +34,7 @@ RIA.AZCampaign = new Class({
 				this.iOSAlphabet.setStyle("display","block");
 				document.id("alphabet").setStyle("display","none");				
 			}
-			
-			
+						
 			this.articles = document.getElements("article");
 			this.navigation = document.getElements("#navigation a");
 			this.navPanel = document.id("navigation");
@@ -46,7 +43,9 @@ RIA.AZCampaign = new Class({
 			
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
-			this.scrollVerticalOffset = this.navPanel.getSize().y + 20; // [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
+			
+			// [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
+			this.scrollVerticalOffset = this.navPanel.getSize().y;
 			
 			this.headerH1Offset = this.headerH1.getSize().y;
 			
@@ -112,10 +111,12 @@ RIA.AZCampaign = new Class({
 		
 		if(this.scrollTop <= this.headerH1Offset) {
 			if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
+			//[ST]TODO: hide nav cutoff
 			//this.navPanel.getElement('.shadow').setStyle("display","none");
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
 			if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
+			//[ST]TODO: show nav cutoff
 			//this.navPanel.getElement('.shadow').setStyle("display","block");
 		}
 
@@ -204,6 +205,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load an Article
 		*/
+		//[ST]TODO: is this still required?
 		article.removeClass("inactive");
 		
 		var c = article.getElement(".container"), 
@@ -212,15 +214,17 @@ RIA.AZCampaign = new Class({
 		w, 
 		h, 
 		a, 
-		ic = article.getElement(".content-image");
+		ic = article.getElement(".content-image"),
+		ib;
 		
 		if(ic) { 
 			i = ic.getElement("img");
 			s = ic.get("data-main-src"),
 			w = ic.get("data-main-width"),
 			h = ic.get("data-main-height"),
-			a = ic.get("data-alt");
-		
+			a = ic.get("data-alt"),
+			ib = ic.getElement(".image-bg");
+			
 			/*
 			*	If we do not yet have a main content image then create one
 			*/
@@ -230,19 +234,27 @@ RIA.AZCampaign = new Class({
 						"src":s,
 						"width":w,
 						"height":h,
-						"alt":a
+						"alt":a,
+						events:{
+							"load": this.loadImage.pass([article],this)
+						}
 					})
 				);
+				
 			}
-		}
-
-		if(!Browser.Platform.ios) {
-			c.morph({'opacity':1});
-		} else {
-			c.setStyle('opacity',1);
 		}	
 		
-		c = ic = i = s = w = h = a = null;
+		c = ic = ib = i = s = w = h = a = null;
+	},
+	loadImage: function(article) {
+		var ib = article.getElement(".image-bg");
+		ib.removeClass("loading");		
+		if(Browser.Platform.ios) {
+			ib.addClass("-webkit-fade-out");
+		} else {
+			ib.set("morph", {duration:500});
+			ib.morph({"opacity":0});					
+		}
 	},
 	filter: function(filter, eventType) {
 		/*
@@ -251,10 +263,11 @@ RIA.AZCampaign = new Class({
 		*		Else check to see if we have an article that matches the required filter
 		*/
 		if(!filter) return;
-		if(document.getElementById(filter)) {
-			//Log.info("filter() : article found : "+filter);
-			this.scrollToArticle(document.id(filter), eventType);
+		var element = document.id(filter);
+		if(element) {
+			this.scrollToArticle(element, eventType);
 		}
+		element = null;
 	},
 	scrollToArticle: function(articleElement, eventType) {
 		/*
@@ -300,6 +313,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		For Apple iOS (Safari Webkit) only, reset the position of the navigation using webkitTransform
 		*/
+		return;
 		if(!Browser.Platform.ios) return;
 		this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.scrollTop)+"px)";
 	}

@@ -10,17 +10,18 @@ body {
 	background-attachment:fixed;
 }
 img {
-	border:none;
+	border:0;
 }
 a {
 	outline:none;
 	text-decoration:none;
-	color:blue;
+	color:#339900;
 }
 a:hover,
 a:focus,
 a:active {
-	text-decoration:none;
+	color:#336600;
+	text-decoration:underline;
 }
 
 article,
@@ -86,4 +87,14 @@ ul,dl,ol {
 }
 .visible {
 	visibility:visible;
+}
+
+
+.loading {
+	/*background:#f6f6f6 url(../img/ajax-loader.gif) no-repeat 48% 48%;*/
+}
+
+.-webkit-fade-out {
+	-webkit-transition: opacity .5s linear;
+	opacity:0;
 }
