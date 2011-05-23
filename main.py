@@ -27,7 +27,7 @@ regexpURLError = r"/(.*)"
 
 CDNPrefix = "http://a-z-campaign-"
 CDNSuffix = ".appspot.com/"
-CDNSlaves = ["master","1","2","3","4","5"]
+CDNSlaves = ["master"]
 
 def getCDN(self):
 	"""
@@ -39,6 +39,11 @@ def getCDN(self):
 class OverQuotaHandler(webapp.RequestHandler):
   def get(self):
 	path = os.path.join(os.path.dirname(__file__),'over_quota.html')
+	self.response.out.write(template.render(path,{}))	
+	
+class UnavailableHandler(webapp.RequestHandler):
+  def get(self):
+	path = os.path.join(os.path.dirname(__file__),'unavailable.html')
 	self.response.out.write(template.render(path,{}))		
 	
 class HomeHandler(webapp.RequestHandler):
@@ -83,6 +88,7 @@ class Error404Handler(webapp.RequestHandler):
 	path = os.path.join(os.path.dirname(__file__),'error.html')
 	self.response.out.write(template.render(path,args))
 		
+
 def real_main():
   util.run_wsgi_app(webapp.WSGIApplication([
 	('/over-quota',OverQuotaHandler),
@@ -91,6 +97,12 @@ def real_main():
 	(regexpURLError,Error404Handler)
   ]))
 
+""" - ap unavailable setup
+def real_main():
+  util.run_wsgi_app(webapp.WSGIApplication([
+	("/.*",UnavailableHandler)
+  ]))
+"""
 def profile_main():
     # This is the main function for profiling
     # We've renamed our original main() above to real_main()
