@@ -5,8 +5,7 @@ body {
 	font-size:0.8em;
 	color:#000;
 	text-align:center;
-	background:#275308;
-	background:#275308 url(../img/McD_A-Z_Grass_bg_tile2.jpg) repeat top center;
+	background:#275308 url(../img/McD_A-Z_Grass_bg_tile2.jpg) repeat-y top center;
 	background-attachment:fixed;
 }
 img {

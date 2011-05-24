@@ -53,7 +53,7 @@ RIA.AZCampaign = new Class({
 		
 			this.scrollFx = new Fx.Scroll(window, {
 				offset: {y: -this.scrollVerticalOffset}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
-				duration:1000,
+				duration:100,
 				transition:"sine:in:out",
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately
 				onStart: function(e) {
@@ -126,11 +126,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Establish which content is visible in the viewport		
 		*/
-		if(Browser.ie) {
-			//alert("getContentInViewport("+referrer+")");
-		} else {
-			Log.info("getContentInViewport("+referrer+")");
-		}
+		
 		this.viewport = window.getSize();
 		this.scrollTop = window.getScroll().y;
 		var articleCoords;
@@ -285,7 +281,7 @@ RIA.AZCampaign = new Class({
 		/*
 		*	Reset the Fx.Transition duration in case the chain has been cancelled and we are starting a new scroll
 		*/
-		this.scrollFx.options.duration = 1000;
+		this.scrollFx.options.duration = 100;
 		if(articleCoords.top < this.scrollTop) {
 			this.scrollFx.options.duration += Math.floor(Math.PI*((this.scrollTop - articleCoords.top)/10));
 		} else {
