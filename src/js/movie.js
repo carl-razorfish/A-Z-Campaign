@@ -33,8 +33,8 @@ RIA.Movie = new Class({
 				"0":"Ended",
 				"1":"Playing",
 				"2":"Paused",
-				"3":"Buffering",
-				"5":"Video cued"
+				//"3":"Buffering",
+				//"5":"Video cued"
 			},
 			quality:{
 				"small":"Small", 
@@ -47,8 +47,6 @@ RIA.Movie = new Class({
 		}
 	},
 	loadMovie: function() {
-		this.removeKeyboardEventListeners();
-		
 		this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
 			container:this.movieContainer,
 			id:"movie-swf",
@@ -73,6 +71,7 @@ RIA.Movie = new Class({
 		this.mask.morph({opacity:"0"});	
 	},
 	createMask: function() {
+		this.removeKeyboardEventListeners();
 		if(!this.mask) {
 			this.mask = new Element('div', {
 				'class': 'mask',
@@ -102,7 +101,7 @@ RIA.Movie = new Class({
 	trackYTSWF: function(action) {
 		Log.info("trackYTSWF("+action+")");
 		if(!action) return;
-		var source = this.movieSWF.getElement("param[name=movie]") ? this.movieSWF.getElement("param[name=movie]").value : "movie src unknown";
+		var source = this.movieContainer ? this.movieContainer.get("data-movie-uri") : "movie src unknown";
 		_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, source, null]);
 		source = null;
 	},
@@ -140,9 +139,9 @@ RIA.Movie = new Class({
 		*		When the SWF is first loaded it will broadcast an unstarted (-1) event. 
 		*		When the video is cued and ready to play it will broadcast a video cued event (5).
 		*/
-		var state = this.options.youtube.states[newState]||"Unknown state";		
-		this.trackYTSWF(state);
-		state = null;
+		if(this.options.youtube.states[newState]) {
+			this.trackYTSWF(this.options.youtube.states[newState]);
+		}
 	},
 	onPlaybackQualityChange: function(newQuality) {
 		/*
