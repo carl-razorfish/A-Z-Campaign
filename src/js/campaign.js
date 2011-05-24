@@ -12,6 +12,7 @@ RIA.AZCampaign = new Class({
 		RIA.Movie
 	],
 	options:{
+		fxDuration:200,
 		binaryGIF:"data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
 		alpha:null,
 		categories:null,
@@ -28,13 +29,6 @@ RIA.AZCampaign = new Class({
 
 			document.getElement("body").addClass("js");
 		
-			if(Browser.Platform.ios) {
-				this.iOSAlphabetMenu = document.id("alpha-menu");
-				this.iOSAlphabet = document.id("alphabet-ios");
-				this.iOSAlphabet.setStyle("display","block");
-				document.id("alphabet").setStyle("display","none");				
-			}
-					
 			this.articles = document.getElements("article");
 			this.navigation = document.getElements("#navigation a");
 			this.navPanel = document.id("navigation");
@@ -53,7 +47,7 @@ RIA.AZCampaign = new Class({
 		
 			this.scrollFx = new Fx.Scroll(window, {
 				offset: {y: -this.scrollVerticalOffset}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
-				duration:100,
+				duration:this.options.fxDuration,
 				transition:"sine:in:out",
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately
 				onStart: function(e) {
@@ -168,9 +162,11 @@ RIA.AZCampaign = new Class({
 					/*
 					*	Only track a UI Scroll event if the user has manually scrolled, and not used the Fx.Scroll via the navigation
 					*/
+					/*
 					if(!eventObj || eventObj.trackScroll != false) {
 						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
-					}						
+					}
+					*/						
 				}								
 			}				
 		},this);
@@ -237,7 +233,7 @@ RIA.AZCampaign = new Class({
 			if(Browser.Platform.ios) {
 				ib.addClass("-webkit-fade-out");
 			} else {
-				ib.set("morph", {duration:500});
+				ib.set("morph", {duration:200});
 				ib.morph({"opacity":0});					
 			}
 		} catch(e) {
@@ -258,40 +254,37 @@ RIA.AZCampaign = new Class({
 		}
 		element = null;
 	},
-	scrollToArticle: function(articleElement, eventType) {
+	scrollToArticle: function(article, eventType) {
 		/*
 		*	@description:
 		*		If the selected Alpha exists, scroll to it's top coordinate
 		*/
 
-		var articleId = articleElement.get("id"), articleCoords;
-
-		/*
-		*	Hide all Article content whilst we scroll. We switch back on the relevant content later...
-		*/
-		this.articles.each(function(art) {
-			// hide the content for iOS only ??
-		},this);
+		var articleId = article.get("id"), articleCoords;
 	
 		/*
 		*	Now get the Element Position, in case we have removed any CSS classes for filtered out content in filterInAll()
 		*/
-		articleCoords = articleElement.getCoordinates();
+		articleCoords = article.getCoordinates();
 	
 		/*
 		*	Reset the Fx.Transition duration in case the chain has been cancelled and we are starting a new scroll
 		*/
-		this.scrollFx.options.duration = 100;
+		this.scrollFx.options.duration = this.options.fxDuration;
 		if(articleCoords.top < this.scrollTop) {
 			this.scrollFx.options.duration += Math.floor(Math.PI*((this.scrollTop - articleCoords.top)/10));
 		} else {
 			this.scrollFx.options.duration += Math.floor(Math.PI*((articleCoords.top - this.scrollTop)/10));
 		}
 		/*
-		*	Scroll to the selected Alpha
+		*	Scroll to the selected Alphabet Fact article
+		*	If scrolling to "A", just go straigh to the top of the Window
 		*/
-	
-		this.scrollFx.stop().toElement(articleId, 'y');	
+		if(article.get("id") == "a") {
+			this.scrollFx.stop().toTop();
+		} else {
+			this.scrollFx.stop().toElement(articleId, 'y');	
+		}
 	
 		_gaq.push(['_trackEvent', 'AlphabetNavigation', (this.options.eventTypes[eventType]||"Select"), articleId.toUpperCase(), null]);
 			
@@ -302,7 +295,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		For Apple iOS (Safari Webkit) only, reset the position of the navigation using webkitTransform
 		*/
-		return;
+
 		if(!Browser.Platform.ios) return;
 		this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.scrollTop)+"px)";
 	}

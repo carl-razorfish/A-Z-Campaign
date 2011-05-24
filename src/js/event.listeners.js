@@ -21,17 +21,7 @@ RIA.EventListeners = new Class({
 		
 		// add movie launch event listener
 		this.headerH1.addEvent("click", this.launchMovie.bind(this));
-		
-		
-		if(this.iOSAlphabet && this.iOSAlphabetMenu) {
-			this.iOSAlphabet.addEvent("touchstart", function(e) {
-				this.iOSAlphabetMenu.swapClass("invisible","visible").focus();
-			}.bind(this));
-			this.iOSAlphabet.addEvent("click", function(e) {
-				this.iOSAlphabetMenu.swapClass("invisible","visible").focus();
-			}.bind(this));
-			this.iOSAlphabetMenu.addEvent("change", this.iOSMenuEvent.bind(this));
-		}
+
 	},
 	addKeyboardEventListeners: function() {
 		/*
@@ -93,15 +83,6 @@ RIA.EventListeners = new Class({
 			this.filter(c, e.type);
 		}
 		t = c = null;
-	},
-	iOSMenuEvent: function(e) {
-		e.preventDefault();
-		var target = e.target.value;
-		
-		this.iOSAlphabetMenu.swapClass("visible","invisible").blur();
-		(function() {
-			this.filter(target, "touch");
-		}.bind(this)).delay(500);
 	},
 	keyboardEvent: function(e) {
 		/*

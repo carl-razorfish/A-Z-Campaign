@@ -81,19 +81,12 @@ ul,dl,ol {
 	display:none;
 }
 
-.invisible {
-	visibility:hidden;
-}
-.visible {
-	visibility:visible;
-}
-
 
 .loading {
 	/*background:#f6f6f6 url(../img/ajax-loader.gif) no-repeat 48% 48%;*/
 }
 
 .-webkit-fade-out {
-	-webkit-transition: opacity .5s linear;
+	-webkit-transition: opacity .2s linear;
 	opacity:0;
 }
