@@ -19,7 +19,9 @@ article p {
 }
 
 article p.first {
+	/* [ST]TODO: reinstate after CSS has been applied to fix Fact article height 
 	padding:25px 0 18px 0;
+	*/
 	font-weight:bold;
 }
 

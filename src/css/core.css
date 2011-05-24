@@ -15,6 +15,7 @@ a {
 	outline:none;
 	text-decoration:none;
 	color:#339900;
+	cursor:pointer;
 }
 a:hover,
 a:focus,
@@ -43,6 +44,15 @@ h1 {
 }
 h2 {
 	margin:0 0 20px 0;
+}
+
+h2#youtube-link {
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:50px;
+	height:50px;
+	text-indent:-10000em;
 }
 h3 {
 	margin:0 0 10px 0;

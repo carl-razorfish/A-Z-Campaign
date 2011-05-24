@@ -7,7 +7,7 @@ RIA.EventListeners = new Class({
 		// Add mouse window resize event listener
 		window.addEvent("resize", this.onWindowResize.bind(this));
 		
-		// Add mouse & touch navigation event listener
+		// Add mouse & touch navigation event listener, only if we are not on an Alphabet Fact page
 		//this.navigation.addEvent("click", this.pointerEvent.bind(this));
 		if(!this.options.alpha || this.options.alpha == "") {
 			this.navPanel.addEvent("click", this.pointerEvent.bind(this));
@@ -19,8 +19,9 @@ RIA.EventListeners = new Class({
 		// Add document scroll event listener
 		this.addScrollEventListener();
 		
-		// add movie launch event listener
-		this.headerH1.addEvent("click", this.launchMovie.bind(this));
+		window.addEvent("load", function() {
+			this.loadMovie();
+		}.bind(this));
 
 	},
 	addKeyboardEventListeners: function() {

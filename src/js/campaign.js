@@ -34,7 +34,8 @@ RIA.AZCampaign = new Class({
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
 			this.headerH1 = document.getElement("h1");
-		
+			this.youtubeLink = document.id("youtube-link");
+			this.movieContainer = document.id("movie");
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
 		
@@ -78,6 +79,7 @@ RIA.AZCampaign = new Class({
 		
 			this.addEventListeners();
 
+			
 		} catch(e) {
 			Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});
 		}
@@ -101,6 +103,10 @@ RIA.AZCampaign = new Class({
 		// [ST] TODO: we have a hard-coded pixel adjustment value here
 		if(this.viewport.x > this.shellWidth) {
 			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)-30+"px");
+			
+			if(this.movieContainer) {
+				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+50+"px");
+			}
 		}
 		
 		if(this.scrollTop <= this.headerH1Offset) {

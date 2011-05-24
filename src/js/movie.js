@@ -46,45 +46,33 @@ RIA.Movie = new Class({
 			}
 		}
 	},
-	launchMovie: function() {
-		
+	loadMovie: function() {
 		this.removeKeyboardEventListeners();
 		
+		this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
+			container:this.movieContainer,
+			id:"movie-swf",
+			width:700,
+			height:500,
+			params:{
+				movie:this.movieContainer.get("data-movie-uri")
+			}
+		});
 		
-		this.movieContainer = document.id("movie");
-		this.movieContainer.setStyle("display","block");
-		this.movieHTML5 = document.id("movie-html5");
+		this.movie = document.id("movie-swf");
 		
-		if(this.movieHTML5 && document.addEventListener) {
-			this.movieHTML5.addEventListener('ended', this.trackHTML5.pass(["Ended"],this),false);
-			this.movieHTML5.addEventListener('playing', this.trackHTML5.pass(["Playing"],this),false);			
-			this.movieHTML5.addEventListener('pause', this.trackHTML5.pass(["Paused"],this),false);			
-			this.movieHTML5.addEventListener('volumechange', this.trackHTML5.pass(["Volume change"],this),false);
-			this.movieHTML5.addEventListener('error', this.trackHTML5.pass(["Error"],this),false);
-		} else if (this.movieHTML5 && document.attachEvent) {
-			this.movieHTML5.attachEvent('ended', this.trackHTML5.pass(["Ended"],this));		
-			this.movieHTML5.attachEvent('playing', this.trackHTML5.pass(["Playing"],this));			
-			this.movieHTML5.attachEvent('pause', this.trackHTML5.pass(["Paused"],this));			
-			this.movieHTML5.attachEvent('volumechange', this.trackHTML5.pass(["Volume change"],this));
-			this.movieHTML5.attachEvent('error', this.trackHTML5.pass(["Error"],this));
-		}
-		
-		this.movieSWF = document.id("movie-swf");
-		
+	},
+	closeMovie: function() {
 		/*
-		this.movieUnsupported = document.id("movie-unsupported");
-		if(Browser.Plugins.Flash && Browser.Plugins.Flash.version >= 10) {
-			if(this.movieHTML5) this.movieHTML5.setStyle("display","none");
-			this.movieSWF.setStyle("display","block");
-			this.movieUnsupported.setStyle("display","none");
-		} else if(document.createElement("video").canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"') != ""){
-			if(this.movieHTML5) this.movieHTML5.setStyle("display","block");
-			this.movieSWF.setStyle("display","none");
-			this.movieUnsupported.setStyle("display","none");
-		} else {
-			this.movieUnsupported.setStyle("display","block");
-		}
+		*	@description:
+		*		
 		*/
+		this.addKeyboardEventListeners();
+		if(this.movie && this.movie.pauseVideo) this.movie.pauseVideo();
+		this.movieContainer.setStyle("visibility","hidden");
+		this.mask.morph({opacity:"0"});	
+	},
+	createMask: function() {
 		if(!this.mask) {
 			this.mask = new Element('div', {
 				'class': 'mask',
@@ -98,21 +86,18 @@ RIA.Movie = new Class({
 			
 		}	
 		this.mask.setStyle("opacity","0").set("morph",{
-			duration:400
+			duration:400,
+			onComplete: function(mask) {
+				if(mask.getStyle("opacity") > 0) {
+					this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+50+"px");
+					this.movieContainer.setStyle("visibility","visible");
+				} else {
+					this.movieContainer.setStyle("left","-10000em");
+					this.movieContainer.setStyle("visibility","hidden");
+				}
+				
+			}.bind(this)
 		}).morph({opacity:"0.7"});
-	
-		
-	},
-	closeMovie: function() {
-		/*
-		*	@description:
-		*		
-		*/
-		this.addKeyboardEventListeners();
-		if(this.ytplayer && this.ytplayer.pauseVideo) this.ytplayer.pauseVideo();
-		if(this.movieHTML5) this.movieHTML5.pause();
-		this.movieContainer.setStyle("display","none");
-		this.mask.morph({opacity:"0"});	
 	},
 	trackYTSWF: function(action) {
 		Log.info("trackYTSWF("+action+")");
@@ -130,14 +115,14 @@ RIA.Movie = new Class({
 		*	@description:
 		*		Hook from YT onYouTubePlayerReady(playerId) method
 		*/
-		this.ytplayer = document.id("movie-swf");
-	
+		this.addMovieEventListener();
+		
 		if(document.addEventListener) {
-			this.ytplayer.addEventListener("onStateChange", "onytplayerStateChange", false);
-			this.ytplayer.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange", false);			
+			this.movie.addEventListener("onStateChange", "onytplayerStateChange", false);
+			this.movie.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange", false);			
 		} else if(document.attachEvent) {
-			this.ytplayer.attachEvent("onStateChange", "onytplayerStateChange");
-			this.ytplayer.attachEvent("onPlaybackQualityChange", "onPlaybackQualityChange");
+			this.movie.attachEvent("onStateChange", "onytplayerStateChange");
+			this.movie.attachEvent("onPlaybackQualityChange", "onPlaybackQualityChange");
 		}
 	},
 	onytplayerStateChange: function(newState) {
@@ -166,5 +151,8 @@ RIA.Movie = new Class({
 		var quality = "Quality: "+this.options.youtube.quality[newQuality]||"Unknown quality";		
 		this.trackYTSWF(quality);
 		quality = null;
+	},
+	addMovieEventListener: function() {
+		this.youtubeLink.addEvent("click", this.createMask.bind(this));
 	}
 });

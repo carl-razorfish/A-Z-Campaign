@@ -12,12 +12,17 @@
 }
 
 #movie {
-	display:none;
+	display:block;
+	visibility:hidden;
 	position:absolute;
-	top:20px;
-	left:15%;
+	top:50px;
+	left:10000em;
 	z-index:10;
 	text-align:center;
+}
+
+.js #movie {
+	position:fixed;
 }
 
 #movie-unsupported {
