@@ -278,7 +278,7 @@ RIA.AZCampaign = new Class({
 		}
 		/*
 		*	Scroll to the selected Alphabet Fact article
-		*	If scrolling to "A", just go straigh to the top of the Window
+		*	If scrolling to "A", just go straight to the top of the Window
 		*/
 		if(article.get("id") == "a") {
 			this.scrollFx.stop().toTop();

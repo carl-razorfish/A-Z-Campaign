@@ -32,7 +32,9 @@ article div.container {
 	width:850px;
 	position:relative;
 	padding:20px 0 0 0;
-	overflow:hidden;
+	/*
+	overflow:hidden [ST]removed for FB:Like flyout
+	*/
 }
 
 article div.container .content {
@@ -64,10 +66,6 @@ article div.container .content {
 	min-width:425px;
 }
 
-.content-image img {
-	
-}
-
 .js .image-bg {
 	position:absolute;
 	top:0px;
@@ -86,9 +84,6 @@ article div.container .content {
 }
 
 article nav {
-	/*
-	overflow:hidden;
-	*/
 	margin:5px 0 0 0;
 	clear:right;
 }
@@ -97,7 +92,7 @@ article nav {
 *	Social
 */
 .social {
-	overflow:hidden; /* [ST] May affect the FB Like Button comments flyout */
+	/*overflow:hidden; */ /* [ST] May affect the FB Like Button comments flyout */
 }
 
 .social span.facebook-like,
