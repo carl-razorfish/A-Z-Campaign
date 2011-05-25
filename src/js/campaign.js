@@ -36,6 +36,7 @@ RIA.AZCampaign = new Class({
 			this.headerH1 = document.getElement("h1");
 			this.youtubeLink = document.id("youtube-link");
 			this.movieContainer = document.id("movie");
+			this.movieSWFContainer = document.id("movie-container");
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
 		

@@ -81,6 +81,7 @@ ul,dl,ol {
 }
 
 #content {
+	position:relative;
 	width:850px;
 	min-height:768px;
 	padding:150px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */

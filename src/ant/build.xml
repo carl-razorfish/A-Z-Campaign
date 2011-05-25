@@ -1,4 +1,4 @@
-<project name="UIBuilder" basedir="./" default="BUILD.AllAssets.AllLanguages">
+<project name="UIBuilder" basedir="./" default="BUILD.AllAssets">
 	
 	<property name="properties.dir" value="properties" />
 	
@@ -13,14 +13,7 @@
 	<tstamp>
 	    <format property="timstamp" pattern="hh-mm-ss" locale="en,UK"/>
 	</tstamp>
-	
-	<target name="BUILD.AllAssets" description="Building All Assets.">
-		<echo>Building CSS, JS</echo>
-		<ant target="BUILD.CSS"/>
-		<ant target="OPERATION.CSS.Minify"/>
-		<ant target="BUILD.JS"/>
-	</target>
-	
+
 	<!--//
 	TYPE Build targets
 	//-->	
@@ -40,7 +33,7 @@
 	<!--//
 	BUILD All Languages
 	//-->
-	<target name="BUILD.AllAssets.AllLanguages" description="Building CSS and JS">
+	<target name="BUILD.AllAssets" description="Building CSS and JS">
 		<echo>Building CSS and JS</echo>
 		<ant target="BUILD.CSS"/>		
 		<ant target="OPERATION.CSS.Minify"/>

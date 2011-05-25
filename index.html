@@ -20,6 +20,8 @@
 					{% if alpha %}{% if article.id in alpha %}{% include "includes/article.html" %}{% endif %}{% else %}{% include "includes/article.html" %}{% endif %}
 				{% endfor %}
 				<div id="movie" data-movie-uri="{{ common.movie_swf_uri }}">
+					<div id="movie-container"></div>
+					<div id="unsupported">{{ common.movie_unsupported }}</div>
 					{% comment %}
 					<object width="700" height="500" id="movie-swf">
 						<param name="movie" value="http://www.youtube.com/v/-hyZL4YLmXA?hl=en&amp;fs=1&amp;showinfo=0&amp;showsearch=0&amp;rel=0&amp;iv_load_policy=3&amp;autoplay=0&amp;loop=0&amp;hd=1&amp;enablejsapi=1&amp;playerapiid=ytplayer"/>
@@ -27,14 +29,9 @@
 						<param name="allowscriptaccess" value="always"/>
 						<param name="wmode" value="transparent"/>
 						<embed src="http://www.youtube.com/v/-hyZL4YLmXA?hl=en&amp;fs=1&amp;showinfo=0&amp;showsearch=0&amp;rel=0&amp;iv_load_policy=3&amp;autoplay=0&amp;loop=0&amp;hd=1&amp;enablejsapi=1&amp;playerapiid=ytplayer" type="application/x-shockwave-flash" width="700" height="500" allowscriptaccess="always" allowfullscreen="true"/>
-						<p id="movie-unsupported">{{ common.movie_unsupported }}</p>
+						
 					</object>
-					{% endcomment %}
-					{% comment %}
-					<video id="movie-html5" data-youtube-id="-hyZL4YLmXA" class="video-stream" x-webkit-airplay="allow" controls="controls" poster="{{ common.movie_html5_poster|safe }}">
-						<source src="{{ common.movie_html5_uri|safe }}"/>						
-					</video>
-					{% endcomment %}
+					{% endcomment %}					
 				</div>
 			</div>			
 			{% include "includes/navigation.html" %}			

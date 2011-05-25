@@ -32,7 +32,7 @@ RIA.Movie = new Class({
 				"-1":"Unstarted",
 				"0":"Ended",
 				"1":"Playing",
-				"2":"Paused",
+				"2":"Paused"
 				//"3":"Buffering",
 				//"5":"Video cued"
 			},
@@ -51,7 +51,7 @@ RIA.Movie = new Class({
 			Log.info("loadMovie()");
 			
 			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
-				container:this.movieContainer,
+				container:this.movieSWFContainer,
 				id:"movie-swf",
 				width:640,
 				height:360,
@@ -78,6 +78,7 @@ RIA.Movie = new Class({
 			this.movieContainer.setStyle("visibility","hidden");
 			if(Browser.Platform.ios) {
 				this.mask.setStyles({opacity:"0"});
+				this.doMovieContainer(false);
 			} else {
 				this.mask.morph({opacity:"0"});	
 			}
@@ -92,6 +93,10 @@ RIA.Movie = new Class({
 				this.mask = new Element('div', {
 					'class': 'mask',
 					'id': 'mask',
+					"styles":{
+						"opacity":0,
+						"width":this.viewport.x+"px"
+					},
 					events: {
 						click: function(event){
 							this.closeMovie();
@@ -99,7 +104,7 @@ RIA.Movie = new Class({
 					}
 				}).inject(document.body);
 				
-				this.mask.setStyle("opacity","0").set("morph",{
+				this.mask.set("morph",{
 					duration:400,
 					onComplete: function(mask) {
 						if(mask.getStyle("opacity") > 0) {
@@ -114,6 +119,7 @@ RIA.Movie = new Class({
 			
 			if(Browser.Platform.ios) {
 				this.mask.setStyles({opacity:"0.7"});
+				this.doMovieContainer(true);
 			} else {
 				this.mask.morph({opacity:"0.7"});
 			}
@@ -126,7 +132,7 @@ RIA.Movie = new Class({
 		Log.info("doMovieContainer");
 		try {
 			if(show) {
-				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+50+"px");
+				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
 				this.movieContainer.setStyle("visibility","visible");
 			} else {
 				this.movieContainer.setStyle("left","-10000em");
@@ -229,6 +235,10 @@ RIA.Movie = new Class({
 	},
 	pinMovie: function() {
 		try {
+			if(this.mask) {
+				this.mask.setStyle("width",this.viewport.x+"px");
+			}
+			
 			if(this.movieContainer) {
 				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
 			}
