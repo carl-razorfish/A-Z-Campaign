@@ -134,8 +134,12 @@ RIA.Movie = new Class({
 		}
 	},
 	trackHTML5: function(action) {
-		Log.info("trackHTML5("+action+")");
-		_gaq.push(['_trackEvent', 'YouTubeHTML5Movie', action, this.movieHTML5.getElements("source")[0].src, null]);
+		try {
+			Log.info("trackHTML5("+action+")");
+			_gaq.push(['_trackEvent', 'YouTubeHTML5Movie', action, this.movieHTML5.getElements("source")[0].src, null]);
+		} catch(e) {
+			Log.error({method:"RIA.Movie : trackHTML5()", error:e});
+		}
 	},
 	onYouTubePlayerReady: function(playerId) {
 		/*
