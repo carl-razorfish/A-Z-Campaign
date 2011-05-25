@@ -104,9 +104,7 @@ RIA.AZCampaign = new Class({
 		if(this.viewport.x > this.shellWidth) {
 			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)-30+"px");
 			
-			if(this.movieContainer) {
-				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+50+"px");
-			}
+			
 		}
 		
 		if(this.scrollTop <= this.headerH1Offset) {

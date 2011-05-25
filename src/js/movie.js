@@ -47,63 +47,91 @@ RIA.Movie = new Class({
 		}
 	},
 	loadMovie: function() {
-		this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
-			container:this.movieContainer,
-			id:"movie-swf",
-			width:700,
-			height:500,
-			params:{
-				movie:this.movieContainer.get("data-movie-uri")
-			}
-		});
+		try {
+			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
+				container:this.movieContainer,
+				id:"movie-swf",
+				width:700,
+				height:500,
+				params:{
+					movie:this.movieContainer.get("data-movie-uri")
+				}
+			});
 		
-		this.movie = document.id("movie-swf");
-		
+			this.movie = document.id("movie-swf");
+		} catch(e) {
+			Log.error({method:"RIA.Movie : loadMovie()", error:e});
+		}		
 	},
 	closeMovie: function() {
 		/*
 		*	@description:
 		*		
 		*/
-		this.addKeyboardEventListeners();
-		if(this.movie && this.movie.pauseVideo) this.movie.pauseVideo();
-		this.movieContainer.setStyle("visibility","hidden");
-		this.mask.morph({opacity:"0"});	
+		try {
+			this.addKeyboardEventListeners();
+			if(this.movie && this.movie.pauseVideo) this.movie.pauseVideo();
+			this.movieContainer.setStyle("visibility","hidden");
+			this.mask.morph({opacity:"0"});	
+		} catch(e) {
+			Log.error({method:"RIA.Movie : closeMovie()", error:e});
+		}
 	},
 	createMask: function() {
-		this.removeKeyboardEventListeners();
-		if(!this.mask) {
-			this.mask = new Element('div', {
-				'class': 'mask',
-				'id': 'mask',
-				events: {
-					click: function(event){
-						this.closeMovie();
-					}.bind(this)
-				}
-			}).inject(document.body);
-			
-		}	
-		this.mask.setStyle("opacity","0").set("morph",{
-			duration:400,
-			onComplete: function(mask) {
-				if(mask.getStyle("opacity") > 0) {
-					this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+50+"px");
-					this.movieContainer.setStyle("visibility","visible");
-				} else {
-					this.movieContainer.setStyle("left","-10000em");
-					this.movieContainer.setStyle("visibility","hidden");
-				}
+		try {
+			this.removeKeyboardEventListeners();
+			if(!this.mask) {
+				this.mask = new Element('div', {
+					'class': 'mask',
+					'id': 'mask',
+					events: {
+						click: function(event){
+							this.closeMovie();
+						}.bind(this)
+					}
+				}).inject(document.body);
+				this.mask.setStyle("opacity","0").set("morph",{
+					duration:400,
+					onComplete: function(mask) {
+						if(mask.getStyle("opacity") > 0) {
+							this.doMovieContainer(true);
+						} else {
+							this.doMovieContainer(false);
+						}
 				
-			}.bind(this)
-		}).morph({opacity:"0.7"});
+					}.bind(this)
+				});
+			}	
+			
+			this.mask.morph({opacity:"0.7"});
+		} catch(e) {
+			Log.error({method:"RIA.Movie : createMask()", error:e});
+		}
+	},
+	doMovieContainer: function(show) {
+		Log.info("doMovieContainer");
+		try {
+			if(show) {
+				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+50+"px");
+				this.movieContainer.setStyle("visibility","visible");
+			} else {
+				this.movieContainer.setStyle("left","-10000em");
+				this.movieContainer.setStyle("visibility","hidden");
+			}
+		} catch(e) {
+			Log.error({method:"RIA.Movie : doMovieContainer()", error:e});
+		}
 	},
 	trackYTSWF: function(action) {
-		Log.info("trackYTSWF("+action+")");
-		if(!action) return;
-		var source = this.movieContainer ? this.movieContainer.get("data-movie-uri") : "movie src unknown";
-		_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, source, null]);
-		source = null;
+		try {
+			Log.info("trackYTSWF("+action+")");
+			if(!action) return;
+			var source = this.movieContainer ? this.movieContainer.get("data-movie-uri") : "movie src unknown";
+			_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, source, null]);
+			source = null;
+		} catch(e) {
+			Log.error({method:"RIA.Movie : trackYTSWF()", error:e});
+		}
 	},
 	trackHTML5: function(action) {
 		Log.info("trackHTML5("+action+")");
@@ -114,14 +142,18 @@ RIA.Movie = new Class({
 		*	@description:
 		*		Hook from YT onYouTubePlayerReady(playerId) method
 		*/
-		this.addMovieEventListener();
+		try {
+			this.addMovieEventListener();
 		
-		if(document.addEventListener) {
-			this.movie.addEventListener("onStateChange", "onytplayerStateChange", false);
-			this.movie.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange", false);			
-		} else if(document.attachEvent) {
-			this.movie.attachEvent("onStateChange", "onytplayerStateChange");
-			this.movie.attachEvent("onPlaybackQualityChange", "onPlaybackQualityChange");
+			if(document.addEventListener) {
+				this.movie.addEventListener("onStateChange", "onytplayerStateChange", false);
+				this.movie.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange", false);			
+			} else if(document.attachEvent) {
+				this.movie.attachEvent("onStateChange", "onytplayerStateChange");
+				this.movie.attachEvent("onPlaybackQualityChange", "onPlaybackQualityChange");
+			}
+		} catch(e) {
+			Log.error({method:"RIA.Movie : onYouTubePlayerReady()", error:e});
 		}
 	},
 	onytplayerStateChange: function(newState) {
@@ -139,19 +171,56 @@ RIA.Movie = new Class({
 		*		When the SWF is first loaded it will broadcast an unstarted (-1) event. 
 		*		When the video is cued and ready to play it will broadcast a video cued event (5).
 		*/
-		if(this.options.youtube.states[newState]) {
-			this.trackYTSWF(this.options.youtube.states[newState]);
+		try {
+			if(this.options.youtube.states[newState]) {
+				this.trackYTSWF(this.options.youtube.states[newState]);
+			}
+		} catch(e) {
+			Log.error({method:"RIA.Movie : onytplayerStateChange()", error:e});
 		}
 	},
 	onPlaybackQualityChange: function(newQuality) {
 		/*
 		*	Possible values are "small", "medium", "large", "hd720", "hd1080", and "highres".
 		*/
-		var quality = "Quality: "+this.options.youtube.quality[newQuality]||"Unknown quality";		
-		this.trackYTSWF(quality);
-		quality = null;
+		try {
+			var quality = "Quality: "+this.options.youtube.quality[newQuality]||"Unknown quality";		
+			this.trackYTSWF(quality);
+			quality = null;
+		} catch(e) {
+			Log.error({method:"RIA.Movie : onPlaybackQualityChange()", error:e});
+		}
 	},
 	addMovieEventListener: function() {
-		this.youtubeLink.addEvent("click", this.createMask.bind(this));
+		try {
+			this.youtubeLink.addEvent("click", this.launchEvent.bind(this));
+			this.youtubeLink.addEvent("touchstart", this.launchEvent.bind(this));
+		} catch(e) {
+			Log.error({method:"RIA.Movie : addMovieEventListener()", error:e});
+		}
+	},
+	launchEvent: function(e) {
+		try {
+			e.preventDefault();
+		
+			if(Browser.Platform.ios) {
+				//this.movie.playVideo();
+				//this.doMovieContainer(true);
+				Log.info("showing movie");
+			} else {
+				this.createMask();
+			}
+		} catch(e) {
+			Log.error({method:"RIA.Movie : launchEvent()", error:e});
+		}
+	},
+	pinMovie: function() {
+		try {
+			if(this.movieContainer) {
+				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
+			}
+		} catch(e) {
+			Log.error({method:"RIA.Movie : pinMovie()", error:e});
+		}
 	}
 });

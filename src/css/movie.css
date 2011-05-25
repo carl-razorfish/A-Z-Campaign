@@ -15,6 +15,7 @@
 	display:block;
 	visibility:hidden;
 	position:absolute;
+	width:850px;
 	top:50px;
 	left:10000em;
 	z-index:10;

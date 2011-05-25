@@ -103,5 +103,6 @@ RIA.EventListeners = new Class({
 		*		Callback from the window onResize event listener
 		*/		
 		this.getContentInViewport();
+		this.pinMovie();
 	}
 });
