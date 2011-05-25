@@ -106,3 +106,13 @@ ul,dl,ol {
 	-webkit-transition: opacity .2s linear;
 	opacity:0;
 }
+
+.-webkit-fade-in {
+	-webkit-transition: opacity .2s linear;
+	opacity:1;
+}
+
+.-webkit-fade-in-mask {
+	-webkit-transition: opacity 4s linear;
+	opacity:0.7 !important;
+}

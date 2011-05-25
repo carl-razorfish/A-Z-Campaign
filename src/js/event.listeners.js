@@ -19,10 +19,14 @@ RIA.EventListeners = new Class({
 		// Add document scroll event listener
 		this.addScrollEventListener();
 		
-		window.addEvent("load", function() {
-			this.loadMovie();
-		}.bind(this));
+		this.loadEventBind = this.loadEvent.bind(this)
+		window.addEvent("load", this.loadEventBind);
 
+		this.addMovieEventListener();
+	},
+	loadEvent: function() {
+		this.loadMovie();
+		window.removeEvent("load", this.loadEventBind);
 	},
 	addKeyboardEventListeners: function() {
 		/*

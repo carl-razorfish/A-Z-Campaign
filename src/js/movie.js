@@ -48,17 +48,21 @@ RIA.Movie = new Class({
 	},
 	loadMovie: function() {
 		try {
+			Log.info("loadMovie()");
+			
 			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
 				container:this.movieContainer,
 				id:"movie-swf",
-				width:700,
-				height:500,
+				width:640,
+				height:360,
 				params:{
 					movie:this.movieContainer.get("data-movie-uri")
 				}
 			});
 		
 			this.movie = document.id("movie-swf");
+			
+			
 		} catch(e) {
 			Log.error({method:"RIA.Movie : loadMovie()", error:e});
 		}		
@@ -72,7 +76,11 @@ RIA.Movie = new Class({
 			this.addKeyboardEventListeners();
 			if(this.movie && this.movie.pauseVideo) this.movie.pauseVideo();
 			this.movieContainer.setStyle("visibility","hidden");
-			this.mask.morph({opacity:"0"});	
+			if(Browser.Platform.ios) {
+				this.mask.setStyles({opacity:"0"});
+			} else {
+				this.mask.morph({opacity:"0"});	
+			}
 		} catch(e) {
 			Log.error({method:"RIA.Movie : closeMovie()", error:e});
 		}
@@ -90,6 +98,7 @@ RIA.Movie = new Class({
 						}.bind(this)
 					}
 				}).inject(document.body);
+				
 				this.mask.setStyle("opacity","0").set("morph",{
 					duration:400,
 					onComplete: function(mask) {
@@ -98,12 +107,17 @@ RIA.Movie = new Class({
 						} else {
 							this.doMovieContainer(false);
 						}
-				
+			
 					}.bind(this)
 				});
 			}	
 			
-			this.mask.morph({opacity:"0.7"});
+			if(Browser.Platform.ios) {
+				this.mask.setStyles({opacity:"0.7"});
+			} else {
+				this.mask.morph({opacity:"0.7"});
+			}
+			
 		} catch(e) {
 			Log.error({method:"RIA.Movie : createMask()", error:e});
 		}
@@ -146,8 +160,9 @@ RIA.Movie = new Class({
 		*	@description:
 		*		Hook from YT onYouTubePlayerReady(playerId) method
 		*/
+		Log.info("onYouTubePlayerReady");
 		try {
-			this.addMovieEventListener();
+			
 		
 			if(document.addEventListener) {
 				this.movie.addEventListener("onStateChange", "onytplayerStateChange", false);
@@ -204,16 +219,10 @@ RIA.Movie = new Class({
 		}
 	},
 	launchEvent: function(e) {
+		Log.info("launchEvent");
 		try {
 			e.preventDefault();
-		
-			if(Browser.Platform.ios) {
-				//this.movie.playVideo();
-				//this.doMovieContainer(true);
-				Log.info("showing movie");
-			} else {
-				this.createMask();
-			}
+			this.createMask();
 		} catch(e) {
 			Log.error({method:"RIA.Movie : launchEvent()", error:e});
 		}

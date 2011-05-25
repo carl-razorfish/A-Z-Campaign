@@ -96,8 +96,7 @@ RIA.AZCampaign = new Class({
 		*/
 
 		if(!gotViewport) {
-			this.viewport = window.getSize(); 
-			this.scrollTop = window.getScroll().y;
+			this.getViewport();
 		}
 		
 		// [ST] TODO: we have a hard-coded pixel adjustment value here
@@ -125,8 +124,8 @@ RIA.AZCampaign = new Class({
 		*		Establish which content is visible in the viewport		
 		*/
 		
-		this.viewport = window.getSize();
-		this.scrollTop = window.getScroll().y;
+		this.getViewport();
+		
 		var articleCoords;
 		
 		this.pinNavPanel(true);
@@ -160,7 +159,7 @@ RIA.AZCampaign = new Class({
 						article.store("loaded",true);
 					}
 				
-					Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
+					//Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
 					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
 					
 					/*
@@ -186,7 +185,7 @@ RIA.AZCampaign = new Class({
 		*		Load an Article
 		*/
 		
-		Log.info("loadArticle("+article.get("id")+")");
+		//Log.info("loadArticle("+article.get("id")+")");
 		//if(Browser.ie) alert("loading article "+article.get("id"));
 		
 		//[ST]TODO: is this still required?
@@ -302,5 +301,22 @@ RIA.AZCampaign = new Class({
 
 		if(!Browser.Platform.ios) return;
 		this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.scrollTop)+"px)";
+	},
+	getViewport: function() {
+		try {
+			if(window.devicePixelRatio && window.devicePixelRatio >= 2 ) {
+				this.viewport = window.getSize();
+				this.scrollTop = window.getScroll().y;
+			
+				//this.viewport.x = this.viewport.x*2;
+				//this.viewport.y = this.viewport.y*2;
+				Log.info("devicePixelRatio is 2 : viewport.x : "+this.viewport.x+", viewport.y : "+this.viewport.y);
+			} else {
+				this.viewport = window.getSize();
+				this.scrollTop = window.getScroll().y;
+			}
+		} catch(e) {
+			Log.error({method:"getViewport()", error:e});
+		}
 	}
 });
