@@ -12,7 +12,10 @@ RIA.AZCampaign = new Class({
 		RIA.Movie
 	],
 	options:{
-		fxDuration:200,
+		fxDuration:{
+			desktop:200,
+			ios:800
+		},
 		binaryGIF:"data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
 		alpha:null,
 		categories:null,
@@ -49,7 +52,7 @@ RIA.AZCampaign = new Class({
 		
 			this.scrollFx = new Fx.Scroll(window, {
 				offset: {y: -this.scrollVerticalOffset}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
-				duration:this.options.fxDuration,
+				duration:(Browser.Platform.ios ? this.options.fxDuration.ios : this.options.fxDuration.desktop),
 				transition:"sine:in:out",
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately
 				onStart: function(e) {
@@ -274,7 +277,7 @@ RIA.AZCampaign = new Class({
 		/*
 		*	Reset the Fx.Transition duration in case the chain has been cancelled and we are starting a new scroll
 		*/
-		this.scrollFx.options.duration = this.options.fxDuration;
+		this.scrollFx.options.duration = (Browser.Platform.ios ? this.options.fxDuration.ios : this.options.fxDuration.desktop);
 		if(articleCoords.top < this.scrollTop) {
 			this.scrollFx.options.duration += Math.floor(Math.PI*((this.scrollTop - articleCoords.top)/10));
 		} else {
