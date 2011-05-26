@@ -1,7 +1,7 @@
 #navigation {
-	background:transparent url(../img/bg-navigation.png) repeat top left;
+	background:url(../img/bg-navigation.png) repeat top left;
 	position:absolute;
-	top:71px;
+	top:70px;
 	left:0px;
 	width:850px;
 	height:102px;
@@ -14,6 +14,9 @@
 /*
 *	Alphabet
 */
+
+
+/*
 #navigation #alphabet {
 	margin-left:120px;
 	padding:20px 0 0 0;
@@ -26,13 +29,42 @@
 	background-repeat:none;
 	text-indent:-10000em;
 }
+*/
+
+#navigation #alphabet {margin-top:10px; margin-left:21px;}
 
 #navigation #alphabet li {
 	float:left;
-	margin:0 10px 0 0;
+	margin:0 15px 0 0;
 }
 
+#navigation #alphabet li a {padding:2px;font-size:1.4em;}
+#navigation #alphabet li a:hover {text-decoration:none;}
 
+#navigation #alphabet li.b {margin-right:18px;}
+#navigation #alphabet li.c {margin-right:19px;}
+#navigation #alphabet li.d {margin-right:19px;}
+#navigation #alphabet li.e {margin-right:18px;}
+#navigation #alphabet li.f {margin-right:18px;}
+#navigation #alphabet li.g {margin-right:16px;}
+#navigation #alphabet li.h {margin-right:19px;}
+#navigation #alphabet li.i {margin-right:18px;}
+#navigation #alphabet li.j {margin-right:21px;}
+#navigation #alphabet li.k {margin-right:13px;}
+#navigation #alphabet li.l {margin-right:13px;}
+#navigation #alphabet li.m {margin-right:20px;}
+#navigation #alphabet li.n {margin-right:21px;}
+#navigation #alphabet li.0 {margin-right:7px;}
+#navigation #alphabet li.p {margin-right:16px;}
+#navigation #alphabet li.q {margin-right:21px;}
+#navigation #alphabet li.r {margin-right:20px;}
+#navigation #alphabet li.s {margin-right:15px;}
+#navigation #alphabet li.t {margin-right:16px;}
+#navigation #alphabet li.u {margin-right:17px;}
+#navigation #alphabet li.v {margin-right:20px;}
+#navigation #alphabet li.w {margin-right:22px;}
+#navigation #alphabet li.x {margin-right:20px;}
+#navigation #alphabet li.y {margin-right:19px;}
 /*
 *	Article Nav
 */
@@ -51,6 +83,9 @@ article nav ul li {
 /*
 *	Alphabet Letters (sprite)
 */
+
+
+/*
 #navigation .a {
 	background-position:0 0;
 }
@@ -155,10 +190,15 @@ article nav ul li {
 	background-position:-797px 0;
 }
 
+*/
+
+
 /*
 *	Apple iOS Navigation Menu Picker
 */
 
+
+/*
 #alphabet-ios {
 	background:url(../img/sprite-alphabet.png) no-repeat top left;
 	display:none;
@@ -174,3 +214,28 @@ article nav ul li {
 	width:852px;
 	height:40px;
 }
+*/
+
+
+
+#navigation {
+	background:url(../img/a-z-sprite.png) repeat-x -189px -124px;
+	position:absolute;
+	top:100px;
+	left:137px;
+	width:853px;
+	height:65px;
+    margin-left:98px;
+}
+
+.scroll {min-height:95px;}
+
+
+
+
+
+
+
+
+
+

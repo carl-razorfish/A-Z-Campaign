@@ -14,6 +14,15 @@
     </head>
     <body>	
 		<div id="shell">
+            <!--[if lte IE 7]>
+				<style>
+                .border-right{position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y -91px 0px; margin-left:848px;}
+                .border-left {position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y 0px 0px; margin-left:-73px;}
+                </style>
+			<![endif]-->
+
+        	<div class="border-left"></div>
+            <div class="border-right"></div>	
 			<div id="content">				
 				{% include "includes/header.html" %}	
 				{% for article in content %}
@@ -35,7 +44,8 @@
 					{% endcomment %}
 				</div>
 			</div>			
-			{% include "includes/navigation.html" %}			
+			{% include "includes/navigation.html" %}
+            		
 		</div>
 		{% include "includes/footer.html" %}
 		<div id="fb-root">	

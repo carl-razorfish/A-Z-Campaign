@@ -1,4 +1,4 @@
-<article id="{{ article.id }}" class="{{ article.section_layout }}" data-url="{{ common.live_domain }}{{ article.id }}" style="height:{{ article.section_img_height }}px;">
+<article id="{{ article.id }}" class="{{ article.section_layout }}" data-url="{{ common.live_domain }}{{ article.id }}">
 	<header>
 		<h2>{{ article.title }}</h2>
 	</header>
@@ -10,7 +10,7 @@
 			</noscript>
 			<div class="image-bg loading" style="height:{{ article.section_img_height }}px;">&nbsp;</div>
 		</div>
-		<section class="content" style="height:{{ article.section_img_height }}px;">{% comment %}style="height:{{ article.section_img_height }}px;"{% endcomment %}
+		<section class="content">{% comment %}style="height:{{ article.section_img_height }}px;"{% endcomment %}
 			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1|safe }}</p>{% endif %}
 			{% if article.section_statement2 %}<p>{{ article.section_statement2|safe }}</p>{% endif %}
 			{% if article.section_statement3 %}<p>{{ article.section_statement3|safe }}</p>{% endif %}

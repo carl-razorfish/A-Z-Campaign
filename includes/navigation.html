@@ -5,7 +5,7 @@
 		{% endcomment %}
 		<ul id="alphabet">
 		{% for article in content %}
-			<li><a class="{{ article.id }}" data-category="{{ article.id }}" href="{{ article.id }}">{{ article.menu }}</a></li>
+			<li class="{{ article.id }}"><a title="{{ article.menu }}" data-category="{{ article.id }}" href="{{ article.id }}">&nbsp;&nbsp;</a></li>
 		{% endfor %}
 		</ul>
 	</nav>	
