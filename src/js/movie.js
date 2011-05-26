@@ -129,7 +129,6 @@ RIA.Movie = new Class({
 		}
 	},
 	doMovieContainer: function(show) {
-		Log.info("doMovieContainer");
 		try {
 			if(show) {
 				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
@@ -153,14 +152,6 @@ RIA.Movie = new Class({
 			Log.error({method:"RIA.Movie : trackYTSWF()", error:e});
 		}
 	},
-	trackHTML5: function(action) {
-		try {
-			Log.info("trackHTML5("+action+")");
-			_gaq.push(['_trackEvent', 'YouTubeHTML5Movie', action, this.movieHTML5.getElements("source")[0].src, null]);
-		} catch(e) {
-			Log.error({method:"RIA.Movie : trackHTML5()", error:e});
-		}
-	},
 	onYouTubePlayerReady: function(playerId) {
 		/*
 		*	@description:
@@ -168,8 +159,6 @@ RIA.Movie = new Class({
 		*/
 		Log.info("onYouTubePlayerReady");
 		try {
-			
-		
 			if(document.addEventListener) {
 				this.movie.addEventListener("onStateChange", "onytplayerStateChange", false);
 				this.movie.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange", false);			
@@ -225,7 +214,6 @@ RIA.Movie = new Class({
 		}
 	},
 	launchEvent: function(e) {
-		Log.info("launchEvent");
 		try {
 			e.preventDefault();
 			this.createMask();
