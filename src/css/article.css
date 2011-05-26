@@ -4,7 +4,7 @@ article {
 	background:transparent;
 }
 
-article h2 { /* [ST]: currently the H2 is not displayed, so we are just repositioning the text out of the viewport. The Alphabet letter graphic is currently part of the background. */
+article h2 {
 	text-indent:-10000em;
 }
 

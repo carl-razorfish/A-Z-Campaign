@@ -29,7 +29,7 @@
 	z-index:20;
 	position:absolute;
 	top:0px;
-	left:12%;
+	left:170px;
 }
 #unsupported {
 	width:550px;
@@ -37,7 +37,7 @@
 	padding:30px;
 	position:absolute;
 	top:0px;
-	left:12%;
+	left:170px;
 	border-radius:20px;
 	-webkit-border-radius: 20px;
 	-ms-border-radius: 20px;

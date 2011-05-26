@@ -44,14 +44,14 @@ RIA.AZCampaign = new Class({
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
 		
 			// [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
-			this.scrollVerticalOffset = this.navPanel.getSize().y;
+			this.scrollVerticalOffset = -50;//this.navPanel.getSize().y;
 		
 			this.headerH1Offset = this.headerH1.getSize().y;
 		
 			this.getContentInViewport();
 		
 			this.scrollFx = new Fx.Scroll(window, {
-				offset: {y: -this.scrollVerticalOffset}, // the -y negative offset here means that the Article content won't scroll behind the Category navigation which is fixed to the top of the viewport
+				offset: {y: this.scrollVerticalOffset}, // the -y negative offset here means that the Article content won't scroll behind the navigation which is fixed to the top of the viewport
 				duration:(Browser.Platform.ios ? this.options.fxDuration.ios : this.options.fxDuration.desktop),
 				transition:"sine:in:out",
 				link:"cancel", // linking is set to cancel, so that if a new scroll action is requested by the user any current scroll action is cancelled immediately
