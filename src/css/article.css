@@ -19,9 +19,7 @@ article p {
 }
 
 article p.first {
-	/* [ST]TODO: reinstate after CSS has been applied to fix Fact article height 
 	padding:25px 0 18px 0;
-	*/
 	font-weight:bold;
 }
 
@@ -34,9 +32,6 @@ article div.container {
 	width:850px;
 	position:relative;
 	padding:20px 0 0 0;
-	/*
-	overflow:hidden [ST]removed for FB:Like flyout
-	*/
 }
 
 article div.container .content {

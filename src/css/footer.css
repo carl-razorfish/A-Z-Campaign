@@ -1,38 +1,47 @@
 footer {	
-	
+
 }
 
 footer nav {
 	width:888px;
 	margin:23px auto 0 auto;
-	padding:20px 0 0 100px;
-	overflow:hidden;
+	padding:143px 0 20px 100px;
+	/*overflow:hidden;*/
+    position:relative;
+    z-index:10;
 }
 
 footer p {
-	width:632px;
+	width:642px;
 	margin:0 auto;
 	text-align:center;
 	padding:10px 160px;
 	font-size:0.9em;
+    position:relative;
+    z-index:10;
 }
 
+footer ul {margin-left:40px;}
 
 footer li {
 	float:left;
 	margin:0 10px 0 0;
+    font-weight:bold;
 }
 footer header {
 	width:952px;
 	margin:0 auto;
 	position:relative;
 }
+
+
 footer h3 {
 	width:952px;
-	height:142px;
+	height:448px;
 	position:absolute;
-	top:-142px;
+	top:-160px;
 	left:0px;
-	background:transparent url(../img/bg-twmm.png) no-repeat top left;
+	background:url(../img/a-z-sprite.png) no-repeat -159px -214px;
 	text-indent:-10000em;
+    z-index:-1;
 }

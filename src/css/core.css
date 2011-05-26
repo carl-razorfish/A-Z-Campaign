@@ -5,7 +5,7 @@ body {
 	font-size:0.8em;
 	color:#000;
 	text-align:center;
-	background:#275308 url(../img/McD_A-Z_Grass_bg_tile2.jpg) repeat-y top center;
+	background:#275308 url(../img/McD_A-Z_Grass_bg_tile3.jpg) repeat-y top center;
 	background-attachment:fixed;
 }
 img {
@@ -33,33 +33,33 @@ video {
 	display:block;
 }
 
+
+/* header and nav styles */
 h1 {
 	position:absolute;
 	top:0px;
-	left:0px;
-	width:850px;
-	height:71px;
-	background:url(../img/h1.png) no-repeat top left;
+	left:-42px;
+	width:891px;
+	height:112px;
+	background:url(../img/a-z-sprite.png) no-repeat -150px -1px;
 	text-indent:-10000em;
 }
+
+h2#youtube-link {
+    background:url(../img/a-z-sprite.png) no-repeat -190px -665px; 
+    position:absolute;
+    top:20px;
+    left:702px;
+    display:block;
+    width:133px;
+    height:92px;
+	text-indent:-10000em;
+}
+
 h2 {
 	margin:0 0 20px 0;
 }
 
-h2#youtube-link {
-	/*position:absolute;
-	top:0px;
-	right:0px;
-	*/
-	position:absolute;
-	top:0px;
-	left:0px;
-	width:50px;
-	height:50px;
-	/*
-	text-indent:-10000em;
-	*/
-}
 h3 {
 	margin:0 0 10px 0;
 }
@@ -67,7 +67,7 @@ h3 {
 #shell {
 	
 	position:relative;
-	width:850px;
+	width:1002px;
 	margin:0 auto;
 	text-align:left;
 	/*
@@ -83,8 +83,9 @@ ul,dl,ol {
 #content {
 	position:relative;
 	width:850px;
-	min-height:768px;
+	/*min-height:768px;*/
 	padding:150px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
+    margin-left:73px;
 }
 
 .js .js-hide {
@@ -117,3 +118,90 @@ ul,dl,ol {
 	-webkit-transition: opacity 4s linear;
 	opacity:0.7 !important;
 }
+
+
+/* setting heights for all the letters  */
+
+#a,
+#a .content {height:366px}
+
+#b,
+#b .content {height:345px}
+
+#c,
+#c .content {height:385px}
+
+#d,
+#d .content {height:322px}
+
+#e,
+#e .content {height:479px}
+
+#f,
+#f .content {height:395px}
+
+#g,
+#g .content {height:384px}
+
+#h {height:327px;}
+#h .content {height:327px}
+
+#i,
+#i .content {height:393px}
+
+#j,
+#j .content {height:479px}
+
+#k,
+#k .content {height:448px}
+
+#l,
+#l .content {height:392px}
+
+#m,
+#m .content {height:352px}
+
+#n,
+#n .content {height:341px}
+
+#o,
+#o .content {height:363px}
+
+#p,
+#p .content {height:378px}
+
+#q,
+#q .content {height:485px}
+
+#r,
+#r .content {height:566px}
+
+#s,
+#s .content {height:298px}
+
+#t,
+#t .content {height:352px}
+
+#u,
+#u .content {height:334px}
+
+#v,
+#v .content {height:387px}
+
+#w,
+#w .content {height:319px}
+
+#x,
+#x .content {height:394px}
+
+#y,
+#y .content {height:399px}
+
+#z,
+#z .content {height:474px}
+
+
+/* styles for the left and right borders */
+.border-right{position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y -91px 0px; margin-left:921px;}
+.border-left {position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y 0px 0px;}
+

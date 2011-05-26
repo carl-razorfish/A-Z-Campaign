@@ -17,3 +17,8 @@ http://code.google.com/appengine/docs/python/tools/uploadinganapp.html
 
 In case of any deployment errors, use this rollback command on the root directory of the project:
 
+
+
+
+push test
+

@@ -2,6 +2,13 @@
 	<header>
 		<h3>{{ common.signoff_text }}</h3>
 	</header>
+	<!--[if lte IE 7]>
+		<style>
+		footer nav {
+			padding:103px 0 10px 100px;
+		}
+        </style>
+	<![endif]-->
 	<nav>
 		<ul>
 			<li class="copyright">{{ common.copyright_text|safe }}</li>
@@ -13,7 +20,6 @@
 			<li><a href="{{ common.contact_url }}" title="{{ common.contact_text }}">{{ common.contact_text }}</a>
 		</ul>
 	</nav>
-	<p>
-		{{ common.copyrightextended_text|safe }}
-	</p>
+	<p>{{ common.copyrightextended_text|safe }}</p>
+    
 </footer>

@@ -11,9 +11,19 @@
 		<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
+		<!--[if lte IE 7]>
+			<style type="text/css">
+               .border-right{position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y -91px 0px; margin-left:848px;}
+               .border-left {position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y 0px 0px; margin-left:-73px;}
+            </style>
+		<![endif]-->
     </head>
     <body>	
 		<div id="shell">
+            
+
+        	<div class="border-left"></div>
+            <div class="border-right"></div>	
 			<div id="content">				
 				{% include "includes/header.html" %}	
 				{% for article in content %}
@@ -34,7 +44,8 @@
 					{% endcomment %}					
 				</div>
 			</div>			
-			{% include "includes/navigation.html" %}			
+			{% include "includes/navigation.html" %}
+            		
 		</div>
 		{% include "includes/footer.html" %}
 		<div id="fb-root">	

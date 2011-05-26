@@ -113,12 +113,12 @@ RIA.AZCampaign = new Class({
 		if(this.scrollTop <= this.headerH1Offset) {
 			if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
 			//[ST]TODO: hide nav cutoff
-
+            this.navPanel.removeClass("scroll");
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
 			if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
 			//[ST]TODO: show nav cutoff
-
+			this.navPanel.addClass("scroll");
 		}
 
 	},

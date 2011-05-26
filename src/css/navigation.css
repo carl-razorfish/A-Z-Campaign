@@ -1,10 +1,11 @@
 #navigation {
-	background:transparent url(../img/bg-navigation.png) repeat top left;
+	background:url(../img/a-z-sprite.png) repeat-x -189px -124px;
 	position:absolute;
-	top:71px;
-	left:0px;
-	width:850px;
-	height:102px;
+	top:100px;
+	left:137px;
+	width:853px;
+	height:65px;
+    margin-left:98px;
 }
 
 .js #navigation {
@@ -14,25 +15,41 @@
 /*
 *	Alphabet
 */
-#navigation #alphabet {
-	margin-left:120px;
-	padding:20px 0 0 0;
-}
-#navigation #alphabet a {
-	display:block;
-	width:22px;
-	height:22px;
-	background-image:url(../img/sprite-alphabet.png);
-	background-repeat:none;
-	text-indent:-10000em;
-}
+
+#navigation #alphabet {margin-top:10px; margin-left:21px;}
 
 #navigation #alphabet li {
 	float:left;
-	margin:0 10px 0 0;
+	margin:0 15px 0 0;
 }
 
+#navigation #alphabet li a {padding:2px;font-size:1.4em;}
+#navigation #alphabet li a:hover {text-decoration:none;}
 
+#navigation #alphabet li.b {margin-right:18px;}
+#navigation #alphabet li.c {margin-right:19px;}
+#navigation #alphabet li.d {margin-right:19px;}
+#navigation #alphabet li.e {margin-right:18px;}
+#navigation #alphabet li.f {margin-right:18px;}
+#navigation #alphabet li.g {margin-right:16px;}
+#navigation #alphabet li.h {margin-right:19px;}
+#navigation #alphabet li.i {margin-right:18px;}
+#navigation #alphabet li.j {margin-right:21px;}
+#navigation #alphabet li.k {margin-right:13px;}
+#navigation #alphabet li.l {margin-right:13px;}
+#navigation #alphabet li.m {margin-right:20px;}
+#navigation #alphabet li.n {margin-right:21px;}
+#navigation #alphabet li.0 {margin-right:7px;}
+#navigation #alphabet li.p {margin-right:16px;}
+#navigation #alphabet li.q {margin-right:21px;}
+#navigation #alphabet li.r {margin-right:20px;}
+#navigation #alphabet li.s {margin-right:15px;}
+#navigation #alphabet li.t {margin-right:16px;}
+#navigation #alphabet li.u {margin-right:17px;}
+#navigation #alphabet li.v {margin-right:20px;}
+#navigation #alphabet li.w {margin-right:22px;}
+#navigation #alphabet li.x {margin-right:20px;}
+#navigation #alphabet li.y {margin-right:19px;}
 /*
 *	Article Nav
 */
@@ -48,129 +65,14 @@ article nav ul li {
 }
 
 
-/*
-*	Alphabet Letters (sprite)
-*/
-#navigation .a {
-	background-position:0 0;
-}
+.scroll {height:95px;}
 
-#navigation .b {
-	background-position:-34px 0;
-}
 
-#navigation .c {
-	background-position:-65px 0;
-}
 
-#navigation .d {
-	background-position:-98px 0;
-}
 
-#navigation .e {
-	background-position:-129px 0;
-}
 
-#navigation .f {
-	background-position:-162px 0;
-}
 
-#navigation .g {
-	background-position:-194px 0;
-}
 
-#navigation .h {
-	background-position:-225px 0;
-}
 
-#navigation .i {
-	background-position:-261px 0;
-}
 
-#navigation .j {
-	background-position:-285px 0;
-}
 
-#navigation .k {
-	background-position:-322px 0;
-}
-
-#navigation .l {
-	background-position:-350px 0;
-}
-
-#navigation .m {
-	background-position:-376px 0;
-}
-
-#navigation .n {
-	background-position:-409px 0;
-}
-
-#navigation .o {
-	background-position:-444px 0;
-}
-
-#navigation .p {
-	background-position:-474px 0;
-}
-
-#navigation .q {
-	background-position:-502px 0;
-}
-
-#navigation .r {
-	background-position:-536px 0;
-}
-
-#navigation .s {
-	background-position:-570px 0;
-}
-
-#navigation .t {
-	background-position:-598px 0;
-}
-
-#navigation .u {
-	background-position:-629px 0;
-}
-
-#navigation .v {
-	background-position:-659px 0;
-}
-
-#navigation .w {
-	background-position:-691px 0;
-}
-
-#navigation .x {
-	background-position:-728px 0;
-}
-
-#navigation .y {
-	background-position:-762px 0;
-}
-
-#navigation .z {
-	background-position:-797px 0;
-}
-
-/*
-*	Apple iOS Navigation Menu Picker
-*/
-
-#alphabet-ios {
-	background:url(../img/sprite-alphabet.png) no-repeat top left;
-	display:none;
-	position:absolute;
-	top:71px;
-	left:50px;
-	width:852px;
-	height:102px;
-	margin-left:35px;
-}
-
-#alphabet-ios #alpha-menu {
-	width:852px;
-	height:40px;
-}
