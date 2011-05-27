@@ -8,10 +8,15 @@
 		{% include "includes/og.meta.html" %}			
 		<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
     	<link rel="shorcut icon" href="favicon.ico" />
+			
+		<!--[if ie 6]>
+		<link rel="stylesheet" href="css/ie/ie6.css"/>
+		<![endif]-->
+
 		<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<!--[if lte IE 7]>
+		<!--[if IE 7]>
 			<style type="text/css">
                .border-right{position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y -91px 0px; margin-left:848px;}
                .border-left {position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y 0px 0px; margin-left:-73px;}
@@ -43,9 +48,9 @@
 				</div>
 			</div>			
 			{% include "includes/navigation.html" %}
-            		
+        {% include "includes/footer.html" %}   		
 		</div>
-		{% include "includes/footer.html" %}
+		
 		<div id="fb-root">	
 		</div>
 		<script type="text/javascript" src="{{ cdn }}js/scripts.js"></script>
