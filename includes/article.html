@@ -2,7 +2,6 @@
 	<header>
 		<h2>{{ article.title }}</h2>
 	</header>
-	<a name="{{ article.id }}"></a>
 	<div class="container">
 		<div class="content-image" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}" style="height:{{ article.section_img_height }}px;">
 			<noscript>
@@ -18,7 +17,7 @@
 			{% if article.section_statement5 %}<p>{{ article.section_statement5|safe }}</p>{% endif %}
 			<div class="social">
 				<span class="tweet-button">
-					<a href="http://twitter.com/share?text={{ article.title }}&url={{ common.live_domain }}{{ article.id }}" data-tweet="{{ article.title }} {{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" rel="external" target="_blank">
+					<a href="http://twitter.com/share?text={{ article.title|urlencode }}&url={{ common.live_domain|urlencode }}{{ article.id }}" data-tweet="{{ article.title }} {{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" rel="external" target="_blank">
 						<span>{{ common.twitter_tweettext }}</span>
 					</a>
 				</span>
