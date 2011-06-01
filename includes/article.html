@@ -3,9 +3,9 @@
 		<h2>{{ article.title }}</h2>
 	</header>
 	<div class="container cf">
-		<div class="content-image" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-main-src="{{ cdn }}{{ article.section_img }}" data-alt="{{ article.header }}" style="height:{{ article.section_img_height }}px;">
+		<div class="content-image" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-main-src="../{{ article.section_img }}" data-alt="{{ article.header }}" style="height:{{ article.section_img_height }}px;">
 			<noscript>
-				<img width="{{ article.section_img_width }}" height="{{ article.section_img_height }}" src="{{ cdn }}{{ article.section_img }}" alt="{{ article.header }}" />
+				<img width="{{ article.section_img_width }}" height="{{ article.section_img_height }}" src="../{{ article.section_img }}" alt="{{ article.header }}" />
 			</noscript>
 			<div class="image-bg loading" style="height:{{ article.section_img_height }}px;">&nbsp;</div>
 		</div>
