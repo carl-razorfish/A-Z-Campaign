@@ -85,7 +85,8 @@ RIA.AZCampaign = new Class({
 
 			
 		} catch(e) {
-			Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});
+			if(Browser.ie) alert("initialize() error : "+e.message);
+			Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});	
 		}
 	},
 	pinNavPanel: function(gotViewport) {
@@ -232,13 +233,16 @@ RIA.AZCampaign = new Class({
 		c = ic = ib = i = s = w = h = a = null;
 	},
 	loadImage: function(article) {
-		
-		//if(Browser.ie) alert("loadImage for "+article.get("id"));
 		try {
 			var ib = article.getElement(".image-bg");
 			ib.removeClass("loading");		
-			if(Browser.Platform.ios) {
-				ib.addClass("-webkit-fade-out");
+		    if(!Browser.ie) {
+				if(Browser.Platform.ios) {
+					ib.addClass("-webkit-fade-out");
+				} else {
+					ib.set("morph", {duration:200});
+					ib.morph({"opacity":0});										
+				}				
 			} else {
 				ib.set("morph", {duration:200});
 				ib.morph({"opacity":0});					
@@ -308,18 +312,23 @@ RIA.AZCampaign = new Class({
 	},
 	getViewport: function() {
 		try {
-			if(window.devicePixelRatio && window.devicePixelRatio >= 2 ) {
-				this.viewport = window.getSize();
-				this.scrollTop = window.getScroll().y;
-			
-				//this.viewport.x = this.viewport.x*2;
-				//this.viewport.y = this.viewport.y*2;
-				Log.info("devicePixelRatio is 2 : viewport.x : "+this.viewport.x+", viewport.y : "+this.viewport.y);
+			if(window.devicePixelRatio != "undefined" && window.devicePixelRatio >= 2 ) {
+				
+
+					this.viewport = window.getSize();
+					this.scrollTop = window.getScroll().y;
+
+					this.viewport.x = this.viewport.x*2;
+					this.viewport.y = this.viewport.y*2;
+					Log.info("devicePixelRatio is 2 : viewport.x : "+this.viewport.x+", viewport.y : "+this.viewport.y);
+					
+
 			} else {
 				this.viewport = window.getSize();
 				this.scrollTop = window.getScroll().y;
 			}
 		} catch(e) {
+			if(Browser.ie) alert("getViewport() error : "+e.message);
 			Log.error({method:"getViewport()", error:e});
 		}
 	}

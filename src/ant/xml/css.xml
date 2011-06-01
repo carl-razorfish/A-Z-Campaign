@@ -3,14 +3,14 @@
 	<target name="OPERATION.CSS.Trash" description="Trashing CSS build directories">
 		<echo>Trashing CSS build directories</echo>
 		<delete dir="${build.css.dir}" includeemptydirs="true">
-		    <include name="*.css"/>		    
+		    <include name="**/*.css"/>		    
 		</delete>
 	</target>
 	
 	<target name="OPERATION.CSS.Clean" description="Cleaning CSS build files">
 		<echo>Cleaning build operation CSS files</echo>
 		<delete dir="${build.css.dir}" includeemptydirs="true">
-		    <include name="*.concat.css"/>		    
+		    <include name="**/*.concat.css"/>		    
 		</delete>
 	</target>
 	
@@ -21,13 +21,18 @@
 				<include name="*.css"/>
 			</fileset>
 		</concat>		
+		<concat destfile="${build.css.dir}/ie/ie6.concat.css" fixlastline="yes">
+			<fileset dir="${src.css.dir}/ie/">
+				<include name="ie6.css"/>
+			</fileset>
+		</concat>
 	</target>
 
 	
 	<target name="OPERATION.CSS.Minify" description="Minifying CSS">
 		<echo>Minifying CSS</echo>
 		<apply executable="java" parallel="false" dest="${build.css.dir}" failonerror="true">
-			<fileset dir="${build.css.dir}/" includes="*.concat.css" />
+			<fileset dir="${build.css.dir}/" includes="**/*.concat.css" />
 			<arg line="-jar"/>
 			<arg path="${yui.compressor}"/>
 			<srcfile/>
