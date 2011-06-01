@@ -1,5 +1,5 @@
 <!DOCTYPE html>	
-<html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://developers.facebook.com/schema/">
+<html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
     <head>
         <title>{% if alpha %}{% for article in content %}{% if article.id in alpha %}{{ article.title }} - {% endif %}{% endfor %}{% endif %}{{ common.pagetitle|safe }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>

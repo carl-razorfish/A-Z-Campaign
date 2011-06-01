@@ -17,7 +17,7 @@
 			{% if article.section_statement5 %}<p>{{ article.section_statement5|safe }}</p>{% endif %}
 			<div class="social">
 				<span class="tweet-button">
-					<a href="http://twitter.com/share?text={{ article.title|urlencode }}&url={{ common.live_domain|urlencode }}{{ article.id }}" data-tweet="{{ article.title }} {{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" rel="external" target="_blank">
+					<a href="http://twitter.com/share?text={{ article.title|urlencode }}&amp;url={{ common.live_domain|urlencode }}{{ article.id }}" data-tweet="{{ article.title }} {{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" rel="external" target="_blank">
 						<span>{{ common.twitter_tweettext }}</span>
 					</a>
 				</span>
