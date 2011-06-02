@@ -33,35 +33,21 @@ h1 a { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/ie6/he
 .border-right{position:absolute; display:block; width:74px; height:10650px; background: url(../img/ie6/right-border.png) repeat-y top left; margin-left:848px;}
 .border-left {position:absolute; display:block; width:74px; height:10650px; background: url(../img/ie6/left-border.png) repeat-y top left; margin-left:-69px;}
 
-
-
-
 article p.first {
-	padding:0px 0 0px 0;
+	padding:0px;
 }
 
 article div.container {
-	width:850px;
-	position:relative;
-	padding:0px 0 0 0;
+	padding:0px;
 }  
 
-
 article div.container .content {
-	background:#f6f6f6;
 	display:inline-block;
-	width:375px;
-	height:100%;
 	padding:20px 25px 0px 20px;
-	/*
-	height:1000px;
-	*/
 }
 
-/* clear fixes */
+/* clear fixes - because we can't use overflow:hidden */
 .container{clear: both;}
-
 .cf:after {content:"."; display:block; height:0; clear:both; visibility:hidden;}
 .cf {height:1%;}
 .clear {clear:both;}
-

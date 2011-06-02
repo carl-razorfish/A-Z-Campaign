@@ -1,11 +1,11 @@
 #navigation {
 	background:url(../img/a-z-sprite.png) repeat-x -189px -124px;
 	position:absolute;
-	top:100px;
-	left:137px;
+	top:112px;
+	left:0px;
 	width:853px;
-	height:65px;
-    margin-left:98px;
+	height:98px;
+	margin:0 0 0 68px;
 }
 
 .js #navigation {

@@ -53,7 +53,7 @@ h1 a {
 	cursor:pointer;
 }
 
-h2#youtube-link {
+h2#youtube-link a {
     background:url(../img/a-z-sprite.png) no-repeat -190px -665px; 
     position:absolute;
     top:20px;
@@ -93,7 +93,7 @@ ul,dl,ol {
 	position:relative;
 	width:850px;
 	/*min-height:768px;*/
-	padding:150px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
+	padding:135px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
     margin-left:73px;
 }
 

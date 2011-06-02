@@ -104,21 +104,18 @@ RIA.AZCampaign = new Class({
 			this.getViewport();
 		}
 		
-		// [ST] TODO: we have a hard-coded pixel adjustment value here
 		if(this.viewport.x > this.shellWidth) {
-			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)-30+"px");
-			
-			
+			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
 		}
 		
 		if(this.scrollTop <= this.headerH1Offset) {
-			if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
-			//[ST]TODO: hide nav cutoff
+			//if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
+			this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
             this.navPanel.removeClass("scroll");
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
-			if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
-			//[ST]TODO: show nav cutoff
+			//if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
+			this.navPanel.setStyle("top","0px");
 			this.navPanel.addClass("scroll");
 		}
 
@@ -308,7 +305,8 @@ RIA.AZCampaign = new Class({
 		*/
 
 		if(!Browser.Platform.ios) return;
-		this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.scrollTop)+"px)";
+		//this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.scrollTop)+"px)";
+		this.navPanel.style.webkitTransform = "translateY("+this.scrollTop+"px)";
 	},
 	getViewport: function() {
 		try {
