@@ -85,10 +85,6 @@ article nav {
 /*
 *	Social
 */
-.social {
-	/*overflow:hidden; */ /* [ST] May affect the FB Like Button comments flyout */
-}
-
 .social span.facebook-like,
 .social span.tweet-button {
 	display:block;

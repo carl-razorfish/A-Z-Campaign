@@ -29,17 +29,17 @@
 
 #movie-swf {
 	position:absolute;
-	top:0px;
-	left:170px;
+    margin-top:40px;
+    margin-left:30px;
 }
 #unsupported {
 	width:550px;
 	background:#f6f6f6;
 	padding:30px 30px 12px 30px;
-	position:absolute;
-	top:0px;
-	left:170px;
 	text-align:left;
+	position:absolute;
+	top:50px;
+	left:149px;
 	border-radius:20px;
 	-webkit-border-radius: 20px;
 	-ms-border-radius: 20px;
@@ -49,4 +49,24 @@
 
 #unsupported p {
 	padding:0 0 18px 0;
+}
+
+
+#movie-container {
+	display:block;
+	background: url(../img/vid-panel.png) no-repeat top left;
+	width:703px;
+	height:458px;
+	z-index:10;
+	margin-left:150px;		
+}
+ 
+.vid-close {
+	display:block;
+	position:absolute;
+	width:24px;
+	height:24px;
+	left:920px;
+	top:-450px;
+	border:1px solid red;
 }
