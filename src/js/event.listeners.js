@@ -13,6 +13,11 @@ RIA.EventListeners = new Class({
 			this.navPanel.addEvent("click", this.pointerEvent.bind(this));
 		}
 		
+		document.id("close").addEvents({
+			"click":this.closeMovie.bind(this),
+			"touchstart":this.closeMovie.bind(this)
+		});
+		
 		// Add keyboard navigation event listener
 		this.addKeyboardEventListeners();
 		

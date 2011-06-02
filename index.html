@@ -31,6 +31,7 @@
 					{% if alpha %}{% if article.id in alpha %}{% include "includes/article.html" %}{% endif %}{% else %}{% include "includes/article.html" %}{% endif %}
 				{% endfor %}
 				<div id="movie" data-movie-uri="{{ common.movie_swf_uri }}">
+					<span id="close"></span>
 					<div id="movie-container"></div>
 					<div id="unsupported">
 						<p>
@@ -39,16 +40,7 @@
 						<p>
 							{{ common.movie_alt_text|safe }}
 						</p>
-					</div>
-					{% comment %}
-					<object width="700" height="500" id="movie-swf">
-						<param name="movie" value="{{ common.movie_swf_uri }}"/>
-						<param name="allowFullScreen" value="true"/>
-						<param name="allowscriptaccess" value="always"/>
-						<param name="wmode" value="transparent"/>
-						<embed src="{{ common.movie_swf_uri }}" type="application/x-shockwave-flash" width="700" height="500" allowscriptaccess="always" allowfullscreen="true"/>						
-					</object>
-					{% endcomment %}					
+					</div>					
 				</div>
 			</div>			
 			{% include "includes/navigation.html" %}
