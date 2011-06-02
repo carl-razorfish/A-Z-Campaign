@@ -33,11 +33,11 @@
 					{% if alpha %}{% if article.id in alpha %}{% include "includes/article.html" %}{% endif %}{% else %}{% include "includes/article.html" %}{% endif %}
 				{% endfor %}
 				<div id="movie" data-movie-uri="{{ common.movie_swf_uri }}">
-					<div id="movie-container"></div>
+					<div id="movie-container"> </div>
 					<div id="unsupported">{{ common.movie_unsupported }}</div>
 					{% comment %}
-					<object width="700" height="500" id="movie-swf">
-						<param name="movie" value="http://www.youtube.com/v/-hyZL4YLmXA?hl=en&amp;fs=1&amp;showinfo=0&amp;showsearch=0&amp;rel=0&amp;iv_load_policy=3&amp;autoplay=0&amp;loop=0&amp;hd=1&amp;enablejsapi=1&amp;playerapiid=ytplayer"/>
+					<object width="640" height="380" id="movie-swf">
+						<param name="movie-container" value="http://www.youtube.com/v/-hyZL4YLmXA?hl=en&amp;fs=1&amp;showinfo=0&amp;showsearch=0&amp;rel=0&amp;iv_load_policy=3&amp;autoplay=0&amp;loop=0&amp;hd=1&amp;enablejsapi=1&amp;playerapiid=ytplayer"/>
 						<param name="allowFullScreen" value="true"/>
 						<param name="allowscriptaccess" value="always"/>
 						<param name="wmode" value="transparent"/>
@@ -47,7 +47,7 @@
 					{% endcomment %}					
 				</div>
 			</div>			
-			{% include "includes/navigation.html" %}
+			{% include "includes/navigation.html" %} 
         {% include "includes/footer.html" %}   		
 		</div>
 		
