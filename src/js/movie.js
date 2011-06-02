@@ -54,7 +54,7 @@ RIA.Movie = new Class({
 				container:this.movieSWFContainer,
 				id:"movie-swf",
 				width:640,
-				height:360,
+				height:385, // 360 + 25px for the controls
 				params:{
 					movie:this.movieContainer.get("data-movie-uri")
 				}

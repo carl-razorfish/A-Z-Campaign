@@ -92,8 +92,7 @@ ul,dl,ol {
 #content {
 	position:relative;
 	width:850px;
-	/*min-height:768px;*/
-	padding:135px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
+	padding:135px 0 160px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
     margin-left:73px;
 }
 
