@@ -233,15 +233,16 @@ RIA.AZCampaign = new Class({
 		c = ic = ib = i = s = w = h = a = null;
 	},
 	loadImage: function(article) {
-		
-		//if(Browser.ie) alert("loadImage for "+article.get("id"));
 		try {
-            //alert (Browser.ie);
 			var ib = article.getElement(".image-bg");
 			ib.removeClass("loading");		
 		    if(!Browser.ie) {
-				if(Browser.Platform.ios) 
-				ib.addClass("-webkit-fade-out");
+				if(Browser.Platform.ios) {
+					ib.addClass("-webkit-fade-out");
+				} else {
+					ib.set("morph", {duration:200});
+					ib.morph({"opacity":0});										
+				}				
 			} else {
 				ib.set("morph", {duration:200});
 				ib.morph({"opacity":0});					
