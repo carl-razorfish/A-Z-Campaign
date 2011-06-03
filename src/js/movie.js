@@ -205,8 +205,10 @@ RIA.Movie = new Class({
 	},
 	addMovieEventListener: function() {
 		try {
-			this.youtubeLink.addEvent("click", this.launchEvent.bind(this));
-			this.youtubeLink.addEvent("touchstart", this.launchEvent.bind(this));
+			this.youtubeLink.addEvents({
+				"click":this.launchEvent.bind(this),
+				"touchstart":this.launchEvent.bind(this)
+			});
 		} catch(e) {
 			Log.error({method:"RIA.Movie : addMovieEventListener()", error:e});
 		}

@@ -60,12 +60,12 @@ RIA.AZCampaign = new Class({
 					this.removeScrollEventListener();
 				}.bind(this),
 				onComplete: function(e) {
-					this.getContentInViewport({trackScroll:false});
+					this.getContentInViewport();
 					this.addScrollEventListener();
 					this.removePinNavEventListener();
 				}.bind(this),
 				onCancel: function(e) {
-					this.getContentInViewport({trackScroll:false});
+					this.getContentInViewport();
 					this.addScrollEventListener();
 					this.removePinNavEventListener();
 				}.bind(this)
@@ -124,20 +124,14 @@ RIA.AZCampaign = new Class({
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
 			
-			/*
-			if(Browser.ie) {
-				alert("article top : "+articleCoords.top+", viewport.y.scrollTop : "+(this.viewport.y+this.scrollTop)+", article bottom : "+articleCoords.bottom+", vert offset : "+(this.scrollTop+this.scrollVerticalOffset))
+			if(article.get("id") == "d") {
+				Log.info("article "+article.get("id")+":"+articleCoords.top+", y:"+(this.viewport.y+this.scrollTop)+", x"+this.viewport.x);
 			}
-			*/
 				
 			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
 			if((articleCoords.top >= this.viewport.y+this.scrollTop) || (articleCoords.bottom <= (this.scrollTop+this.scrollVerticalOffset))) {
-			
-				
 				article.store("inviewport",false);
-				
-			} 
-			else {
+			} else {
 				/*
 				*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
 				*/
@@ -150,17 +144,7 @@ RIA.AZCampaign = new Class({
 						article.store("loaded",true);
 					}
 				
-					//Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
-					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
-					
-					/*
-					*	Only track a UI Scroll event if the user has manually scrolled, and not used the Fx.Scroll via the navigation
-					*/
-					/*
-					if(!eventObj || eventObj.trackScroll != false) {
-						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
-					}
-					*/						
+					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);					
 				}								
 			}				
 		},this);
@@ -176,8 +160,7 @@ RIA.AZCampaign = new Class({
 		*		Load an Article
 		*/
 		
-		//Log.info("loadArticle("+article.get("id")+")");
-		//if(Browser.ie) alert("loading article "+article.get("id"));
+		Log.info("loadArticle("+article.get("id")+")");
 
 		var c = article.getElement(".container"), 
 		i = null, 
@@ -231,7 +214,6 @@ RIA.AZCampaign = new Class({
 				ib.morph({"opacity":0});					
 			}
 		} catch(e) {
-			if(Browser.ie) alert("loadImage() error : "+e.message);
 			Log.error({method:"loadImage()", error:e});
 		}
 	},
@@ -296,23 +278,17 @@ RIA.AZCampaign = new Class({
 	},
 	getViewport: function() {
 		try {
-			if(window.devicePixelRatio != "undefined" && window.devicePixelRatio >= 2 ) {
-				
-
-					this.viewport = window.getSize();
-					this.scrollTop = window.getScroll().y;
-
-					this.viewport.x = this.viewport.x*2;
-					this.viewport.y = this.viewport.y*2;
-					Log.info("devicePixelRatio is 2 : viewport.x : "+this.viewport.x+", viewport.y : "+this.viewport.y);
-					
-
-			} else {
+			this.viewport = window.getSize();
+			this.scrollTop = window.getScroll().y;
+			if(Browser.Platform.ios && window.devicePixelRatio != "undefined" && window.devicePixelRatio >= 2 ) {
 				this.viewport = window.getSize();
 				this.scrollTop = window.getScroll().y;
+
+				this.viewport.x = window.innerWidth;
+				this.viewport.y = window.innerHeight
+				//Log.info("devicePixelRatio is 2 : viewport.x : "+this.viewport.x+", viewport.y : "+this.viewport.y);
 			}
 		} catch(e) {
-			if(Browser.ie) alert("getViewport() error : "+e.message);
 			Log.error({method:"getViewport()", error:e});
 		}
 	}
