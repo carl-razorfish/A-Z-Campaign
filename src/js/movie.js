@@ -48,7 +48,7 @@ RIA.Movie = new Class({
 	},
 	loadMovie: function() {
 		try {
-			Log.info("loadMovie()");
+			//Log.info("loadMovie()");
 			
 			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
 				container:this.movieSWFContainer,
@@ -143,7 +143,7 @@ RIA.Movie = new Class({
 	},
 	trackYTSWF: function(action) {
 		try {
-			Log.info("trackYTSWF("+action+")");
+			//Log.info("trackYTSWF("+action+")");
 			if(!action) return;
 			var source = this.movieContainer ? this.movieContainer.get("data-movie-uri") : "movie src unknown";
 			_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, source, null]);
@@ -157,15 +157,12 @@ RIA.Movie = new Class({
 		*	@description:
 		*		Hook from YT onYouTubePlayerReady(playerId) method
 		*/
-		Log.info("onYouTubePlayerReady");
+		//Log.info("onYouTubePlayerReady");
 		try {
-			if(document.addEventListener) {
-				this.movie.addEventListener("onStateChange", "onytplayerStateChange", false);
-				this.movie.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange", false);			
-			} else if(document.attachEvent) {
-				this.movie.attachEvent("onStateChange", "onytplayerStateChange");
-				this.movie.attachEvent("onPlaybackQualityChange", "onPlaybackQualityChange");
-			}
+		
+			this.movie.addEventListener("onStateChange", "onytplayerStateChange");
+			this.movie.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");			
+
 		} catch(e) {
 			Log.error({method:"RIA.Movie : onYouTubePlayerReady()", error:e});
 		}

@@ -33,7 +33,6 @@ RIA.AZCampaign = new Class({
 			document.getElement("body").addClass("js");
 	
 			this.articles = document.getElements("article");
-			this.navigation = document.getElements("#navigation a");
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
 			this.headerH1 = document.getElement("h1");

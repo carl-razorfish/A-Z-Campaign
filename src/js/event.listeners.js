@@ -8,7 +8,6 @@ RIA.EventListeners = new Class({
 		window.addEvent("resize", this.onWindowResize.bind(this));
 		
 		// Add mouse & touch navigation event listener, only if we are not on an Alphabet Fact page
-		//this.navigation.addEvent("click", this.pointerEvent.bind(this));
 		if(!this.options.alpha || this.options.alpha == "") {
 			this.navPanel.addEvent("click", this.pointerEvent.bind(this));
 		}
