@@ -282,7 +282,6 @@ RIA.AZCampaign = new Class({
 				this.viewport.x = window.innerWidth;
 				this.viewport.y = window.innerHeight
 			}
-			Log.info("viewport x:"+this.viewport.x+", y:"+this.viewport.y);
 		} catch(e) {
 			Log.error({method:"getViewport()", error:e});
 		}

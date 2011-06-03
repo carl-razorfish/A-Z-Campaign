@@ -48,8 +48,6 @@ RIA.Movie = new Class({
 	},
 	loadMovie: function() {
 		try {
-			//Log.info("loadMovie()");
-			
 			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
 				container:this.movieSWFContainer,
 				id:"movie-swf",
@@ -78,7 +76,7 @@ RIA.Movie = new Class({
 			if(this.movieSWF && this.movieSWF.pauseVideo) {
 				this.movieSWF.pauseVideo();
 			} else {
-				Log.info("Movie.pauseVideo is not supported");
+				//Log.info("Movie.pauseVideo is not supported");
 			}
 			this.movieContainer.setStyle("visibility","hidden");
 			if(Browser.Platform.ios) {
@@ -137,7 +135,6 @@ RIA.Movie = new Class({
 		try {
 			if(show) {
 				var leftPos = (this.viewport.x - this.shellWidth) < 0 ? 0 : (this.viewport.x - this.shellWidth)/2;
-				Log.info("movieContainer left:"+leftPos);
 				this.movieContainer.setStyle("left",leftPos+"px");
 				this.movieContainer.setStyle("visibility","visible");
 			} else {
@@ -150,7 +147,6 @@ RIA.Movie = new Class({
 	},
 	trackYTSWF: function(action) {
 		try {
-			//Log.info("trackYTSWF("+action+")");
 			if(!action) return;
 			var source = this.movieContainer ? this.movieContainer.get("data-movie-uri") : "movie src unknown";
 			_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, source, null]);
@@ -165,7 +161,6 @@ RIA.Movie = new Class({
 		*		Hook from YT onYouTubePlayerReady(playerId) method.
 		*		Uses YouTube's API proprietary addEventListener method (http://code.google.com/apis/youtube/js_api_reference.html#Adding_event_listener)
 		*/
-		//Log.info("onYouTubePlayerReady");
 		try {
 			this.movieSWF.addEventListener("onStateChange", "onytplayerStateChange");
 			this.movieSWF.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");			
