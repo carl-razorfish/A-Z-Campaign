@@ -37,7 +37,7 @@
 	text-align:left;
 	position:absolute;
 	top:50px;
-	left:149px;
+	left:200px;
 	border-radius:20px;
 	-webkit-border-radius: 20px;
 	-ms-border-radius: 20px;
@@ -68,14 +68,4 @@
 	width:25px;
 	height:25px;
 	z-index:10;
-}
- 
-.vid-close {
-	display:block;
-	position:absolute;
-	width:24px;
-	height:24px;
-	left:920px;
-	top:-450px;
-	border:1px solid red;
 }

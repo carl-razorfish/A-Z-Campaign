@@ -31,7 +31,7 @@ RIA.AZCampaign = new Class({
 			this.setOptions(options);
 
 			document.getElement("body").addClass("js");
-	
+		
 			this.articles = document.getElements("article");
 			this.navPanel = document.id("navigation");
 			this.shellWidth = document.id("shell").getWidth();
@@ -41,15 +41,14 @@ RIA.AZCampaign = new Class({
 			this.movieSWFContainer = document.id("movie-container");
 			this.navOffsetTop = this.navPanel.offsetTop;
 			this.navAlphabetHeight = document.id("alphabet").getSize().y;
-	
+		
 			// [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
 			this.scrollVerticalOffset = -50;//this.navPanel.getSize().y;
-	
+		
 			this.headerH1Offset = this.headerH1.getSize().y;
-			
-			
+		
 			this.getContentInViewport();
-			
+		
 			this.scrollFx = new Fx.Scroll(window, {
 				offset: {y: this.scrollVerticalOffset}, // the -y negative offset here means that the Article content won't scroll behind the navigation which is fixed to the top of the viewport
 				duration:(Browser.Platform.ios ? this.options.fxDuration.ios : this.options.fxDuration.desktop),
@@ -70,8 +69,9 @@ RIA.AZCampaign = new Class({
 					this.removePinNavEventListener();
 				}.bind(this)
 			});
-			
+		
 			this.addEventListeners();
+
 			
 		} catch(e) {
 			if(Browser.ie) alert("initialize() error : "+e.message);
@@ -93,17 +93,22 @@ RIA.AZCampaign = new Class({
 			this.getViewport();
 		}
 		
+		// [ST] TODO: we have a hard-coded pixel adjustment value here
 		if(this.viewport.x > this.shellWidth) {
 			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
+			
+			
 		}
 		
 		if(this.scrollTop <= this.headerH1Offset) {
 			//if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
 			this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
+			//[ST]TODO: hide nav cutoff
             this.navPanel.removeClass("scroll");
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
 			//if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
+			//[ST]TODO: show nav cutoff
 			this.navPanel.setStyle("top","0px");
 			this.navPanel.addClass("scroll");
 		}
@@ -160,6 +165,7 @@ RIA.AZCampaign = new Class({
 		*		Load an Article
 		*/
 		
+
 		Log.info("loadArticle("+article.get("id")+")");
 
 		var c = article.getElement(".container"), 
@@ -273,7 +279,6 @@ RIA.AZCampaign = new Class({
 		*/
 
 		if(!Browser.Platform.ios) return;
-		//this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.scrollTop)+"px)";
 		this.navPanel.style.webkitTransform = "translateY("+this.scrollTop+"px)";
 	},
 	getViewport: function() {

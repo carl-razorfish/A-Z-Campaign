@@ -1,5 +1,5 @@
 footer {	
-    width:850px;
+    width:870px;
 	margin:0 auto;
 	position:relative;
 }
@@ -32,10 +32,10 @@ footer li {
 
 
 footer h3 {
-	width:850px;
-	height:407px;
+	width:870px;
+	height:427px;
 	position:absolute;
-	top:-210px;
+	top:-230px;
 	left:-5px;
 	background:url(../img/a-z-sprite.png) no-repeat -194px -214px;
 	text-indent:-10000em;

@@ -16,7 +16,7 @@
 #navigation {top:250px; position:absolute;}
 
 
-footer h3 { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/footer.png', sizingMethod='scale'); background:none; margin-left:35px; margin-top:-300px; }  
+footer h3 { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/footer.png', sizingMethod='scale'); background:none; margin-left:34px; margin-top:-300px; }  
 h1 a { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/header.png', sizingMethod='scale'); background:none; margin-left:40px; width:850px; }
 #navigation { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/nav.png', sizingMethod='scale'); background:none; margin-top:-140px; margin-left:-75px;}
 h2#youtube-link { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/vid-button.png', sizingMethod='scale'); background:none; }
@@ -156,14 +156,14 @@ article div.container .content {
 }
 
 #v .container .content {
-	padding:20px 29px 0px 22px;
+	padding:25px 29px 0px 22px;
 }
 #v .container .content-image {
 	margin-left:-2px;
 }
 
 #x .container .content {
-	padding:20px 29px 0px 22px;
+	padding:25px 29px 0px 22px;
 }
 #x .container .content-image {
 	margin-left:-2px;
