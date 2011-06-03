@@ -31,7 +31,7 @@ article a {
 article div.container {
 	width:850px;
 	position:relative;
-	padding:20px 0 0 0;
+	padding:20px 0 0 0;	
 }
 
 article div.container .content {
@@ -40,9 +40,6 @@ article div.container .content {
 	width:375px;
 	height:100%;
 	padding:0 25px;
-	/*
-	height:1000px;
-	*/
 }
 
 .layout-img-left div.container .content {	
@@ -80,18 +77,9 @@ article div.container .content {
 	float:right;
 }
 
-article nav {
-	margin:5px 0 0 0;
-	clear:right;
-}
-
 /*
 *	Social
 */
-.social {
-	/*overflow:hidden; */ /* [ST] May affect the FB Like Button comments flyout */
-}
-
 .social span.facebook-like,
 .social span.tweet-button {
 	display:block;

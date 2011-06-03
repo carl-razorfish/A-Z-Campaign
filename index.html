@@ -23,30 +23,30 @@
     </head>
     <body>	
 		<div id="shell">
-        	<div class="border-left"></div>
-            <div class="border-right"></div>	
+			<div class="border-left"></div>
+			<div class="border-right"></div>	
 			<div id="content">				
 				{% include "includes/header.html" %}	
 				{% for article in content %}
 					{% if alpha %}{% if article.id in alpha %}{% include "includes/article.html" %}{% endif %}{% else %}{% include "includes/article.html" %}{% endif %}
 				{% endfor %}
 				<div id="movie" data-movie-uri="{{ common.movie_swf_uri }}">
-						<div id="movie-container"></div>
-						<a href="#" title="close video" class="vid-close" onclick="closeVideo();"></a>
-						<div id="unsupported">{{ common.movie_unsupported }}</div>	
-						{% comment %}
-						<object width="640" height="380" id="movie-swf">
-							<param name="movie" value="{{ common.movie_swf_uri }}"/>
-							<param name="allowFullScreen" value="true"/>
-							<param name="allowscriptaccess" value="always"/>
-							<param name="wmode" value="transparent"/>
-							<embed src="{{ common.movie_swf_uri }}" type="application/x-shockwave-flash" width="640" height="380" allowscriptaccess="always" allowfullscreen="true"/>						
-						</object>
-					{% endcomment %}					
+					<span id="close"></span>
+					<div id="movie-container"></div>
+					<div id="unsupported">
+						<p>
+							{{ common.movie_unsupported|safe }}
+						</p>
+						<p>
+							{{ common.movie_alt_text|safe }}
+						</p>
+					</div>					
 				</div>
+				
 			</div>			
 			{% include "includes/navigation.html" %}
-        	{% include "includes/footer.html" %}   		
+        	{% include "includes/footer.html" %}   	
+			
 		</div>		
 		<div id="fb-root">	
 		</div>

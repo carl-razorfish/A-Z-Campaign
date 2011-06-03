@@ -28,7 +28,7 @@ h2#youtube-link { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src=
 
 
 article p.first {
-	padding:0px 0 0px 0;
+	padding:0px;
 }
 
 article div.container {
@@ -38,25 +38,28 @@ article div.container {
 	margin-bottom:-25px;
 }  
 
-
 article div.container .content {
 	background:#f6f6f6;
-	display:inline-block;
+	display:block;
 	width:375px;
 	height:100%;
-	padding:20px 25px 0px 20px;
+	padding:0 25px;
+}
 
+
+
+article div.container .content {
+	display:inline-block;
+	padding:20px 25px 0px 20px;
 	height:100%;
 }
 
 
 /* clear fixes */
 .container{clear: both;}
-
 .cf:after {content:"."; display:block; height:0; clear:both; visibility:hidden;}
 .cf {height:1%;}
 .clear {clear:both;}
-
 
 #a .container {	margin-bottom:-10px;}
 #e .container {	margin-bottom:-30px;}
@@ -184,7 +187,6 @@ footer nav {
 	width:890px;
 	margin:-403px auto 0 auto;
 	padding:0px 0 20px 35px;
-	/*overflow:hidden;*/
     position:relative;
     z-index:10;
 }
@@ -210,8 +212,3 @@ footer h3 {
 	text-indent:-10000em;
     z-index:-1;
 }
-
-
-
-
-

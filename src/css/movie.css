@@ -8,6 +8,7 @@
 	position:absolute;
 	left:0;
 	top:0;
+	z-index:5;
 }
 
 #movie {
@@ -15,6 +16,7 @@
 	visibility:hidden;
 	position:absolute;
 	width:850px;
+	height:100px;
 	top:50px;
 	left:10000em;
 	z-index:10;
@@ -26,15 +28,13 @@
 }
 
 #movie-swf {
-	z-index:20;
-	position:absolute;
-    margin-top:45px;
-    margin-left:-320px;
+	margin-top:35px;
 }
 #unsupported {
 	width:550px;
 	background:#f6f6f6;
-	padding:30px;
+	padding:30px 30px 12px 30px;
+	text-align:left;
 	position:absolute;
 	top:50px;
 	left:200px;
@@ -43,7 +43,10 @@
 	-ms-border-radius: 20px;
 	-o-border-radius: 20px;
 	-moz-border-radius: 20px;
-	z-index:2;
+}
+
+#unsupported p {
+	padding:0 0 18px 0;
 }
 
 
@@ -55,18 +58,15 @@
 	z-index:10;
 	margin-left:150px;		
 }
- 
-.vid-close {
-	display:block;
+
+#close {
 	position:absolute;
-	width:24px;
-	height:24px;
-	left:820px;
+	right:5px;
 	top:6px;
+	display:block;
+	cursor:pointer;
+	width:25px;
+	height:25px;
+	z-index:10;
 }
-
-
-
-
-
 

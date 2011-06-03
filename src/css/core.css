@@ -1,4 +1,5 @@
-* {padding:0; margin:0; border:none;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}ol,ul,dl{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;}
+
 body {
 	font-family:lucida, arial, verdana, helvetica;
 	position:relative;
@@ -8,9 +9,7 @@ body {
 	background:#275308 url(../img/McD_A-Z_Grass_bg_tile3.jpg) repeat-y top center;
 	background-attachment:fixed;
 }
-img {
-	border:0;
-}
+
 a {
 	outline:none;
 	text-decoration:none;
@@ -33,6 +32,9 @@ video {
 	display:block;
 }
 
+header p {
+	height:0;
+}
 
 /* header and nav styles */
 h1 {
@@ -53,7 +55,7 @@ h1 a {
 	z-index:20;
 }
 
-h2#youtube-link {
+h2#youtube-link a {
     background:url(../img/a-z-sprite.png) no-repeat -190px -665px; 
     position:absolute;
     top:20px;
@@ -74,15 +76,11 @@ h3 {
 }
 
 #shell {
-	
+	margin:0;
 	position:relative;
 	width:1002px;
 	margin:0 auto;
 	text-align:left;
-	/*
-	overflow:hidden;
-	*/
-
 }
 
 ul,dl,ol {
@@ -92,8 +90,10 @@ ul,dl,ol {
 #content {
 	position:relative;
 	width:850px;
-	/*min-height:768px;*/
-	padding:150px 0 118px 0; /* top padding is nav offset. bottom padding is twmm footer background offset */
+	/* top padding is nav offset. bottom padding is twmm footer background offset */
+	
+	padding:135px 0 160px 0;
+	
     margin-left:73px;
 }
 
