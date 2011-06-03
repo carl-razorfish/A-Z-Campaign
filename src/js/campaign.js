@@ -129,10 +129,6 @@ RIA.AZCampaign = new Class({
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
 			
-			if(article.get("id") == "d") {
-				Log.info("article "+article.get("id")+":"+articleCoords.top+", y:"+(this.viewport.y+this.scrollTop)+", x"+this.viewport.x);
-			}
-				
 			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
 			if((articleCoords.top >= this.viewport.y+this.scrollTop) || (articleCoords.bottom <= (this.scrollTop+this.scrollVerticalOffset))) {
 				article.store("inviewport",false);
@@ -164,9 +160,6 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load an Article
 		*/
-		
-
-		Log.info("loadArticle("+article.get("id")+")");
 
 		var c = article.getElement(".container"), 
 		i = null, 
@@ -289,6 +282,7 @@ RIA.AZCampaign = new Class({
 				this.viewport.x = window.innerWidth;
 				this.viewport.y = window.innerHeight
 			}
+			Log.info("viewport x:"+this.viewport.x+", y:"+this.viewport.y);
 		} catch(e) {
 			Log.error({method:"getViewport()", error:e});
 		}

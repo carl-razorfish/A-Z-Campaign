@@ -43,18 +43,20 @@ h1 {
 	left:-42px;
 	width:891px;
 	height:112px;	
+	background:url(../img/a-z-sprite.png) no-repeat -150px -1px;
 }
 
 h1 a {
 	display:block;
-	width:891px;
+	position:absolute;
+	left:250px;
+	top:0px;
+	width:400px;
 	height:112px;
-	background:url(../img/a-z-sprite.png) no-repeat -150px -1px;
-	text-indent:-10000em;
 	cursor:pointer;
 	z-index:20;
+	text-indent:-10000em;
 }
-
 h2#youtube-link a {
     background:url(../img/a-z-sprite.png) no-repeat -190px -665px; 
     position:absolute;
