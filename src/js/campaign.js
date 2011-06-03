@@ -285,13 +285,9 @@ RIA.AZCampaign = new Class({
 		try {
 			this.viewport = window.getSize();
 			this.scrollTop = window.getScroll().y;
-			if(Browser.Platform.ios && window.devicePixelRatio != "undefined" && window.devicePixelRatio >= 2 ) {
-				this.viewport = window.getSize();
-				this.scrollTop = window.getScroll().y;
-
+			if(Browser.Platform.ios) { //&& window.devicePixelRatio != "undefined" && window.devicePixelRatio >= 2 ) {
 				this.viewport.x = window.innerWidth;
 				this.viewport.y = window.innerHeight
-				//Log.info("devicePixelRatio is 2 : viewport.x : "+this.viewport.x+", viewport.y : "+this.viewport.y);
 			}
 		} catch(e) {
 			Log.error({method:"getViewport()", error:e});
