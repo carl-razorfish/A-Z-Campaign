@@ -40,8 +40,7 @@ h1 {
 	top:0px;
 	left:-42px;
 	width:891px;
-	height:112px;
-	
+	height:112px;	
 }
 
 h1 a {
@@ -51,6 +50,7 @@ h1 a {
 	background:url(../img/a-z-sprite.png) no-repeat -150px -1px;
 	text-indent:-10000em;
 	cursor:pointer;
+	z-index:20;
 }
 
 h2#youtube-link {
@@ -135,7 +135,7 @@ ul,dl,ol {
 #a .content {height:366px}
 
 #b,
-#b .content {height:345px}
+#b .content {height:365px}
 
 #c,
 #c .content {height:385px}
@@ -144,7 +144,7 @@ ul,dl,ol {
 #d .content {height:322px}
 
 #e,
-#e .content {height:479px}
+#e .content {height:520px}
 
 #f,
 #f .content {height:465px}
@@ -156,10 +156,10 @@ ul,dl,ol {
 #h .content {height:327px}
 
 #i,
-#i .content {height:393px}
+#i .content {height:490px}
 
 #j,
-#j .content {height:499px}
+#j .content {height:459px}
 
 #k,
 #k .content {height:448px}
@@ -174,13 +174,13 @@ ul,dl,ol {
 #n .content {height:341px}
 
 #o,
-#o .content {height:363px}
+#o .content {height:383px}
 
 #p,
 #p .content {height:378px}
 
 #q,
-#q .content {height:485px}
+#q .content {height:520px}
 
 #r,
 #r .content {height:566px}
@@ -195,19 +195,19 @@ ul,dl,ol {
 #u .content {height:334px}
 
 #v,
-#v .content {height:387px}
+#v .content {height:420px}
 
 #w,
 #w .content {height:319px}
 
 #x,
-#x .content {height:394px}
+#x .content {height:380px}
 
 #y,
 #y .content {height:460px}
 
 #z,
-#z .content {height:474px}
+#z .content {height:530px}
 
 
 /* styles for the left and right borders */

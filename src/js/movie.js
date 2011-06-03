@@ -235,3 +235,12 @@ RIA.Movie = new Class({
 		}
 	}
 });
+
+
+function closeVideo(){
+	$('mask').setStyle('visibility','hidden');
+	$('movie').setStyle('visibility','hidden');
+}
+
+
+

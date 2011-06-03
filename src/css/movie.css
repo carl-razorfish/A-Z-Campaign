@@ -28,8 +28,8 @@
 #movie-swf {
 	z-index:20;
 	position:absolute;
-    margin-top:40px;
-    margin-left:30px;
+    margin-top:45px;
+    margin-left:-320px;
 }
 #unsupported {
 	width:550px;
@@ -37,7 +37,7 @@
 	padding:30px;
 	position:absolute;
 	top:50px;
-	left:149px;
+	left:200px;
 	border-radius:20px;
 	-webkit-border-radius: 20px;
 	-ms-border-radius: 20px;
@@ -61,9 +61,8 @@
 	position:absolute;
 	width:24px;
 	height:24px;
-	left:920px;
-	top:-450px;
-	border:1px solid red;
+	left:820px;
+	top:6px;
 }
 
 

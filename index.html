@@ -32,6 +32,7 @@
 				{% endfor %}
 				<div id="movie" data-movie-uri="{{ common.movie_swf_uri }}">
 						<div id="movie-container"></div>
+						<a href="#" title="close video" class="vid-close" onclick="closeVideo();"></a>
 						<div id="unsupported">{{ common.movie_unsupported }}</div>	
 						{% comment %}
 						<object width="640" height="380" id="movie-swf">
