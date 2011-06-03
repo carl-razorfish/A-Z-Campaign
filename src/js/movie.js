@@ -56,7 +56,8 @@ RIA.Movie = new Class({
 				width:640,
 				height:385, // 360 + 25px for the controls
 				params:{
-					movie:this.movieContainer.get("data-movie-uri")
+					"movie":this.movieContainer.get("data-movie-uri"),
+					"allowfullscreen":"true"
 				}
 			});
 		
@@ -155,11 +156,11 @@ RIA.Movie = new Class({
 	onYouTubePlayerReady: function(playerId) {
 		/*
 		*	@description:
-		*		Hook from YT onYouTubePlayerReady(playerId) method
+		*		Hook from YT onYouTubePlayerReady(playerId) method.
+		*		Uses YouTube's API proprietary addEventListener method (http://code.google.com/apis/youtube/js_api_reference.html#Adding_event_listener)
 		*/
 		//Log.info("onYouTubePlayerReady");
 		try {
-		
 			this.movie.addEventListener("onStateChange", "onytplayerStateChange");
 			this.movie.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");			
 
