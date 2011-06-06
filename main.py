@@ -17,10 +17,12 @@ from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
 from properties.setproperties import AToZProperties
 from properties.setproperties import CommonProperties
+from properties.setproperties import ConfigProperties
 from random import choice
 
 common = CommonProperties()
 content = AToZProperties()
+config = ConfigProperties()
 
 regexpURLAtoZ = r"/([a-z]{1})"
 regexpURLError = r"/(.*)"
@@ -50,9 +52,9 @@ class HomeHandler(webapp.RequestHandler):
   def get(self):
 	contentMC = content.load()
 	commonMC = common.load()
-	cdn = ""#getCDN(self)
+	configMC = config.load()
 	path = os.path.join(os.path.dirname(__file__),'index.py.html')
-	args = dict(content=contentMC,common=commonMC,cdn=cdn)
+	args = dict(content=contentMC,common=commonMC,config=configMC)
 	self.response.out.write(template.render(path,args))
   def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.py.html')
@@ -63,15 +65,15 @@ class ViewHandler(webapp.RequestHandler):
   def get(self, urlPath):
 	contentMC = content.load()
 	commonMC = common.load()
+	configMC = config.load()
 	alpha = ""
 	if urlPath is not None:
 		if len(urlPath) < 2:
 			alpha = urlPath
 		else:
 			category = urlPath
-	cdn = ""#getCDN(self)
 	path = os.path.join(os.path.dirname(__file__),'index.py.html')
-	args = dict(alpha=alpha,content=contentMC,common=commonMC,cdn=cdn)
+	args = dict(alpha=alpha,content=contentMC,common=commonMC,config=configMC)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.py.html')

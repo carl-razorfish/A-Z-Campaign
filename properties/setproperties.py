@@ -47,3 +47,23 @@ class CommonProperties(object):
 					content[j[0]] = j[1]				
 			memcache.add("commonproperties", content)
 			return content
+
+class ConfigProperties(object):
+	def load(self):
+		config = memcache.get("configproperties")
+		if config is not None:
+			#logging.info("Got commonproperties from memcache")
+			return config
+		else:
+			#logging.info("NOT Got commonproperties from memcache")
+			configCopyProperties = "properties/config.properties"
+			configCfg = ConfigParser()
+			configCfg.read(configCopyProperties)
+			config = {}
+			sections = sorted(configCfg.sections())
+			for i in sections:
+				config["section"] = i;
+				for j in configCfg.items(i):
+					config[j[0]] = j[1]				
+			memcache.add("configproperties", config)
+			return config
