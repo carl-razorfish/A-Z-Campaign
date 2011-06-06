@@ -108,7 +108,8 @@ RIA.Movie = new Class({
 				}).inject(document.body);
 				
 				this.mask.set("morph",{
-					duration:400,
+					fps:100,
+					duration:200,
 					onComplete: function(mask) {
 						if(mask.getStyle("opacity") > 0) {
 							this.doMovieContainer(true);
@@ -121,10 +122,10 @@ RIA.Movie = new Class({
 			}	
 			
 			if(Browser.Platform.ios) {
-				this.mask.setStyles({opacity:"0.7"});
+				this.mask.setStyles({opacity:"0.7","width":this.viewport.x+"px"});
 				this.doMovieContainer(true);
 			} else {
-				this.mask.morph({opacity:"0.7"});
+				this.mask.morph({opacity:"0.7","width":this.viewport.x+"px"});
 			}
 			
 		} catch(e) {

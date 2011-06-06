@@ -115,7 +115,10 @@ RIA.EventListeners = new Class({
 		/*
 		*	@description:
 		*		Callback from the window onResize event listener
-		*/		
+		*/	
 		this.getContentInViewport();
+		if(this.mask) {
+			this.mask.setStyles({"width":this.viewport.x+"px"});
+		}
 	}
 });
