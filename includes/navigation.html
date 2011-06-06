@@ -1,7 +1,7 @@
 <div id="navigation">
 	<nav>		
 		<ul id="alphabet">
-			{% for article in content %}<li class="{{ article.id }}"><a title="Click here, or press {{ article.menu }} on your keyboard" alt="Click here, or press {{ article.menu }} on your keyboard" data-category="{{ article.id }}" href="../{{ article.id }}">&nbsp;&nbsp;</a></li>{% endfor %}
+			{% for article in content %}<li class="{{ article.id }}"><a title="{{ common.navigation_alt_text_start|safe }} {{ article.menu }} {{ common.navigation_alt_text_end|safe }}" alt="{{ common.navigation_alt_text_start|safe }} {{ article.menu }} {{ common.navigation_alt_text_end|safe }}" data-category="{{ article.id }}" href="../{{ article.id }}">&nbsp;&nbsp;</a></li>{% endfor %}
 		</ul>
 	</nav>	
 </div>
