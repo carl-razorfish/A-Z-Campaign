@@ -49,7 +49,7 @@ RIA.Movie = new Class({
 	loadMovie: function() {
 		try {
 			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
-				container:this.movieSWFContainer,
+				container:null,
 				id:"movie-swf",
 				width:640,
 				height:385, // 360 + 25px for the controls
@@ -57,7 +57,7 @@ RIA.Movie = new Class({
 					"movie":this.movieContainer.get("data-movie-uri"),
 					"allowfullscreen":"true"
 				}
-			});
+			}).inject(this.movieSWFContainer);
 		
 			this.movieSWF = document.id("movie-swf");
 			
@@ -73,10 +73,15 @@ RIA.Movie = new Class({
 		*/
 		try {
 			this.addKeyboardEventListeners();
-			if(this.movieSWF && this.movieSWF.pauseVideo) {
+			var playerState = this.movieSWF.getPlayerState()||-2;
+			/*
+			*	If the video is currently in play or buffering, pause it
+			*/
+			if(this.movieSWF && this.movieSWF.pauseVideo && (playerState == 1 || playerState == 3)) {
+				Log.info("Movie is now paused");
 				this.movieSWF.pauseVideo();
 			} else {
-				//Log.info("Movie.pauseVideo is not supported");
+				Log.info("Movie.pauseVideo is not supported, or player state was "+this.options.youtube.states[playerState]);
 			}
 			this.movieContainer.setStyle("visibility","hidden");
 			if(Browser.Platform.ios) {
@@ -85,6 +90,7 @@ RIA.Movie = new Class({
 			} else {
 				this.mask.morph({opacity:"0"});	
 			}
+			playerState = null;
 		} catch(e) {
 			Log.error({method:"RIA.Movie : closeMovie()", error:e});
 		}
@@ -162,13 +168,14 @@ RIA.Movie = new Class({
 		*		Hook from YT onYouTubePlayerReady(playerId) method.
 		*		Uses YouTube's API proprietary addEventListener method (http://code.google.com/apis/youtube/js_api_reference.html#Adding_event_listener)
 		*/
-		try {
-			this.movieSWF.addEventListener("onStateChange", "onytplayerStateChange");
-			this.movieSWF.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");			
-
-		} catch(e) {
-			Log.error({method:"RIA.Movie : onYouTubePlayerReady()", error:e});
-		}
+		
+		/*
+		*	Only add the event listener to launch the overlay if the YouTube Player is ready
+		*	This way, the link will act as a link to YouTube if Flash or HTML5 executions do not work on the device
+		*/
+		this.addMovieEventListener();
+		this.movieSWF.addEventListener("onStateChange", "onytplayerStateChange");
+		this.movieSWF.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");			
 	},
 	onytplayerStateChange: function(newState) {
 		/*

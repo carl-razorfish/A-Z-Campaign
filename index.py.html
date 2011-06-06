@@ -24,22 +24,24 @@
 				{% for article in content %}
 					{% if alpha %}{% if article.id in alpha %}{% include "includes/article.html" %}{% endif %}{% else %}{% include "includes/article.html" %}{% endif %}
 				{% endfor %}
-				<div id="movie" data-movie-uri="{{ common.movie_swf_uri }}">
-					<span id="close"></span>
-					<div id="movie-container"></div>
-					<div id="unsupported">
-						<p>
-							{{ common.movie_unsupported|safe }}
-						</p>
-						<p>
-							{{ common.movie_alt_text|safe }}
-						</p>
-					</div>					
-				</div>				
+								
 			</div>			
 			{% include "includes/navigation.html" %}
         	{% include "includes/footer.html" %}   	
-		</div>		
+		</div>	
+		<div id="movie" data-movie-uri="{{ common.movie_swf_uri }}">
+			<span id="close"></span>
+			<div id="movie-container">
+				<div id="unsupported">
+					<p>
+						{{ common.movie_unsupported|safe }}
+					</p>
+					<p>
+						{{ common.movie_alt_text|safe }}
+					</p>
+				</div>
+			</div>										
+		</div>	
 		<div id="fb-root">	
 		</div>
 		<script type="text/javascript" src="../js/scripts.js"></script>

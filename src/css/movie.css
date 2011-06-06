@@ -8,7 +8,6 @@
 	position:absolute;
 	left:0;
 	top:0;
-	z-index:20;
 }
 
 #movie {
@@ -18,8 +17,8 @@
 	width:850px;
 	height:100px;
 	top:50px;
-	left:10000em;
-	z-index:25;
+	left:10000em;	
+	z-index:25;	
 	text-align:center;
 }
 
@@ -28,12 +27,13 @@
 }
 
 #movie-swf {
-	margin-top:35px;
+	position:absolute;
+	top:35px;
+	right:30px;
 }
 #unsupported {
+	visibility:hidden; /* [ST] if the youtube player does not initialize, then no event listeners will be added for the overlay - so hide this */
 	width:550px;
-	background:#f6f6f6;
-	padding:30px 30px 12px 30px;
 	text-align:left;
 	position:absolute;
 	top:50px;
@@ -55,7 +55,7 @@
 	background: url(../img/vid-panel.png) no-repeat top left;
 	width:703px;
 	height:458px;
-	z-index:10;
+	z-index:2;
 	margin-left:150px;		
 }
 
@@ -67,5 +67,4 @@
 	cursor:pointer;
 	width:25px;
 	height:25px;
-	z-index:10;
 }

@@ -29,10 +29,10 @@ RIA.EventListeners = new Class({
 		this.loadEventBind = this.loadEvent.bind(this)
 		window.addEvent("load", this.loadEventBind);
 
-		this.addMovieEventListener();
+		
 	},
 	loadEvent: function() {
-		this.loadMovie();
+		//this.loadMovie();
 		window.removeEvent("load", this.loadEventBind);
 	},
 	addKeyboardEventListeners: function() {
@@ -119,6 +119,10 @@ RIA.EventListeners = new Class({
 		this.getContentInViewport();
 		if(this.mask) {
 			this.mask.setStyles({"width":this.viewport.x+"px"});
+		}
+		if(this.movieContainer) {
+			var leftPos = (this.viewport.x - this.shellWidth) < 0 ? 0 : (this.viewport.x - this.shellWidth)/2;
+			this.movieContainer.setStyle("left",leftPos+"px");
 		}
 	}
 });
