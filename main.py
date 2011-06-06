@@ -51,11 +51,11 @@ class HomeHandler(webapp.RequestHandler):
 	contentMC = content.load()
 	commonMC = common.load()
 	cdn = ""#getCDN(self)
-	path = os.path.join(os.path.dirname(__file__),'index.html')
+	path = os.path.join(os.path.dirname(__file__),'index.py.html')
 	args = dict(content=contentMC,common=commonMC,cdn=cdn)
 	self.response.out.write(template.render(path,args))
   def post(self):
-    path = os.path.join(os.path.dirname(__file__),'index.html')
+    path = os.path.join(os.path.dirname(__file__),'index.py.html')
     self.response.out.write(template.render(path,{}))
 
 		
@@ -70,11 +70,11 @@ class ViewHandler(webapp.RequestHandler):
 		else:
 			category = urlPath
 	cdn = ""#getCDN(self)
-	path = os.path.join(os.path.dirname(__file__),'index.html')
+	path = os.path.join(os.path.dirname(__file__),'index.py.html')
 	args = dict(alpha=alpha,content=contentMC,common=commonMC,cdn=cdn)
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
-    path = os.path.join(os.path.dirname(__file__),'index.html')
+    path = os.path.join(os.path.dirname(__file__),'index.py.html')
     args = dict(urlPath=urlPath)
     self.response.out.write(template.render(path,args))
 
