@@ -144,8 +144,14 @@ RIA.AZCampaign = new Class({
 						this.loadArticle(article);
 						article.store("loaded",true);
 					}
-				
-					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);					
+					/*
+					*	MCDCOUK-1787[ST]: Do not track an additional page view when we are on a fact page, as it is duplication
+					*/
+					if(!this.options.alpha || this.options.alpha == "") {
+						Log.info("_trackPageview("+article.get("id")+"/scrolled)")
+						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
+					}
+					
 				}								
 			}				
 		},this);
