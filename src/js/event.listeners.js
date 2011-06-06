@@ -9,7 +9,10 @@ RIA.EventListeners = new Class({
 		
 		// Add mouse & touch navigation event listener, only if we are not on an Alphabet Fact page
 		if(!this.options.alpha || this.options.alpha == "") {
-			this.navPanel.addEvent("click", this.pointerEvent.bind(this));
+			this.navPanel.getElements("a").addEvents({
+				"click":this.pointerEvent.bind(this),
+				"touchstart":this.pointerEvent.bind(this)
+			});
 		}
 		
 		document.id("close").addEvents({
@@ -87,7 +90,10 @@ RIA.EventListeners = new Class({
 		*/
 		e.preventDefault();
 		var t = e.targetTouches ? e.targetTouches[0].target : e.target, c = null;
-		c = t.getAttribute("data-category");
+		if(t.nodeName == "#text") {
+			t = t.parentNode;
+		}
+		c = t.get("data-category");
 		if(c) {
 			this.filter(c, e.type);
 		}
@@ -111,6 +117,5 @@ RIA.EventListeners = new Class({
 		*		Callback from the window onResize event listener
 		*/		
 		this.getContentInViewport();
-		this.pinMovie();
 	}
 });

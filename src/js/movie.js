@@ -48,8 +48,6 @@ RIA.Movie = new Class({
 	},
 	loadMovie: function() {
 		try {
-			//Log.info("loadMovie()");
-			
 			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
 				container:this.movieSWFContainer,
 				id:"movie-swf",
@@ -61,7 +59,7 @@ RIA.Movie = new Class({
 				}
 			});
 		
-			this.movie = document.id("movie-swf");
+			this.movieSWF = document.id("movie-swf");
 			
 			
 		} catch(e) {
@@ -75,7 +73,11 @@ RIA.Movie = new Class({
 		*/
 		try {
 			this.addKeyboardEventListeners();
-			if(this.movie && this.movie.pauseVideo) this.movie.pauseVideo();
+			if(this.movieSWF && this.movieSWF.pauseVideo) {
+				this.movieSWF.pauseVideo();
+			} else {
+				//Log.info("Movie.pauseVideo is not supported");
+			}
 			this.movieContainer.setStyle("visibility","hidden");
 			if(Browser.Platform.ios) {
 				this.mask.setStyles({opacity:"0"});
@@ -132,7 +134,8 @@ RIA.Movie = new Class({
 	doMovieContainer: function(show) {
 		try {
 			if(show) {
-				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
+				var leftPos = (this.viewport.x - this.shellWidth) < 0 ? 0 : (this.viewport.x - this.shellWidth)/2;
+				this.movieContainer.setStyle("left",leftPos+"px");
 				this.movieContainer.setStyle("visibility","visible");
 			} else {
 				this.movieContainer.setStyle("left","-10000em");
@@ -144,7 +147,6 @@ RIA.Movie = new Class({
 	},
 	trackYTSWF: function(action) {
 		try {
-			//Log.info("trackYTSWF("+action+")");
 			if(!action) return;
 			var source = this.movieContainer ? this.movieContainer.get("data-movie-uri") : "movie src unknown";
 			_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, source, null]);
@@ -159,10 +161,9 @@ RIA.Movie = new Class({
 		*		Hook from YT onYouTubePlayerReady(playerId) method.
 		*		Uses YouTube's API proprietary addEventListener method (http://code.google.com/apis/youtube/js_api_reference.html#Adding_event_listener)
 		*/
-		//Log.info("onYouTubePlayerReady");
 		try {
-			this.movie.addEventListener("onStateChange", "onytplayerStateChange");
-			this.movie.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");			
+			this.movieSWF.addEventListener("onStateChange", "onytplayerStateChange");
+			this.movieSWF.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");			
 
 		} catch(e) {
 			Log.error({method:"RIA.Movie : onYouTubePlayerReady()", error:e});
@@ -205,8 +206,10 @@ RIA.Movie = new Class({
 	},
 	addMovieEventListener: function() {
 		try {
-			this.youtubeLink.addEvent("click", this.launchEvent.bind(this));
-			this.youtubeLink.addEvent("touchstart", this.launchEvent.bind(this));
+			this.youtubeLink.addEvents({
+				"click":this.launchEvent.bind(this),
+				"touchstart":this.launchEvent.bind(this)
+			});
 		} catch(e) {
 			Log.error({method:"RIA.Movie : addMovieEventListener()", error:e});
 		}
@@ -217,19 +220,6 @@ RIA.Movie = new Class({
 			this.createMask();
 		} catch(e) {
 			Log.error({method:"RIA.Movie : launchEvent()", error:e});
-		}
-	},
-	pinMovie: function() {
-		try {
-			if(this.mask) {
-				this.mask.setStyle("width",this.viewport.x+"px");
-			}
-			
-			if(this.movieContainer) {
-				this.movieContainer.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
-			}
-		} catch(e) {
-			Log.error({method:"RIA.Movie : pinMovie()", error:e});
 		}
 	}
 });

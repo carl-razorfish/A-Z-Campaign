@@ -55,7 +55,7 @@
 		//<![CDATA[
 			
 			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', '{{ common.ga_account }}']);
+			_gaq.push(['_setAccount', '{{ config.ga_account }}']);
 			_gaq.push(['_trackPageview']);
 
 			(function() {
@@ -78,7 +78,7 @@
 			{% comment %} Include Facebook SDK, for tracking and XFBML Like Button dynamic creation {% endcomment %}
 			window.fbAsyncInit = function() {
 				FB.init({
-					appId:'{{ common.facebook_app_id }}',
+					appId:'{{ config.facebook_app_id }}',
 					status: true,
 					cookie: true,
 					xfbml: true			

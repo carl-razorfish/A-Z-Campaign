@@ -8,7 +8,7 @@
 	position:absolute;
 	left:0;
 	top:0;
-	z-index:5;
+	z-index:20;
 }
 
 #movie {
@@ -19,7 +19,7 @@
 	height:100px;
 	top:50px;
 	left:10000em;
-	z-index:10;
+	z-index:25;
 	text-align:center;
 }
 
@@ -68,14 +68,4 @@
 	width:25px;
 	height:25px;
 	z-index:10;
-}
-
-.vid-close {
-   display:block;
-   position:absolute;
-   width:24px;
-   height:24px;
-   left:920px;
-   top:-450px;
-   border:1px solid red;
 }

@@ -59,12 +59,12 @@ RIA.AZCampaign = new Class({
 					this.removeScrollEventListener();
 				}.bind(this),
 				onComplete: function(e) {
-					this.getContentInViewport({trackScroll:false});
+					this.getContentInViewport();
 					this.addScrollEventListener();
 					this.removePinNavEventListener();
 				}.bind(this),
 				onCancel: function(e) {
-					this.getContentInViewport({trackScroll:false});
+					this.getContentInViewport();
 					this.addScrollEventListener();
 					this.removePinNavEventListener();
 				}.bind(this)
@@ -129,20 +129,10 @@ RIA.AZCampaign = new Class({
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
 			
-			/*
-			if(Browser.ie) {
-				alert("article top : "+articleCoords.top+", viewport.y.scrollTop : "+(this.viewport.y+this.scrollTop)+", article bottom : "+articleCoords.bottom+", vert offset : "+(this.scrollTop+this.scrollVerticalOffset))
-			}
-			*/
-				
 			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
 			if((articleCoords.top >= this.viewport.y+this.scrollTop) || (articleCoords.bottom <= (this.scrollTop+this.scrollVerticalOffset))) {
-			
-				
 				article.store("inviewport",false);
-				
-			} 
-			else {
+			} else {
 				/*
 				*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
 				*/
@@ -154,18 +144,14 @@ RIA.AZCampaign = new Class({
 						this.loadArticle(article);
 						article.store("loaded",true);
 					}
-				
-					//Log.info("getContentInViewport() : Tracking page view for article "+article.get("id")+" : "+article.retrieve("inviewport"));
-					_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
-					
 					/*
-					*	Only track a UI Scroll event if the user has manually scrolled, and not used the Fx.Scroll via the navigation
+					*	MCDCOUK-1787[ST]: Do not track an additional page view when we are on a fact page, as it is duplication
 					*/
-					/*
-					if(!eventObj || eventObj.trackScroll != false) {
-						_gaq.push(['_trackEvent', 'UI', 'Scroll', article.get("id").toUpperCase(), null]);
+					if(!this.options.alpha || this.options.alpha == "") {
+						//Log.info("_trackPageview("+article.get("id")+"/scrolled)");
+						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
 					}
-					*/						
+					
 				}								
 			}				
 		},this);
@@ -180,13 +166,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load an Article
 		*/
-		
-		//Log.info("loadArticle("+article.get("id")+")");
-		//if(Browser.ie) alert("loading article "+article.get("id"));
-		
-		//[ST]TODO: is this still required?
-		article.removeClass("inactive");
-		
+
 		var c = article.getElement(".container"), 
 		i = null, 
 		s, 
@@ -239,7 +219,6 @@ RIA.AZCampaign = new Class({
 				ib.morph({"opacity":0});					
 			}
 		} catch(e) {
-			if(Browser.ie) alert("loadImage() error : "+e.message);
 			Log.error({method:"loadImage()", error:e});
 		}
 	},
@@ -299,27 +278,17 @@ RIA.AZCampaign = new Class({
 		*/
 
 		if(!Browser.Platform.ios) return;
-		this.navPanel.style.webkitTransform = "translateY("+(this.navOffsetTop + this.scrollTop)+"px)";
+		this.navPanel.style.webkitTransform = "translateY("+this.scrollTop+"px)";
 	},
 	getViewport: function() {
 		try {
-			if(window.devicePixelRatio != "undefined" && window.devicePixelRatio >= 2 ) {
-				
-
-					this.viewport = window.getSize();
-					this.scrollTop = window.getScroll().y;
-
-					this.viewport.x = this.viewport.x*2;
-					this.viewport.y = this.viewport.y*2;
-					Log.info("devicePixelRatio is 2 : viewport.x : "+this.viewport.x+", viewport.y : "+this.viewport.y);
-					
-
-			} else {
-				this.viewport = window.getSize();
-				this.scrollTop = window.getScroll().y;
+			this.viewport = window.getSize();
+			this.scrollTop = window.getScroll().y;
+			if(Browser.Platform.ios) { //&& window.devicePixelRatio != "undefined" && window.devicePixelRatio >= 2 ) {
+				this.viewport.x = window.innerWidth;
+				this.viewport.y = window.innerHeight
 			}
 		} catch(e) {
-			if(Browser.ie) alert("getViewport() error : "+e.message);
 			Log.error({method:"getViewport()", error:e});
 		}
 	}
