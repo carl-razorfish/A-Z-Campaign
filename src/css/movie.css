@@ -8,7 +8,7 @@
 	position:absolute;
 	left:0;
 	top:0;
-	z-index:20;
+	z-index:10;
 }
 
 #movie {
@@ -19,7 +19,7 @@
 	height:100px;
 	top:50px;
 	left:10000em;
-	z-index:25;
+	z-index:15;
 	text-align:center;
 }
 
@@ -28,7 +28,9 @@
 }
 
 #movie-swf {
+	position:relative;
 	margin-top:35px;
+	z-index:19;
 }
 #unsupported {
 	width:550px;
@@ -36,6 +38,7 @@
 	padding:30px 30px 12px 30px;
 	text-align:left;
 	position:absolute;
+	z-index:10;
 	top:50px;
 	left:200px;
 	border-radius:20px;
@@ -51,11 +54,12 @@
 
 
 #movie-container {
+	position:relative;
 	display:block;
 	background: url(../img/vid-panel.png) no-repeat top left;
 	width:703px;
 	height:458px;
-	z-index:10;
+	z-index:16;
 	margin-left:150px;		
 }
 
@@ -67,5 +71,5 @@
 	cursor:pointer;
 	width:25px;
 	height:25px;
-	z-index:10;
+	z-index:16;
 }
