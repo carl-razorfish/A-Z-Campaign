@@ -38,11 +38,6 @@
 	position:absolute;
 	top:50px;
 	left:200px;
-	border-radius:20px;
-	-webkit-border-radius: 20px;
-	-ms-border-radius: 20px;
-	-o-border-radius: 20px;
-	-moz-border-radius: 20px;
 }
 
 #unsupported p {

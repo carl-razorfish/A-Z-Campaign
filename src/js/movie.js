@@ -2,6 +2,7 @@
 *	Global function callback from YouTube Player
 */
 function onYouTubePlayerReady(ytplayer) {
+	alert("onYouTubePlayerReady");
 	if(RIA.Campaign) {
 		RIA.Campaign.onYouTubePlayerReady(ytplayer);
 	}	
@@ -48,6 +49,7 @@ RIA.Movie = new Class({
 	},
 	loadMovie: function() {
 		try {
+			
 			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
 				container:null,
 				id:"movie-swf",
@@ -61,7 +63,7 @@ RIA.Movie = new Class({
 		
 			this.movieSWF = document.id("movie-swf");
 			
-			
+			alert("loadMovie()");
 		} catch(e) {
 			Log.error({method:"RIA.Movie : loadMovie()", error:e});
 		}		
@@ -88,7 +90,7 @@ RIA.Movie = new Class({
 				this.mask.setStyles({opacity:"0"});
 				this.doMovieContainer(false);
 			} else {
-				this.mask.morph({opacity:"0"});	
+				this.mask.morph({opacity:"0"});					
 			}
 			playerState = null;
 		} catch(e) {
@@ -214,6 +216,8 @@ RIA.Movie = new Class({
 	},
 	addMovieEventListener: function() {
 		try {
+			Log.info("addMovieEventListener()");
+			alert("addMovieEventListener()");
 			this.youtubeLink.addEvents({
 				"click":this.launchEvent.bind(this),
 				"touchstart":this.launchEvent.bind(this)

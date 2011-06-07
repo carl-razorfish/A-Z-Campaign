@@ -125,12 +125,6 @@ ul,dl,ol {
 	opacity:1;
 }
 
-.-webkit-fade-in-mask {
-	-webkit-transition: opacity 4s linear;
-	opacity:0.7 !important;
-}
-
-
 /* setting heights for all the letters  */
 
 #a,
