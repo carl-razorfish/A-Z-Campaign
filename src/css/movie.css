@@ -12,11 +12,10 @@
 
 #movie {
 	display:block;
-	visibility:hidden;
 	position:absolute;
 	width:850px;
 	height:100px;
-	top:50px;
+	top:150px;
 	left:10000em;	
 	z-index:25;	
 	text-align:center;
@@ -32,7 +31,7 @@
 	right:30px;
 }
 #unsupported {
-	visibility:hidden; /* [ST] if the youtube player does not initialize, then no event listeners will be added for the overlay - so hide this */
+	/*visibility:hidden;*/ /* [ST] if the youtube player does not initialize, then no event listeners will be added for the overlay - so hide this */
 	width:550px;
 	text-align:left;
 	position:absolute;
@@ -40,8 +39,11 @@
 	left:200px;
 }
 
+#movie-container p,
 #unsupported p {
-	padding:0 0 18px 0;
+	width:550px;
+	text-align:left;
+	padding:18px 0 0 18px;
 }
 
 
