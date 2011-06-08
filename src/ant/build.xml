@@ -9,6 +9,7 @@
 	<import file="xml/regexp.xml"/>	
 	<import file="xml/css.xml"/>
 	<import file="xml/js.xml"/>
+	<import file="xml/html.xml"/>
 		
 	<tstamp>
 	    <format property="timstamp" pattern="hh-mm-ss" locale="en,UK"/>
@@ -39,6 +40,7 @@
 		<ant target="OPERATION.CSS.Minify"/>
 		<ant target="OPERATION.CSS.Clean"/>
 		<ant target="BUILD.JS"/>
+		<ant target="OPERATION.HTML.Build"/> 
 	</target>
 
 </project>
