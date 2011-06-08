@@ -44,7 +44,7 @@
 #movie-swf {
 	position:absolute;
 	top:35px;
-	right:30px;
+	right:35px;
 }
 #unsupported {
 	/*visibility:hidden;*/ /* [ST] if the youtube player does not initialize, then no event listeners will be added for the overlay - so hide this */
@@ -65,9 +65,9 @@
 
 #movie-container {
 	display:block;
-	background: url(../img/vid-panel.png) no-repeat top left;
+	background: url(../img/vid-panel-social.png) no-repeat top left;
 	width:703px;
-	height:458px;
+	height:478px;
 	z-index:2;
 	margin-left:150px;		
 }
@@ -80,4 +80,10 @@
 	cursor:pointer;
 	width:25px;
 	height:25px;
+}
+
+#movie .social {
+	position:absolute;
+	top:458px;
+	right:0px;
 }

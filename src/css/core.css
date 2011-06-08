@@ -225,3 +225,26 @@ ul,dl,ol {
 	left:0px;
 	top:0px;
 }
+
+
+/* style for the error page */
+
+.error {
+	height:120px;
+	padding:90px 0px 50px 40px;
+	background:#F6F6F6;
+	margin-bottom:-50px;
+	width:812px;
+}
+
+.error p b {
+	font-weight:bold;
+	font-size:18px;
+    padding:0;
+}
+
+.error-hdr {
+	text-indent:-10000em;
+}
+
+
