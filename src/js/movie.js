@@ -50,13 +50,13 @@ RIA.Movie = new Class({
 		try {
 			if(!Browser.Platform.ios && Browser.Plugins.Flash.version <= 0) return;
 			
-			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
+			this.movie = new Swiff(this.movieContainer.get("data-movie"), {
 				container:this.movieSWFContainer,
 				id:"movie-swf",
 				width:630,
 				height:385, // 360 + 25px for the controls
 				params:{
-					"movie":this.movieContainer.get("data-movie-uri"),
+					"movie":this.movieContainer.get("data-movie"),
 					"allowfullscreen":"true"
 				}
 			});
@@ -189,7 +189,7 @@ RIA.Movie = new Class({
 	trackYTSWF: function(action) {
 		try {
 			if(!action) return;
-			var source = this.movieContainer ? this.movieContainer.get("data-movie-uri") : "movie src unknown";
+			var source = this.movieContainer ? this.movieContainer.get("data-movie") : "movie src unknown";
 			_gaq.push(['_trackEvent', 'YouTubeSWFMovie', action, source, null]);
 			source = null;
 		} catch(e) {

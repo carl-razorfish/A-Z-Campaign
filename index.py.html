@@ -29,7 +29,7 @@
 			{% include "includes/navigation.html" %}
         	{% include "includes/footer.html" %}   	
 		</div>	
-		<div id="movie" data-movie-uri="{{ common.movie_swf_uri }}">
+		<div id="movie" data-movie="{{ common.movie_swf_uri }}" data-url="{{ common.movie_youtube_url }}">
 			<span id="close"></span>
 			<div id="unsupported">
 				<p>
@@ -40,7 +40,14 @@
 				</p>
 			</div>
 			<div id="movie-container">							
-			</div>	
+			</div>
+			<div class="social">
+				<span class="tweet-button">
+					<a href="http://twitter.com/share?text={{ common.pagetitle|urlencode }}&amp;url={{ common.movie_youtube_url|urlencode }}" data-tweet="{{ common.pagetitle }} {{ common.tweet_hash }}" data-url="{{ common.movie_youtube_url }}" rel="external" target="_blank">
+						<span>{{ common.twitter_tweettext }}</span>
+					</a>
+				</span>
+			</div>
 		</div>	
 		<div id="mask"></div>
 		<div id="fb-root">	

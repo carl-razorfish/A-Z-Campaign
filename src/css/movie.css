@@ -65,3 +65,7 @@
 	width:25px;
 	height:25px;
 }
+
+#movie .social {
+	float:right;
+}
