@@ -49,9 +49,9 @@
 
 #movie-container {
 	display:block;
-	background: url(../img/vid-panel.png) no-repeat top left;
+	background: url(../img/vid-panel-social.png) no-repeat top left;
 	width:703px;
-	height:458px;
+	height:478px;
 	z-index:2;
 	margin-left:150px;		
 }
@@ -67,5 +67,7 @@
 }
 
 #movie .social {
-	float:right;
+	position:absolute;
+	top:458px;
+	right:0px;
 }
