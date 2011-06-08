@@ -28,7 +28,7 @@
 #movie-swf {
 	position:absolute;
 	top:35px;
-	right:30px;
+	right:35px;
 }
 #unsupported {
 	/*visibility:hidden;*/ /* [ST] if the youtube player does not initialize, then no event listeners will be added for the overlay - so hide this */
