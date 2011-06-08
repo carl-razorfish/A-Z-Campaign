@@ -1,0 +1,45 @@
+<project name="html.build" basedir="./" default="OPERATION.HTML.Build">
+	
+	<target name="OPERATION.HTML.Trash" description="Trashing CSS build directories">
+		<echo>Trashing HTML build directories</echo>
+		<delete dir="${build.html.dir}" includeemptydirs="true">
+		    <include name="**/*.html"/>		    
+		</delete>
+	</target>
+
+	<target name="OPERATION.HTML.Get" description="Get all HTML pages from the GAE instance">
+		<echo>Getting all HTML files, and saving them to the /html/ directory</echo>
+		<get src="${gae.home}" dest="${build.html.dir}/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.a}" dest="${build.html.dir}/a/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.b}" dest="${build.html.dir}/b/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.c}" dest="${build.html.dir}/c/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.d}" dest="${build.html.dir}/d/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.e}" dest="${build.html.dir}/e/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.f}" dest="${build.html.dir}/f/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.g}" dest="${build.html.dir}/g/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.h}" dest="${build.html.dir}/h/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.i}" dest="${build.html.dir}/i/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.j}" dest="${build.html.dir}/j/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.k}" dest="${build.html.dir}/k/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.l}" dest="${build.html.dir}/l/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.m}" dest="${build.html.dir}/m/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.n}" dest="${build.html.dir}/n/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.o}" dest="${build.html.dir}/o/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.p}" dest="${build.html.dir}/p/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.q}" dest="${build.html.dir}/q/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.r}" dest="${build.html.dir}/r/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.s}" dest="${build.html.dir}/s/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.t}" dest="${build.html.dir}/t/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.u}" dest="${build.html.dir}/u/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.v}" dest="${build.html.dir}/v/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.w}" dest="${build.html.dir}/w/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.x}" dest="${build.html.dir}/x/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.y}" dest="${build.html.dir}/y/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${gae.z}" dest="${build.html.dir}/z/index.html" verbose="true" httpusecaches="false"/>
+	</target>
+	<target name="OPERATION.HTML.Build">
+		<ant target="OPERATION.HTML.Trash"/>
+		<ant target="OPERATION.HTML.Get"/>
+	</target>
+
+</project>

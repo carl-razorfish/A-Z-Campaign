@@ -24,12 +24,15 @@ RIA.AZCampaign = new Class({
 			"touchstart":"Touch",
 			"click":"Mouse",
 			"keyup":"Keyboard"
+		},
+		movie:{
+			inView:false
 		}
 	},
 	initialize: function(options, init) {
 		try {
 			this.setOptions(options);
-
+			
 			document.getElement("body").addClass("js");
 		
 			this.articles = document.getElements("article");
@@ -71,7 +74,7 @@ RIA.AZCampaign = new Class({
 			});
 		
 			this.addEventListeners();
-
+			//this.loadMovie();
 			
 		} catch(e) {
 			if(Browser.ie) alert("initialize() error : "+e.message);

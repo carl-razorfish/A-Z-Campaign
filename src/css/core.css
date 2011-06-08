@@ -125,12 +125,6 @@ ul,dl,ol {
 	opacity:1;
 }
 
-.-webkit-fade-in-mask {
-	-webkit-transition: opacity 4s linear;
-	opacity:0.7 !important;
-}
-
-
 /* setting heights for all the letters  */
 
 #a,
@@ -213,5 +207,26 @@ ul,dl,ol {
 
 
 /* styles for the left and right borders */
-.border-right{position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y -91px 0px; margin-left:921px;}
-.border-left {position:absolute; display:block; width:74px; height:100%; background: url(../img/a-z-sprite.png) repeat-y 0px 0px;}
+.border-right{
+	position:absolute; 
+	display:block; 
+	width:74px; 
+	height:100%; 
+	background: url(../img/a-z-sprite.png) repeat-y -91px 0px; 
+	/*
+	margin-left:921px;
+	*/
+	
+	top:0px;
+	right:10px;
+}
+.border-left {
+	position:absolute; 
+	display:block; 
+	width:74px; 
+	height:100%; 
+	background: url(../img/a-z-sprite.png) repeat-y 0px 0px;
+	
+	left:0px;
+	top:0px;
+}

@@ -1,13 +1,18 @@
-<meta property="fb:app_id" content="{{ common.facebook_app_id }}" />
-<meta property="og:type" content="website" />
+<meta property="fb:app_id" content="{{ config.facebook_app_id }}" />
 <meta property="og:site_name" content="{{ common.pagetitle|safe }}" />
 {% if alpha %}{% for article in content %}{% if article.id in alpha %}
+		<meta property="og:type" content="{{ common.og_type_article }}" />
 		<meta property="og:title" content="{{ article.title|safe }}" />
 		<meta property="og:url" content="{{ common.live_domain }}{{ article.id }}" />
 		<meta property="og:image" content="{{ common.live_domain }}img/{{ article.id }}/letter.jpg" />
 		<meta property="og:description" content="{{ article.section_statement1|safe|truncatewords:30 }}" />
 		<meta name="keywords" content="{{ article.keywords|safe }}" />
-		<meta name="description" content="{{ article.section_statement1|safe|truncatewords:30 }}" />{% endif %}{% endfor %}
+		<meta name="description" content="{{ article.section_statement1|safe|truncatewords:30 }}" />
+		<meta property="og:video" content="{{ common.movie_youtube_url }}" />
+		<meta property="og:video:height" content="398" />{% comment %}630{% endcomment %}
+		<meta property="og:video:width" content="460" />{% comment %}385{% endcomment %}
+		<meta property="og:video:type" content="application/x-shockwave-flash" />{% endif %}{% endfor %}
 {% else %}{% if common.home_meta_keywords %}<meta name="keywords" content="{{ common.home_meta_keywords|safe }}" />{% endif %}
 	<meta name="description" content="{{ common.home_meta_description|safe }}" />
+	<meta property="og:type" content="{{ common.og_type_home }}" />
 {% endif %}	

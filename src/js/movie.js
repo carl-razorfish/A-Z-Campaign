@@ -33,7 +33,7 @@ RIA.Movie = new Class({
 				"0":"Ended",
 				"1":"Playing",
 				"2":"Paused"
-				//"3":"Buffering",
+				//,"3":"Buffering",
 				//"5":"Video cued"
 			},
 			quality:{
@@ -48,10 +48,12 @@ RIA.Movie = new Class({
 	},
 	loadMovie: function() {
 		try {
+			if(!Browser.Platform.ios && Browser.Plugins.Flash.version <= 0) return;
+			
 			this.movie = new Swiff(this.movieContainer.get("data-movie-uri"), {
 				container:this.movieSWFContainer,
 				id:"movie-swf",
-				width:640,
+				width:630,
 				height:385, // 360 + 25px for the controls
 				params:{
 					"movie":this.movieContainer.get("data-movie-uri"),
@@ -60,8 +62,6 @@ RIA.Movie = new Class({
 			});
 		
 			this.movieSWF = document.id("movie-swf");
-			
-			
 		} catch(e) {
 			Log.error({method:"RIA.Movie : loadMovie()", error:e});
 		}		
@@ -71,29 +71,36 @@ RIA.Movie = new Class({
 		*	@description:
 		*		
 		*/
-		try {
-			this.addKeyboardEventListeners();
-			if(this.movieSWF && this.movieSWF.pauseVideo) {
+		this.addKeyboardEventListeners();			
+		/*
+		*	If the video is currently in play or buffering, pause it
+		*/
+		if(this.movieSWF && this.movieSWF.pauseVideo && this.movieSWF.getPlayerState) {
+			var playerState = this.movieSWF.getPlayerState()||-2;
+			if(playerState == 1 || playerState == 3) {
 				this.movieSWF.pauseVideo();
-			} else {
-				//Log.info("Movie.pauseVideo is not supported");
 			}
-			this.movieContainer.setStyle("visibility","hidden");
-			if(Browser.Platform.ios) {
-				this.mask.setStyles({opacity:"0"});
-				this.doMovieContainer(false);
-			} else {
-				this.mask.morph({opacity:"0"});	
-			}
-		} catch(e) {
-			Log.error({method:"RIA.Movie : closeMovie()", error:e});
+		} else {
+			//Log.info("Movie.pauseVideo is not supported, or player state was "+this.options.youtube.states[playerState]);
 		}
+		this.movieContainer.setStyle("visibility","hidden");
+		if(Browser.Platform.ios) {
+			(function() {
+				this.mask.setStyles({opacity:"0"});
+			}.bind(this)).delay(500)
+			this.doMovieContainer(false);				
+		} else {
+			this.mask.morph({opacity:"0"});					
+		}
+		playerState = null;
 	},
 	createMask: function() {
 		try {
 			this.removeKeyboardEventListeners();
+			
 			if(!this.mask) {
-				this.mask = new Element('div', {
+				this.mask = document.id("mask");
+				this.mask.set({
 					'class': 'mask',
 					'id': 'mask',
 					"styles":{
@@ -101,30 +108,45 @@ RIA.Movie = new Class({
 						"width":this.viewport.x+"px"
 					},
 					events: {
-						click: function(event){
+						"click": function(e){
+							e.preventDefault();
+							this.closeMovie();
+						}.bind(this),
+						"touchstart": function(e){
+							e.preventDefault();
 							this.closeMovie();
 						}.bind(this)
+					},
+					"morph":{
+						fps:100,
+						duration:200,
+						onComplete: function(mask) {
+							/*
+							*	Browser.Platform.ios will not run this
+							*/
+							if(mask.getStyle("opacity") > 0) {
+								this.doMovieContainer(true);
+							} else {
+								this.doMovieContainer(false);
+							}
+						}.bind(this)
 					}
-				}).inject(document.body);
-				
-				this.mask.set("morph",{
-					duration:400,
-					onComplete: function(mask) {
-						if(mask.getStyle("opacity") > 0) {
-							this.doMovieContainer(true);
-						} else {
-							this.doMovieContainer(false);
-						}
-			
-					}.bind(this)
 				});
+
 			}	
 			
 			if(Browser.Platform.ios) {
-				this.mask.setStyles({opacity:"0.7"});
-				this.doMovieContainer(true);
+				/*
+				*	[ST] there's a bug when repeatedly opening and closing the video (and mask) where the viewport.x appears to reset to zero, so check it
+				*/
+				if(this.viewport.x == 0) this.viewport.x = window.innerWidth;
+				
+				this.mask.setStyles({opacity:"0.7","width":this.viewport.x+"px"});
+				(function() {
+					this.doMovieContainer(true);
+				}.bind(this)).delay(500);
 			} else {
-				this.mask.morph({opacity:"0.7"});
+				this.mask.morph({opacity:"0.7","width":this.viewport.x+"px"});
 			}
 			
 		} catch(e) {
@@ -132,14 +154,33 @@ RIA.Movie = new Class({
 		}
 	},
 	doMovieContainer: function(show) {
+		/*
+		*	@description:
+		*		Show/Hide the movie container
+		*		If it's Apple iOS we have previously deleted the SWF from the hide action, so recreate it if it's a show action
+		*/
 		try {
-			if(show) {
-				var leftPos = (this.viewport.x - this.shellWidth) < 0 ? 0 : (this.viewport.x - this.shellWidth)/2;
-				this.movieContainer.setStyle("left",leftPos+"px");
-				this.movieContainer.setStyle("visibility","visible");
-			} else {
-				this.movieContainer.setStyle("left","-10000em");
-				this.movieContainer.setStyle("visibility","hidden");
+			if(Browser.Platform.ios && show) {
+				this.loadMovie();
+			}
+		
+			if(this.movieContainer) {
+				if(show) {
+					this.options.movie.inView = true;
+					var leftPos = (this.viewport.x - this.shellWidth) < 0 ? 0 : (this.viewport.x - this.shellWidth)/2;
+					this.movieContainer.setStyle("left",leftPos+"px");
+					this.movieContainer.setStyle("visibility","visible");
+				} else {
+					this.options.movie.inView = false;
+					this.movieContainer.setStyle("left","-10000em");
+					this.movieContainer.setStyle("visibility","hidden");
+					/*
+					*	The pause and getPlayerState methods do not work, so just bin it
+					*/
+					if(Browser.Platform.ios) {
+						this.movieSWF.destroy();
+					}
+				}
 			}
 		} catch(e) {
 			Log.error({method:"RIA.Movie : doMovieContainer()", error:e});
@@ -161,13 +202,14 @@ RIA.Movie = new Class({
 		*		Hook from YT onYouTubePlayerReady(playerId) method.
 		*		Uses YouTube's API proprietary addEventListener method (http://code.google.com/apis/youtube/js_api_reference.html#Adding_event_listener)
 		*/
-		try {
-			this.movieSWF.addEventListener("onStateChange", "onytplayerStateChange");
-			this.movieSWF.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");			
-
-		} catch(e) {
-			Log.error({method:"RIA.Movie : onYouTubePlayerReady()", error:e});
-		}
+		this.movieSWF.addEventListener("onStateChange", "onytplayerStateChange");
+		this.movieSWF.addEventListener("onPlaybackQualityChange", "onPlaybackQualityChange");
+		
+		/*
+		*	Only add the event listener to launch the overlay if the YouTube Player is ready
+		*	This way, the link will act as a link to YouTube if Flash or HTML5 executions do not work on the device
+		*/
+		//this.addMovieEventListener();
 	},
 	onytplayerStateChange: function(newState) {
 		/*
@@ -196,30 +238,27 @@ RIA.Movie = new Class({
 		/*
 		*	Possible values are "small", "medium", "large", "hd720", "hd1080", and "highres".
 		*/
-		try {
-			var quality = "Quality: "+this.options.youtube.quality[newQuality]||"Unknown quality";		
-			this.trackYTSWF(quality);
-			quality = null;
-		} catch(e) {
-			Log.error({method:"RIA.Movie : onPlaybackQualityChange()", error:e});
-		}
+		var quality = "Quality: "+this.options.youtube.quality[newQuality]||"Unknown quality";		
+		this.trackYTSWF(quality);
+		quality = null;
 	},
 	addMovieEventListener: function() {
-		try {
-			this.youtubeLink.addEvents({
-				"click":this.launchEvent.bind(this),
-				"touchstart":this.launchEvent.bind(this)
-			});
-		} catch(e) {
-			Log.error({method:"RIA.Movie : addMovieEventListener()", error:e});
-		}
+		
+		this.launchEventBind = this.launchEvent.bind(this);
+		
+		this.youtubeLink.addEvents({
+			"click":this.launchEventBind,
+			"touchstart":this.launchEventBind
+		});
+	},
+	removeMovieEventListener: function() {
+		this.youtubeLink.removeEvents({
+			"click":this.launchEventBind,
+			"touchstart":this.launchEventBind
+		});
 	},
 	launchEvent: function(e) {
-		try {
-			e.preventDefault();
-			this.createMask();
-		} catch(e) {
-			Log.error({method:"RIA.Movie : launchEvent()", error:e});
-		}
+		e.preventDefault();
+		this.createMask();
 	}
 });

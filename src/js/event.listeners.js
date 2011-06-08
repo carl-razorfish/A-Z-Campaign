@@ -30,6 +30,7 @@ RIA.EventListeners = new Class({
 		window.addEvent("load", this.loadEventBind);
 
 		this.addMovieEventListener();
+		
 	},
 	loadEvent: function() {
 		this.loadMovie();
@@ -115,7 +116,14 @@ RIA.EventListeners = new Class({
 		/*
 		*	@description:
 		*		Callback from the window onResize event listener
-		*/		
+		*/	
 		this.getContentInViewport();
+		if(this.mask) {
+			this.mask.setStyles({"width":this.viewport.x+"px"});
+		}
+		if(this.movieContainer && this.options.movie.inView) {
+			var leftPos = (this.viewport.x - this.shellWidth) < 0 ? 0 : (this.viewport.x - this.shellWidth)/2;
+			this.movieContainer.setStyle("left",leftPos+"px");
+		}
 	}
 });
