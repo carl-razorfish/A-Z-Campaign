@@ -8,7 +8,10 @@
 	position:absolute;
 	left:0;
 	top:0;
+<<<<<<< HEAD
 	z-index:10;
+=======
+>>>>>>> 131220af00337ba72574062165f21a927af340be
 }
 
 #movie {
@@ -16,6 +19,7 @@
 	position:absolute;
 	width:850px;
 	height:100px;
+<<<<<<< HEAD
 <<<<<<< HEAD
 	top:50px;
 	left:10000em;
@@ -25,6 +29,11 @@
 	left:10000em;	
 	z-index:25;	
 >>>>>>> 2c230cf895d45b9368e58903ffdddf96b0eb6a49
+=======
+	top:150px;
+	left:10000em;	
+	z-index:25;	
+>>>>>>> 131220af00337ba72574062165f21a927af340be
 	text-align:center;
 }
 
@@ -42,7 +51,6 @@
 	width:550px;
 	text-align:left;
 	position:absolute;
-	z-index:10;
 	top:50px;
 	left:200px;
 }
@@ -56,7 +64,6 @@
 
 
 #movie-container {
-	position:relative;
 	display:block;
 	background: url(../img/vid-panel.png) no-repeat top left;
 	width:703px;

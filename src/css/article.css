@@ -4,9 +4,29 @@ article {
 	background:transparent;
 }
 
+/*
+*	[ST] For <IE9
+*/
+/*
+div.article {
+	position:relative;
+	width:850px;
+	background:transparent;
+}
+*/
+
 article h2 {
 	text-indent:-10000em;
 }
+
+/*
+*	[ST] For <IE9
+*/
+/*
+div.article h2 {
+	text-indent:-10000em;
+}
+*/
 
 article header {
 	position:absolute;
@@ -18,22 +38,57 @@ article p {
 	padding:0 0 18px 0;
 }
 
+/*
+*	[ST] For <IE9
+*/
+/*
+div.article p {
+	padding:0 0 18px 0;
+}
+*/
+
 article p.first {
 	padding:25px 0 18px 0;
 	font-weight:bold;
 }
 
+/*
+*	[ST] For <IE9
+*/
+/*
+div.article p.first {
+	padding:25px 0 18px 0;
+	font-weight:bold;
+}
+*/
 
 article a {
 	display:inline;
 }
-
+/*
+*	[ST] For <IE9
+*/
+/*
+div.article a {
+	display:inline;
+}
+*/
 article div.container {
 	width:850px;
 	position:relative;
 	padding:20px 0 0 0;	
 }
 
+/*
+*	[ST] For <IE9
+*/
+/*
+div.article div.container {
+	width:850px;
+	position:relative;
+	padding:20px 0 0 0;	
+}
+*/
 article div.container .content {
 	background:#f6f6f6;
 	display:block;
@@ -41,6 +96,20 @@ article div.container .content {
 	height:100%;
 	padding:0 25px;
 }
+
+
+/*
+*	[ST] For <IE9
+*/
+/*
+div.article div.container .content {
+	background:#f6f6f6;
+	display:block;
+	width:375px;
+	height:100%;
+	padding:0 25px;
+}
+*/
 
 .layout-img-left div.container .content {	
 	float:left;	
@@ -50,7 +119,17 @@ article div.container .content {
 	float:none;	
 }
 
-
+/*
+*	[ST] For <IE9
+*/
+/*
+.layout-img-left div.container div.content {	
+	float:left;	
+}
+.layout-img-right div.container div.content {	
+	float:none;	
+}
+*/
 /*
 *	Section content layout
 */
@@ -86,3 +165,38 @@ article div.container .content {
 	margin:0 12px 0 0;
 	float:left;
 }
+
+
+
+
+/*
+*	[ST] For <IE9
+*/
+/*
+#a div.content {height:366px}
+#b div.content {height:365px}
+#c div.content {height:385px}
+#d div.content {height:322px}
+#e div.content {height:520px}
+#f div.content {height:465px}
+#g div.content {height:384px}
+#h div.content {height:327px}
+#i div.content {height:490px}
+#j div.content {height:459px}
+#k div.content {height:448px}
+#l div.content {height:392px}
+#m div.content {height:352px}
+#n div.content {height:341px}
+#o div.content {height:383px}
+#p div.content {height:378px}
+#q div.content {height:520px}
+#r div.content {height:566px}
+#s div.content {height:298px}
+#t div.content {height:352px}
+#u div.content {height:334px}
+#v div.content {height:420px}
+#w div.content {height:319px}
+#x div.content {height:380px}
+#y div.content {height:460px}
+#z div.content {height:530px}
+*/
