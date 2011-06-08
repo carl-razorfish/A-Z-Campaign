@@ -1,27 +1,31 @@
-<article id="{{ article.id }}" class="{{ article.section_layout }}" data-url="{{ common.live_domain }}{{ article.id }}">
-	<header>
-		<h2>{{ article.title }}</h2>
-	</header>
-	<div class="container cf">
-		<div class="content-image" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-main-src="../{{ article.section_img }}" data-alt="{{ article.header }}" style="height:{{ article.section_img_height }}px;">
-			<noscript>
-				<img width="{{ article.section_img_width }}" height="{{ article.section_img_height }}" src="../{{ article.section_img }}" alt="{{ article.header }}" />
-			</noscript>
-			<div class="image-bg loading" style="height:{{ article.section_img_height }}px;">&nbsp;</div>
-		</div>
-		<section class="content">{% comment %}style="height:{{ article.section_img_height }}px;"{% endcomment %}
-			{% if article.section_statement1 %}<p class="first">{{ article.section_statement1|safe }}</p>{% endif %}
-			{% if article.section_statement2 %}<p>{{ article.section_statement2|safe }}</p>{% endif %}
-			{% if article.section_statement3 %}<p>{{ article.section_statement3|safe }}</p>{% endif %}
-			{% if article.section_statement4 %}<p>{{ article.section_statement4|safe }}</p>{% endif %}
-			{% if article.section_statement5 %}<p>{{ article.section_statement5|safe }}</p>{% endif %}
-			<div class="social">
-				<span class="tweet-button">
-					<a href="http://twitter.com/share?text={{ article.title|urlencode }}&amp;url={{ common.live_domain|urlencode }}{{ article.id }}" data-tweet="{{ article.title }} {{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" rel="external" target="_blank">
-						<span>{{ common.twitter_tweettext }}</span>
-					</a>
-				</span>
+<div class="article">
+	<article id="{{ article.id }}" class="{{ article.section_layout }}" data-url="{{ common.live_domain }}{{ article.id }}">
+		<header>
+			<h2>{{ article.title }}</h2>
+		</header>
+		<div class="container cf">
+			<div class="content-image" data-main-width="{{ article.section_img_width }}" data-main-height="{{ article.section_img_height }}" data-main-src="../{{ article.section_img }}" data-alt="{{ article.header }}" style="height:{{ article.section_img_height }}px;">
+				<noscript>
+					<img width="{{ article.section_img_width }}" height="{{ article.section_img_height }}" src="../{{ article.section_img }}" alt="{{ article.header }}" />
+				</noscript>
+				<div class="image-bg loading" style="height:{{ article.section_img_height }}px;">&nbsp;</div>
 			</div>
-		</section>
-	</div>		
-</article>	
+			<div class="content">
+				<section class="content">{% comment %}style="height:{{ article.section_img_height }}px;"{% endcomment %}
+					{% if article.section_statement1 %}<p class="first">{{ article.section_statement1|safe }}</p>{% endif %}
+					{% if article.section_statement2 %}<p>{{ article.section_statement2|safe }}</p>{% endif %}
+					{% if article.section_statement3 %}<p>{{ article.section_statement3|safe }}</p>{% endif %}
+					{% if article.section_statement4 %}<p>{{ article.section_statement4|safe }}</p>{% endif %}
+					{% if article.section_statement5 %}<p>{{ article.section_statement5|safe }}</p>{% endif %}
+					<div class="social">
+						<span class="tweet-button">
+							<a href="http://twitter.com/share?text={{ article.title|urlencode }}&amp;url={{ common.live_domain|urlencode }}{{ article.id }}" data-tweet="{{ article.title }} {{ common.tweet_hash }}" data-url="{{ common.live_domain }}{{ article.id }}" rel="external" target="_blank">
+								<span>{{ common.twitter_tweettext }}</span>
+							</a>
+						</span>
+					</div>
+				</section>
+			</div>
+		</div>		
+	</article>
+</div>

@@ -4,7 +4,25 @@ article {
 	background:transparent;
 }
 
+/*
+*	[ST] For <IE9
+*/
+
+div.article {
+	position:relative;
+	width:850px;
+	background:transparent;
+}
+
 article h2 {
+	text-indent:-10000em;
+}
+
+/*
+*	[ST] For <IE9
+*/
+
+div.article h2 {
 	text-indent:-10000em;
 }
 
@@ -18,7 +36,22 @@ article p {
 	padding:0 0 18px 0;
 }
 
+/*
+*	[ST] For <IE9
+*/
+div.article p {
+	padding:0 0 18px 0;
+}
+
 article p.first {
+	padding:25px 0 18px 0;
+	font-weight:bold;
+}
+
+/*
+*	[ST] For <IE9
+*/
+div.article p.first {
 	padding:25px 0 18px 0;
 	font-weight:bold;
 }
@@ -27,8 +60,23 @@ article p.first {
 article a {
 	display:inline;
 }
+/*
+*	[ST] For <IE9
+*/
+div.article a {
+	display:inline;
+}
 
 article div.container {
+	width:850px;
+	position:relative;
+	padding:20px 0 0 0;	
+}
+
+/*
+*	[ST] For <IE9
+*/
+div.article div.container {
 	width:850px;
 	position:relative;
 	padding:20px 0 0 0;	
@@ -41,6 +89,18 @@ article div.container .content {
 	height:100%;
 	padding:0 25px;
 }
+
+/*
+*	[ST] For <IE9
+*/
+div.article div.container .content {
+	background:#f6f6f6;
+	display:block;
+	width:375px;
+	height:100%;
+	padding:0 25px;
+}
+
 
 .layout-img-left div.container .content {	
 	float:left;	
