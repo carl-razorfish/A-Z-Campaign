@@ -59,15 +59,15 @@
 		<concat destfile="${build.js.dir}/scripts.js" fixlastline="yes">
 			<filelist dir="${build.js.dir}" 
 				files="
-				mootools.min.js,
-				build.min.js
+				mootools.concat.js,
+				build.concat.js
 				"/>
 		</concat>		
 	</target>
 	
 	<target name="OPERATION.JS.Build" description="Building JS">
 		<ant target="OPERATION.JS.Concat"/>
-		<ant target="OPERATION.JS.Minify"/>
+		<!--<ant target="OPERATION.JS.Minify"/>-->
 		<ant target="OPERATION.JS.Package"/>		
 	</target>
 </project>
