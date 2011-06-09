@@ -8,7 +8,9 @@
 				<noscript>
 					<img width="{{ article.section_img_width }}" height="{{ article.section_img_height }}" src="../{{ article.section_img }}" alt="{{ article.header }}" />
 				</noscript>
-				<div class="image-bg loading" style="height:{{ article.section_img_height }}px;">&nbsp;</div>
+				<div class="image-bg loading" style="height:{{ article.section_img_height }}px;">
+					&nbsp;<!--//<img src="../img/ajax-loader-webkit.gif" width="66" height="66" alt="" />//-->
+				</div>
 			</div>
 			<!--//<div class="content">//-->
 				<section class="content">{% comment %}style="height:{{ article.section_img_height }}px;"{% endcomment %}

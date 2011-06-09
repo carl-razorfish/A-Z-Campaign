@@ -95,7 +95,6 @@ RIA.AZCampaign = new Class({
 		*		gotViewport[Boolean]: If this method has been called from getContentInViewport(), for example, we will have just got the viewport dimensions. 
 		*			Therefore do not cause an unnecessary DOM lookup
 		*/
-
 		if(!gotViewport) {
 			this.getViewport();
 		}
@@ -103,20 +102,25 @@ RIA.AZCampaign = new Class({
 		// [ST] TODO: we have a hard-coded pixel adjustment value here
 		if(this.viewport.x > this.shellWidth) {
 			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
-			
-			
 		}
 		
 		if(this.scrollTop <= this.headerH1Offset) {
-			//if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
-			this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
-			//[ST]TODO: hide nav cutoff
+			if(Browser.Platform.ios) {
+				this.setNavPositionForiOs(0);
+			} else {
+				this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
+			}
+
             this.navPanel.removeClass("scroll");
+				
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
-			//if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
-			//[ST]TODO: show nav cutoff
-			this.navPanel.setStyle("top","0px");
+			if(Browser.Platform.ios) {
+				this.setNavPositionForiOs(112);
+			} else {
+				this.navPanel.setStyle("top","0px");
+			}
+			
 			this.navPanel.addClass("scroll");
 		}
 
@@ -131,7 +135,9 @@ RIA.AZCampaign = new Class({
 		
 		var articleCoords;
 		
+		
 		this.pinNavPanel(true);
+		
 		
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
@@ -164,7 +170,7 @@ RIA.AZCampaign = new Class({
 		},this);
 
 
-		this.setNavPositionForiOs();
+		
 		
 		articleCoords = null;
 	},
@@ -204,27 +210,36 @@ RIA.AZCampaign = new Class({
 
 		}	
 		
-		this.generateLike(article);
 		
+		//this.generateLike(article);
 		this.generateTweet(article);
 		
 		c = ic = ib = i = s = w = h = a = null;
 	},
 	loadImage: function(article) {
 		try {
+			
 			var ib = article.getElement(".image-bg");
 			ib.removeClass("loading");		
 		    if(!Browser.ie) {
 				if(Browser.Platform.ios) {
-					ib.addClass("-webkit-fade-out");
+					/*
+					*	[ST]TODO: the webkit fade is killing iPad and iPhone browser instances. Try deleting the element after the fade transition?
+					*/
+					//ib.addClass("-webkit-fade-out");
+					ib.destroy();
 				} else {
-					ib.set("morph", {duration:200});
+					ib.set("morph", {fps:100, duration:400});
 					ib.morph({"opacity":0});										
 				}				
 			} else {
 				ib.set("morph", {duration:200});
 				ib.morph({"opacity":0});					
 			}
+
+			(function() {
+				this.generateLike(article);
+			}.bind(this)).delay(500)
 		} catch(e) {
 			Log.error({method:"loadImage()", error:e});
 		}
@@ -278,14 +293,14 @@ RIA.AZCampaign = new Class({
 			
 		articleId = articleCoords = null;
 	},
-	setNavPositionForiOs: function() {
+	setNavPositionForiOs: function(top) {
 		/*
 		*	@description:
 		*		For Apple iOS (Safari Webkit) only, reset the position of the navigation using webkitTransform
 		*/
 
 		if(!Browser.Platform.ios) return;
-		this.navPanel.style.webkitTransform = "translateY("+this.scrollTop+"px)";
+		this.navPanel.style.webkitTransform = "translateY("+(this.scrollTop-top)+"px)";
 	},
 	getViewport: function() {
 		try {
