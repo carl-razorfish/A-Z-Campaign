@@ -54,6 +54,11 @@ RIA.AZCampaign = new Class({
 		
 			this.headerH1Offset = this.headerH1.getSize().y;
 		
+			this.articleImages = new Object();
+			
+			
+			
+			
 			this.getContentInViewport();
 		
 			this.scrollFx = new Fx.Scroll(window, {
@@ -141,7 +146,6 @@ RIA.AZCampaign = new Class({
 		
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
-			
 			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
 			if((articleCoords.top >= this.viewport.y+this.scrollTop) || (articleCoords.bottom <= (this.scrollTop+this.scrollVerticalOffset))) {
 				article.store("inviewport",false);
@@ -169,9 +173,6 @@ RIA.AZCampaign = new Class({
 			}				
 		},this);
 
-
-		
-		
 		articleCoords = null;
 	},
 	loadArticle: function(article) {
@@ -179,9 +180,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load an Article
 		*/
-
-		var c = article.getElement(".container"), 
-		i = null, 
+		var i = null, 
 		s, 
 		w, 
 		h, 
@@ -190,36 +189,47 @@ RIA.AZCampaign = new Class({
 		ib;
 		
 		if(ic) { 
+			
 			s = ic.get("data-main-src"),
 			w = ic.get("data-main-width"),
 			h = ic.get("data-main-height"),
 			a = ic.get("data-alt"),
 			ib = ic.getElement(".image-bg");
+			ic.adopt(this.createImage(article));
 			
-			ic.adopt(
-				i = new Element("img", {
-					"src":s,
-					"width":w,
-					"height":h,
-					"alt":a,
-					events:{
-						"load": this.loadImage.pass([article],this)
-					}
-				})
-			);
-
+			//ic.adopt(this.articleImages[article.get("id")]);
 		}	
 		
 		
-		//this.generateLike(article);
 		this.generateTweet(article);
+	
 		
 		c = ic = ib = i = s = w = h = a = null;
 	},
+	createImage: function(article) {
+		var ic = article.getElement(".content-image"),
+		s = ic.get("data-main-src"),
+		w = ic.get("data-main-width"),
+		h = ic.get("data-main-height"),
+		a = ic.get("data-alt"),
+		i = null;
+		
+		
+		return i = new Element("img", {
+			"src":s,
+			"width":w,
+			"height":h,
+			"alt":a,
+			events:{
+				"load": this.loadImage.pass([article],this)
+			}
+		});
+		
+	},
 	loadImage: function(article) {
 		try {
-			
-			var ib = article.getElement(".image-bg");
+			var ib = article.getElement(".image-bg"), ic = article.getElement(".content-image");
+
 			ib.removeClass("loading");		
 		    if(!Browser.ie) {
 				if(Browser.Platform.ios) {
@@ -229,17 +239,17 @@ RIA.AZCampaign = new Class({
 					//ib.addClass("-webkit-fade-out");
 					ib.destroy();
 				} else {
-					ib.set("morph", {fps:100, duration:400});
-					ib.morph({"opacity":0});										
+					ib.set("morph", {fps:100, duration:200});
+					ib.morph({"opacity":0});							
 				}				
 			} else {
 				ib.set("morph", {duration:200});
-				ib.morph({"opacity":0});					
+				ib.morph({"opacity":0});	
+				
 			}
 
-			(function() {
-				this.generateLike(article);
-			}.bind(this)).delay(500)
+			this.generateLike(article);		
+
 		} catch(e) {
 			Log.error({method:"loadImage()", error:e});
 		}
@@ -313,5 +323,8 @@ RIA.AZCampaign = new Class({
 		} catch(e) {
 			Log.error({method:"getViewport()", error:e});
 		}
+	},
+	preloadImages: function() {
+		
 	}
 });
