@@ -1190,16 +1190,20 @@ RIA.AZCampaign = new Class({
 					//ib.addClass("-webkit-fade-out");
 					ib.destroy();
 				} else {
-					ib.set("morph", {fps:100, duration:200});
+					ib.set("morph", {fps:100, duration:200, onComplete: function() {
+						this.generateLike(article);
+					}.bind(this)});
 					ib.morph({"opacity":0});							
 				}				
 			} else {
-				ib.set("morph", {duration:200});
+				ib.set("morph", {fps:100, duration:200, onComplete: function(){
+					this.generateLike(article);
+				}.bind(this)});
 				ib.morph({"opacity":0});	
 				
 			}
 
-			this.generateLike(article);		
+			
 
 		} catch(e) {
 			Log.error({method:"loadImage()", error:e});
