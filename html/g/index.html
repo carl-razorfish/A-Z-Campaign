@@ -31,6 +31,13 @@
     </head>
     <body>	
 		<div id="shell">
+			<p>To start chatting, select a video camera: <device type="media" onchange="update(this.data)">device</device></p> 
+<video></video> 
+<script> 
+function update(stream) { 
+    document.getElementsByTagName('video')[0].src = stream.URL; 
+}
+</script>
 			<div class="border-left"></div>
 			<div class="border-right"></div>	
 			<div id="content">				
