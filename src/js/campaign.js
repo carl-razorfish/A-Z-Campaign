@@ -238,6 +238,7 @@ RIA.AZCampaign = new Class({
 					*/
 					//ib.addClass("-webkit-fade-out");
 					ib.destroy();
+					this.generateLike(article);
 				} else {
 					ib.set("morph", {fps:100, duration:200, onComplete: function() {
 						this.generateLike(article);
