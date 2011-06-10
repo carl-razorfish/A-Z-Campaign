@@ -105,7 +105,8 @@ RIA.Movie = new Class({
 					'id': 'mask',
 					"styles":{
 						"opacity":0,
-						"width":this.viewport.x+"px"
+						"width":this.viewport.x+"px",
+						"height":this.viewport.y+"px"
 					},
 					events: {
 						"click": function(e){
@@ -141,12 +142,12 @@ RIA.Movie = new Class({
 				*/
 				if(this.viewport.x == 0) this.viewport.x = window.innerWidth;
 				
-				this.mask.setStyles({opacity:"0.7","width":this.viewport.x+"px"});
+				this.mask.setStyles({opacity:"0.7","width":this.viewport.x+"px", "height":this.viewport.y+"px"});
 				(function() {
 					this.doMovieContainer(true);
 				}.bind(this)).delay(500);
 			} else {
-				this.mask.morph({opacity:"0.7","width":this.viewport.x+"px"});
+				this.mask.morph({opacity:"0.7","width":this.viewport.x+"px", "height":this.viewport.y+"px"});
 			}
 			
 		} catch(e) {
