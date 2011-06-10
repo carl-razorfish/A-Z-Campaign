@@ -6,6 +6,7 @@
 	width:853px;
 	height:98px;
 	margin:0 0 0 68px;
+	-webkit-transition: -webkit-transform .5s ease-in-out;
 }
 
 .js #navigation {

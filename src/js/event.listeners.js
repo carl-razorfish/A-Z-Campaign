@@ -21,6 +21,8 @@ RIA.EventListeners = new Class({
 		});
 		
 		// Add keyboard navigation event listener
+		document.addEvent("keyup", this.keyboardUp.bind(this));
+		
 		this.addKeyboardEventListeners();
 		
 		// Add document scroll event listener
@@ -33,6 +35,11 @@ RIA.EventListeners = new Class({
 		
 	},
 	loadEvent: function() {
+		/*
+		this.articles.each(function(article) {
+			this.articleImages[article.get("id")] = this.createImage(article);
+		},this);
+		*/
 		this.loadMovie();
 		window.removeEvent("load", this.loadEventBind);
 	},
@@ -42,14 +49,14 @@ RIA.EventListeners = new Class({
 		*		Add keyboard event listeners
 		*/
 		this.keyboardBind = this.keyboardEvent.bind(this);
-		document.addEvent("keyup", this.keyboardBind);
+		document.addEvent("keydown", this.keyboardBind);
 	},
 	removeKeyboardEventListeners: function() {
 		/*
 		*	@description:
 		*		Remove keyboard event listeners
 		*/
-		document.removeEvent("keyup", this.keyboardBind);
+		document.removeEvent("keydown", this.keyboardBind);
 		
 	},
 	addScrollEventListener: function() {
@@ -108,9 +115,13 @@ RIA.EventListeners = new Class({
 		*		This should only be available if we are in the "all" view, i.e. not just a single article selected. We determine this by checking to see if the 'alpha' option is available or not
 		*		Only allow keyboard interaction if the command buttons are not in use
 		*/
+		this.removeKeyboardEventListeners();
 		if(!e.control && !e.shift && !e.meta && !this.options.alpha) {
 			this.filter(e.key, e.type);
 		}
+	},
+	keyboardUp: function() {
+		this.addKeyboardEventListeners();
 	},
 	onWindowResize: function() {
 		/*

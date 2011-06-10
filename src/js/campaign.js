@@ -54,6 +54,11 @@ RIA.AZCampaign = new Class({
 		
 			this.headerH1Offset = this.headerH1.getSize().y;
 		
+			this.articleImages = new Object();
+			
+			
+			
+			
 			this.getContentInViewport();
 		
 			this.scrollFx = new Fx.Scroll(window, {
@@ -95,7 +100,6 @@ RIA.AZCampaign = new Class({
 		*		gotViewport[Boolean]: If this method has been called from getContentInViewport(), for example, we will have just got the viewport dimensions. 
 		*			Therefore do not cause an unnecessary DOM lookup
 		*/
-
 		if(!gotViewport) {
 			this.getViewport();
 		}
@@ -103,20 +107,25 @@ RIA.AZCampaign = new Class({
 		// [ST] TODO: we have a hard-coded pixel adjustment value here
 		if(this.viewport.x > this.shellWidth) {
 			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
-			
-			
 		}
 		
 		if(this.scrollTop <= this.headerH1Offset) {
-			//if(!Browser.Platform.ios) this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
-			this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
-			//[ST]TODO: hide nav cutoff
+			if(Browser.Platform.ios) {
+				this.setNavPositionForiOs(0);
+			} else {
+				this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
+			}
+
             this.navPanel.removeClass("scroll");
+				
 		}
 		else if(this.scrollTop > this.headerH1Offset) {
-			//if(!Browser.Platform.ios) this.navPanel.setStyle("top","0px");
-			//[ST]TODO: show nav cutoff
-			this.navPanel.setStyle("top","0px");
+			if(Browser.Platform.ios) {
+				this.setNavPositionForiOs(112);
+			} else {
+				this.navPanel.setStyle("top","0px");
+			}
+			
 			this.navPanel.addClass("scroll");
 		}
 
@@ -131,11 +140,12 @@ RIA.AZCampaign = new Class({
 		
 		var articleCoords;
 		
+		
 		this.pinNavPanel(true);
+		
 		
 		this.articles.each(function(article) {
 			articleCoords = article.getCoordinates();
-			
 			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
 			if((articleCoords.top >= this.viewport.y+this.scrollTop) || (articleCoords.bottom <= (this.scrollTop+this.scrollVerticalOffset))) {
 				article.store("inviewport",false);
@@ -163,9 +173,6 @@ RIA.AZCampaign = new Class({
 			}				
 		},this);
 
-
-		this.setNavPositionForiOs();
-		
 		articleCoords = null;
 	},
 	loadArticle: function(article) {
@@ -173,9 +180,7 @@ RIA.AZCampaign = new Class({
 		*	@description:
 		*		Load an Article
 		*/
-
-		var c = article.getElement(".container"), 
-		i = null, 
+		var i = null, 
 		s, 
 		w, 
 		h, 
@@ -184,47 +189,67 @@ RIA.AZCampaign = new Class({
 		ib;
 		
 		if(ic) { 
+			
 			s = ic.get("data-main-src"),
 			w = ic.get("data-main-width"),
 			h = ic.get("data-main-height"),
 			a = ic.get("data-alt"),
 			ib = ic.getElement(".image-bg");
+			ic.adopt(this.createImage(article));
 			
-			ic.adopt(
-				i = new Element("img", {
-					"src":s,
-					"width":w,
-					"height":h,
-					"alt":a,
-					events:{
-						"load": this.loadImage.pass([article],this)
-					}
-				})
-			);
-
+			//ic.adopt(this.articleImages[article.get("id")]);
 		}	
 		
-		this.generateLike(article);
 		
 		this.generateTweet(article);
+	
 		
 		c = ic = ib = i = s = w = h = a = null;
 	},
+	createImage: function(article) {
+		var ic = article.getElement(".content-image"),
+		s = ic.get("data-main-src"),
+		w = ic.get("data-main-width"),
+		h = ic.get("data-main-height"),
+		a = ic.get("data-alt"),
+		i = null;
+		
+		
+		return i = new Element("img", {
+			"src":s,
+			"width":w,
+			"height":h,
+			"alt":a,
+			events:{
+				"load": this.loadImage.pass([article],this)
+			}
+		});
+		
+	},
 	loadImage: function(article) {
 		try {
-			var ib = article.getElement(".image-bg");
+			var ib = article.getElement(".image-bg"), ic = article.getElement(".content-image");
+
 			ib.removeClass("loading");		
 		    if(!Browser.ie) {
 				if(Browser.Platform.ios) {
-					ib.addClass("-webkit-fade-out");
+					/*
+					*	[ST]TODO: the webkit fade is killing iPad and iPhone browser instances. Try deleting the element after the fade transition?
+					*/
+					//ib.addClass("-webkit-fade-out");
+					ib.destroy();
 				} else {
-					ib.set("morph", {duration:200});
-					ib.morph({"opacity":0});										
+					ib.set("morph", {fps:100, duration:200});
+					ib.morph({"opacity":0});							
 				}				
 			} else {
 				ib.set("morph", {duration:200});
-				ib.morph({"opacity":0});					
+				ib.morph({"opacity":0});	
+				
 			}
+
+			this.generateLike(article);		
+
 		} catch(e) {
 			Log.error({method:"loadImage()", error:e});
 		}
@@ -278,14 +303,14 @@ RIA.AZCampaign = new Class({
 			
 		articleId = articleCoords = null;
 	},
-	setNavPositionForiOs: function() {
+	setNavPositionForiOs: function(top) {
 		/*
 		*	@description:
 		*		For Apple iOS (Safari Webkit) only, reset the position of the navigation using webkitTransform
 		*/
 
 		if(!Browser.Platform.ios) return;
-		this.navPanel.style.webkitTransform = "translateY("+this.scrollTop+"px)";
+		this.navPanel.style.webkitTransform = "translateY("+(this.scrollTop-top)+"px)";
 	},
 	getViewport: function() {
 		try {
@@ -298,5 +323,8 @@ RIA.AZCampaign = new Class({
 		} catch(e) {
 			Log.error({method:"getViewport()", error:e});
 		}
+	},
+	preloadImages: function() {
+		
 	}
 });

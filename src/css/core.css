@@ -85,9 +85,6 @@ h3 {
 	text-align:left;
 }
 
-ul,dl,ol {
-	list-style-type:none;
-}
 
 #content {
 	position:relative;
@@ -97,10 +94,6 @@ ul,dl,ol {
 	padding:135px 0 160px 0;
 	
     margin-left:73px;
-}
-
-.js .js-hide {
-	display:none;
 }
 
 /*
@@ -176,7 +169,7 @@ ul,dl,ol {
 #p .content {height:378px}
 
 #q,
-#q .content {height:550px}
+#q .content {height:540px}
 
 #r,
 #r .content {height:566px}
