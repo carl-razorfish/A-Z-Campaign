@@ -52,7 +52,7 @@ RIA.AZCampaign = new Class({
 			// [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
 			this.scrollVerticalOffset = -50;//this.navPanel.getSize().y;
 		
-			this.headerH1Offset = this.headerH1.getSize().y;
+			this.headerH1Offset = 112;//this.headerH1.getSize().y;
 		
 			this.articleImages = new Object();
 			

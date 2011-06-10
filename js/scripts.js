@@ -1003,7 +1003,7 @@ RIA.AZCampaign = new Class({
 			// [ST]TODO: manual increase here, as the vertical offset doesn't quite prevent the bottom of fact content hidden beneath the top nav from being loaded
 			this.scrollVerticalOffset = -50;//this.navPanel.getSize().y;
 		
-			this.headerH1Offset = this.headerH1.getSize().y;
+			this.headerH1Offset = 112;//this.headerH1.getSize().y;
 		
 			this.articleImages = new Object();
 			
@@ -1189,6 +1189,7 @@ RIA.AZCampaign = new Class({
 					*/
 					//ib.addClass("-webkit-fade-out");
 					ib.destroy();
+					this.generateLike(article);
 				} else {
 					ib.set("morph", {fps:100, duration:200, onComplete: function() {
 						this.generateLike(article);
@@ -1202,8 +1203,6 @@ RIA.AZCampaign = new Class({
 				ib.morph({"opacity":0});	
 				
 			}
-
-			
 
 		} catch(e) {
 			Log.error({method:"loadImage()", error:e});
