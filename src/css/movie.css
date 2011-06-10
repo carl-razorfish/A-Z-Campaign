@@ -1,5 +1,5 @@
 /*
-*	Mask
+* Mask
 */
 .mask {
 	width:100%;
@@ -8,10 +8,6 @@
 	position:absolute;
 	left:0;
 	top:0;
-<<<<<<< HEAD
-	z-index:10;
-=======
->>>>>>> 131220af00337ba72574062165f21a927af340be
 }
 
 #movie {
@@ -19,21 +15,9 @@
 	position:absolute;
 	width:850px;
 	height:100px;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	top:50px;
+	top:150px;
 	left:10000em;
-	z-index:15;
-=======
-	top:150px;
-	left:10000em;	
-	z-index:25;	
->>>>>>> 2c230cf895d45b9368e58903ffdddf96b0eb6a49
-=======
-	top:150px;
-	left:10000em;	
-	z-index:25;	
->>>>>>> 131220af00337ba72574062165f21a927af340be
+	z-index:25;
 	text-align:center;
 }
 
@@ -69,7 +53,7 @@
 	width:703px;
 	height:478px;
 	z-index:2;
-	margin-left:150px;		
+	margin-left:150px;
 }
 
 #close {
