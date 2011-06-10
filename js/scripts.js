@@ -1039,7 +1039,9 @@ RIA.AZCampaign = new Class({
 			//this.loadMovie();
 			
 		} catch(e) {
-			if(Browser.ie) alert("initialize() error : "+e.message);
+			if(Browser.ie) {
+				alert("initialize() error : "+e.message);
+			}
 			Log.error({method:"initialize() : Error : ", error:e});	
 		}
 	},

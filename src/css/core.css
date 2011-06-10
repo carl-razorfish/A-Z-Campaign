@@ -3,7 +3,8 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,text
 body {
 	font-family:lucida, arial, verdana, helvetica;
 	position:relative;
-	font-size:0.8em;
+	font-size:0.78em; /*78%;*/ /*0.8em;*/
+	line-height:15px;
 	color:#000;
 	text-align:center;
 	background:#275308 url(../img/McD_A-Z_Grass_bg_tile3.jpg) repeat-y top center;
@@ -169,7 +170,7 @@ h3 {
 #p .content {height:378px}
 
 #q,
-#q .content {height:540px}
+#q .content {height:540px;}
 
 #r,
 #r .content {height:566px}
