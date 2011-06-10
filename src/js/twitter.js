@@ -11,6 +11,7 @@ RIA.Twitter = new Class({
 			tb.set("href", url).addEvent("click", this.eventTweet.bind(this));		
 			tb = url = null;
 		} catch(e) {
+			if(Browser.ie) alert("generateTweet() error : "+e.message);
 			Log.error({message:"RIA.Twitter : generateTweet()", error:e});
 		}
 	},
@@ -33,6 +34,7 @@ RIA.Twitter = new Class({
 		
 			t = u = w = h = l = n = null;
 		} catch(e) {
+			if(Browser.ie) alert("eventTweet() error : "+e.message);
 			Log.error({method:"eventTweet()", error:e});
 		}
 	}

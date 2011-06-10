@@ -1,5 +1,5 @@
 #navigation {
-	background:url(../img/a-z-sprite.png) repeat-x -189px -124px;
+	background:url(../img/a-z-sprite.png) repeat-x -189px -192px;/*-189px -124px;*/
 	position:absolute;
 	top:112px;
 	left:0px;

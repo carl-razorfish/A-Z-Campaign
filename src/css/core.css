@@ -42,7 +42,7 @@ h1 {
 	top:0px;
 	left:-42px;
 	width:891px;
-	height:112px;	
+	height:175px; /*112px*/
 	background:url(../img/a-z-sprite.png) no-repeat -150px -1px;
 }
 
@@ -58,7 +58,7 @@ h1 a {
 	text-indent:-10000em;
 }
 h2#youtube-link a {
-    background:url(../img/a-z-sprite.png) no-repeat -190px -665px; 
+    background:url(../img/a-z-sprite.png) no-repeat -190px -695px;/*-665px;*/
     position:absolute;
     top:20px;
     left:702px;
@@ -91,7 +91,7 @@ h3 {
 	width:850px;
 	/* top padding is nav offset. bottom padding is twmm footer background offset */
 	
-	padding:135px 0 160px 0;
+	padding:135px 0 130px 0;/*135px 0 160px 0;*/
 	
     margin-left:73px;
 }

@@ -79,11 +79,11 @@ footer li {
 */
 footer h3 {
 	width:870px;
-	height:427px;
+	height:395px; /*427px;*/
 	position:absolute;
-	top:-230px;
+	top:-150px; /*-230px;*/
 	left:-5px;
-	background:url(../img/a-z-sprite.png) no-repeat -194px -214px;
+	background:url(../img/a-z-sprite.png) no-repeat -194px -296px;/* -214px;*/
 	text-indent:-10000em;
     z-index:-1;
 }
