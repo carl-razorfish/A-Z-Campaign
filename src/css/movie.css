@@ -1,5 +1,5 @@
 /*
-*	Mask
+* Mask
 */
 .mask {
 	width:100%;
@@ -16,8 +16,8 @@
 	width:850px;
 	height:100px;
 	top:150px;
-	left:10000em;	
-	z-index:25;	
+	left:10000em;
+	z-index:25;
 	text-align:center;
 }
 
@@ -53,7 +53,7 @@
 	width:703px;
 	height:478px;
 	z-index:2;
-	margin-left:150px;		
+	margin-left:150px;
 }
 
 #close {
