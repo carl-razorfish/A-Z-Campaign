@@ -31,15 +31,15 @@
 		</div>	
 		<div id="movie" data-movie="{{ common.movie_swf_uri }}" data-url="{{ common.movie_youtube_url }}">
 			<span id="close"></span>
-			<div id="unsupported">
-				<p>
-					{{ common.movie_unsupported|safe }}
-				</p>
-				<p>
-					{{ common.movie_alt_text|safe }}
-				</p>
-			</div>
-			<div id="movie-container">							
+			<div id="movie-container">
+				<div id="unsupported">
+					<p>
+						{{ common.movie_unsupported|safe }}
+					</p>
+					<p>
+						{{ common.movie_alt_text|safe }}
+					</p>
+				</div>
 			</div>
 			<div class="social">
 				<span class="tweet-button">
