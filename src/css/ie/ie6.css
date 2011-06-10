@@ -208,7 +208,7 @@ footer h3 {
 	position:absolute;
 	top:-255px;
 	left:-21px;
-	background:url(../img/a-z-sprite.png) no-repeat -194px -214px;
+	background:url(../img/a-z-sprite.png) no-repeat -194px -296px;/* -214px;*/
 	text-indent:-10000em;
     z-index:-1;
 }

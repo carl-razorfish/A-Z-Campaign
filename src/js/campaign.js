@@ -87,7 +87,7 @@ RIA.AZCampaign = new Class({
 			
 		} catch(e) {
 			if(Browser.ie) alert("initialize() error : "+e.message);
-			Log.error({method:"RIA.AZCampaign v3 : initialize() : Error : ", error:e});	
+			Log.error({method:"initialize() : Error : ", error:e});	
 		}
 	},
 	pinNavPanel: function(gotViewport) {
@@ -100,131 +100,132 @@ RIA.AZCampaign = new Class({
 		*		gotViewport[Boolean]: If this method has been called from getContentInViewport(), for example, we will have just got the viewport dimensions. 
 		*			Therefore do not cause an unnecessary DOM lookup
 		*/
-		if(!gotViewport) {
-			this.getViewport();
-		}
-		
-		// [ST] TODO: we have a hard-coded pixel adjustment value here
-		if(this.viewport.x > this.shellWidth) {
-			this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
-		}
-		
-		if(this.scrollTop <= this.headerH1Offset) {
-			if(Browser.Platform.ios) {
-				this.setNavPositionForiOs(0);
-			} else {
-				this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
+		try {
+			if(!gotViewport) {
+				this.getViewport();
 			}
+		
+			// [ST] TODO: we have a hard-coded pixel adjustment value here
+			if(this.viewport.x > this.shellWidth) {
+				this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
+			}
+		
+			if(this.scrollTop <= this.headerH1Offset) {
+				if(Browser.Platform.ios) {
+					this.setNavPositionForiOs(0);
+				} else {
+					this.navPanel.setStyle("top",this.headerH1Offset-this.scrollTop+"px");
+				}
 
-            this.navPanel.removeClass("scroll");
+	            this.navPanel.removeClass("scroll");
 				
-		}
-		else if(this.scrollTop > this.headerH1Offset) {
-			if(Browser.Platform.ios) {
-				this.setNavPositionForiOs(112);
-			} else {
-				this.navPanel.setStyle("top","0px");
 			}
+			else if(this.scrollTop > this.headerH1Offset) {
+				if(Browser.Platform.ios) {
+					this.setNavPositionForiOs(112);
+				} else {
+					this.navPanel.setStyle("top","0px");
+				}
 			
-			this.navPanel.addClass("scroll");
+				this.navPanel.addClass("scroll");
+			}
+		} catch(e) {
+			if(Browser.ie) alert("pinNavPanel() error : "+e.message);
+			Log.error({method:"pinNavPanel() : Error : ", error:e});	
 		}
-
 	},
 	getContentInViewport: function(eventObj) {
 		/*
 		*	@description:
 		*		Establish which content is visible in the viewport		
 		*/
+		try {
+			this.getViewport();
 		
-		this.getViewport();
-		
-		var articleCoords;
-		
-		
-		this.pinNavPanel(true);
+			var articleCoords;
 		
 		
-		this.articles.each(function(article) {
-			articleCoords = article.getCoordinates();
-			// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
-			if((articleCoords.top >= this.viewport.y+this.scrollTop) || (articleCoords.bottom <= (this.scrollTop+this.scrollVerticalOffset))) {
-				article.store("inviewport",false);
-			} else {
-				/*
-				*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
-				*/
-
-				if(!article.retrieve("inviewport") || article.retrieve("inviewport") == false) {
-					article.store("inviewport",true);
-					
-					if(!article.retrieve("loaded") || article.retrieve("loaded") == false) {
-						this.loadArticle(article);
-						article.store("loaded",true);
-					}
+			this.pinNavPanel(true);
+		
+		
+			this.articles.each(function(article) {
+				articleCoords = article.getCoordinates();
+				// If the Article is not in the viewport... [ST]TODO: adjust the second condition for the top nav, as Fact article content bottom may be hidden behind the nav but considered "in view"
+				if((articleCoords.top >= this.viewport.y+this.scrollTop) || (articleCoords.bottom <= (this.scrollTop+this.scrollVerticalOffset))) {
+					article.store("inviewport",false);
+				} else {
 					/*
-					*	MCDCOUK-1787[ST]: Do not track an additional page view when we are on a fact page, as it is duplication
+					*	If the Article is not recorded as being in the viewport, load the Article (once) and track it (once)
 					*/
-					if(!this.options.alpha || this.options.alpha == "") {
-						//Log.info("_trackPageview("+article.get("id")+"/scrolled)");
-						_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
-					}
-					
-				}								
-			}				
-		},this);
 
-		articleCoords = null;
+					if(!article.retrieve("inviewport") || article.retrieve("inviewport") == false) {
+						article.store("inviewport",true);
+					
+						if(!article.retrieve("loaded") || article.retrieve("loaded") == false) {
+							this.loadArticle(article);
+							article.store("loaded",true);
+						}
+						/*
+						*	MCDCOUK-1787[ST]: Do not track an additional page view when we are on a fact page, as it is duplication
+						*/
+						if(!this.options.alpha || this.options.alpha == "") {
+							//Log.info("_trackPageview("+article.get("id")+"/scrolled)");
+							_gaq.push(['_trackPageview', "/"+article.get("id")+"/scrolled"]);
+						}
+					
+					}								
+				}				
+			},this);
+
+			articleCoords = null;
+		} catch(e) {
+			if(Browser.ie) alert("getContentInViewport() error : "+e.message);
+			Log.error({method:"getContentInViewport() : Error : ", error:e});	
+		}
 	},
 	loadArticle: function(article) {
 		/*
 		*	@description:
 		*		Load an Article
 		*/
-		var i = null, 
-		s, 
-		w, 
-		h, 
-		a, 
-		ic = article.getElement(".content-image"),
-		ib;
+		try {
+			var ic = article.getElement(".content-image");
 		
-		if(ic) { 
-			
+			if(ic) { 
+				ic.adopt(this.createImage(article));
+			}	
+		
+			this.generateTweet(article);
+		
+			ic = null;
+		} catch(e) {
+			if(Browser.ie) alert("loadArticle() error : "+e.message);
+			Log.error({method:"loadArticle() : Error : ", error:e});	
+		}
+	},
+	createImage: function(article) {
+		try {
+			var ic = article.getElement(".content-image"),
 			s = ic.get("data-main-src"),
 			w = ic.get("data-main-width"),
 			h = ic.get("data-main-height"),
 			a = ic.get("data-alt"),
-			ib = ic.getElement(".image-bg");
-			ic.adopt(this.createImage(article));
-			
-			//ic.adopt(this.articleImages[article.get("id")]);
-		}	
+			i = null;
 		
 		
-		this.generateTweet(article);
-	
-		
-		c = ic = ib = i = s = w = h = a = null;
-	},
-	createImage: function(article) {
-		var ic = article.getElement(".content-image"),
-		s = ic.get("data-main-src"),
-		w = ic.get("data-main-width"),
-		h = ic.get("data-main-height"),
-		a = ic.get("data-alt"),
-		i = null;
-		
-		
-		return i = new Element("img", {
-			"src":s,
-			"width":w,
-			"height":h,
-			"alt":a,
-			events:{
-				"load": this.loadImage.pass([article],this)
-			}
-		});
-		
+			return i = new Element("img", {
+				"src":s,
+				"width":w,
+				"height":h,
+				"alt":a,
+				events:{
+					"load": this.loadImage.pass([article],this)
+				}
+			});
+		} catch(e) {
+			if(Browser.ie) alert("createImage() error : "+e.message);
+			Log.error({method:"createImage() : Error : ", error:e});	
+		}
 	},
 	loadImage: function(article) {
 		try {
@@ -254,6 +255,7 @@ RIA.AZCampaign = new Class({
 			}
 
 		} catch(e) {
+			if(Browser.ie) alert("loadImage() error : "+e.message);
 			Log.error({method:"loadImage()", error:e});
 		}
 	},
@@ -324,10 +326,8 @@ RIA.AZCampaign = new Class({
 				this.viewport.y = window.innerHeight
 			}
 		} catch(e) {
+			if(Browser.ie) alert("getViewport() error : "+e.message);
 			Log.error({method:"getViewport()", error:e});
 		}
-	},
-	preloadImages: function() {
-		
 	}
 });
