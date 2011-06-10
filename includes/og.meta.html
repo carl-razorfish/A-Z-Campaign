@@ -2,7 +2,7 @@
 <meta property="og:site_name" content="{{ common.pagetitle }}" />
 {% if alpha %}{% for article in content %}{% if article.id in alpha %}
 		<meta property="og:type" content="{{ common.og_type_article }}" />
-		<meta property="og:title" content="{{ article.title }}" />
+		<meta property="og:title" content="{{ article.title|truncatewords:18 }}" />
 		<meta property="og:url" content="{{ common.live_domain }}{{ article.id }}" />
 		<meta property="og:image" content="{{ common.live_domain }}img/{{ article.id }}/letter.jpg" />
 		<meta property="og:description" content="{{ article.section_statement1|truncatewords:30 }}" />
