@@ -37,7 +37,9 @@ article header {
 	left:-10000em;
 	top:-10000em;
 }
-
+article.error header {
+	position:static;
+}
 article p {
 	padding:0 0 18px 0;
 }
