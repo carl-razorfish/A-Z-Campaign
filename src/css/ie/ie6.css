@@ -13,7 +13,11 @@
     );
 }
 
-#navigation {top:250px; position:absolute;}
+#navigation {
+	position:fixed;
+	top:-1550px; 
+	left:154px;
+}
 
 
 footer h3 { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/footer.png', sizingMethod='scale'); background:none; margin-left:34px; margin-top:-300px; }  
@@ -24,7 +28,11 @@ h2#youtube-link a{ filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src
 /* style adjustments for ie 6 */
 
 .border-right{position:absolute; display:inline-block; width:74px; height:10913px; background:url(../../img/ie6/right-border.gif) repeat-y top left; margin-left:845px;}
-.border-left {position:absolute; display:inline-block; width:74px; height:10913px; background:url(../../img/ie6/left-border.gif) repeat-y top left; margin-left:-69px;}
+.border-left {position:absolute; display:inline-block; width:74px; height:10913px; background:url(../../img/ie6/left-border.gif) repeat-y top left; margin-left:6px;}
+
+
+#fact .border-right{position:absolute; display:inline-block; width:74px; height:1000px; background:url(../../img/ie6/right-border.gif) repeat-y top left; margin-left:845px;}
+#fact .border-left {position:absolute; display:inline-block; width:74px; height:1000px; background:url(../../img/ie6/left-border.gif) repeat-y top left; margin-left:6px;}
 
 
 article p.first {
@@ -62,6 +70,7 @@ article div.container .content {
 .clear {clear:both;}
 
 #a .container {	margin-bottom:-10px;}
+#d .container {	margin-bottom:0px;}
 #e .container {	margin-bottom:-30px;}
 #k .container {	margin-bottom:-15px;}
 #1 .container {	margin-bottom:-15px;}
@@ -72,7 +81,7 @@ article div.container .content {
 #q .container {	margin-bottom:-20px;}
 #t .container {	margin-bottom:-5px;}
 #u .container {	margin-bottom:-10px;}
-#v .container {	margin-bottom:-20px;}
+#v .container {	margin-bottom:-26px;}
 #w .container {	margin-bottom:-15px;}
 #x .container {	margin-bottom:-10px;}
 
@@ -176,18 +185,20 @@ article div.container .content {
 	margin-left:-2px;
 }
 
-footer {	
+footer {
+	margin-top:448px;	
     width:903px;
 	margin-left:auto;
 	margin-right:auto;
 }
 
-footer ul {margin-left:10px;}
+footer ul {margin-left:160px;}
 footer nav {
 	width:890px;
-	margin:-403px auto 0 auto;
+	margin:-303px auto 0 auto;
 	padding:0px 0 20px 35px;
-    position:relative;
+    position:absolute;
+    top:0px;
     z-index:10;
 }
 
@@ -197,7 +208,8 @@ footer p {
 	text-align:center;
 	padding:10px 80px 10px 120px;
 	font-size:0.9em;
-    position:relative;
+    position:absolute;
+    top:-290px;
     z-index:10;
 }
 
@@ -207,7 +219,7 @@ footer h3 {
 	height:407px;
 	position:absolute;
 	top:-255px;
-	left:-21px;
+	left:-36px;
 	background:url(../img/a-z-sprite.png) no-repeat -194px -296px;/* -214px;*/
 	text-indent:-10000em;
     z-index:-1;
