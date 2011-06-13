@@ -18,7 +18,11 @@ div.article {
 article h2 {
 	text-indent:-10000em;
 }
-
+article.error h2 {
+	text-indent:0em;
+	font-weight:bold;
+	font-size:1.4em;
+}
 /*
 *	[ST] For <IE9
 */

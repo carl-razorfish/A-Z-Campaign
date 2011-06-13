@@ -19,10 +19,15 @@
 			<div class="border-left"></div>
 			<div class="border-right"></div>
 			<div id="content">
-				{% include "includes/header.html" %}
+				<header>
+					<hgroup>
+						<h1><a href="../">{{ common.h1 }}</a></h1>
+						<h2 id="youtube-link"><a href="{{ common.movie_youtube_url }}" target="_blank" rel="external">{{ common.movie_cta }}</a></h2>
+					</hgroup>
+				</header>
 				<article class="error">
-						<p><b>{{ common.404_title }}</b></p>
-						<p>{{ common.404_message|safe }}</p>
+					<h2>{{ common.404_title }}</h2>
+					<p>{{ common.404_message|safe }}</p>
 				</article>
 			</div>
 			{% include "includes/footer.html" %}
