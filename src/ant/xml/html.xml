@@ -10,6 +10,7 @@
 	<target name="OPERATION.HTML.Get" description="Get all HTML pages from the GAE instance">
 		<echo>Getting all HTML files, and saving them to the /html/ directory</echo>
 		<get src="${env.home}" dest="${build.html.dir}/index.html" verbose="true" httpusecaches="false"/>
+		<get src="${env.error}" dest="${build.html.dir}/error.html" verbose="true" httpusecaches="false"/>
 		<get src="${env.a}" dest="${build.html.dir}/a/index.html" verbose="true" httpusecaches="false"/>
 		<get src="${env.b}" dest="${build.html.dir}/b/index.html" verbose="true" httpusecaches="false"/>
 		<get src="${env.c}" dest="${build.html.dir}/c/index.html" verbose="true" httpusecaches="false"/>
