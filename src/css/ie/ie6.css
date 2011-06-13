@@ -20,6 +20,7 @@ footer h3 { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../..
 h1 { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/header.png', sizingMethod='scale'); background:none; margin-left:40px; width:850px; }
 #navigation { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/nav.png', sizingMethod='scale'); background:none; margin-top:-140px; margin-left:-75px;}
 h2#youtube-link a{ filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/ie6/vid-button.png', sizingMethod='scale'); background:none; }
+#movie-container {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../img/vid-panel-social.png', sizingMethod='scale'); background:none;}
 
 /* style adjustments for ie 6 */
 
