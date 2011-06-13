@@ -89,10 +89,19 @@ class Error404Handler(webapp.RequestHandler):
 	args = dict(timestamp=timestamp,content=contentMC,common=commonMC)
 	path = os.path.join(os.path.dirname(__file__),'error.html')
 	self.response.out.write(template.render(path,args))
-		
+
+class ForceErrorHandler(webapp.RequestHandler):
+  def get(self):
+	contentMC = content.load()
+	commonMC = common.load()
+	configMC = config.load()
+	args = dict(content=contentMC,common=commonMC,config=configMC)
+	path = os.path.join(os.path.dirname(__file__),'error.html')
+	self.response.out.write(template.render(path,args))		
 
 def real_main():
   util.run_wsgi_app(webapp.WSGIApplication([
+	('/error',ForceErrorHandler),
 	('/over-quota',OverQuotaHandler),
 	('/',HomeHandler),
 	(regexpURLAtoZ,ViewHandler),
