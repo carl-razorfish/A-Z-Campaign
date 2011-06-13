@@ -19,15 +19,13 @@
 			<div class="border-left"></div>
 			<div class="border-right"></div>
 			<div id="content">
-				<header>
-					<h1 class="error-hdr">{{ common.404_title }}</h1>
-				</header>
+				{% include "includes/header.html" %}
 				<article class="error">
 						<p><b>{{ common.404_title }}</b></p>
 						<p>{{ common.404_message|safe }}</p>
 				</article>
 			</div>
-			{% include "includes/footer.html" %}			
+			{% include "includes/footer.html" %}
 			{% include "includes/navigation.html" %}		
 		</div>
     </body>
