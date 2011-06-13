@@ -106,9 +106,8 @@ RIA.AZCampaign = new Class({
 			if(!gotViewport) {
 				this.getViewport();
 			}
-		
-			// [ST] TODO: we have a hard-coded pixel adjustment value here
-			if(this.viewport.x > this.shellWidth) {
+
+			if(!Browser.ie6 && (this.viewport.x > this.shellWidth)) {
 				this.navPanel.setStyle("left",((this.viewport.x - this.shellWidth) / 2)+"px");
 			}
 		
@@ -125,7 +124,11 @@ RIA.AZCampaign = new Class({
 			else if(this.scrollTop > this.headerH1Offset) {
 				if(Browser.Platform.ios) {
 					this.setNavPositionForiOs(112);
-				} else {
+				} 
+				else if(Browser.ie6) {
+					this.navPanel.setStyle("top",this.scrollTop+"px");
+				}
+				else {
 					this.navPanel.setStyle("top","0px");
 				}
 			

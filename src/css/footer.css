@@ -34,12 +34,12 @@ footer li {
 }
 
 footer h3 {
-	width:870px;
-	height:395px; /*427px;*/
+	width:860px;
+	height:395px;
 	position:absolute;
-	top:-150px; /*-230px;*/
-	left:-5px;
-	background:url(../img/a-z-sprite.png) no-repeat -194px -296px;/* -214px;*/
+	top:-150px;
+	left:0px;
+	background:url(../img/a-z-sprite.png) no-repeat -194px -296px;
 	text-indent:-10000em;
     z-index:-1;
 }
