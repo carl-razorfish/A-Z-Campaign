@@ -4,17 +4,6 @@ footer {
 	position:relative;
 }
 
-/*
-*	[ST] For <IE9
-*/
-/*
-#footer {	
-    width:870px;
-	margin:0 auto;
-	position:relative;
-}
-*/
-
 footer nav {
 	width:850px;
 	margin:23px auto 0 auto;
@@ -33,34 +22,10 @@ footer p {
     z-index:10;
 }
 
-/*
-*	[ST] For <IE9
-*/
-/*
-#footer p {
-	width:642px;
-	margin:0 auto;
-	text-align:center;
-	padding:10px 100px;
-	font-size:0.9em;
-    position:relative;
-    z-index:10;
+footer ul {
+	overflow:hidden;
+	margin:30px auto 5px 140px;
 }
-*/
-
-footer ul {margin:0 auto 20px 120px;}
-/*
-*	[ST] For <IE9
-*/
-/*
-#footer ul {
-	width:850px;
-	padding:80px 0 0 35px;
-    position:relative;
-    z-index:10;
-	margin:0 0 20px 40px;	
-}
-*/
 
 footer li {
 	float:left;
@@ -68,38 +33,13 @@ footer li {
     font-weight:bold;
 }
 
-/*
-*	[ST] For <IE9
-*/
-/*#footer li {
-	float:left;
-	margin:0 10px 0 0;
-    font-weight:bold;
-}
-*/
 footer h3 {
-	width:870px;
-	height:395px; /*427px;*/
+	width:860px;
+	height:395px;
 	position:absolute;
-	top:-150px; /*-230px;*/
-	left:-5px;
-	background:url(../img/a-z-sprite.png) no-repeat -194px -296px;/* -214px;*/
+	top:-150px;
+	left:0px;
+	background:url(../img/a-z-sprite.png) no-repeat -194px -296px;
 	text-indent:-10000em;
     z-index:-1;
 }
-
-
-/*
-*	[ST] For <IE9
-*/
-/*#footer h3 {
-	width:870px;
-	height:427px;
-	position:absolute;
-	top:-230px;
-	left:-5px;
-	background:url(../img/a-z-sprite.png) no-repeat -194px -214px;
-	text-indent:-10000em;
-    z-index:-1;
-}
-*/

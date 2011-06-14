@@ -3,7 +3,11 @@
     <head>
         <title>{% if alpha %}{% for article in content %}{% if article.id in alpha %}{{ article.title }} - {% endif %}{% endfor %}{% endif %}{{ common.pagetitle|safe }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		{% ifequal isHome "true"   %}
 		<meta name="viewport" content="width=device-width; initial-scale=1;"/>
+		{% else %}
+		<meta name="viewport" content="width=device-width; initial-scale=0.8;"/>		
+		{% endifequal %}
 		<link rel="stylesheet" href="../css/styles.css"/>
 		{% include "includes/og.meta.html" %}			
 		<link rel="icon" type="image/vnd.microsoft.icon" href="../favicon.ico" />
@@ -18,7 +22,7 @@
 		<meta name="robots" content="noindex, nofollow">
 		{% endifequal %}
     </head>
-    <body>	
+    <body{% if alpha %} class="fact"{% endif %}>	
 		<div id="shell">
 			<div class="border-left"></div>
 			<div class="border-right"></div>	

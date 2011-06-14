@@ -51,18 +51,6 @@
 #navigation #alphabet li.w {margin-right:22px;}
 #navigation #alphabet li.x {margin-right:20px;}
 #navigation #alphabet li.y {margin-right:19px;}
-/*
-*	Article Nav
-*/
-article nav ul {
-	float:right;
-	margin:10px 0 0 0;
-	display:block;
-}
-article nav ul li {
-	margin:0 10px 0 0;
-	display:block;
-	float:left;
-}
+
 
 .scroll {height:82px !important;}

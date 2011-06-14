@@ -8,9 +8,9 @@
 		<meta property="og:description" content="{{ article.section_statement1|truncatewords:30 }}" />
 		<meta name="keywords" content="{{ article.keywords }}" />
 		<meta name="description" content="{{ article.section_statement1|truncatewords:30 }}" />
-		<meta property="og:video" content="{{ common.movie_youtube_url }}" />
-		<meta property="og:video:height" content="398" />{% comment %}630{% endcomment %}
-		<meta property="og:video:width" content="460" />{% comment %}385{% endcomment %}
+		<meta property="og:video" content="{{ common.fb_movie_swf_uri|safe }}" />
+		<meta property="og:video:height" content="224" />
+		<meta property="og:video:width" content="398" />
 		<meta property="og:video:type" content="application/x-shockwave-flash" />{% endif %}{% endfor %}
 {% else %}{% if common.home_meta_keywords %}<meta name="keywords" content="{{ common.home_meta_keywords }}" />{% endif %}
 	<meta name="description" content="{{ common.home_meta_description }}" />

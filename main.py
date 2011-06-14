@@ -54,7 +54,7 @@ class HomeHandler(webapp.RequestHandler):
 	commonMC = common.load()
 	configMC = config.load()
 	path = os.path.join(os.path.dirname(__file__),'index.py.html')
-	args = dict(content=contentMC,common=commonMC,config=configMC)
+	args = dict(content=contentMC,common=commonMC,config=configMC,isHome="true")
 	self.response.out.write(template.render(path,args))
   def post(self):
     path = os.path.join(os.path.dirname(__file__),'index.py.html')
@@ -73,7 +73,7 @@ class ViewHandler(webapp.RequestHandler):
 		else:
 			category = urlPath
 	path = os.path.join(os.path.dirname(__file__),'index.py.html')
-	args = dict(alpha=alpha,content=contentMC,common=commonMC,config=configMC)
+	args = dict(alpha=alpha,content=contentMC,common=commonMC,config=configMC,isHome="false")
 	self.response.out.write(template.render(path,args))
   def post(self, urlPath):
     path = os.path.join(os.path.dirname(__file__),'index.py.html')
@@ -86,13 +86,22 @@ class Error404Handler(webapp.RequestHandler):
 	contentMC = content.load()
 	commonMC = common.load()
 	timestamp = time.time()
-	args = dict(timestamp=timestamp,content=contentMC,common=commonMC)
+	args = dict(timestamp=timestamp,content=contentMC,common=commonMC,isHome="false")
 	path = os.path.join(os.path.dirname(__file__),'error.html')
 	self.response.out.write(template.render(path,args))
-		
+
+class ForceErrorHandler(webapp.RequestHandler):
+  def get(self):
+	contentMC = content.load()
+	commonMC = common.load()
+	configMC = config.load()
+	args = dict(content=contentMC,common=commonMC,config=configMC)
+	path = os.path.join(os.path.dirname(__file__),'error.html')
+	self.response.out.write(template.render(path,args))		
 
 def real_main():
   util.run_wsgi_app(webapp.WSGIApplication([
+	('/error',ForceErrorHandler),
 	('/over-quota',OverQuotaHandler),
 	('/',HomeHandler),
 	(regexpURLAtoZ,ViewHandler),
