@@ -1,5 +1,5 @@
 .tweet-button {display:block;}
-.tweet-button a{height:20px; width:55px; display:block; background:transparent url(http://platform2.twitter.com/widgets/images/tweet.png) no-repeat;}
+.tweet-button a{height:20px; width:55px; display:block; background:transparent url(../img/tweet.png) no-repeat;}
 .tweet-button a span{position:absolute;left:-999em;}
 .tweet-button a:hover{background-position:0 -21px;}
 .tweet-button a:active{background-position:0 -42px;}

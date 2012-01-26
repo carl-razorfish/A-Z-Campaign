@@ -1,5 +1,8 @@
+/*  old */
+
+/*
 #navigation {
-	background:url(../img/a-z-sprite.png) repeat-x -189px -192px;/*-189px -124px;*/
+	background:url(../img/a-z-sprite.png) repeat-x -189px -192px;/*-189px -124px;
 	position:absolute;
 	top:112px;
 	left:0px;
@@ -12,10 +15,6 @@
 .js #navigation {
 	position:fixed;
 }
-
-/*
-*	Alphabet
-*/
 
 #navigation #alphabet {margin-top:15px; margin-left:24px;}
 
@@ -54,3 +53,62 @@
 
 
 .scroll {height:82px !important;}
+
+*/
+
+/* new */
+
+#navigation {
+background:url(../img/a-z-sprite.png) repeat-x -189px -192px;
+position:absolute;
+top:112px;
+left:0;
+width:853px;
+height:98px;
+-webkit-transition:0 .5s ease-in-out;
+margin:0 0 0 68px;
+}
+
+#navigation #alphabet {margin-top:10px;margin-left:17px;}
+
+#navigation #alphabet li {
+float:left;
+margin:0 10px 0 0;
+}
+
+#navigation #alphabet li a {
+display:inline-block;
+width:18px;
+height:25px;
+text-decoration:none;
+padding:2px;
+}
+
+#navigation #alphabet li a:hover {text-decoration:none;}
+
+#navigation #alphabet li.a {margin-right:9px;}
+#navigation #alphabet li.b {margin-right:9px;}
+#navigation #alphabet li.c {margin-right:12px;}
+#navigation #alphabet li.d {margin-right:13px;}
+#navigation #alphabet li.e {margin-right:8px;}
+#navigation #alphabet li.f {margin-right:8px;}
+#navigation #alphabet li.g {margin-right:9px;}
+#navigation #alphabet li.h {margin-right:11px;}
+#navigation #alphabet li.i {margin-right:11px;}
+#navigation #alphabet li.j {margin-right:13px;}
+#navigation #alphabet li.k {margin-right:5px;}
+#navigation #alphabet li.l {margin-right:6px;}
+#navigation #alphabet li.m {margin-right:10px;}
+#navigation #alphabet li.n {margin-right:10px;}
+#navigation #alphabet li.o {margin-right:8px;}
+#navigation #alphabet li.p {margin-right:8px;}
+#navigation #alphabet li.q {margin-right:12px;}
+#navigation #alphabet li.r {margin-right:12px;}
+#navigation #alphabet li.s {margin-right:8px;}
+#navigation #alphabet li.t {margin-right:9px;}
+#navigation #alphabet li.u {margin-right:7px;}
+#navigation #alphabet li.v {margin-right:12px;}
+#navigation #alphabet li.w {margin-right:13px;}
+#navigation #alphabet li.x {margin-right:13px;}
+#navigation #alphabet li.y {margin-right:11px;}
+
