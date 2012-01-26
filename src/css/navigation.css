@@ -2,7 +2,7 @@
 
 /*
 #navigation {
-	background:url(../img/a-z-sprite.png) repeat-x -189px -192px;/*-189px -124px;
+	background:url(../img/a-z-sprite.png) repeat-x -189px -192px;
 	position:absolute;
 	top:112px;
 	left:0px;
@@ -65,8 +65,12 @@ top:112px;
 left:0;
 width:853px;
 height:98px;
--webkit-transition:0 .5s ease-in-out;
 margin:0 0 0 68px;
+-webkit-transition:0 .5s ease-in-out;
+}
+
+.js #navigation {
+	position:fixed;
 }
 
 #navigation #alphabet {margin-top:10px;margin-left:17px;}
@@ -111,4 +115,7 @@ padding:2px;
 #navigation #alphabet li.w {margin-right:13px;}
 #navigation #alphabet li.x {margin-right:13px;}
 #navigation #alphabet li.y {margin-right:11px;}
+
+
+.scroll {height:82px !important;}
 
