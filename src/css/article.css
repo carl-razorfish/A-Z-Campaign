@@ -49,6 +49,8 @@ article p.first {
 	font-weight:bold;
 }
 
+article p span {font-size:0.9em;}
+
 article a {
 	display:inline;
 }

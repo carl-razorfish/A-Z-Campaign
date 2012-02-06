@@ -20,7 +20,9 @@ footer p {
 	font-size:0.9em;
     position:relative;
     z-index:10;
+	color:#555;
 }
+footer p span {font-size:0.9em;}
 
 footer ul {
 	overflow:hidden;

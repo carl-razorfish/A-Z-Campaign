@@ -127,8 +127,8 @@ h3 {
 #b,
 #b .content {height:365px}
 
-#c,
-#c .content {height:385px}
+#c {height:385px}
+#c .content {height:243px; padding-top:142px;}
 
 #d,
 #d .content {height:322px}
@@ -187,11 +187,11 @@ h3 {
 #v,
 #v .content {height:420px}
 
-#w,
-#w .content {height:319px}
+#w {height:319px}
+#w .content {height:210px; padding-top:109px;}
 
-#x,
-#x .content {height:380px}
+#x {height:380px}
+#x .content {height:240px; padding-top:140px;}
 
 #y,
 #y .content {height:460px}
